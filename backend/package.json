@@ -1,0 +1,44 @@
+{
+  "name": "snaccs-in-a-van-server",
+  "version": "0.0.0",
+  "author": {
+    "name": "Nathanael Putro",
+    "email": "nputro@student.unimelb.edu.au"
+  },
+  "contributors": [
+    {
+      "name": "Callista Low",
+      "email": "callistaliyi@student.unimelb.edu.au"
+    },
+    {
+      "name": "Jeffrey Kolenchery",
+      "email": "jkolenchery@student.unimelb.edu.au"
+    },
+    {
+      "name": "Joseph Leonardi",
+      "email": "jleonardi@student.unimelb.edu.au"
+    },
+    {
+      "name": "Livya Riany",
+      "email": "lriany@student.unimelb.edu.au"
+    }
+  ],
+  "repository": "github:snaccs-in-a-van/main",
+  "private": true,
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*"
+  },
+  "devDependencies": {
+    "@types/express": "*",
+    "@types/node": "*",
+    "typescript": "*"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "scripts": {
+    "start": "npm start"
+  }
+}
