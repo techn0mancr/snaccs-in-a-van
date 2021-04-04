@@ -1,0 +1,27 @@
+{ 
+   "compilerOptions":{ 
+      "target": "es6",
+      "moduleResolution": "node",
+      "module": "commonjs",
+      
+      "esModuleInterop": true,
+      "strict": true,
+      "emitDecoratorMetadata":true,
+      "experimentalDecorators":true,
+      "sourceMap":true,
+      "pretty":true,
+      "noImplicitAny":true,
+      "noEmitHelpers": true,
+      
+      "outDir": "build/",
+      "baseUrl": "src/"
+   },
+   "include":[ 
+      "src/**/*"
+   ],
+   "exclude":[ 
+       "build",
+       "node_modules"
+   ],
+   "compileOnSave": true
+}
