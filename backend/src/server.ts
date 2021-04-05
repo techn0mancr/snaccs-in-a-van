@@ -1,17 +1,13 @@
-const express = require('express');
+import express = require("express");
+import {Request, Response} from "express";
 
-var index = require('./routes/index'),
-    reimi = require('./routes/reimi');
+const app = express();
+const port: number = +(process.env.PORT || 3000);
 
-const app = express(),
-      port = 3000;
-
-app.use('/', index);
-app.use('/reimi', reimi);
-
-
-app.listen(port, () => {
-    console.log('Express app listening at http://localhost:%s', port);
+app.get("/", (req: Request, res: Response) => {
+    res.send("Hello, world!");
 });
 
-module.exports = app;
+app.listen(port, () => {
+    console.log("Backend listening on port " + port);
+});
