@@ -1,6 +1,6 @@
 {
-  "name": "snaccs-in-a-van-server",
-  "version": "0.0.0",
+  "name": "snaccs-in-a-van_backend",
+  "version": "0.1.0",
   "author": {
     "name": "Nathanael Putro",
     "email": "nputro@student.unimelb.edu.au"
@@ -23,16 +23,20 @@
       "email": "lriany@student.unimelb.edu.au"
     }
   ],
-  "repository": "github:snaccs-in-a-van/main",
   "private": true,
   "dependencies": {
+    "bcrypt": "*",
     "express": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "typescript": "*"
   },
   "devDependencies": {
+    "nodemon": "*",
+
+    "@types/bcryptjs": "*",
     "@types/express": "*",
-    "@types/node": "*",
-    "typescript": "*"
+    "@types/mongoose": "*",
+    "@types/node": "*"
   },
   "engines": {
     "node": "*",
@@ -40,7 +44,8 @@
   },
   "scripts": {
     "compile": "tsc --project ./",
-    "clean": "rm -rf build/",
-    "start": "npm start"
+    "clean": "rm --force --recursive dist/",
+    "dev": "nodemon dist/server.js",
+    "start": "npm run compile && node dist/server.js"
   }
 }

@@ -19,13 +19,13 @@
     "strict": true,
     
     "baseUrl": "src/",
-    "outDir": "build/"
+    "outDir": "dist/"
   },
    "include": [ 
       "src/**/*"
    ],
    "exclude": [ 
-       "build",
+       "dist",
        "node_modules"
    ],
    "compileOnSave": true
