@@ -39,6 +39,8 @@
     "npm": "*"
   },
   "scripts": {
+    "compile": "tsc --project ./",
+    "clean": "rm -rf build/",
     "start": "npm start"
   }
 }
