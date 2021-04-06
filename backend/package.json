@@ -26,13 +26,14 @@
   "private": true,
   "dependencies": {
     "bcrypt": "*",
+    "body-parser": "*",
     "express": "*",
     "mongoose": "*",
-
     "typescript": "*"
   },
   "devDependencies": {
     "@types/bcryptjs": "*",
+    "@types/body-parser": "*",
     "@types/express": "*",
     "@types/mongoose": "*",
     "@types/node": "*",
@@ -45,10 +46,8 @@
   "scripts": {
     "compile": "tsc --project ./",
     "clean": "rm --force --recursive dist/",
-    
     "prestart": "npm run compile",
     "start": "node dist/server.js",
-    
     "start-dev": "nodemon"
   },
   "nodemonConfig": {
