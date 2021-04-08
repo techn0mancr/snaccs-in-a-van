@@ -28,6 +28,7 @@
     "bcrypt": "*",
     "body-parser": "*",
     "express": "*",
+    "jsonwebtoken": "*",
     "mongoose": "*",
     "typescript": "*"
   },
@@ -35,6 +36,7 @@
     "@types/bcryptjs": "*",
     "@types/body-parser": "*",
     "@types/express": "*",
+    "@types/jsonwebtoken": "*",
     "@types/mongoose": "*",
     "@types/node": "*",
     "nodemon": "*"
