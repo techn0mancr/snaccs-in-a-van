@@ -1,5 +1,5 @@
 /* Import the required libraries and types */
-import {Router} from "express";
+import { Router } from "express";
 
 /* Set up the router */
 const menuRouter: Router = Router();
@@ -12,4 +12,4 @@ menuRouter.get("/:vendorID", menuController.getMenu);
 menuRouter.get("/item/:itemID");
 
 /* Export the router */
-module.exports = menuRouter;
+export default menuRouter;
