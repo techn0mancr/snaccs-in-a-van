@@ -1,8 +1,8 @@
 /* Import the required libraries and types */
-import {Schema} from "mongoose";
+import { Schema } from "mongoose";
 
 /* Define the item schema */
-const itemSchema = Schema({
+const itemSchema: Schema = new Schema({
     name: {
         type: String,
         required: true
@@ -23,4 +23,4 @@ const itemSchema = Schema({
 });
 
 /* Export the item schema */
-module.exports = itemSchema;
+export default itemSchema;

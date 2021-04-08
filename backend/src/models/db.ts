@@ -1,12 +1,12 @@
 /* Import the required libraries and types */
-import {connect} from "mongoose";
+import { connect } from "mongoose";
 
 /* Initialize the connection details */
 const connectionString = "";
 const connectionOptions = {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true;
+    useUnifiedTopology: true
 };
 
 /* Connect to the database */
@@ -21,3 +21,4 @@ connect(connectionString, connectionOptions).then(
 
 /* Load database models */
 require("./customer");
+require("./vendor");
