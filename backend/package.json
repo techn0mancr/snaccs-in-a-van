@@ -30,10 +30,11 @@
     "express": "*",
     "jsonwebtoken": "*",
     "mongoose": "*",
+    "tslib": "*",
     "typescript": "*"
   },
   "devDependencies": {
-    "@types/bcryptjs": "*",
+    "@types/bcrypt": "*",
     "@types/body-parser": "*",
     "@types/express": "*",
     "@types/jsonwebtoken": "*",

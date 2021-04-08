@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
     "noEmitHelpers": true,
     "noImplicitAny": true,
     "pretty": true,
