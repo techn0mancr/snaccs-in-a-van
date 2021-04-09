@@ -20,5 +20,5 @@ connect(connectionString, connectionOptions).then(
 );
 
 /* Load database models */
-require("./customer");
-require("./vendor");
+require("./customerModel");
+require("./vendorModel");
