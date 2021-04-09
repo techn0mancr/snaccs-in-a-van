@@ -1,6 +1,6 @@
 /* Import the required libraries and types */
 import { Schema } from "mongoose";
-import itemSchema from "./itemSchema";
+import { itemSchema } from "./itemModel";
 
 /* Define the menu schema */
 const menuSchema: Schema = new Schema({
