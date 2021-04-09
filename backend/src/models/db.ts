@@ -21,4 +21,5 @@ connect(connectionString, connectionOptions).then(
 
 /* Load database models */
 require("./customerModel");
+require("./itemModel");
 require("./vendorModel");

@@ -10,6 +10,7 @@ import tokenSchema from "./tokenSchema";
 /* Define the vendor interface */
 interface IVendor extends Document {
     email: String;
+    name: String;
     password: String;
     locationDescription: String;
     isOpen: Boolean;
@@ -23,6 +24,10 @@ const vendorSchema: Schema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    name: {
+        type: String,
+        required: true
     },
     password: {
         type: String,
