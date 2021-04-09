@@ -7,8 +7,12 @@ function getMenu(req: Request & {params: {vendorID: string}}, res: Response): vo
     
 }
 
+function getItemDetails(req: Request & {params: {itemID: string}}, res: Response): void {
+
+}
 
 /* Export functions */
 export {
-    getMenu
+    getMenu,
+    getItemDetails
 };
