@@ -3,7 +3,7 @@ import { Document, Schema } from "mongoose";
 
 /* Define the token interface */
 export interface IToken extends Document {
-    token: String
+    token: string
 }
 
 /* Define the token schema  */

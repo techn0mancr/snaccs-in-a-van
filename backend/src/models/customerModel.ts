@@ -9,10 +9,10 @@ import tokenSchema from "./tokenSchema";
 
 /* Define the customer interface */
 export interface ICustomer extends Document {
-    email: String;
-    givenName: String;
-    familyName: String;
-    password: String;
+    email: string;
+    givenName: string;
+    familyName: string;
+    password: string;
     tokens: Array<IToken>;
 }
 
@@ -36,7 +36,9 @@ const customerSchema: Schema = new Schema({
         required: true,
         minlength: 6
     },
-    tokens: [tokenSchema]
+    tokens: {
+        type: [tokenSchema]
+    }
 });
 
 /* Hash password on change */
@@ -57,4 +59,5 @@ customerSchema.pre<ICustomer>("save", function(next: Function) {
 //}
 
 /* Export the customer model */
-export default model<ICustomer>("Customer", customerSchema);
+const Customer: Model<ICustomer> = model("Customer", customerSchema);
+export default Customer;
