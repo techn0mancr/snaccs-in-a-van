@@ -10,7 +10,11 @@ const jsonParser = json();
 import customerController = require("../controllers/customerController");
 
 /* Handle customer routes */
-customerRouter.post("/order/add/:snackID", jsonParser, customerController.addSnackToOrder);
+customerRouter.post(
+  "/order/add/:snackID",
+  jsonParser,
+  customerController.addSnackToOrder
+);
 
 /* Export the router */
 export default customerRouter;
