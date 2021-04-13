@@ -8,7 +8,7 @@ const port: number = +(process.env.PORT || 3000);
 
 /* Register routes */
 import routes from "./routes";
-app.use(routes);
+app.use("/", routes);
 
 /* Listen for incoming connections */
 app.listen(port, () => {
