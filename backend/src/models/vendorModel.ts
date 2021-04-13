@@ -9,12 +9,12 @@ import tokenSchema from "./tokenSchema";
 
 /* Define the vendor interface */
 interface IVendor extends Document {
-    email: String;
-    name: String;
-    password: String;
-    locationDescription: String;
-    isOpen: Boolean;
-    geoLocation: Array<Number>;
+    email: string;
+    name: string;
+    password: string;
+    locationDescription: string;
+    isOpen: boolean;
+    geoLocation: Array<number>;
     tokens: Array<IToken>;
 }
 
@@ -45,7 +45,9 @@ const vendorSchema: Schema = new Schema({
         type: [Number],
         default: undefined
     },
-    tokens: [tokenSchema]
+    tokens: {
+        type: [tokenSchema]
+    }
 });
 
 /* Hash password on change */
@@ -66,4 +68,5 @@ vendorSchema.pre<IVendor>("save", function(next: Function) {
 //};
 
 /* Export the customer model */
-export default model<IVendor>("Vendor", vendorSchema);
+const Vendor: Model<IVendor> = model("Vendor", vendorSchema);
+export default Vendor;
