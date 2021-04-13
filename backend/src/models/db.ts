@@ -1,25 +1,24 @@
 /* Import the required libraries and types */
-import { connect } from "mongoose";
+import { connect, connection } from "mongoose";
+
+/* Import the required secrets */
+import { MONGODB_USERNAME, MONGODB_PASSWORD } from "../secrets";
 
 /* Initialize the connection details */
-const connectionString = "";
+const connectionString = "mongodb+srv://" + MONGODB_USERNAME + ":" + MONGODB_PASSWORD + "@snaccs-in-a-van.4ciyf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const connectionOptions = {
+    dbName: "snaccsInAVan",
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
 };
 
 /* Connect to the database */
-connect(connectionString, connectionOptions).then(
-    () => {
-        console.log("Successfully connected to database!");
-    },
-    (err) => {
-        console.log("Database connection has failed!");
-    }
-);
+connect(connectionString, connectionOptions);
+const db = connection;
 
-/* Load database models */
-require("./customerModel");
-require("./itemModel");
-require("./vendorModel");
+/* Handle server connection events */
+db.on("error", console.error.bind(console, "Connection error: "));
+db.once("open", () => {
+    console.log("Successfully connected to MongoDB database.");
+});
