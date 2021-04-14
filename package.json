@@ -1,0 +1,46 @@
+{
+  "name": "snaccs-in-a-van",
+  "version": "0.1.0",
+  "author": {
+    "name": "Nathanael Putro",
+    "email": "nputro@student.unimelb.edu.au"
+  },
+  "contributors": [
+    {
+      "name": "Callista Low",
+      "email": "callistaliyi@student.unimelb.edu.au"
+    },
+    {
+      "name": "Jeffrey Kolenchery",
+      "email": "jkolenchery@student.unimelb.edu.au"
+    },
+    {
+      "name": "Joseph Leonardi",
+      "email": "jleonardi@student.unimelb.edu.au"
+    },
+    {
+      "name": "Livya Riany",
+      "email": "lriany@student.unimelb.edu.au"
+    }
+  ],
+  "private": true,
+  "dependencies": {
+    "npm-run-all": "*"
+  },
+  "engines": {
+    "npm": "*"
+  },
+  "scripts": {
+    "prefrontend": "cd frontend/ && npm install",
+    "frontend": "cd frontend/ && npm start",
+
+    "prebackend": "cd backend/ && npm install",
+    "backend": "cd backend/ && npm start",
+
+    "prebackend-dev": "cd backend/ && npm install",
+    "backend-dev": "cd backend/ && npm run start-dev",
+    
+    "start": "npm-run-all --parallel frontend backend",
+    "start-dev": "npm-run-all --parallel frontend backend-dev"
+  }
+}
