@@ -25,21 +25,23 @@
   ],
   "private": true,
   "dependencies": {
-    "bcrypt": "*",
-    "body-parser": "*",
-    "express": "*",
-    "jsonwebtoken": "*",
-    "mongoose": "*",
-    "tslib": "*",
-    "typescript": "*"
-  },
-  "devDependencies": {
     "@types/bcrypt": "*",
     "@types/body-parser": "*",
     "@types/express": "*",
     "@types/jsonwebtoken": "*",
     "@types/mongoose": "*",
     "@types/node": "*",
+    
+    "bcrypt": "*",
+    "body-parser": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    
+    "tslib": "*",
+    "typescript": "*"
+  },
+  "devDependencies": {
     "nodemon": "*"
   },
   "engines": {
