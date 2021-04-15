@@ -40,7 +40,7 @@
     "prebackend-dev": "cd backend/ && npm install",
     "backend-dev": "cd backend/ && npm run start-dev",
     
-    "start": "npm-run-all --parallel frontend backend",
-    "start-dev": "npm-run-all --parallel frontend backend-dev"
+    "start": "npm-run-all --sequential frontend backend",
+    "start-dev": "npm-run-all --sequential frontend backend-dev"
   }
 }

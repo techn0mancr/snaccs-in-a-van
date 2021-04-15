@@ -7,7 +7,7 @@ require("./models");
 
 /* Set up server app */
 const app = express();
-const port: number = +(process.env.PORT || 8080);
+const port: number = +(process.env.PORT || 48080);
 
 /* Register routes */
 import routes from "./routes";
