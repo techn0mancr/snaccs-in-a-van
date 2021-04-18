@@ -34,6 +34,7 @@ export interface IOrder extends Document {
     items: Array<IItemOrder>;
     total: number;
     orderTimestamp: Date;
+    isFulfilled: boolean;
     fulfilledTimestamp: Date;
     isChanged: boolean;
     isCancelled: boolean;
@@ -42,6 +43,9 @@ export interface IOrder extends Document {
 
 /* Define the order schema */
 const orderSchema: Schema = new Schema({
+    vendorID: {
+        
+    },
     status: {
         type: String,
         required: true
@@ -58,6 +62,10 @@ const orderSchema: Schema = new Schema({
     orderTimestamp: {
         type: Date,
         default: Date.now
+    },
+    isFulfilled: {               //Jeffrey : Added isFulfilled so vendor can set isFulfilled when order is ready
+        type: Boolean,
+        default: false
     },
     fulfilledTimestamp: {
         type: Date,
