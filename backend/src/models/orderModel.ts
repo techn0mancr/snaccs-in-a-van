@@ -43,11 +43,13 @@ export interface IOrder extends Document {
 
 /* Define the order schema */
 const orderSchema: Schema = new Schema({
-    vendorID: {
-        
+    vendorId: {                     //Jeffrey : Added vendorId so vendor can have vendor-specific orders
+        type: Schema.Types.ObjectId,
+        ref: "Vendor",
+        required: true
     },
     status: {
-        type: String,
+        type: OrderStatus,          //Jeffrey : Added OrderStatus instead of string to access Enums
         required: true
     },
     items: {
