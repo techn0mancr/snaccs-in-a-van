@@ -1,4 +1,4 @@
-/* Import the required libraries and types */
+ /* Import the required libraries and types */
 import { Document, model, Model, Mongoose, Schema } from "mongoose";
 
 /* Define the item order interface */

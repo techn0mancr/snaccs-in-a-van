@@ -28,14 +28,14 @@ import tokenSchema from "./tokenSchema";
 
 /* Import existing interfaces */
 import ICustomer from "./customerModel";
-import IItem from "./itemModel";
+import IItem from "./menuItemModel";
 import IMenu from "./menuModel";
 import IOrder from "./menuModel";
 import IVendor from "./vendorModel";
 
 /* Import existing models */
 import Customer from "./customerModel";
-import Item from "./itemModel";
+import Item from "./menuItemModel";
 import Menu from "./menuModel";
 import Order from "./orderModel";
 import Vendor from "./vendorModel";
