@@ -9,10 +9,10 @@ const vendorRouter: Router = Router();
 import vendorController = require("../controllers/vendorController");
 
 /* Handle vendor routes */
-vendorRouter.post("/:vanID/setStatus", vendorController.setVendorAvailability);
+vendorRouter.post("/:vendorId/update/status", vendorController.setVendorAvailability);
 vendorRouter.get("/:vendorId/orders", vendorController.getOutstandingOrders);
-vendorRouter.get("/:vanID/order/:orderID/update", vendorController.fulfilOrder);
-vendorRouter.get("/:vendorId/customlocation", vendorController.setVendorCustomLocation);
+vendorRouter.post("/:vendorId/order/:orderID/fulfill", vendorController.fulfillOrder);
+vendorRouter.get("/:vendorId/update/location", vendorController.setVendorCustomLocation);
 // vendorRouter.get("/:vendorId/login", vendorController.getVendorLogin);
 
 /* Export the router */

@@ -2,15 +2,7 @@
 import { Request, Response } from "express";
 
 /* Import required models */
-import { Vendor, Order } from "../models";
-// import OrderStatus from "models/orderModel"
-
-/* Define the order status enum */
-enum OrderStatus {
-    Placed = "Placed",
-    Fulfilled = "Fulfilled",
-    Completed = "Completed"
-}
+import { Vendor, Order, OrderStatus } from "../models";
 
 
 /* Asks vendor for login details 
@@ -41,88 +33,94 @@ enum OrderStatus {
 // }
 
 // /* set vendor's location description */
-async function setVendorCustomLocation(req: Request &{params:{locationDescription : string, vendorID: string}}, res : Response): Promise<void> {
-    var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+async function setVendorCustomLocation(req: Request &{params: {vendorID: string, locationDescription: string}}, res: Response): Promise<void> {
+    try {
+        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
 
-    var newLocationDescription: undefined =  (req.params.locationDescription as unknown) as undefined;
-
-    const newDescription = await Vendor.updateOne(
-                                {
-                                    _id : castedVendorId
-                                },
-                                {
-                                    $set :
+        const newDescription = await Vendor.updateOne(
                                     {
-                                        "locationDescription" : newLocationDescription
+                                        _id: castedVendorId
+                                    },
+                                    {
+                                        $set: {
+                                            locationDescription: req.params.locationDescription
+                                        }
                                     }
-                                }
-                            )
+                                );
 
-    if (newDescription) res.status(200).send(newDescription);
-    else res.status(404).send("Not found");
+        if (newDescription) res.status(200).send(newDescription);
+        else res.status(404).send("Not Found");
+
+    }
+    catch (CastError) {
+        res.status(400).send("Bad Request");
+    }
 }
 
 /* set vendor open/closed for orders */
-async function setVendorAvailability(req: Request &{params:{isOpen : boolean, vendorID: string}}, res : Response): Promise<void> {
-    var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-
-    var newIsOpen: boolean =  (req.params.isOpen as boolean) as boolean;
-
-    const newOpen = await Vendor.updateOne(
-        {
-            _id : castedVendorId
-        },
-        {
-            $set :
+async function setVendorAvailability(req: Request & {params: {vendorID: string}}, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+        var newOpenStatus: boolean = (req.params.isOpen === "true") ? true : false;
+        const newOpen = await Vendor.updateOne(
             {
-                "isOpen" : newIsOpen
+                _id: castedVendorId
+            },
+            {
+                $set: {
+                    isOpen: true
+                }
             }
-        }
-    )
-
+        );
     
-    if (newOpen) res.status(200).send(newOpen);
-    else res.status(404).send("Not found");
+        /* Send a response */
+        if (newOpen) res.status(200).send(newOpen);
+        else res.status(404).send("Not Found");
+    }
+    catch (CastError) {
+        res.status(400).send("Bad Request");
+    }
 }
 
-
-
 /* get outstanding orders with its timestamp and items contained*/
-async function getOutstandingOrders(req: Request & {params: {vendorId: string}}, res : Response) : Promise<void> {
-    var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+async function getOutstandingOrders(req: Request & {params: {vendorId: string}}, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+        const outstandingOrders = await Order.find({vendorId: castedVendorId, isFulfilled: false});
+                                             //.populate("items.");
 
-    /* Query the database */
-    const outstandingOrders = await Vendor.find({vendorId: castedVendorId}, {isFulfilled: false})
-                           .select("orders")
-                           .populate("orders.orderId", "orderTimestamp items isFulfilled");
-
-    /* Send a response */
-    if (outstandingOrders) res.status(200).send(outstandingOrders);
-    else res.status(404).send("Not found");
-    
+        /* Send a response */
+        if (outstandingOrders) res.status(200).send(outstandingOrders);
+        else res.status(404).send("Not Found");
+    }
+    catch (CastError) {
+        res.status(400).send("Bad Request");
+    }    
 }
 
 // /*queries database for order by orderId and changes its status*/
-async function fulfilOrder(req: Request & {params: {isFulfilled : boolean, orderId: string}}, res : Response): Promise<void> {
+async function fulfillOrder(req: Request & {params: {orderId: string, isFulfilled: boolean}}, res : Response): Promise<void> {
     
-    var newIsFulfilled: boolean = (req.params.isFulfilled as boolean) as boolean;
+    /* Querty the database */
     var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
-
+    var newStatus: string = "Fulfilled";
     const fulfilledOrder = await Order.updateOne(
         {
-            _id : castedOrderId
+            _id: castedOrderId
         },
         {
-            $set : 
-            {
-                isFulfilled : newIsFulfilled,
-                status : OrderStatus.Fulfilled           
+            $set: {
+                isFulfilled: req.params.isFulfilled,
+                status: newStatus
             }
         }
     )
     
+    /* Send a response */
     if (fulfilledOrder) res.status(200).send(fulfilledOrder);
-    else res.status(404).send("Not found");
+    else res.status(404).send("Not Found");
 }
 
 /* Export functions */
@@ -130,6 +128,6 @@ export {
     getOutstandingOrders,
     setVendorCustomLocation,
     setVendorAvailability,
-    fulfilOrder
+    fulfillOrder
     // ,getVendorLogin
 };
