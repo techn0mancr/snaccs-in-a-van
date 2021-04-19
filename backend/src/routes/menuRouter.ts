@@ -8,8 +8,8 @@ const menuRouter: Router = Router();
 import menuController = require("../controllers/menuController");
 
 /* Handle menu routes */
-menuRouter.get("/:vendorID", menuController.getMenu);
-menuRouter.get("/item/:itemID", menuController.getItemDetails);
+menuRouter.get("/:vendorId", menuController.getMenu);
+menuRouter.get("/item/:itemId", menuController.getItemDetails);
 
 /* Export the router */
 export default menuRouter;

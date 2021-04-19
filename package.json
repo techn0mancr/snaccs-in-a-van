@@ -25,7 +25,6 @@
   ],
   "private": true,
   "dependencies": {
-    "joi": "^17.4.0",
     "npm-run-all": "*"
   },
   "engines": {

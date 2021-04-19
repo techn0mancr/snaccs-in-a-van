@@ -1,18 +1,53 @@
 /* Import the required libraries and types */
 import { Document, model, Model, Schema } from "mongoose";
-import { IItem, itemSchema } from "./itemModel";
+
+/* Define the order status enum */
+enum OrderStatus {
+    Placed = "Placed",
+    Fulfilled = "Fulfilled",
+    Completed = "Completed"
+}
+
+/* Define the item order interface */
+export interface IItemOrder extends Document {
+    itemId: Schema.Types.ObjectId;
+    quantity: number;
+}
+
+/* Define the item order schema */
+const itemOrderSchema: Schema = new Schema({
+    itemId: {
+        type: Schema.Types.ObjectId,
+        ref: "Item",
+        required: true
+    },
+    quantity: {
+        type: Number,
+        min: 1,
+        required: true
+    }
+});
 
 /* Define the order interface */
 export interface IOrder extends Document {
-    items: Array<IItem>;
+    status: OrderStatus;
+    items: Array<IItemOrder>;
     total: number;
-    timestamp: Date;
+    orderTimestamp: Date;
+    fulfilledTimestamp: Date;
+    isChanged: boolean;
+    isCancelled: boolean;
+    rating: number;
 }
 
 /* Define the order schema */
 const orderSchema: Schema = new Schema({
+    status: {
+        type: String,
+        required: true
+    },
     items: {
-        type: [itemSchema],
+        type: [itemOrderSchema],
         required: true
     },
     total: {
@@ -20,9 +55,26 @@ const orderSchema: Schema = new Schema({
         required: true,
         min: 0
     },
-    timestamp: {
+    orderTimestamp: {
         type: Date,
-        required: true
+        default: Date.now
+    },
+    fulfilledTimestamp: {
+        type: Date,
+        default: null
+    },
+    isChanged: {
+        type: Boolean,
+        default: false
+    },
+    isCancelled: {
+        type: Boolean,
+        default: false
+    },
+    rating: {
+        type: Number,
+        min: 0,
+        max: 5
     }
 });
 
