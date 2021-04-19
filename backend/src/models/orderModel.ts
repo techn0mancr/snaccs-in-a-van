@@ -2,7 +2,7 @@
 import { Document, model, Model, Schema } from "mongoose";
 
 /* Define the order status enum */
-enum OrderStatus {
+export const enum OrderStatus {
     Placed = "Placed",
     Fulfilled = "Fulfilled",
     Completed = "Completed"
@@ -30,7 +30,7 @@ const itemOrderSchema: Schema = new Schema({
 
 /* Define the order interface */
 export interface IOrder extends Document {
-    status: OrderStatus;
+    status: string;
     items: Array<IItemOrder>;
     total: number;
     orderTimestamp: Date;
@@ -49,7 +49,7 @@ const orderSchema: Schema = new Schema({
         required: true
     },
     status: {
-        type: OrderStatus,          //Jeffrey : Added OrderStatus instead of string to access Enums
+        type: String,          //Jeffrey : Added OrderStatus instead of string to access Enums
         required: true
     },
     items: {
