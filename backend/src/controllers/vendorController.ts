@@ -2,132 +2,105 @@
 import { Request, Response } from "express";
 
 /* Import required models */
-import { Vendor, Order, OrderStatus } from "../models";
+import { Order, OrderStatus, Vendor } from "../models";
 
-
-/* Asks vendor for login details 
-    will need changes...*/
-
-// async function getVendorLogin(req: Request & {params: {Email : string , Password : string, vendorId: string}}, res : Response): Promise<void> {
-//     var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-//     var checkEmail: undefined = (req.params.Email as unknown) as undefined;
-//     var checkPassword: undefined = (req.params.Password as unknown) as undefined;
-
-//     const newEmailCheck = await Vendor.find({vendorId: castedVendorId})
-//                             .select("email");
-//     const newPasswordCheck = await Vendor.find({vendorId: castedVendorId})
-//                             .select("password");
-    
-//     if ((newEmailCheck != checkEmail) || (newPasswordCheck != checkPassword)) {
-//         res.status(404).send("Email/Password is wrong");
-//     }
-//     else (res.status(200).send("Logged In!"));
-
-                            
-// }
-
-/* Get vendor's current location */
-
-// async function getVendorGeoLocation(req: Request &{params: {askLocationPermission : boolean}}, res = Response): Promise<void> {
-    
-// }
-
-// /* set vendor's location description */
-async function setVendorCustomLocation(req: Request &{params: {vendorID: string, locationDescription: string}}, res: Response): Promise<void> {
+/* Get the given vendor's outstanding orders */
+async function getOutstandingOrders(req: Request & {params: {vendorId: string}}, res: Response): Promise<void> {
     try {
+        /* Query the database */
         var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+        const outstandingOrders = await Order.find(
+            {
+                vendorId: castedVendorId,
+                status: {
+                    $ne: OrderStatus.Fulfilled
+                },
+                fulfilledTimestamp: undefined
+            }
+        );
 
-        const newDescription = await Vendor.updateOne(
-                                    {
-                                        _id: castedVendorId
-                                    },
-                                    {
-                                        $set: {
-                                            locationDescription: req.params.locationDescription
-                                        }
-                                    }
-                                );
-
-        if (newDescription) res.status(200).send(newDescription);
-        else res.status(404).send("Not Found");
-
+        /* Send a response */
+        if (outstandingOrders) {
+            if (outstandingOrders.length > 0)
+                res.status(200).send(outstandingOrders);
+            else
+                res.status(204).send("No Content");
+        }
+        else
+            res.status(500).send("Internal Server Error");
     }
     catch (CastError) {
         res.status(400).send("Bad Request");
     }
 }
 
-/* set vendor open/closed for orders */
-async function setVendorAvailability(req: Request & {params: {vendorID: string}}, res: Response): Promise<void> {
+/* Sets the given vendor's availability */
+async function setVendorAvailability(req: Request & {params: {vendorId: string}, body: {isOpen: boolean}}, res: Response): Promise<void> {
     try {
         /* Query the database */
         var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-        var newOpenStatus: boolean = (req.params.isOpen === "true") ? true : false;
-        const newOpen = await Vendor.updateOne(
+        const qResult = await Vendor.updateOne(
             {
                 _id: castedVendorId
             },
             {
                 $set: {
-                    isOpen: true
+                    isOpen: req.body.isOpen
                 }
             }
         );
     
         /* Send a response */
-        if (newOpen) res.status(200).send(newOpen);
-        else res.status(404).send("Not Found");
+        if (qResult.ok == 1) {
+            if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified)
+                res.status(200).send("OK");
+            else
+                res.status(404).send("Not Found");
+        }
+        else
+            res.status(500).send("Internal Server Error");
     }
     catch (CastError) {
         res.status(400).send("Bad Request");
     }
 }
 
-/* get outstanding orders with its timestamp and items contained*/
-async function getOutstandingOrders(req: Request & {params: {vendorId: string}}, res: Response): Promise<void> {
+/* Sets a vendor's geolocation coordinates and location description */
+// TODO: still doesn't work
+async function setVendorLocation(req: Request & {params: {vendorId: string}, body: {locationDescription: string, geolocation: Array<number>}}, res: Response): Promise<void> {
     try {
         /* Query the database */
-        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-        const outstandingOrders = await Order.find({vendorId: castedVendorId, isFulfilled: false});
-                                             //.populate("items.");
+        var castedVendorId: undefined = (req.body.vendorId as unknown) as undefined;
+        const qResult = await Vendor.updateOne(
+            {
+                _id: castedVendorId
+            },
+            {
+                $set: {
+                    geolocation: req.body.geolocation,
+                    locationDescription: req.body.locationDescription
+                }
+            }
+        );
 
         /* Send a response */
-        if (outstandingOrders) res.status(200).send(outstandingOrders);
-        else res.status(404).send("Not Found");
+        if (qResult.ok == 1) {
+            if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified)
+                res.status(200).send("OK");
+            else
+                res.status(404).send("Not Found");
+        }
+        else
+            res.status(500).send("Internal Server Error");
     }
     catch (CastError) {
         res.status(400).send("Bad Request");
-    }    
+    }
 }
 
-// /*queries database for order by orderId and changes its status*/
-async function fulfillOrder(req: Request & {params: {orderId: string, isFulfilled: boolean}}, res : Response): Promise<void> {
-    
-    /* Querty the database */
-    var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
-    var newStatus: string = "Fulfilled";
-    const fulfilledOrder = await Order.updateOne(
-        {
-            _id: castedOrderId
-        },
-        {
-            $set: {
-                isFulfilled: req.params.isFulfilled,
-                status: newStatus
-            }
-        }
-    )
-    
-    /* Send a response */
-    if (fulfilledOrder) res.status(200).send(fulfilledOrder);
-    else res.status(404).send("Not Found");
-}
-
-/* Export functions */
+/* Export controller functions */
 export {
     getOutstandingOrders,
-    setVendorCustomLocation,
     setVendorAvailability,
-    fulfillOrder
-    // ,getVendorLogin
-};
+    setVendorLocation
+}
