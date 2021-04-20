@@ -1,9 +1,9 @@
 /* Import the required libraries and types */
-import { Document, model, Model, Schema } from "mongoose";
+import { Document, model, Model, ObjectId, Schema } from "mongoose";
 import { IItemOrder } from "./itemOrderSchema";
 import itemOrderSchema from "./itemOrderSchema";
 
-/* Define the order status enum */
+/* Define order status enum */
 enum OrderStatus {
     Placed = "Placed",
     Fulfilled = "Fulfilled",
@@ -12,7 +12,8 @@ enum OrderStatus {
 
 /* Define the order interface */
 export interface IOrder extends Document {
-    status: OrderStatus;
+    vendorId: ObjectId;
+    status: string;
     items: Array<IItemOrder>;
     total: number;
     orderTimestamp: Date;
@@ -24,6 +25,11 @@ export interface IOrder extends Document {
 
 /* Define the order schema */
 const orderSchema: Schema = new Schema({
+    vendorId: {
+        type: Schema.Types.ObjectId,
+        ref: "Vendor",
+        required: true
+    },
     status: {
         type: String,
         default: "",
@@ -46,7 +52,7 @@ const orderSchema: Schema = new Schema({
     },
     fulfilledTimestamp: {
         type: Date,
-        default: null
+        default: undefined
     },
     isChanged: {
         type: Boolean,
@@ -63,6 +69,7 @@ const orderSchema: Schema = new Schema({
     }
 });
 
-/* Export the order model */
+/* Export the order model and status enum */
 const Order: Model<IOrder> = model("Order", orderSchema);
 export default Order;
+export { OrderStatus };
