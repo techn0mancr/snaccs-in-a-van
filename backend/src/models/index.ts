@@ -41,7 +41,7 @@ import Order from "./orderModel";
 import Vendor from "./vendorModel";
 
 /* Import existing enums */
-import OrderStatus from "./orderModel";
+import { OrderStatus } from "./orderModel";
 
 /* Re-export existing schemas, interfaces, and models for easy access */
 export {

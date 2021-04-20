@@ -1,8 +1,8 @@
 /* Import the required libraries and types */
-import { Document, model, Model, Schema } from "mongoose";
+import { Document, model, Model, ObjectId, Schema } from "mongoose";
 
-/* Define the order status enum */
-export const enum OrderStatus {
+/* Define order status enum */
+enum OrderStatus {
     Placed = "Placed",
     Fulfilled = "Fulfilled",
     Completed = "Completed"
@@ -30,11 +30,11 @@ const itemOrderSchema: Schema = new Schema({
 
 /* Define the order interface */
 export interface IOrder extends Document {
+    vendorId: ObjectId;
     status: string;
     items: Array<IItemOrder>;
     total: number;
     orderTimestamp: Date;
-    isFulfilled: boolean;
     fulfilledTimestamp: Date;
     isChanged: boolean;
     isCancelled: boolean;
@@ -43,13 +43,13 @@ export interface IOrder extends Document {
 
 /* Define the order schema */
 const orderSchema: Schema = new Schema({
-    vendorId: {                     //Jeffrey : Added vendorId so vendor can have vendor-specific orders
+    vendorId: {
         type: Schema.Types.ObjectId,
         ref: "Vendor",
         required: true
     },
     status: {
-        type: String,          //Jeffrey : Added OrderStatus instead of string to access Enums
+        type: String,
         required: true
     },
     items: {
@@ -65,13 +65,9 @@ const orderSchema: Schema = new Schema({
         type: Date,
         default: Date.now
     },
-    isFulfilled: {               //Jeffrey : Added isFulfilled so vendor can set isFulfilled when order is ready
-        type: Boolean,
-        default: false
-    },
     fulfilledTimestamp: {
         type: Date,
-        default: null
+        default: undefined
     },
     isChanged: {
         type: Boolean,
@@ -88,6 +84,7 @@ const orderSchema: Schema = new Schema({
     }
 });
 
-/* Export the order model */
+/* Export the order model and status enum */
 const Order: Model<IOrder> = model("Order", orderSchema);
 export default Order;
+export { OrderStatus };
