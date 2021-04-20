@@ -1,19 +1,7 @@
 /* Import the required libraries and types */
 import { Document, Model, model, Schema } from "mongoose";
-
-/* Define the menu item interface */
-export interface IMenuItem extends Document {
-    itemId: Schema.Types.ObjectId;
-}
-
-/* Define the menu item schema */
-const menuItemSchema: Schema = new Schema({
-    itemId: {
-        type: Schema.Types.ObjectId,
-        ref: "Item",
-        required: true
-    }
-});
+import { IMenuItem } from "./menuItemSchema";
+import menuItemSchema from "./menuItemSchema";
 
 /* Define the menu interface */
 export interface IMenu extends Document {
