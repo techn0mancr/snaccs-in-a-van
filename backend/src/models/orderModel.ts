@@ -26,14 +26,17 @@ export interface IOrder extends Document {
 const orderSchema: Schema = new Schema({
     status: {
         type: String,
+        default: "",
         required: true
     },
     items: {
         type: [itemOrderSchema],
+        default: [],
         required: true
     },
     total: {
         type: Number,
+        default: 0,
         required: true,
         min: 0
     },
