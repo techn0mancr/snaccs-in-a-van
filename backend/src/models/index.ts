@@ -24,14 +24,20 @@ db.once("open", () => {
 });
 
 /* Import existing schemas */
+import itemOrderSchema from "./itemOrderSchema";
+import menuItemSchema from "./menuItemSchema";
 import tokenSchema from "./tokenSchema";
 
-/* Import existing interfaces */
-import ICustomer from "./customerModel";
-import IItem from "./itemModel";
-import IMenu from "./menuModel";
-import IOrder from "./menuModel";
-import IVendor from "./vendorModel";
+/* Import existing primary interfaces */
+import { ICustomer } from "./customerModel";
+import { IItem } from "./itemModel";
+import { IMenu } from "./menuModel";
+import { IOrder } from "./orderModel";
+import { IVendor } from "./vendorModel";
+
+/* Import existing helper interfaces */
+import { IItemOrder } from "./itemOrderSchema";
+import { IMenuItem } from "./menuItemSchema";
 
 /* Import existing models */
 import Customer from "./customerModel";
@@ -45,12 +51,16 @@ export {
     /* Schemas */
     tokenSchema,
     
-    /* Interfaces */
+    /* Primary interfaces */
     ICustomer,
     IItem,
     IMenu,
     IOrder,
     IVendor,
+
+    /* Helper interfaces */
+    IItemOrder,
+    IMenuItem,
     
     /* Models */
     Customer,
