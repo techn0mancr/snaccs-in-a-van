@@ -1,16 +1,17 @@
 /* Import the required libraries and types */
-import { Router } from "express";
+import { json, Router } from "express";
 
 /* Set up the router */
 const vendorRouter: Router = Router();
+const jsonParser = json();
 
-/* Import the customer controller */
-import vendorController = require("../controllers/vendorController");
+/* Import the vendor controller functions */
+import * as controller from "../controllers/vendorController";
 
 /* Handle vendor routes */
-vendorRouter.post("/:vanID/setStatus");
-vendorRouter.get("/:vanID/orders");
-vendorRouter.get("/:vanID/order/:orderID/update");
+vendorRouter.get("/:vendorId/orders", controller.getOutstandingOrders);
+vendorRouter.post("/:vendorId/update/location", jsonParser, controller.setVendorLocation); // TODO: still doesn't work
+vendorRouter.post("/:vendorId/update/status", jsonParser, controller.setVendorAvailability);
 
 /* Export the router */
 export default vendorRouter;
