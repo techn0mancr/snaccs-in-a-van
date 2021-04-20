@@ -15,7 +15,7 @@ routes.use("/menu", menuRouter);
 routes.use("/vendor", vendorRouter);
 
 /* Define a catch-all route */
-routes.all("*", (req: Request, res: Response) => {
+routes.all("/*", (req: Request, res: Response) => {
     res.status(404).send("Not Found");
 });
 
