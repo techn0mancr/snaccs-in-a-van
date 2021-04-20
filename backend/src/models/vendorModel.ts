@@ -6,7 +6,7 @@ import { IToken } from "./tokenSchema";
 import tokenSchema from "./tokenSchema";
 
 /* Define the vendor interface */
-interface IVendor extends Document {
+export interface IVendor extends Document {
     email: string;
     name: string;
     password: string;

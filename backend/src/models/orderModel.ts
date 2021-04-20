@@ -1,5 +1,7 @@
 /* Import the required libraries and types */
 import { Document, model, Model, ObjectId, Schema } from "mongoose";
+import { IItemOrder } from "./itemOrderSchema";
+import itemOrderSchema from "./itemOrderSchema";
 
 /* Define order status enum */
 enum OrderStatus {
@@ -7,26 +9,6 @@ enum OrderStatus {
     Fulfilled = "Fulfilled",
     Completed = "Completed"
 }
-
-/* Define the item order interface */
-export interface IItemOrder extends Document {
-    itemId: Schema.Types.ObjectId;
-    quantity: number;
-}
-
-/* Define the item order schema */
-const itemOrderSchema: Schema = new Schema({
-    itemId: {
-        type: Schema.Types.ObjectId,
-        ref: "Item",
-        required: true
-    },
-    quantity: {
-        type: Number,
-        min: 1,
-        required: true
-    }
-});
 
 /* Define the order interface */
 export interface IOrder extends Document {
