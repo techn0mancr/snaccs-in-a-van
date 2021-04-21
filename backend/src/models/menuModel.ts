@@ -1,10 +1,10 @@
 /* Import the required libraries and types */
-import { Document, Model, model, Schema, Types } from "mongoose";
-import { IMenuItem, menuItemSchema } from "./index";
+import { Document, Model, model, Schema } from "mongoose";
+import { IMenuItem, menuItemSchema, IVendor } from "./index";
 
 /* Define the menu interface */
 export interface IMenu extends Document {
-    vendorId: Types.ObjectId;
+    vendorId: IVendor["_id"];
     items: Array<IMenuItem>;
 }
 

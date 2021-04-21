@@ -1,9 +1,10 @@
 /* Import the required libraries and types */
-import { Document, model, Model, Schema, Types } from "mongoose";
+import { Document, model, Model, Schema } from "mongoose";
+import { IItem } from "./index";
 
 /* Define the item order interface */
 export interface IItemOrder extends Document {
-    itemId: Types.ObjectId;
+    itemId: IItem["_id"];
     quantity: number;
 }
 
