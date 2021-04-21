@@ -1,6 +1,6 @@
 /* Import the required libraries and types */
 import { Document, model, Model, Schema } from "mongoose";
-import { IToken, IOrder, orderSchema, tokenSchema } from "./index";
+import { IToken, IItemOrder, itemOrderSchema, tokenSchema } from "./index";
 
 /* Define the customer interface */
 export interface ICustomer extends Document {
@@ -8,6 +8,7 @@ export interface ICustomer extends Document {
     givenName: string;
     familyName: string;
     password: string;
+    cart: Array<IItemOrder>;
     tokens: Array<IToken>;
 }
 
@@ -30,6 +31,10 @@ const customerSchema: Schema = new Schema({
         type: String,
         required: true,
         minlength: 6
+    },
+    cart: {
+        type: [itemOrderSchema],
+        default: []
     },
     tokens: {
         type: [tokenSchema]
