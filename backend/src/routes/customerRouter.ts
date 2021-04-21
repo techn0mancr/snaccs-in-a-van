@@ -9,7 +9,7 @@ const jsonParser = json();
 import * as controller from "../controllers/customerController";
 
 /* Handle customer routes */
-customerRouter.post("/order/add/:snackId", jsonParser, controller.addSnackToOrder);
+customerRouter.post("/order/add/:itemId", jsonParser, controller.addSnackToCart);
 
 /* Export the router */
 export default customerRouter;
