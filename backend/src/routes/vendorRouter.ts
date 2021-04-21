@@ -10,7 +10,7 @@ import * as controller from "../controllers/vendorController";
 
 /* Handle vendor routes */
 vendorRouter.get("/:vendorId/orders", controller.getOutstandingOrders);
-vendorRouter.post("/:vendorId/update/location", jsonParser, controller.setVendorLocation); // TODO: still doesn't work
+vendorRouter.post("/:vendorId/update/location", jsonParser, controller.setVendorLocation);
 vendorRouter.post("/:vendorId/update/status", jsonParser, controller.setVendorAvailability);
 
 /* Export the router */

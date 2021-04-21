@@ -70,11 +70,10 @@ async function setVendorAvailability(req: Request & {params: {vendorId: string},
 }
 
 /* Sets a vendor's geolocation coordinates and location description */
-// TODO: still doesn't work
 async function setVendorLocation(req: Request & {params: {vendorId: string}, body: {locationDescription: string, geolocation: Array<number>}}, res: Response): Promise<void> {
     try {
         /* Cast the ObjectIds */
-        var castedVendorId: undefined = (req.body.vendorId as unknown) as undefined;
+        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
         
         /* Query the database */
         const qResult = await Vendor.updateOne(
