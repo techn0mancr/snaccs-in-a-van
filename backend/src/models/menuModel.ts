@@ -1,7 +1,6 @@
 /* Import the required libraries and types */
 import { Document, Model, model, Schema } from "mongoose";
-import { IMenuItem } from "./menuItemSchema";
-import menuItemSchema from "./menuItemSchema";
+import { IMenuItem, menuItemSchema } from "./index";
 
 /* Define the menu interface */
 export interface IMenu extends Document {

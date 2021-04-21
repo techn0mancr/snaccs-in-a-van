@@ -1,7 +1,6 @@
 /* Import the required libraries and types */
 import { Document, model, Model, ObjectId, Schema } from "mongoose";
-import { IItemOrder } from "./itemOrderSchema";
-import itemOrderSchema from "./itemOrderSchema";
+import { IItemOrder, itemOrderSchema } from "./index";
 
 /* Define order status enum */
 enum OrderStatus {
