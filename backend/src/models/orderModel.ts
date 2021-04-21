@@ -1,6 +1,6 @@
 /* Import the required libraries and types */
-import { Document, model, Model, Types, Schema } from "mongoose";
-import { IItemOrder, itemOrderSchema } from "./index";
+import { Document, model, Model, Schema } from "mongoose";
+import { ICustomer, IItemOrder, itemOrderSchema, IVendor } from "./index";
 
 /* Define order status enum */
 enum OrderStatus {
@@ -11,7 +11,8 @@ enum OrderStatus {
 
 /* Define the order interface */
 export interface IOrder extends Document {
-    vendorId: Types.ObjectId;
+    customerId: ICustomer["_id"];
+    vendorId: IVendor["_id"];
     status: string;
     items: Array<IItemOrder>;
     total: number;
@@ -24,6 +25,11 @@ export interface IOrder extends Document {
 
 /* Define the order schema */
 const orderSchema: Schema = new Schema({
+    customerId: {
+        type: Schema.Types.ObjectId,
+        ref: "Customer",
+        required: true
+    },
     vendorId: {
         type: Schema.Types.ObjectId,
         ref: "Vendor",
