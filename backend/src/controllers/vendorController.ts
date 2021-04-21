@@ -15,11 +15,16 @@ async function getOutstandingOrders(req: Request & {params: {vendorId: string}},
             {
                 vendorId: castedVendorId,
                 status: {
-                    $ne: OrderStatus.Fulfilled
-                },
-                fulfilledTimestamp: undefined
+                    $ne: OrderStatus.Completed
+                }
             }
-        );
+        ).populate(
+            {
+                model: "Item",
+                path: "items.itemId",
+                select: "name price mimetype"
+            }
+        ).select("customerId status items total isChanged orderTimestamp fulfilledTimestamp isChanged");
 
         /* Send the query results */
         if (outstandingOrders) {

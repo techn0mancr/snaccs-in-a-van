@@ -6,7 +6,8 @@ import { ICustomer, IItemOrder, itemOrderSchema, IVendor } from "./index";
 enum OrderStatus {
     Placed = "Placed",
     Fulfilled = "Fulfilled",
-    Completed = "Completed"
+    Completed = "Completed",
+    Cancelled = "Cancelled"
 }
 
 /* Define the order interface */
@@ -19,7 +20,6 @@ export interface IOrder extends Document {
     orderTimestamp: Date;
     fulfilledTimestamp: Date;
     isChanged: boolean;
-    isCancelled: boolean;
     rating: number;
 }
 
@@ -60,10 +60,6 @@ const orderSchema: Schema = new Schema({
         default: undefined
     },
     isChanged: {
-        type: Boolean,
-        default: false
-    },
-    isCancelled: {
         type: Boolean,
         default: false
     },
