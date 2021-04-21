@@ -56,10 +56,14 @@ async function setVendorAvailability(req: Request & {params: {vendorId: string},
 
         /* Check if the query has successfully executed */
         if (qResult.ok == 1) {
-            if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified)
-                res.status(200).send("OK");
+            if (qResult.n > 0) {
+                if (qResult.n == qResult.nModified)
+                    res.status(200).send("OK"); // vendor was successfully marked as open
+                else
+                    res.status(400).send("Bad Request"); // vendor was already in the same state it was about to be marked to
+            }
             else
-                res.status(404).send("Not Found");
+                res.status(404).send("Not Found"); // vendor wasn't found in the database
         }
         else
             res.status(500).send("Internal Server Error");
