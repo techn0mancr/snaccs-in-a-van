@@ -1,10 +1,10 @@
 /* Import the required libraries and types */
-import { Document, Model, model, Schema } from "mongoose";
+import { Document, Model, model, Schema, Types } from "mongoose";
 import { IMenuItem, menuItemSchema } from "./index";
 
 /* Define the menu interface */
 export interface IMenu extends Document {
-    vendorId: Schema.Types.ObjectId;
+    vendorId: Types.ObjectId;
     items: Array<IMenuItem>;
 }
 
@@ -21,6 +21,7 @@ const menuSchema: Schema = new Schema({
     }
 });
 
-/* Export the menu model */
+/* Export the menu schema and model */
+export { menuSchema }
 const Menu: Model<IMenu> = model("Menu", menuSchema);
 export default Menu;

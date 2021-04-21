@@ -1,5 +1,5 @@
 /* Import the required libraries and types */
-import { Document, model, Model, ObjectId, Schema } from "mongoose";
+import { Document, model, Model, Types, Schema } from "mongoose";
 import { IItemOrder, itemOrderSchema } from "./index";
 
 /* Define order status enum */
@@ -11,7 +11,7 @@ enum OrderStatus {
 
 /* Define the order interface */
 export interface IOrder extends Document {
-    vendorId: ObjectId;
+    vendorId: Types.ObjectId;
     status: string;
     items: Array<IItemOrder>;
     total: number;
@@ -68,7 +68,7 @@ const orderSchema: Schema = new Schema({
     }
 });
 
-/* Export the order model and status enum */
+/* Export the order schema, model and status enum */
+export { orderSchema, OrderStatus }
 const Order: Model<IOrder> = model("Order", orderSchema);
 export default Order;
-export { OrderStatus };
