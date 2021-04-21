@@ -1,9 +1,6 @@
 /* Import the required libraries and types */
 import { Document, model, Model, Schema } from "mongoose";
-
-/* Import the required interfaces and schemas */
-import { IToken } from "./tokenSchema";
-import tokenSchema from "./tokenSchema";
+import { IToken, tokenSchema } from "./index";
 
 /* Define the vendor interface */
 export interface IVendor extends Document {
@@ -48,6 +45,7 @@ const vendorSchema: Schema = new Schema({
     }
 });
 
-/* Export the customer model */
+/* Export the vendor schema and model */
+export { vendorSchema }
 const Vendor: Model<IVendor> = model("Vendor", vendorSchema);
 export default Vendor;

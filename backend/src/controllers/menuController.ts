@@ -7,18 +7,34 @@ import { Item, Menu } from "../models";
 /* Gets the menu from a specific van */
 async function getMenu(req: Request & {params: {vendorId: string}}, res: Response): Promise<void> {
     try {
-        /* Query the database */
+        /* Cast the ObjectIds */
         var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-        const menuItems = await Menu.findOne({vendorId: castedVendorId})
-                               .select("items")
-                               .populate("items.itemId", "name price mimetype");
         
-        /* Send a response */
-        if (menuItems) res.status(200).send(menuItems.items);
-        else res.status(404).send("Not Found");
+        /* Query the database */
+        const menuItems = await Menu.findOne(
+            {
+                vendorId: castedVendorId
+            }
+        ).populate(
+            {
+                model: "Item",
+                path: "items.itemId",
+                select: "name price mimetype"
+            }
+        ).select("items");
+       
+        /* Send the query results */
+        if (menuItems) {
+            if (menuItems.items.length > 0)
+                res.status(200).json(menuItems.items);
+            else
+                res.status(204).send("No Content");
+        }
+        else
+            res.status(500).send("Internal Server Error");
     }
-    catch (CastError) {
-        res.status(400).send("Bad Request");
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
@@ -28,16 +44,18 @@ async function getItemDetails(req: Request & {params: {itemId: string}}, res: Re
         const itemDetails = await Item.findById(req.params.itemId)
                                       .select("name price mimetype");
         
-        /* Send a response */
-        if (itemDetails) res.status(200).send(itemDetails);
-        else res.status(404).send("Not Found");
+        /* Send the query results */
+        if (itemDetails)
+            res.status(200).json(itemDetails);
+        else
+            res.status(404).send("Not Found");
     }
-    catch (CastError) {
-        res.status(400).send("Bad Request");
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
-/* Export functions */
+/* Export controller functions */
 export {
     getMenu,
     getItemDetails

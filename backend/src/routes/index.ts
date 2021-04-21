@@ -1,5 +1,5 @@
 /* Import the required libraries and types */
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 
 /* Import existing routes */
 import customerRouter from "./customerRouter";
@@ -15,6 +15,11 @@ routes.use("/customer", customerRouter);
 routes.use("/menu", menuRouter);
 routes.use("/order", orderRouter);
 routes.use("/vendor", vendorRouter);
+
+/* Define a catch-all route */
+routes.all("/*", (req: Request, res: Response) => {
+    res.status(404).send("Not Found");
+});
 
 /* Export the unifying router */
 export default routes;

@@ -5,12 +5,12 @@ import { json, Router } from "express";
 const vendorRouter: Router = Router();
 const jsonParser = json();
 
-/* Import the vendor controller functions */
+/* Import the vendor controller */
 import * as controller from "../controllers/vendorController";
 
 /* Handle vendor routes */
-vendorRouter.get("/:vendorId/orders", controller.getOutstandingOrders);
-vendorRouter.post("/:vendorId/update/location", jsonParser, controller.setVendorLocation); // TODO: still doesn't work
+vendorRouter.get("/:vendorId/orders/outstanding", controller.getOutstandingOrders);
+vendorRouter.post("/:vendorId/update/location", jsonParser, controller.setVendorLocation);
 vendorRouter.post("/:vendorId/update/status", jsonParser, controller.setVendorAvailability);
 
 /* Export the router */

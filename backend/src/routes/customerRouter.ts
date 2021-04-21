@@ -1,20 +1,15 @@
 /* Import the required libraries and types */
-import { json } from "body-parser";
-import { Router } from "express";
+import { json, Router } from "express";
 
 /* Set up the router */
 const customerRouter: Router = Router();
 const jsonParser = json();
 
 /* Import the customer controller */
-import customerController = require("../controllers/customerController");
+import * as controller from "../controllers/customerController";
 
 /* Handle customer routes */
-customerRouter.post(
-  "/order/add/:snackID",
-  jsonParser,
-  customerController.addSnackToOrder
-);
+customerRouter.post("/order/add/:itemId", jsonParser, controller.addSnackToCart);
 
 /* Export the router */
 export default customerRouter;

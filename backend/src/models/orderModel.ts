@@ -1,30 +1,35 @@
 /* Import the required libraries and types */
-import { Document, model, Model, ObjectId, Schema } from "mongoose";
-import { IItemOrder } from "./itemOrderSchema";
-import itemOrderSchema from "./itemOrderSchema";
+import { Document, model, Model, Schema } from "mongoose";
+import { ICustomer, IItemOrder, itemOrderSchema, IVendor } from "./index";
 
 /* Define order status enum */
 enum OrderStatus {
     Placed = "Placed",
     Fulfilled = "Fulfilled",
-    Completed = "Completed"
+    Completed = "Completed",
+    Cancelled = "Cancelled"
 }
 
 /* Define the order interface */
 export interface IOrder extends Document {
-    vendorId: ObjectId;
+    customerId: ICustomer["_id"];
+    vendorId: IVendor["_id"];
     status: string;
     items: Array<IItemOrder>;
     total: number;
     orderTimestamp: Date;
     fulfilledTimestamp: Date;
     isChanged: boolean;
-    isCancelled: boolean;
     rating: number;
 }
 
 /* Define the order schema */
 const orderSchema: Schema = new Schema({
+    customerId: {
+        type: Schema.Types.ObjectId,
+        ref: "Customer",
+        required: true
+    },
     vendorId: {
         type: Schema.Types.ObjectId,
         ref: "Vendor",
@@ -32,14 +37,17 @@ const orderSchema: Schema = new Schema({
     },
     status: {
         type: String,
+        default: "",
         required: true
     },
     items: {
         type: [itemOrderSchema],
+        default: [],
         required: true
     },
     total: {
         type: Number,
+        default: 0,
         required: true,
         min: 0
     },
@@ -55,10 +63,6 @@ const orderSchema: Schema = new Schema({
         type: Boolean,
         default: false
     },
-    isCancelled: {
-        type: Boolean,
-        default: false
-    },
     rating: {
         type: Number,
         min: 0,
@@ -66,7 +70,7 @@ const orderSchema: Schema = new Schema({
     }
 });
 
-/* Export the order model and status enum */
+/* Export the order schema, model and status enum */
+export { orderSchema, OrderStatus }
 const Order: Model<IOrder> = model("Order", orderSchema);
 export default Order;
-export { OrderStatus };

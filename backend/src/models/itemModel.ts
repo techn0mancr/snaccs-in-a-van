@@ -31,6 +31,7 @@ const itemSchema: Schema = new Schema({
     } // image converted to base64
 });
 
-/* Export the item model */
+/* Export the item schema and model */
+export { itemSchema }
 const Item: Model<IItem> = model("Item", itemSchema);
 export default Item;
