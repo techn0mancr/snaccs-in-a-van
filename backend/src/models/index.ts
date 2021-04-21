@@ -23,9 +23,7 @@ db.once("open", () => {
     console.log("Successfully connected to MongoDB database.");
 });
 
-/* Import existing schemas */
-import itemOrderSchema from "./itemOrderSchema";
-import menuItemSchema from "./menuItemSchema";
+/* Import existing primary schemas */
 import tokenSchema from "./tokenSchema";
 
 /* Import existing primary interfaces */
@@ -35,23 +33,31 @@ import { IMenu } from "./menuModel";
 import { IOrder } from "./orderModel";
 import { IVendor } from "./vendorModel";
 
-/* Import existing helper interfaces */
-import { IItemOrder } from "./itemOrderSchema";
-import { IMenuItem } from "./menuItemSchema";
-
-/* Import existing models */
+/* Import existing primary models */
 import Customer from "./customerModel";
 import Item from "./itemModel";
 import Menu from "./menuModel";
 import Order from "./orderModel";
 import Vendor from "./vendorModel";
 
+/* Import existing helper schemas */
+import { itemOrderSchema } from "./itemOrderModel";
+import { menuItemSchema } from "./menuItemModel";
+
+/* Import existing helper interfaces */
+import { IItemOrder } from "./itemOrderModel";
+import { IMenuItem } from "./menuItemModel";
+
+/* Import existing helper models */
+import ItemOrder from "./itemOrderModel";
+import MenuItem from "./menuItemModel";
+
 /* Import existing enums */
 import { OrderStatus } from "./orderModel";
 
 /* Re-export existing schemas, interfaces, and models for easy access */
 export {
-    /* Schemas */
+    /* Primary schemas */
     tokenSchema,
     
     /* Primary interfaces */
@@ -60,17 +66,25 @@ export {
     IMenu,
     IOrder,
     IVendor,
-
-    /* Helper interfaces */
-    IItemOrder,
-    IMenuItem,
     
-    /* Models */
+    /* Primary models */
     Customer,
     Item,
     Menu,
     Order,
     Vendor,
+
+    /* Helper schemas */
+    itemOrderSchema,
+    menuItemSchema,
+    
+    /* Helper interfaces */
+    IItemOrder,
+    IMenuItem,
+    
+    /* Helper models */
+    ItemOrder,
+    MenuItem,
 
     /* Enums */
     OrderStatus
