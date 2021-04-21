@@ -15,8 +15,14 @@ async function getMenu(req: Request & {params: {vendorId: string}}, res: Respons
             {
                 vendorId: castedVendorId
             }
-        ).select("items").populate("items.itemId", "name price mimetype");
-        
+        ).populate(
+            {
+                model: "Item",
+                path: "items.itemId",
+                select: "name price mimetype"
+            }
+        ).select("items");
+       
         /* Send the query results */
         if (menuItems) {
             if (menuItems.items.length > 0)
