@@ -9,7 +9,7 @@ const jsonParser = json();
 import * as controller from "../controllers/vendorController";
 
 /* Handle vendor routes */
-vendorRouter.get("/:vendorId/orders", controller.getOutstandingOrders);
+vendorRouter.get("/:vendorId/orders/outstanding", controller.getOutstandingOrders);
 vendorRouter.post("/:vendorId/update/location", jsonParser, controller.setVendorLocation);
 vendorRouter.post("/:vendorId/update/status", jsonParser, controller.setVendorAvailability);
 
