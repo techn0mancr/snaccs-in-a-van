@@ -5,10 +5,10 @@ import { Router } from "express";
 const orderRouter: Router = Router();
 
 /* Import the order controller */
-import orderController = require("../controllers/orderController");
+import * as controller from "../controllers/orderController";
 
 /* Handle order routes */
-orderRouter.get("/:orderId/fulfill", orderController.fulfillOrder);
+orderRouter.get("/:orderId/fulfill", controller.fulfillOrder);
 
 /* Export the router */
 export default orderRouter;

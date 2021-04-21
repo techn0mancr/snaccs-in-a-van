@@ -5,7 +5,7 @@ import { json, Router } from "express";
 const vendorRouter: Router = Router();
 const jsonParser = json();
 
-/* Import the vendor controller functions */
+/* Import the vendor controller */
 import * as controller from "../controllers/vendorController";
 
 /* Handle vendor routes */
