@@ -7,8 +7,10 @@ import { Order, OrderStatus, Vendor } from "../models";
 /* Get the given vendor's outstanding orders */
 async function getOutstandingOrders(req: Request & {params: {vendorId: string}}, res: Response): Promise<void> {
     try {
-        /* Query the database */
+        /* Cast the ObjectIds */
         var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+        
+        /* Query the database */
         const outstandingOrders = await Order.find(
             {
                 vendorId: castedVendorId,
@@ -19,26 +21,28 @@ async function getOutstandingOrders(req: Request & {params: {vendorId: string}},
             }
         );
 
-        /* Send a response */
+        /* Send the query results */
         if (outstandingOrders) {
             if (outstandingOrders.length > 0)
-                res.status(200).send(outstandingOrders);
+                res.status(200).json(outstandingOrders);
             else
                 res.status(204).send("No Content");
         }
         else
             res.status(500).send("Internal Server Error");
     }
-    catch (CastError) {
-        res.status(400).send("Bad Request");
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
 /* Sets the given vendor's availability */
 async function setVendorAvailability(req: Request & {params: {vendorId: string}, body: {isOpen: boolean}}, res: Response): Promise<void> {
     try {
-        /* Query the database */
+        /* Cast the ObjectIds */
         var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+        
+        /* Query the database */
         const qResult = await Vendor.updateOne(
             {
                 _id: castedVendorId
@@ -49,8 +53,8 @@ async function setVendorAvailability(req: Request & {params: {vendorId: string},
                 }
             }
         );
-    
-        /* Send a response */
+
+        /* Check if the query has successfully executed */
         if (qResult.ok == 1) {
             if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified)
                 res.status(200).send("OK");
@@ -60,8 +64,8 @@ async function setVendorAvailability(req: Request & {params: {vendorId: string},
         else
             res.status(500).send("Internal Server Error");
     }
-    catch (CastError) {
-        res.status(400).send("Bad Request");
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
@@ -69,8 +73,10 @@ async function setVendorAvailability(req: Request & {params: {vendorId: string},
 // TODO: still doesn't work
 async function setVendorLocation(req: Request & {params: {vendorId: string}, body: {locationDescription: string, geolocation: Array<number>}}, res: Response): Promise<void> {
     try {
-        /* Query the database */
+        /* Cast the ObjectIds */
         var castedVendorId: undefined = (req.body.vendorId as unknown) as undefined;
+        
+        /* Query the database */
         const qResult = await Vendor.updateOne(
             {
                 _id: castedVendorId
@@ -83,7 +89,7 @@ async function setVendorLocation(req: Request & {params: {vendorId: string}, bod
             }
         );
 
-        /* Send a response */
+        /* Check if the query has successfully executed */
         if (qResult.ok == 1) {
             if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified)
                 res.status(200).send("OK");
@@ -93,8 +99,8 @@ async function setVendorLocation(req: Request & {params: {vendorId: string}, bod
         else
             res.status(500).send("Internal Server Error");
     }
-    catch (CastError) {
-        res.status(400).send("Bad Request");
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 

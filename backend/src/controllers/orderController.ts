@@ -7,8 +7,10 @@ import { Order, OrderStatus } from "../models";
 /* Sets the status of a given order to "Fulfilled" */
 async function fulfillOrder(req: Request & {params: {orderId: string}}, res : Response): Promise<void> {
     try {
-        /* Query the database */
+        /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+        
+        /* Query the database */
         const qResult = await Order.updateOne(
             {
                 _id: castedOrderId
@@ -19,9 +21,9 @@ async function fulfillOrder(req: Request & {params: {orderId: string}}, res : Re
                     fulfilledTimestamp: new Date()
                 }
             }
-        )
+        );
         
-        /* Send a response */
+        /* Check if the query has successfully executed */
         if (qResult.ok == 1) {
             if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified)
                 res.status(200).send("OK");
@@ -31,8 +33,8 @@ async function fulfillOrder(req: Request & {params: {orderId: string}}, res : Re
         else
             res.status(500).send("Internal Server Error");
     }
-    catch (CastError) {
-        res.status(400).send("Bad Request");
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
