@@ -75,7 +75,7 @@ Project is created with the following technologies:
         - Output: 200 OK.
     - Fault conditions:
         - Send `{"customerId": "<some valid but nonexisting Customer ObjectId>", "quantity": 1}` as the request body, then a 404 Not Found will be returned.
-        - Send `{"customerId": "<some random, invalid string>", "quantity": 1}` as the request body, then a 500 Internal Server Error will be returned.
+        - Send `{"customerId": "<some invalid ObjectId>", "quantity": 1}` as the request body, then a 500 Internal Server Error will be returned.
 2. Mark an order as \"fulfilled\" i.e. the order is ready to be picked up by customer
     - URL: https://snaccs-in-a-van.herokuapp.com/api/order/60780115c5c0362b60d60376/fulfill
     - Implementation details:
@@ -118,7 +118,8 @@ Project is created with the following technologies:
     - Fault conditions:
         - Send a valid but non-existent `vendorId`, then a 404 Not Found will be returned.
         - Send an invalid `vendorId`, then a 500 Internal Server Error will be returned.
-5. Setting van status (marks van as ready-for-orders):
+        - Set the geolocation or location description of a valid existing `vendorId` with the same values it already was in, then a 400 Bad Request will be returned.
+5. Setting van status (marks van as ready-for-orders)
     - URL: https://snaccs-in-a-van.herokuapp.com/api/vendor/60707b103ed89dee65af78a2/update/status
     - Implementation details:
         - HTTP request type: `POST`
@@ -133,6 +134,7 @@ Project is created with the following technologies:
     - Fault conditions:
         - Send a valid but non-existent `vendorId`, then a 404 Not Found will be returned.
         - Send an invalid `vendorId`, then a 500 Internal Server Error will be returned.
+        - Set the status of a valid existing `vendorId` with the same status it already was in, then a 400 Bad Request will be returned.
 6. View menu of snacks (including pictures and prices):
     - URL: https://snaccs-in-a-van.herokuapp.com/api/menu/60707b103ed89dee65af78a2
     - Implementation details:
@@ -147,7 +149,7 @@ Project is created with the following technologies:
     - Fault conditions:
         - Send a valid `vendorId` without a menu associated with it, then a 204 No Content will be returned.
         - Send an invalid `vendorId`, then a 500 Internal Server Error will be returned.
-7. View details of a item:<br />
+7. View details of a item
     - URL: https://snaccs-in-a-van.herokuapp.com/api/menu/item/607074c63ed89dee65af788e
     - Implementation details:
         - HTTP request type: `GET`
