@@ -1,5 +1,5 @@
-const MONGODB_USERNAME = "jleonardi";
-const MONGODB_PASSWORD = "CQt0ftOhHqzCNUgi";
+const MONGODB_USERNAME = "api";
+const MONGODB_PASSWORD = "NXrgK5CvPgbP0LbM";
 
 export {
     MONGODB_USERNAME,
