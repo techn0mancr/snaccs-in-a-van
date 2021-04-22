@@ -81,7 +81,7 @@ Project is created with the following technologies:
     - Implementation details:
         - HTTP request type: `GET`
         - Route: `/api/order/:orderId/fulfill`
-        - Controller function: `fulfillOrder()` in `backend/src/controllers/orderContoller.ts`
+        - Controller function: `fulfillOrder()` in `backend/src/controllers/orderController.ts`
     - Description: This request marks the order with an ID of `60780115c5c0362b60d60376` as \"Fulfilled\". This also set the status message as "fulfilled order" so the customer can be notified.
     - Success condition:
         - Input: `orderId` parameter.
@@ -94,7 +94,7 @@ Project is created with the following technologies:
     - Implementation details:
         - HTTP request type: `GET`
         - Route: `/api/vendor/:vendorId/orders/outstanding`
-        - Controller function: `getOutstandingOrder()` in `backend/src/controllers/vendorContoller.ts`
+        - Controller function: `getOutstandingOrder()` in `backend/src/controllers/vendorController.ts`
     - Description: This request gets all the outstanding orders of the vendor with an ID of `60707b103ed89dee65af78a2`. This is done by querying database for orders (for the vendor in question) which have not been marked as "Completed".
     - Success condition:
         - Input: `vendorId` parameter with outstanding orders.
@@ -108,7 +108,7 @@ Project is created with the following technologies:
     - Implementation details:
         - HTTP request type: `POST`
         - Route: `/api/vendor/:vendorId/update/location`
-        - Controller function: `setVendorLocation()` in `backend/src/controllers/vendorContoller.ts`
+        - Controller function: `setVendorLocation()` in `backend/src/controllers/vendorController.ts`
     - Description: This request updates the geolocation and location description of the vendor with an ID of `60707b103ed89dee65af78a2`. Geolocation will be captured with a location tracking api in future versions.
     - Success condition:
         - Input:
@@ -123,7 +123,7 @@ Project is created with the following technologies:
     - Implementation details:
         - HTTP request type: `POST`
         - Route: `/api/vendor/:vendorId/update/status`
-        - Controller function: `setVendorAvailability()` in `backend/src/controllers/vendorContoller.ts`
+        - Controller function: `setVendorAvailability()` in `backend/src/controllers/vendorController.ts`
     - Description: This request updates the status of the vendor with an ID of `60780115c5c0362b60d60376` to ready-for-orders.
     - Success condition:
         - Input:
@@ -138,7 +138,7 @@ Project is created with the following technologies:
     - Implementation details:
         - HTTP request type: `GET`
         - Route: `/api/menu/:vendorId`
-        - Controller function: `getMenu()` in `backend/src/controllers/menuContoller.ts`
+        - Controller function: `getMenu()` in `backend/src/controllers/menuController.ts`
     - Description: This request gets the menu associated with the vendor with an ID of `60707b103ed89dee65af78a2`. Images are currently stored as base64 (not currently returned in the query) and will render in future versions.
     - Success condition:
         - Input:
@@ -152,7 +152,7 @@ Project is created with the following technologies:
     - Implementation details:
         - HTTP request type: `GET`
         - Route: `/api/menu/item/:itemId`
-        - Controller function: `getItemDetails()` in `backend/src/controllers/menuContoller.ts`
+        - Controller function: `getItemDetails()` in `backend/src/controllers/menuController.ts`
     - Description: This request gets the details of the snack with an ID of `607074c63ed89dee65af788e`. The details include the name and price of an item; once again images are omitted.
     - Success condition:
         - Input: `<some existing itemId>` as parameter.
