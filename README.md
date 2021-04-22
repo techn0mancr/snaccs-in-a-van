@@ -20,15 +20,18 @@ Remember that _"this document"_ can use `different formats` to **highlight** imp
 * [General Info](#general-info)
 * [Technologies](#technologies)
 * [Code Implementation](#code-implementation)
-* [Adding Images](#adding-images)
+* [Workflow](#Workflow)
+* [Postman Request Details}(#Postman-Request)
 
 ## Team Members
 
 | Name | Task | State |
 | :---         |     :---:      |          ---: |
-| Student Name 1  | Back End     |  Done |
-| Student Name 2    | Front End      |  Testing |
-| Student Name 3    | README Format      |  Amazing! |
+| Nathaneal Putro  | Back End     |  Testing |
+| Callista Low   | Front End      |  Testing |
+| Livya Natasha Riany    | Front End      |  Testing |
+| Joseph Leonardi   | Back End  | Testing |
+| Jeffrey Kolenchery  | Back End  | Testing |
 
 ## General info
 This is project ...
@@ -37,8 +40,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ## Technologies
 Project is created with:
 * NodeJs 14.16.X
-* Ipsum version: 2.33
 * Ament library version: 999
+* heroku web app
+* mongoDB 
+* mongoose
+* TypeScript
+* Mongoose
+* figma
+* canva
+* react
 
 ## Code Implementation
 
@@ -67,31 +77,77 @@ function myFunction() {
 </html>
 ```
 
-## Adding Images
-
-You can use images/gif hosted online:
-
-<p align="center">
-  <img src="https://github.com/Martin-Reinoso/sandpit-Profile/raw/main/Images_Readme/01.gif"  width="300" >
-</p>
-
-Or you can add your own images from a folder in your repo with the following code. The example has a folder `Gifs` with an image file `Q1-1.gif`:
-```HTML
-<p align="center">
-  <img src="Gifs/Q1-1.gif"  width="300" >
-</p>
-```
-
-To create a gif from a video you can follow this [link](https://ezgif.com/video-to-gif/ezgif-6-55f4b3b086d4.mov).
-
-You can use emojis :+1: but do not over use it, we are looking for professional work. If you would not add them in your job, do not use them here! :shipit:
 
 **Now Get ready to complete all the tasks:**
 
 - [x] Read the Project handouts carefully
 - [x] User Interface (UI)mockup
-- [ ] App server mockup
+- [x] App server mockup
 - [ ] Front-end + back-end (one feature)
 - [ ] Complete system + source code
 - [ ] Report on your work(+ test1 feature)
+
+## Workflow: 
+1) git clone https://github.com/INFO30005-2021-SM1/project-t05-snaccoverflow.git
+2) Navigate into local repository and 
+3) npm start
+4) browser window opens
+
+## Postman-Request:
+
+1) Customer starts a new order by requesting a snack (for Customers):
+      url: localhost:48080/api/customer/order/add/607074c63ed89dee65af788e
+      This request attempts to add two Lattes to Nathanael's cart.
+      Fault Conditions: 
+        POST
+        - input: this REST endpoint accepts {"customerId": "<some Customer ObjectId>", "quantity": "<amount of item to add to the cart>"}
+        - output: this will give a 200 OK if success
+        - fault conditions:
+          - send {"customerId": "<some valid, but nonexisting Customer ObjectId>", "quantity": 1}, then a 404 Not Found will be thrown
+          - send {"customerId": "<some random string>", "quantity": 1}, then a 500 Internal Server Error will be thrown
+          - send {"customerId": "<some random string>", "quantity": "<some random non-numeric string>"
+        - addSnackToCart() in customerContoller.ts
+
+2) Mark an order as \"fulfilled\" i.e. the order is ready to be picked up by customer :
+      url: localhost:48080/api/order/60780115c5c0362b60d60376/fulfill
+      This request marks the order with an ID of 60780115c5c0362b60d60376 as \"Fulfilled\".
+      This also set the status message as "fulfilled order" so the customer can be notified.
+      Fault Condition: 
+        GET
+        - input: this REST endpoint accepts {"vendorId": "<some Vendor ObjectId>", "orderID": "<some Order ObjectId associated with Vendor>", 
+        "isFulfilled": "any boolean value"}
+        - output: this will give a 200 OK if success
+        - fault conditions:
+          - send {"vendorId": "<some valid, but nonexisting Vendor ObjectId>", "quantity": 1}, then a 404 Not Found will be thrown
+          - send {"vendorId": "<some random string>", "quantity": 1}, then a 500 Internal Server Error will be thrown
+
+3) Show list of all outstanding orders:
+      url: localhost:48080/api/vendor/60707b103ed89dee65af78a2/orders/outstanding
+      This request gets all the outstanding orders of the vendor with an ID of 60707b103ed89dee65af78a2
+      This is done by querying database for orders (for the vendor in question) which have not been marked as fulfilled. 
+      Fault Condition: 
+
+4) Setting van status and location (vendor shares geo-location):
+      url: localhost:48080/api/vendor/60707b103ed89dee65af78a2/update/location
+      This request updates the geolocation and location description of the vendor with an ID of 60707b103ed89dee65af78a2.
+      Geolocation will be captured with a location tracking api in future versions.
+      Fault Condition: 
+
+5) Setting van status (marks van as ready-for-orders):
+      url: localhost:48080/api/vendor/60707b103ed89dee65af78a2/update/status
+      This request updates the status of the vendor with an ID of 60780115c5c0362b60d60376 to ready-for-orders.
+      Fault Condition: 
+
+6) View menu of snacks (including pictures and prices):
+      url: localhost:48080/api/menu/60707b103ed89dee65af78a2
+      This request gets the menu associated with the vendor with an ID of 60707b103ed89dee65af78a2.
+      images will load as base64 (will not be shown) and will render as complete images in future versions.
+      Fault Condition: 
+
+7) View details of a item:
+      url: localhost:48080/api/menu/item/607074c63ed89dee65af788e
+      This request gets the details of the snack with an ID of 607074c63ed89dee65af788e.
+      This details include name and price of an item.
+      Fault Condition: (invalid itemID entered -> return 404)
+
 
