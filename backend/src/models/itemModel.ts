@@ -6,7 +6,6 @@ export interface IItem extends Document {
     name: string;
     price: number;
     mimetype: string;
-    size: number;
     data: string;
 }
 
@@ -23,9 +22,6 @@ const itemSchema: Schema = new Schema({
     mimetype: {
         type: String
     }, // file type
-    size: {
-        type: Number
-    },
     data: {
         type: String
     } // image converted to base64
