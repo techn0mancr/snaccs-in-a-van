@@ -1,0 +1,29 @@
+.navBar {
+    overflow: hidden;
+    width: 100%;
+    background-color: #FFFFFF;
+    bottom: 0;
+    position: fixed;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+  }
+  
+  .navBar a {
+    float: left;
+    padding: 12px;
+    color: #000000;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  .navBar a:hover {
+    background-color: #878585;
+  }
+  
+  .active {
+    background-color: #dd7070;
+  }
+
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+}

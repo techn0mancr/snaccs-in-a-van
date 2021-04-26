@@ -25,7 +25,8 @@
   ],
   "private": true,
   "dependencies": {
-    "npm-run-all": "*"
+    "npm-run-all": "*",
+    "react": "^17.0.2"
   },
   "engines": {
     "npm": "*"
