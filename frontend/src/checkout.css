@@ -30,6 +30,18 @@ input[type=image].back {
     border-radius: 8px;
 }
 
+#id {
+    min-height: 90px;
+}
+
+#cart {
+    min-height: 100px;
+}
+
+#payment {
+    min-height: 175px;
+}
+
 input[type=image].edit {
     height: 10%;
     width: 10%;
