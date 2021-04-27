@@ -25,7 +25,7 @@ function checkout() {
         <div className="container" id="cart">
             <h2>Your Cart</h2>
     
-            <div className="order">
+            <div className="cart">
                 <div className="item">
                     <input type="image" alt="edit" className="edit" src={penEdit}/>
                     <h3>1x Cappuccino</h3>
@@ -53,12 +53,22 @@ function checkout() {
         </div>
     )
 
+    const order = (
+        <div className="order">
+            <button className="order" type="submit" value="order">
+                <h3 className="payment" id="order">Place order</h3>
+                <h3 className="value" id="order">$8.00</h3>
+            </button>
+        </div>
+    )
+
     return(
         <div>
             {head}
             {location}
             {cart}
             {payment}
+            {order}
         </div>
     )
 }
