@@ -1,0 +1,104 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+}
+
+.title {
+    width: 420px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+}
+input[type=image].back {
+    height: 15%;
+    width: 15%;
+    float: left;
+    clear: both;
+}
+
+.container {
+    background-color: #FFFFFF;
+    width: 420px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+input[type=image].edit {
+    height: 10%;
+    width: 10%;
+}
+
+.item {
+    float: left;
+    clear: both;
+}
+
+h1 {
+    font-size: 28px;
+    font-style: bold;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 22px;
+    font-style: medium;
+    font-weight: 500;
+}
+
+h2.pickup {
+    font-style: normal;
+    font-size: 14px;
+}
+
+h3 {
+    font-size: 16px;
+    font-style: medium;
+    font-weight: 500;
+    display: inline;
+}
+
+h3.payment {
+    font-style: normal;
+    float: left;
+    clear: left;
+}
+
+h3.value {
+    float: right;
+    clear: right;
+}
+
+p {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    color: #7E7E7E;
+}
+
+p.address {
+    font-size: 16px;
+    font-style: normal;
+}
+
+p.price {
+    display: inline;
+    float: right;
+    clear: right;
+}
+
+.amountPaid {
+    width: 100%;
+    border: 1px solid #EFEFF2;
+}
