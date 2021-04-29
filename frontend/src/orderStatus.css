@@ -57,13 +57,20 @@ p.time {
     font-weight: 400;
 }
 
-p.option {
+button {
     text-decoration: underline;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: 12px;
     color: #DD7070;
+    border: none;
+    background-color: #F8F5F2;
+    margin-left: -5px;
+}
+
+button:hover {
+    opacity: 0.8;
 }
 
 h3 {
