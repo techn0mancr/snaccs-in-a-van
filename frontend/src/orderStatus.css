@@ -5,10 +5,10 @@ body {
 }
 
 .title {
-    width: 90vw;
-    margin-right: 5vw;
-    margin-left: 5vw;
+    width: 75vw;
     margin-top: 5vw;
+    margin-left: 12.5vw;
+    margin-left: 12.5vw;
 }
 
 input[type=image].back {
@@ -45,7 +45,6 @@ h2.invoice {
     width: 75vw;
     margin-top: 5vw;
     margin-left: 12.5vw;
-    margin-left: 12.5vw;
     content: "";
     display: table;
     clear: both;
@@ -80,14 +79,15 @@ h3 {
 }
 
 img {
-    width: 38px;
+    width: 57.6px;
     float: left;
     clear: left;
 }
 
 img.line {
-    width: 1.5px;
-    margin-left: 19px;
+    width: 0.5vw;
+    height: 20vw;
+    margin-left: 26px;
 }
 
 #notReady {
@@ -95,7 +95,7 @@ img.line {
 }
 
 #status {
-    margin-bottom: 100px;
+    margin-bottom: 22vw;
 }
 
 .progressImage {
@@ -104,5 +104,43 @@ img.line {
 }
 
 .progressStatus {
-    margin-top: -20px;
+    margin-top: -2vw;
+    margin-left: 75px;
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .title {
+        width: 576px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .order {
+        width: 576px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .progressStatus {
+        margin-top: -8px;
+    }
+
+    #status {
+        margin-bottom: 180px;
+    }
+
+    img {
+        width: 57.6px;
+        float: left;
+        clear: left;
+    }
+    
+    img.line {
+        width: 2.88px;
+        height: 180px;
+        margin-left: 26px;
+    }
+
 }
