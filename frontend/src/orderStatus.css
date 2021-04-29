@@ -1,0 +1,101 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+}
+
+.title {
+    width: 90vw;
+    margin-right: 5vw;
+    margin-left: 5vw;
+    margin-top: 5vw;
+}
+
+input[type=image].back {
+    width: 50px;
+    float: left;
+    clear: both;
+}
+
+input[type=image].back:hover {
+    opacity: 0.8;
+}
+
+h1 {
+    font-size: 28px;
+    font-style: bold;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2.invoice {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    color: #626262;
+}
+
+.order {
+    width: 75vw;
+    margin-top: 5vw;
+    margin-left: 12.5vw;
+    margin-left: 12.5vw;
+    content: "";
+    display: table;
+    clear: both;
+}
+
+p.time {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+p.option {
+    text-decoration: underline;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 12px;
+    color: #DD7070;
+}
+
+h3 {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+img {
+    width: 38px;
+    float: left;
+    clear: left;
+}
+
+img.line {
+    width: 1.5px;
+    margin-left: 19px;
+}
+
+#notReady {
+    opacity: 0.3;
+}
+
+#status {
+    margin-bottom: 100px;
+}
+
+.progressImage {
+    float: left;
+    width: 20%;
+}
+
+.progressStatus {
+    margin-top: -20px;
+}

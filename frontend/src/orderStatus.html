@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf=8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Snaccs In A Van</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/orderStatus.css"/>
+    </head>
+    <body>
+        <div class="title">
+            <br><br>
+            <input type="image" class="back" src="../img/leftArrow.png">
+            <h1>Order Status</h1>
+            <h2 class="invoice">INVOICE: #A0001</h2>
+        </div>
+
+        <div class="order">
+            <p class="time">Time Elapsed: 5m 30s</h4>
+            <p class="option">Edit or Cancel Order</p>
+        </div>
+
+        <div class="order">
+
+            <div class="progressImage">
+                <img src="../img/orderStatus/order.png" alt="Order">
+                <img class="line" src="../img/orderStatus/dashLine.png" alt="Line">
+                <img src="../img/orderStatus/prepare.png" alt="Prepare">
+                <img class="line" id="notReady" src="../img/orderStatus/dashLine.png" alt="Line">
+                <img id="notReady" src="../img/orderStatus/ready.png" alt="Ready">
+            </div>
+
+            <div class="progressStatus">
+                <div class="status">
+                    <h3>Order received</h3>
+                    <p class="time" id="status">03:20 PM</p>
+                </div>
+    
+                <div class="status">
+                    <h3>Preparing order</h3>
+                    <p class="time" id="status">03:25 PM</p>
+                </div>
+    
+                <div class="status">
+                    <h3 id="notReady">Ready for pickup</h3>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
