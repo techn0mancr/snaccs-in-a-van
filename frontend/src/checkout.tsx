@@ -3,6 +3,8 @@ import './checkout.css';
 import leftArrow from './img/leftArrow.png';
 import penEdit from './img/penEdit.png';
 
+// make function that sums everything 
+
 function checkout() {
     const head = (
         <div className="title">
@@ -52,7 +54,7 @@ function checkout() {
             </div>
         </div>
     )
-
+    
     const order = (
         <div className="order">
             <button className="order" type="submit" value="order">
