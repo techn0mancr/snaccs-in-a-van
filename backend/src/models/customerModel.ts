@@ -18,7 +18,8 @@ const customerSchema: Schema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        set: (email: String) => email.toLowerCase()
     },
     givenName: {
         type: String,
