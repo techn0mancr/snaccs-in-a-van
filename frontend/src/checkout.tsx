@@ -1,8 +1,10 @@
 import React from "react";
 import './checkout.css';
+// import useWindowDimensions from "./hooks/useWindowDimensions";
 import leftArrow from './img/leftArrow.png';
 import penEdit from './img/penEdit.png';
 
+// const { height, width } = useWindowDimensions();
 // make function that sums everything 
 
 function checkout() {
