@@ -15,7 +15,7 @@ async function getOutstandingOrders(req: Request & {params: {vendorId: string}},
             {
                 vendorId: castedVendorId,
                 status: {
-                    $ne: OrderStatus.Completed
+                    $ne: OrderStatus.Placed //Jeffrey: edited OrderStatus to show placed orders instead of completed.
                 }
             }
         ).populate(
