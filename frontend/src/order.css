@@ -42,11 +42,17 @@ button.past {
     color: #DD7070;
     border: none;
     background-color: #F8F5F2;
-    margin-left: -5px;
+
 }
 
 button:hover {
     opacity: 0.8;
+}
+
+.content {
+    width: 90vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
 }
 
 .order {
@@ -54,9 +60,9 @@ button:hover {
     border-radius: 8px;
     width: 90vw;
     margin-top: 5vw;
-    margin-left: 5vw;
-    padding-left: 5vw;
-    padding-top: 1vw;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
     border: none;
     text-align: left;
 }
@@ -74,7 +80,7 @@ p {
     font-style: normal;
     font-weight: 400;
     line-height: 10px;
-    margin-left: 2vw;
+    margin-left: 3px;
 }
 
 #ready {
@@ -99,5 +105,32 @@ img {
 
 #dark {
     filter: brightness(70%) grayscale(50%);
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .title {
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .content {
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .order {
+        width: 700px;
+        margin-top: 30px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    button.past {
+        width: 720px;
+    }
+
 }
 
