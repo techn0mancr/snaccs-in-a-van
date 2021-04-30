@@ -10,9 +10,10 @@ function orderStatus() {
     const head = (
         <div className="title">
             <br></br><br></br>
-            <input type="image" className="back" src={leftArrow}/>
+            <input type="image" className="back" alt="back" src={leftArrow}/>
             <h1>Order Status</h1>
             <h2 className="invoice">INVOICE: #A0001</h2>
+            <h2 className="invoice">29 April 2021 3.25 PM</h2>
         </div>
     )
 
