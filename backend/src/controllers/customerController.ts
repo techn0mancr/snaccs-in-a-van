@@ -58,10 +58,10 @@ async function login(req: Request & {
         /* Check if a user with the given email exists */
         const customer = await Customer.findOne(
             {
-                email: req.body.email
+                email: req.body.email.toLowerCase()
             }
         );
-        if (customer && compareSync(req.body.password, customer.password)) {
+        if (!(customer && compareSync(req.body.password, customer.password))) {
             res.status(400).send("Incorrect email/password!");
         }
         else {
@@ -79,10 +79,10 @@ async function register(req: Request & {
     body: { email: String, givenName: String, familyName: String, password: String }
 }, res: Response) {
     try {
-        /* Insert a new customer into its collection */
+        /* Insert a new customer into the database's collection */
         const newCustomer: ICustomer = new Customer(
             {
-                email: req.body.email,
+                email: req.body.email.toLowerCase(),
                 givenName: req.body.givenName,
                 familyName: req.body.familyName,
                 password: req.body.password
