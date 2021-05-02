@@ -20,17 +20,22 @@ const port: number = +(process.env.PORT || 48080);
 import routes from "./routes";
 app.use("/api", routes);
 
+/* Set up the session store */
+const MongoDBStore = new (connectMongoDBSession(session))({
+    uri: MONGODB_CONNECTION_STRING,
+    databaseName: MONGODB_DATABASE_NAME,
+    collection: SESSIONS_COLLECTION_NAME
+});
+
+/* Handle session store setup events */
+MongoDBStore.on("error", console.error.bind(console, "Session store connection error: "));
+
 /* Set up sessions */
-const MongoDBStore = connectMongoDBSession(session);
 app.use(session({
     secret: SESSIONS_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: new MongoDBStore({
-        uri: MONGODB_CONNECTION_STRING,
-        databaseName: MONGODB_DATABASE_NAME,
-        collection: SESSIONS_COLLECTION_NAME
-    }),
+    store: MongoDBStore,
     cookie: {
         maxAge: timestring("1d", "ms"),
         secure: false
