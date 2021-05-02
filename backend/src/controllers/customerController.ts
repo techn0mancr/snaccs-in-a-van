@@ -55,23 +55,30 @@ async function login(req: Request & {
     body: { email: String, password: String }
 }, res: Response) {
     try {
-        /* Check if a user with the given email exists */
+        /* Check if a customer with the given email exists */
         const customer = await Customer.findOne(
             {
                 email: req.body.email.toLowerCase()
             }
         );
-        if (!(customer && compareSync(req.body.password, customer.password))) {
+
+        /* Verify the customer's credentials */
+        if (!(customer && compareSync(req.body.password, customer.password)))
             res.status(400).send("Incorrect email/password!");
-        }
         else {
-            /* Generate a token for the logged-in customer */
-            // TODO
+            /* Update the session data */
+            req.session.userId = customer._id;
+            req.session.cart = customer.cart;
         }
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
+}
+
+/* Logs a customer out */
+async function logout(req: Request, res: Response) {
+    req.session.userId = undefined;
 }
 
 /* Registers a new customer */
@@ -90,8 +97,9 @@ async function register(req: Request & {
         );
         await newCustomer.save();
 
-        /* Generate a token for the new customer */
-        // TODO
+        /* Update the session data */
+        req.session.userId = newCustomer._id;
+        req.session.cart = newCustomer.cart;
 
         /* Send a response */
         res.status(201).send("");
@@ -105,5 +113,6 @@ async function register(req: Request & {
 export {
     addSnackToCart,
     login,
+    logout,
     register
 }
