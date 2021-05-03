@@ -1,4 +1,4 @@
-/* Import required types */
+/* Import required libraries and types */
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
@@ -22,7 +22,7 @@ async function addSnackToCart(req: Request & {
                 quantity: req.body.quantity
             }
         );
-
+        
         /* Append the item order to the customer's cart */
         const qResult = await Customer.updateOne(
             {
@@ -69,6 +69,9 @@ async function login(req: Request & {
             /* Update the session data */
             req.session.userId = customer._id;
             req.session.cart = customer.cart;
+            
+            /* Send a response */
+            res.status(200).send("OK");
         }
     }
     catch (e) {
@@ -79,6 +82,7 @@ async function login(req: Request & {
 /* Logs a customer out */
 async function logout(req: Request, res: Response) {
     req.session.userId = undefined;
+    res.status(200).send("OK");
 }
 
 /* Registers a new customer */
@@ -86,23 +90,35 @@ async function register(req: Request & {
     body: { email: String, givenName: String, familyName: String, password: String }
 }, res: Response) {
     try {
-        /* Insert a new customer into the database's collection */
-        const newCustomer: ICustomer = new Customer(
+        /* Check if the email is already used by an existing customer */
+        const existingCustomer = await Customer.findOne(
             {
-                email: req.body.email.toLowerCase(),
-                givenName: req.body.givenName,
-                familyName: req.body.familyName,
-                password: req.body.password
+                email: req.body.email.toLowerCase()
             }
         );
-        await newCustomer.save();
 
-        /* Update the session data */
-        req.session.userId = newCustomer._id;
-        req.session.cart = newCustomer.cart;
+        if (!existingCustomer) {
+            /* Insert a new customer into the database's collection */
+            const newCustomer: ICustomer = new Customer(
+                {
+                    email: req.body.email.toLowerCase(),
+                    givenName: req.body.givenName,
+                    familyName: req.body.familyName,
+                    password: req.body.password
+                }
+            );
+            await newCustomer.save();
 
-        /* Send a response */
-        res.status(201).send("");
+            /* Update the session data */
+            req.session.userId = newCustomer._id;
+            req.session.cart = newCustomer.cart;
+
+            /* Send a response */
+            res.status(201).send("Created");
+        }
+        else
+            res.status(403).send("Forbidden");
+
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
