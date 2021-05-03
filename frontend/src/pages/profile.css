@@ -11,7 +11,14 @@ body {
     margin-top: 30vh;
 }
 
-.containerLogin {
+.titleProfile {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    margin-top: 15vh;
+}
+
+.containerProfile {
     width: 70vw;
     margin-left: 15vw;
     margin-right: 15vw;
