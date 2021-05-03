@@ -55,7 +55,7 @@ async function getActiveOrders(req: Request, res: Response): Promise <void> {
     try {
         if (req.session.userId && req.session.userId != undefined) {
             /* Cast the ObjectIds */
-            var castedCustomerId: undefined = (req.body.customerId as unknown) as undefined;
+            var castedCustomerId: undefined = (req.session.userId as unknown) as undefined;
 
             /* Query the database */
             const activeOrders = await Order.find(
