@@ -27,17 +27,19 @@
   "dependencies": {
     "@types/bcrypt": "*",
     "@types/body-parser": "*",
+    "@types/connect-mongodb-session": "*",
     "@types/express": "*",
-    "@types/jsonwebtoken": "*",
+    "@types/express-session": "*",
     "@types/mongoose": "*",
     "@types/node": "*",
-    
+    "@types/timestring": "*",
     "bcrypt": "*",
     "body-parser": "*",
+    "connect-mongodb-session": "*",
     "express": "*",
-    "jsonwebtoken": "*",
+    "express-session": "*",
     "mongoose": "*",
-    
+    "timestring": "*",
     "tslib": "*",
     "typescript": "*"
   },

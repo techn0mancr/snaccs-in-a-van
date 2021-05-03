@@ -1,20 +1,11 @@
 /* Import the required libraries and types */
 import { connect, connection } from "mongoose";
 
-/* Import the required secrets */
-import { MONGODB_USERNAME, MONGODB_PASSWORD } from "../secrets";
-
-/* Initialize the connection details */
-const connectionString = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@snaccs-in-a-van.4ciyf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const connectionOptions = {
-    dbName: "snaccsInAVan",
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-};
+/* Import the required constants */
+import { MONGODB_CONNECTION_STRING, MONGODB_CONNECTION_OPTIONS } from "../config";
 
 /* Connect to the database */
-connect(connectionString, connectionOptions);
+connect(MONGODB_CONNECTION_STRING, MONGODB_CONNECTION_OPTIONS);
 const db = connection;
 
 /* Handle server connection events */
