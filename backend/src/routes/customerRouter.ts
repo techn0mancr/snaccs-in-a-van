@@ -10,6 +10,8 @@ import * as controller from "../controllers/customerController";
 
 /* Handle customer routes */
 customerRouter.post("/order/add/:itemId", jsonParser, controller.addSnackToCart);
+customerRouter.get("/orders/active", customerAuth, controller.getActiveOrders);
+customerRouter.get("/orders/past", customerAuth, controller.getPastOrders);
 
 /* Export the router */
 export default customerRouter;
