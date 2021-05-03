@@ -16,10 +16,6 @@ require("./models");
 const app = express();
 const port: number = +(process.env.PORT || 48080);
 
-/* Register routes */
-import routes from "./routes";
-app.use("/api", routes);
-
 /* Set up the session store */
 const MongoDBStore = new (connectMongoDBSession(session))({
     uri: MONGODB_CONNECTION_STRING,
@@ -41,6 +37,10 @@ app.use(session({
         secure: false
     }
 }));
+
+/* Register routes */
+import routes from "./routes";
+app.use("/api", routes);
 
 /* Listen for incoming connections */
 app.listen(port, () => {
