@@ -1,7 +1,6 @@
 /* Import the required libraries and types */
 import { hashSync } from "bcrypt";
 import { Document, model, Model, Schema } from "mongoose";
-import { IToken, IItemOrder, itemOrderSchema, tokenSchema } from "./index";
 
 /* Define the customer interface */
 export interface ICustomer extends Document {
@@ -9,8 +8,6 @@ export interface ICustomer extends Document {
     givenName: string;
     familyName: string;
     password: string;
-    cart: Array<IItemOrder>;
-    tokens: Array<IToken>;
 }
 
 /* Define the customer schema */
@@ -34,14 +31,6 @@ const customerSchema: Schema = new Schema({
         required: true,
         minlength: 6,
         set: (plaintext: String) => hashSync(plaintext, 10)
-    },
-    cart: {
-        type: [itemOrderSchema],
-        default: []
-    },
-    tokens: {
-        type: [tokenSchema],
-        default: []
     }
 });
 
