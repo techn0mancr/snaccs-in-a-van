@@ -95,10 +95,10 @@ p.date {
     color: #A0A0A0;
 }
 
-img {
+img.right {
     width: 10px;
     float: right;
-    clear: both;
+    clear: right;
     margin-right: 30px;
     padding-top: 20px;
 }
