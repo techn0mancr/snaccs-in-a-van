@@ -3,7 +3,13 @@ import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
 /* Import required models */
-import { Customer, ICustomer, Item, IItemOrder, ItemOrder, Order, OrderStatus } from "../models";
+import {
+    Customer, ICustomer,
+    Item,
+    ItemOrder, IItemOrder,
+    Order, IOrder,
+    OrderStatus
+} from "../models";
 
 /* Adds the given item, in the given quantity, to the customer's cart */
 async function addItemToCart(req: Request & {
@@ -28,7 +34,7 @@ async function addItemToCart(req: Request & {
                 ((req.session.cart)[itemOrderIndex]).quantity += req.body.quantity;
             }
             else {
-                /* Create an item order */
+                /* Create a new item order */
                 var newItemOrder: IItemOrder = new ItemOrder(
                     {
                         itemId: castedItemId,
@@ -51,8 +57,47 @@ async function addItemToCart(req: Request & {
     }
 }
 
+/* Checks out the customer's current cart */
+async function checkoutCart(req: Request, res: Response): Promise<void> {
+    try {
+        /* Ensures that the cart is populated */
+        if (req.session.cart && (req.session.cart.length > 0)) {
+            /* Calculate the cart's total */
+            var cartTotal: number = 0;
+            for (var itemOrder of req.session.cart) {
+                /* Query the database for the item's price */
+                const item = await Item.findById(itemOrder.itemId);
+                if (item)
+                    cartTotal += item.price * itemOrder.quantity;
+            }
+            
+            /* Insert a new order into the database */
+            var newOrder: IOrder = new Order(
+                {
+                    customerId: req.session.customerId,
+                    vendorId: req.session.vendorId,
+                    total: cartTotal
+                }
+            );
+            req.session.cart.forEach((itemOrder: IItemOrder) => newOrder.items.push(itemOrder));
+            await newOrder.save();
+
+            /* Empty the cart */
+            req.session.cart = [];
+
+            /* Send a response */
+            res.status(201).send("Created");
+        }
+        else
+            res.status(403).send("Forbidden");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Clears the customer's current cart */
-async function clearCart(req: Request, res: Response): Promise<void> {
+async function emptyCart(req: Request, res: Response): Promise<void> {
     req.session.cart = [];
     res.status(200).send("OK");
 }
@@ -68,16 +113,17 @@ async function getActiveOrders(req: Request, res: Response): Promise<void> {
             const activeOrders = await Order.find(
                 {
                     customerId: castedCustomerId,
-                    status: {
-                        $ne: OrderStatus.Completed
-                    }
+                    $or: [
+                        { status: { $eq: OrderStatus.Placed } },
+                        { status: { $eq: OrderStatus.Fulfilled } }
+                    ]
                 }
             ).populate(
                 {
                     model: "Item",
-                    path: "items.itemId",
+                    path: "items.itemId"
                 }
-            ).select("vendorId status items total orderTimestamp fulfilledTimestamp isChanged");
+            ).select("vendorId status items total placedTimestamp fulfilledTimestamp isChanged");
 
             /* Send the query results */
             if (activeOrders) {
@@ -116,16 +162,17 @@ async function getPastOrders(req: Request, res: Response): Promise<void> {
             const pastOrders = await Order.find(
                 {
                     customerId: castedCustomerId,
-                    status: {
-                        $eq: OrderStatus.Completed
-                    }
+                    $or: [
+                        { status: { $eq: OrderStatus.Completed } },
+                        { status: { $eq: OrderStatus.Cancelled } }
+                    ]
                 }
             ).populate(
                 {
                     model: "Item",
                     path: "items.itemId"
                 }
-            ).select("vendorId status items total orderTimestamp fulfilledTimestamp isChanged");
+            ).select("vendorId status items total placedTimestamp fulfilledTimestamp completedTimestamp isChanged");
 
             /* Send the query results */
             if (pastOrders) {
@@ -187,9 +234,8 @@ async function register(req: Request & {
                 email: req.body.email.toLowerCase()
             }
         );
-
         if (!existingCustomer) {
-            /* Insert a new customer into the database's collection */
+            /* Insert a new customer into the database */
             const newCustomer: ICustomer = new Customer(
                 {
                     email: req.body.email.toLowerCase(),
@@ -217,7 +263,8 @@ async function register(req: Request & {
 /* Export controller functions */
 export {
     addItemToCart,
-    clearCart,
+    checkoutCart,
+    emptyCart,
     getActiveOrders,
     getCart,
     getPastOrders,
