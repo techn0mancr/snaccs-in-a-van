@@ -4,12 +4,42 @@ body {
     color: #3E4462;
 }
 
-.title {
+.titleLogin {
     width: 70vw;
     margin-left: 15vw;
     margin-right: 15vw;
-    text-align: left;
     margin-top: 30vh;
+}
+
+.containerLogin {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+}
+
+h1.titleLog {
+    font-size: 28px;
+    font-style: bold;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+h2 {
+    font-size: 15px;
+    font-style: normal;
+    text-align: center;
+    display: inline;
+}
+
+button.signup {
+    text-decoration: underline;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 12px;
+    border: none;
+    background-color: #F8F5F2;
+    color: #3E4462;
 }
 
 input[type=text], input[type=password] {
@@ -25,38 +55,6 @@ input[type=text], input[type=password] {
     line-height: 24px;
     width: 100%;
     margin-bottom: 10px;
-}
-
-.containerLogin {
-    width: 70vw;
-    margin-left: 15vw;
-    margin-right: 15vw;
-}
-
-h1 {
-    font-size: 28px;
-    font-style: bold;
-    font-weight: 500;
-    line-height: 26px;
-    text-align: left;
-}
-
-h2 {
-    font-size: 18px;
-    font-style: normal;
-    text-align: left;
-    display: inline;
-}
-
-button.signup {
-    text-decoration: underline;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 12px;
-    border: none;
-    background-color: #F8F5F2;
-    color: #3E4462;
 }
 
 button.login {
