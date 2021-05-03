@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import './nav.css';
 
 import Home from "../img/navBar/home.png";
-import Menu from "../img/navBar/menu.png";
 import Cart from "../img/navBar/cart.png";
 import Profile from "../img/navBar/profile.png";
 
@@ -13,10 +12,6 @@ export default function Nav() {
         <nav className="navBar">
             <NavLink className="contentNav" exact to="/">
                 <img className="nav" src={Home} alt="Home"/>
-            </NavLink>
-
-            <NavLink className="contentNav" to="/map">
-                <img className="nav" src={Menu} alt="Menu"/>
             </NavLink>
 
             <NavLink className="contentNav" to="/cart">
