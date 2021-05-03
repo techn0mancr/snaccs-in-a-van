@@ -3,55 +3,62 @@ import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
 /* Import required models */
-import { Customer, ICustomer, IItemOrder, ItemOrder, Order, OrderStatus } from "../models";
+import { Customer, ICustomer, Item, IItemOrder, ItemOrder, Order, OrderStatus } from "../models";
 
-/* Adds the given snack, in the given quantity, to the customer's cart */
-async function addSnackToCart(req: Request & {
+/* Adds the given item, in the given quantity, to the customer's cart */
+async function addItemToCart(req: Request & {
     params: { itemId: string },
     body: { quantity: number }
 }, res: Response): Promise<void> {
     try {
+        /* Ensure that the customer's cart exists */
+        if (!req.session.cart)
+            req.session.cart = []
+        
         /* Cast the ObjectIds */
         var castedItemId: undefined = (req.params.itemId as unknown) as undefined;
-        var castedCustomerId: undefined = (req.body.customerId as unknown) as undefined;
-    
-        /* Create an item order */
-        var itemOrder: IItemOrder = new ItemOrder(
-            {
-                itemId: castedItemId,
-                quantity: req.body.quantity
-            }
-        );
         
-        /* Append the item order to the customer's cart */
-        const qResult = await Customer.updateOne(
-            {
-                _id: castedCustomerId
-            },
-            {
-                $push: {
-                    cart: itemOrder
-                }
-            });
-
-        /* Check if the query has successfully executed */
-        if (qResult.ok == 1) {
-            if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified) {
-                res.status(200).send("OK");
+        /* Check the existence of the given itemId in the database */
+        const existingItem = await Item.findById(castedItemId);
+        if (existingItem) {
+            /* Check if an item order of the given itemId already exists in the cart */
+            var itemOrderIndex = req.session.cart.findIndex((itemOrder: IItemOrder) => itemOrder.itemId.equals(castedItemId));
+            if (itemOrderIndex > -1) {
+                /* Update the existing item order */
+                ((req.session.cart)[itemOrderIndex]).quantity += req.body.quantity;
             }
-            else
-                res.status(404).send("Not Found");
+            else {
+                /* Create an item order */
+                var newItemOrder: IItemOrder = new ItemOrder(
+                    {
+                        itemId: castedItemId,
+                        quantity: req.body.quantity
+                    }
+                );
+                
+                /* Add the new item order to the cart */
+                req.session.cart.push(newItemOrder);
+            }
+            
+            /* Send a response */
+            res.status(200).send("OK");
         }
         else
-            res.status(500).send("Internal Server Error");
+            res.status(404).send("Not Found");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
+/* Clears the customer's current cart */
+async function clearCart(req: Request, res: Response): Promise<void> {
+    req.session.cart = [];
+    res.status(200).send("OK");
+}
+
 /* Returns the logged in customer's active orders */
-async function getActiveOrders(req: Request, res: Response): Promise <void> {
+async function getActiveOrders(req: Request, res: Response): Promise<void> {
     try {
         if (req.session.userId && req.session.userId != undefined) {
             /* Cast the ObjectIds */
@@ -88,8 +95,18 @@ async function getActiveOrders(req: Request, res: Response): Promise <void> {
     }
 }
 
+/* Returns the customer's current cart */
+async function getCart(req: Request, res: Response): Promise<void> {
+    /* Ensure that the customer's cart exists */
+    if (!req.session.cart)
+        req.session.cart = []
+
+    /* Send the contents of the cart */
+    res.status(200).json(req.session.cart);
+}
+
 /* Returns the logged in customer's past orders */
-async function getPastOrders(req: Request, res: Response): Promise <void> {
+async function getPastOrders(req: Request, res: Response): Promise<void> {
     try {
         if (req.session.userId && req.session.userId != undefined) {
             /* Cast the ObjectIds */
@@ -128,7 +145,7 @@ async function getPastOrders(req: Request, res: Response): Promise <void> {
 /* Logs a customer in */
 async function login(req: Request & {
     body: { email: String, password: String }
-}, res: Response) {
+}, res: Response): Promise<void> {
     try {
         /* Check if a customer with the given email exists */
         const customer = await Customer.findOne(
@@ -143,7 +160,6 @@ async function login(req: Request & {
         else {
             /* Update the session data */
             req.session.userId = customer._id;
-            req.session.cart = customer.cart;
             
             /* Send a response */
             res.status(200).send("OK");
@@ -155,7 +171,7 @@ async function login(req: Request & {
 }
 
 /* Logs a customer out */
-async function logout(req: Request, res: Response) {
+async function logout(req: Request, res: Response): Promise<void> {
     req.session.userId = undefined;
     res.status(200).send("OK");
 }
@@ -163,7 +179,7 @@ async function logout(req: Request, res: Response) {
 /* Registers a new customer */
 async function register(req: Request & {
     body: { email: String, givenName: String, familyName: String, password: String }
-}, res: Response) {
+}, res: Response): Promise<void> {
     try {
         /* Check if the email is already used by an existing customer */
         const existingCustomer = await Customer.findOne(
@@ -186,7 +202,6 @@ async function register(req: Request & {
 
             /* Update the session data */
             req.session.userId = newCustomer._id;
-            req.session.cart = newCustomer.cart;
 
             /* Send a response */
             res.status(201).send("Created");
@@ -201,8 +216,10 @@ async function register(req: Request & {
 
 /* Export controller functions */
 export {
-    addSnackToCart,
+    addItemToCart,
+    clearCart,
     getActiveOrders,
+    getCart,
     getPastOrders,
     login,
     logout,
