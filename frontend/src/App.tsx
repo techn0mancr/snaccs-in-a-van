@@ -9,6 +9,7 @@ import OrderCurrent from "./pages/orderCurrent";
 import OrderPast from "./pages/orderPast";
 import Checkout from "./pages/checkout";
 import OrderStatus from "./pages/orderStatus";
+import Login from "./pages/customerLogin";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Switch>
 
           <Route exact path="/" />
-
+          <Route exact path="/profile/login" component={Login} />
           <Route exact path="/cart" component={OrderCurrent} />
           <Route exact path="/cart/past" component={OrderPast} />
           <Route exact path="/cart/checkout" component={Checkout} />

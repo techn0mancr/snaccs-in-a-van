@@ -18,7 +18,7 @@ export default function Nav() {
                 <img className="nav" src={Cart} alt="Cart"/>
             </NavLink>
 
-            <NavLink className="contentNav" to="/profile">
+            <NavLink className="contentNav" to="/profile/login">
                 <img className="nav" src={Profile} alt="Profile"/>
             </NavLink>
         </nav>
