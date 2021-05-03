@@ -2,7 +2,8 @@
 import { IItemOrder } from "../src/models";
 declare module "express-session" {
     interface SessionData {
-        userId: string;
-        cart?: Array<IItemOrder>;
+        customerId: string;
+        vendorId: string;
+        cart: Array<IItemOrder>;
     }
 }

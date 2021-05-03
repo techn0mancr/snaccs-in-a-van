@@ -60,9 +60,9 @@ async function clearCart(req: Request, res: Response): Promise<void> {
 /* Returns the logged in customer's active orders */
 async function getActiveOrders(req: Request, res: Response): Promise<void> {
     try {
-        if (req.session.userId && req.session.userId != undefined) {
+        if (req.session.customerId && req.session.customerId != undefined) {
             /* Cast the ObjectIds */
-            var castedCustomerId: undefined = (req.session.userId as unknown) as undefined;
+            var castedCustomerId: undefined = (req.session.customerId as unknown) as undefined;
 
             /* Query the database */
             const activeOrders = await Order.find(
@@ -108,9 +108,9 @@ async function getCart(req: Request, res: Response): Promise<void> {
 /* Returns the logged in customer's past orders */
 async function getPastOrders(req: Request, res: Response): Promise<void> {
     try {
-        if (req.session.userId && req.session.userId != undefined) {
+        if (req.session.customerId && req.session.customerId != undefined) {
             /* Cast the ObjectIds */
-            var castedCustomerId: undefined = (req.session.userId as unknown) as undefined;
+            var castedCustomerId: undefined = (req.session.customerId as unknown) as undefined;
 
             /* Query the database */
             const pastOrders = await Order.find(
@@ -159,7 +159,7 @@ async function login(req: Request & {
             res.status(400).send("Incorrect email/password!");
         else {
             /* Update the session data */
-            req.session.userId = customer._id;
+            req.session.customerId = customer._id;
             
             /* Send a response */
             res.status(200).send("OK");
@@ -172,7 +172,7 @@ async function login(req: Request & {
 
 /* Logs a customer out */
 async function logout(req: Request, res: Response): Promise<void> {
-    req.session.userId = undefined;
+    req.session.customerId = undefined;
     res.status(200).send("OK");
 }
 
@@ -201,7 +201,7 @@ async function register(req: Request & {
             await newCustomer.save();
 
             /* Update the session data */
-            req.session.userId = newCustomer._id;
+            req.session.customerId = newCustomer._id;
 
             /* Send a response */
             res.status(201).send("Created");
