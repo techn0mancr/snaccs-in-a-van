@@ -19,7 +19,7 @@ function checkout() {
     )
     
     const location = (
-        <div className="container" id="loc">
+        <div className="containerCheckout" id="loc">
             <h2 className="pickup">Pick up location</h2>
             <p className="address">757 Swanston St, ParkVille VIC 3010</p>
             <p className="desc">next to Stop 1</p>
@@ -27,7 +27,7 @@ function checkout() {
     )
     
     const cart = (
-        <div className="container" id="cart">
+        <div className="containerCheckout" id="cart">
             <h2>Your Cart</h2>
     
             <div className="cart">
@@ -42,7 +42,7 @@ function checkout() {
     )
     
     const payment = (
-        <div className="container" id="payment">
+        <div className="containerCheckout" id="payment">
             <h2>Payment</h2>
     
             <div className="amount">
