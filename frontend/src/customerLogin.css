@@ -1,0 +1,79 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+}
+
+.title {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    text-align: left;
+    margin-top: 30vh;
+}
+
+input[type=text], input[type=password] {
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #82869A 1px;
+    padding: 3px 10px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.containerLogin {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+}
+
+h1 {
+    font-size: 28px;
+    font-style: bold;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: left;
+}
+
+h2 {
+    font-size: 18px;
+    font-style: normal;
+    text-align: left;
+    display: inline;
+}
+
+button.signup {
+    text-decoration: underline;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 12px;
+    border: none;
+    background-color: #F8F5F2;
+    color: #3E4462;
+}
+
+button.login {
+    background-color: #dd7070;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 10px 10px #F6F6F6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
