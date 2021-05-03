@@ -38,7 +38,30 @@ async function fulfillOrder(req: Request & {params: {orderId: string}}, res : Re
     }
 }
 
+/* Returns the details of an order */
+async function getOrderDetails(req: Request & {
+    params: { orderId: string }
+}, res: Response) {
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+        
+        /* Query the database */
+        const order = await Order.findById(castedOrderId);
+
+        /* Send the query results */
+        if (order)
+            res.status(200).json(order);
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Export controller functions */
 export {
-    fulfillOrder
+    fulfillOrder,
+    getOrderDetails
 }
