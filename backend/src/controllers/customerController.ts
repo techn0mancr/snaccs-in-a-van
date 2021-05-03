@@ -189,6 +189,31 @@ async function getPastOrders(req: Request, res: Response): Promise<void> {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
+
+/* Returns the profile of the current logged-in customer */
+async function getProfile(req: Request, res: Response) {
+    try {
+        if (req.session.customerId && req.session.customerId != undefined) {
+            /* Cast the ObjectIds */
+            var castedCustomerId: undefined = (req.session.customerId as unknown) as undefined;
+            
+            /* Query the database */
+            const customer = await Customer.findById(castedCustomerId)
+                                           .select("email givenName familyName");
+            if (customer)
+                res.status(200).json(customer);
+            else
+                res.status(404).send("Not Found");
+
+        }
+        else
+            res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Logs a customer in */
 async function login(req: Request & {
     body: { email: String, password: String }
@@ -268,6 +293,7 @@ export {
     getActiveOrders,
     getCart,
     getPastOrders,
+    getProfile,
     login,
     logout,
     register

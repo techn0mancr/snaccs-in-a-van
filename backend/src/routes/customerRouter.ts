@@ -21,6 +21,7 @@ customerRouter.get("/orders/active", customerAuth, controller.getActiveOrders);
 customerRouter.get("/orders/past", customerAuth, controller.getPastOrders);
 customerRouter.post("/login", controller.login);
 customerRouter.get("/logout", customerAuth, controller.logout);
+customerRouter.get("/profile", customerAuth, controller.getProfile);
 customerRouter.post("/register", controller.register);
 
 /* Export the router */
