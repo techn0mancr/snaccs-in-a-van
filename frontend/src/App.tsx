@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,6 +16,7 @@ import Signup from "./pages/signup";
 import Profile from "./pages/profile";
 
 function App() {
+
   return (
     <div>
       <Router>

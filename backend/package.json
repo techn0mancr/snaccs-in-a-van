@@ -36,6 +36,7 @@
     "bcrypt": "*",
     "body-parser": "*",
     "connect-mongodb-session": "*",
+    "cors": "^2.8.5",
     "express": "*",
     "express-session": "*",
     "mongoose": "*",
