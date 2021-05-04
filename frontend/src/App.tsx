@@ -10,8 +10,10 @@ import OrderCurrent from "./pages/orderCurrent";
 import OrderPast from "./pages/orderPast";
 import Checkout from "./pages/checkout";
 import OrderStatus from "./pages/orderStatus";
-import Login from "./pages/customerLogin";
+// import Login from "./pages/customerLogin";
+import Login from "./pages/login";
 import Signup from "./pages/signup";
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route exact path="/" />
           <Route exact path="/profile/login" component={Login} />
           <Route exact path="/profile/signup" component={Signup} />
+          <Route exact path="/profile/proof" component={Profile} />
           <Route exact path="/cart/orderstatus" component={OrderStatus} />
           <Route exact path="/cart" component={OrderCurrent} />
           <Route exact path="/cart/past" component={OrderPast} />
