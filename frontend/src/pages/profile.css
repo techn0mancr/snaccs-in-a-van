@@ -38,6 +38,10 @@ h2 {
     display: inline;
 }
 
+h2.click {
+    color:#F8F5F2;
+}
+
 button.signup {
     text-decoration: underline;
     font-size: 12px;
