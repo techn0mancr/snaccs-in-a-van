@@ -1,14 +1,14 @@
 import React from "react";
 import './orderStatus.css';
-import leftArrow from './img/leftArrow.png';
-import order from './img/orderStatus/order.png';
-import prepare from './img/orderStatus/prepare.png';
-import ready from './img/orderStatus/ready.png';
-import dashLine from './img/orderStatus/dashLine.png';
+import leftArrow from '../img/leftArrow.png';
+import order from '../img/orderStatus/order.png';
+import prepare from '../img/orderStatus/prepare.png';
+import ready from '../img/orderStatus/ready.png';
+import dashLine from '../img/orderStatus/dashLine.png';
 
 function orderStatus() {
     const head = (
-        <div className="title">
+        <div className="titleOrder">
             <br></br><br></br>
             <input type="image" className="back" alt="back" src={leftArrow}/>
             <h1>Order Status</h1>
@@ -18,23 +18,25 @@ function orderStatus() {
     )
 
     const time = (
-        <div className="order">
+        <div className="orderTime">
             <h4 className="time">Time Elapsed: 5m 30s</h4>
-            <button type="submit" value="edit">Edit or Cancel Order</button>
+            <button className="cancel" type="submit" value="edit">Edit or Cancel Order</button>
         </div>
     )
 
     const status = (
-        <div className="order">
+        <div className="orderTime">
 
             <div className="progressImage">
-                <img src={order} alt="Order"/>
-                <img className="line" src={dashLine} alt="Line"/>
-                <img src={prepare} alt="Prepare"/>
-                <img className="line" id="notReady" src={dashLine} alt="Line"/>
-                <img id="notReady" src={ready} alt="Ready"/>
+                <img className="status" src={order} alt="Order"/>
+                <img className="status line" src={dashLine} alt="Line"/>
+                <img className="status" src={prepare} alt="Prepare"/>
+                <img className="status line" id="notReady" src={dashLine} alt="Line"/>
+                <img className="status" id="notReady" src={ready} alt="Ready"/>
             </div>
 
+            <br />
+            
             <div className="progressStatus">
                 <div className="status">
                     <h3>Order received</h3>

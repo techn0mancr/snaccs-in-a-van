@@ -4,7 +4,7 @@ body {
     color: #3E4462;
 }
 
-.title {
+.titleOrder {
     width: 75vw;
     margin-top: 5vw;
     margin-left: 12.5vw;
@@ -40,7 +40,7 @@ h2.invoice {
     color: #626262;
 }
 
-.order {
+.orderTime {
     width: 75vw;
     margin-top: 5vw;
     margin-left: 12.5vw;
@@ -55,7 +55,7 @@ p.time {
     font-weight: 400;
 }
 
-button {
+button.cancel {
     text-decoration: underline;
     font-size: 12px;
     font-style: normal;
@@ -77,7 +77,7 @@ h3 {
     font-weight: 400;
 }
 
-img {
+img.status {
     width: 57.6px;
     float: left;
     clear: left;
@@ -94,7 +94,7 @@ img.line {
 }
 
 #status {
-    margin-bottom: 22vw;
+    margin-bottom: 25vw;
 }
 
 .progressImage {
@@ -108,14 +108,14 @@ img.line {
 }
 
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
-    .title {
+    .titleOrder {
         width: 576px;
         margin-left: auto;
         margin-right: auto;
         margin-top: 25px;
     }
 
-    .order {
+    .orderTime {
         width: 576px;
         margin-left: auto;
         margin-right: auto;
@@ -130,7 +130,7 @@ img.line {
         margin-bottom: 180px;
     }
 
-    img {
+    img.status {
         width: 57.6px;
         float: left;
         clear: left;
