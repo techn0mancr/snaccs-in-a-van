@@ -23,15 +23,15 @@ class Login extends React.Component {
 
         const { email, password } = this.state;
 
-        // axios.post(`localhost:48080/api/customer/login`, { email, password })
-        //     .then((response) => {
-        //         console.log(response);
-        //     }, (error) => {
-        //         console.log(error);
-        // });
+        axios.post(`http://localhost:48080/api/customer/login`, { email, password })
+            .then((response) => {
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+        });
         // axios({
         //     method: "post",
-        //     url: "localhost:48080/api/customer/login",
+        //     url: "http://localhost:48080/api/customer/login",
         //     data: {user},
         // })
         // .then((response) => {
@@ -40,13 +40,13 @@ class Login extends React.Component {
         //     console.log(error);
         //   });
 
-        fetch('http://localhost:48080/api/customer/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-        })
+        // fetch('http://localhost:48080/api/customer/login', {
+        //     method: 'POST',
+        //     body: JSON.stringify({ email, password }),
+        // })
         // .then(res => res.json())
         // .then(json => setUser(json.user))
-        .then(response => response.json())
+        // .then(response => response.json())
 
         // e.preventDefault()
         }
