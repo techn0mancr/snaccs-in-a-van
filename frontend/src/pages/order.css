@@ -33,6 +33,10 @@ h1 {
     justify-content: center;
 }
 
+h2 {
+    color: #3E4462;
+}
+
 button.past {
     text-decoration: underline;
     font-size: 12px;

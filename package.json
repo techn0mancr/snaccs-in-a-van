@@ -26,7 +26,8 @@
   "private": true,
   "dependencies": {
     "npm-run-all": "*",
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "react-router-dom": "^5.2.0"
   },
   "engines": {
     "npm": "*"
@@ -40,5 +41,8 @@
     "backend-dev": "cd backend/ && npm run start-dev",
     "start": "npm-run-all --parallel frontend backend",
     "start-dev": "npm-run-all --parallel frontend backend-dev"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.7"
   }
 }
