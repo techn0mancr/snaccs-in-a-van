@@ -17,8 +17,9 @@ export interface IOrder extends Document {
     status: string;
     items: Array<IItemOrder>;
     total: number;
-    orderTimestamp: Date;
+    placedTimestamp: Date;
     fulfilledTimestamp: Date;
+    completedTimestamp: Date;
     isChanged: boolean;
     rating: number;
 }
@@ -37,12 +38,11 @@ const orderSchema: Schema = new Schema({
     },
     status: {
         type: String,
-        default: "",
+        default: OrderStatus.Placed,
         required: true
     },
     items: {
         type: [itemOrderSchema],
-        default: [],
         required: true
     },
     total: {
@@ -51,11 +51,15 @@ const orderSchema: Schema = new Schema({
         required: true,
         min: 0
     },
-    orderTimestamp: {
+    placedTimestamp: {
         type: Date,
         default: Date.now
     },
     fulfilledTimestamp: {
+        type: Date,
+        default: undefined
+    },
+    completedTimestamp: {
         type: Date,
         default: undefined
     },

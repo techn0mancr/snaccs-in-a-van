@@ -8,6 +8,7 @@ const orderRouter: Router = Router();
 import * as controller from "../controllers/orderController";
 
 /* Handle order routes */
+orderRouter.get("/:orderId", controller.getOrderDetails);
 orderRouter.get("/:orderId/fulfill", controller.fulfillOrder);
 
 /* Export the router */

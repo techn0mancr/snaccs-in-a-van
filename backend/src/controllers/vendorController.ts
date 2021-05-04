@@ -22,7 +22,6 @@ async function getOutstandingOrders(req: Request & {params: {vendorId: string}},
             {
                 model: "Item",
                 path: "items.itemId",
-                select: "name price mimetype"
             }
         ).select("customerId status items total isChanged orderTimestamp fulfilledTimestamp isChanged");
 
