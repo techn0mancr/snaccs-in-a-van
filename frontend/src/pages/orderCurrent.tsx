@@ -16,7 +16,7 @@ function orderCurrent() {
 
     const content = (
         <div className="content">
-            <Link to={'/cart/checkout'}>
+            <Link to={'/cart/orderstatus'}>
                 <button className="order" type="submit" value="order">
                     <img alt="right arrow" className="right" src={rightArrow} />
                     <h2>Tasty Trailer</h2>

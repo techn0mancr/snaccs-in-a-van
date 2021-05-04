@@ -6,6 +6,7 @@ function signup() {
     const header = (
         <div className="titleProfile">
             <h1>Sign In</h1>
+            <br />
             <h2>Already have an account? </h2>
             <Link to={"/profile/login"}>
             <button className="signup" type="submit" value="signup"><h2>Log in here</h2></button>
