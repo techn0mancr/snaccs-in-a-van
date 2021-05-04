@@ -1,5 +1,6 @@
 /* Import the required libraries and types */
 import connectMongoDBSession from "connect-mongodb-session"
+import cors from "cors";
 import express from "express";
 import { Router } from "express";
 import session from "express-session";
@@ -37,6 +38,9 @@ app.use(session({
         secure: false
     }
 }));
+
+/* Enable CORS */
+app.use(cors());
 
 /* Register routes */
 import routes from "./routes";
