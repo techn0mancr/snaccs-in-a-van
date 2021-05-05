@@ -58,36 +58,36 @@ class ListActiveOrder extends React.Component {
         orders: []
     }
     
-    getActiveOrders() {
-        const BASE_URL = "http://localhost:48080/api";
-        const endpoint = `${BASE_URL}/customer/orders/active`;
-        return axios.get(endpoint) 
-            .then((response) => {
-                response.data.map((order: { status: String; items: any; total: Number; isChanged: Boolean; vendorId: any; placedTimestamp: Date; }) => ({
-                status: `${order.status}`,
-                items: `${order.items}`,
-                total: `${order.total}`,
-                isChanged: `${order.isChanged}`,
-                vendorId: `${order.vendorId}`,
-                placedTimestamp: `${order.placedTimestamp}`
-                }))
-                console.log(response); 
-            }, (error) => {
-                console.log(error);
-            });
-    }
-
     // getActiveOrders() {
     //     const BASE_URL = "http://localhost:48080/api";
     //     const endpoint = `${BASE_URL}/customer/orders/active`;
     //     return axios.get(endpoint) 
-    //     .then((response) => {
-    //         this.setState({ response });
-    //         console.log(response); 
-    //     }, (error) => {
-    //         console.log(error);
-    //     });
+    //         .then((response) => {
+    //             response.data.map((order: { status: String; items: any; total: Number; isChanged: Boolean; vendorId: any; placedTimestamp: Date; }) => ({
+    //             status: `${order.status}`,
+    //             items: `${order.items}`,
+    //             total: `${order.total}`,
+    //             isChanged: `${order.isChanged}`,
+    //             vendorId: `${order.vendorId}`,
+    //             placedTimestamp: `${order.placedTimestamp}`
+    //             }))
+    //             console.log(response); 
+    //         }, (error) => {
+    //             console.log(error);
+    //         });
     // }
+
+    getActiveOrders() {
+        const BASE_URL = "http://localhost:48080/api";
+        const endpoint = `${BASE_URL}/customer/orders/active`;
+        return axios.get(endpoint) 
+        .then((response) => {
+            this.setState({ response });
+            console.log(response); 
+        }, (error) => {
+            console.log(error);
+        });
+    }
 
     componentDidMount() {
         this.getActiveOrders();
@@ -101,8 +101,10 @@ class ListActiveOrder extends React.Component {
     // }
 
     render() {
-        // const { orders } = this.state;
+        
+        const { orders } = this.state;
         // const orderComponents = orders.map(order: { status: String, items: String, total: Number, isChanged: Boolean, vendorId: String, placedTimestamp: Date } => <status={order.status} items={order.items} total={order.total} isChanged={order.isChanged} vendorId={order.vendorId} placedTimestamp={order.placedTimestamp} />);
+        const orderComponents = orders.map((order: { status: String; items: any; total: Number; isChanged: Boolean; vendorId: any; placedTimestamp: Date; }) => <li>status={order.status} items={order.items} total={order.total} isChanged={order.isChanged} vendorId={order.vendorId} placedTimestamp={order.placedTimestamp}</li>);
         return (
             <div className="content">
                 {this.state.orders.map(order => (  
