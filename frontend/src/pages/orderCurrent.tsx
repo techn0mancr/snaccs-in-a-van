@@ -50,14 +50,17 @@ class ListActiveOrder extends React.Component {
             return (
                 <div className="content">
                     { orderList.length ?
-                        orderList.map((order, i) => (    
-                            <button className="order" type="submit" value="order">
-                                <img alt="right arrow" className="right" src={rightArrow} />
-                                <h2>{order.vendorId}</h2>
-                                <p id="ready">{order.status}</p>
-                                <p className="date">{order.placedTimestamp}</p>
-                            </button>
-                    ))
+                        orderList.map((order, i) => (   
+                            <div key={i}>
+                                <button className="order" type="submit" value="order">
+                                    <img alt="right arrow" className="right" src={rightArrow} />
+                                    <h2>{order.vendorId}</h2>
+                                    <p id="ready">{order.status}</p>
+                                    <p className="date">{order.placedTimestamp}</p>
+                                </button>
+                            </div> 
+                            
+                        ))
                     :
                     (<h2>No Order Present</h2>)
                     }
