@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vue from 'vue';
+
+import history from './history';
 
 // import components
 import Nav from "./components/nav";
@@ -25,7 +28,7 @@ function App() {
 
   return (
     <div>
-      <Router>
+      <Router history={history}>
         <Nav />
         <Switch>
 
@@ -39,8 +42,7 @@ function App() {
           <Route exact path="/cart/checkout" component={Checkout} />
         </Switch>
         
-      </Router>
-      
+      </Router>  
     </div>
   );
 }

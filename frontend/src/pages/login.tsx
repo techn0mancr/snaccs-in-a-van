@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './profile.css';
 import { Link } from 'react-router-dom'
+import history from '../history';
 import axios from 'axios';
 
 class Login extends React.Component {
+    
     state = {
         email: "",
         password: "",
@@ -20,6 +22,7 @@ class Login extends React.Component {
 
         axios.post(`http://localhost:48080/api/customer/login`, { email, password })
             .then((response) => {
+                history.push('/profile/proof');
                 console.log(response);
             }, (error) => {
                 console.log(error);
@@ -52,9 +55,9 @@ class Login extends React.Component {
                     <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required /><br/><br/>
                     
                         <button className="login" type="submit">
-                            <Link to={"/profile/proof"}>
+                            {/* <Link to={"/profile/proof"}> */}
                                 <h2 className="click">Log in</h2>
-                            </Link>
+                            {/* </Link> */}
                         </button>
                     
                 </form>
