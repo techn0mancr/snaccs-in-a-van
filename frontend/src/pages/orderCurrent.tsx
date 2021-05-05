@@ -58,6 +58,8 @@ class ListActiveOrder extends React.Component {
         orders: []
     }
 
+    // const orders: [];
+
     
     // getActiveOrders() {
     //     const BASE_URL = "http://localhost:48080/api";
@@ -83,7 +85,20 @@ class ListActiveOrder extends React.Component {
         const endpoint = `${BASE_URL}/customer/orders/active`;
         return axios.get(endpoint) 
         .then((response) => {
-            this.setState({orders: response.data});
+            // this.setState({orders: response.data});
+            this.setState({ orders: Object.values(response.data)});
+            {this.state.orders.map(([status, items, total, isChanged, _ids, vendorId, placedTimestamp]) => {
+                return (
+                    <tr>
+                        <td> { status } </td>
+                        <td> { items } </td>
+                        <td> { total } </td>
+                        <td> { isChanged } </td>
+                        <td> { _ids } </td>
+                        <td> { vendorId } </td>
+                        <td> { placedTimestamp } </td>
+                   </tr>
+            )})}
             console.log(response);  
         }, (error) => {
             console.log(error);
@@ -108,7 +123,7 @@ class ListActiveOrder extends React.Component {
     //         const statuses = response.data.map((order: { status: String; }) => order.status);
     //         const itemses = response.data.map((order: { items: any; }) => order.items);
     //         const totals = response.data.map((order: { total: Number; }) => order.total);
-    //         const isChangeds = response.data.map((order: { isChanged: Boolean; }) => order.isChanged);
+            // const isChangeds = response.data.map((order: { isChanged: Boolean; }) => order.isChanged);
     //         const _ids = response.data.map((order: { _id: String; }) => order._id);
     //         const vendorIds = response.data.map((order: { vendorId: String; }) => order.vendorId);
     //         const placedTimestamps = response.data.map((order: { placedTimestamp: Date; }) => order.placedTimestamp);
@@ -130,23 +145,39 @@ class ListActiveOrder extends React.Component {
 
     render() {
         
-        const { orders } = this.state;
+        // const { orders } = this.state;
         // const orderComponents = orders.map(order: { status: String, items: String, total: Number, isChanged: Boolean, vendorId: String, placedTimestamp: Date } => <status={order.status} items={order.items} total={order.total} isChanged={order.isChanged} vendorId={order.vendorId} placedTimestamp={order.placedTimestamp} />);
+        // const orderComponents = this.state.orders.map((order: { status: String; items: any; total: Number; isChanged: Boolean; vendorId: any; placedTimestamp: Date; }) => <li>status={order.status} items={order.items} total={order.total} isChanged={order.isChanged} vendorId={order.vendorId} placedTimestamp={order.placedTimestamp}</li>);
         // const orderComponents = orders.map((order: { status: String; items: any; total: Number; isChanged: Boolean; vendorId: any; placedTimestamp: Date; }) => <li>status={order.status} items={order.items} total={order.total} isChanged={order.isChanged} vendorId={order.vendorId} placedTimestamp={order.placedTimestamp}</li>);
         return (
+            // console.log(orderComponents),
+            // console.log(orders),
             <div className="content">
-                { orders.length ?
-                    orders.map((order, i) => (     
-                        <button className="order" type="submit" value="order">
-                            <img alt="right arrow" className="right" src={rightArrow} />
-                            <h2>hello</h2>
-                            <p id="ready">Ready for pick up</p>
-                            <p className="date">29 April 2021 3.30 PM</p>
-                        </button>
+                <button className="order" type="submit" value="order">
+                    <img alt="right arrow" className="right" src={rightArrow} />
+                    <h2>hello</h2>
+                    {/* <h2>{orders.0.status}</h2> */}
+                    <p id="ready">Ready for pick up</p>
+                    <p className="date">29 April 2021 3.30 PM</p>
+                </button>
+
+                {/* { orders.length ?
+                
+                orders.map((order, i)=> (    
+                        console.log(order),
+                        // <div key={i}> 
+                            <button className="order" type="submit" value="order">
+                                <img alt="right arrow" className="right" src={rightArrow} />
+                                <h2>hello</h2>
+                                <h2>{order.status}</h2>
+                                <p id="ready">Ready for pick up</p>
+                                <p className="date">29 April 2021 3.30 PM</p>
+                            </button>
+                        // </div>
                     ))
                     :
                     (<h2>No Order Present</h2>)
-                    }
+                    } */}
             </div>
         )
     }
