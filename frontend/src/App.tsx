@@ -15,8 +15,7 @@ import OrderCurrent from "./pages/orderCurrent";
 import OrderPast from "./pages/orderPast";
 import Checkout from "./pages/checkout";
 import OrderStatus from "./pages/orderStatus";
-// import Login from "./pages/customerLogin";
-import Login from "./pages/login";
+import CustomerLogin from "./pages/customerLogin";
 import Signup from "./pages/signup";
 import Profile from "./pages/profile";
 
@@ -33,12 +32,12 @@ function App() {
         <Switch>
 
           <Route exact path="/" />
-          <Route exact path="/profile/login" component={Login} />
+          <Route exact path="/customer/login" component={CustomerLogin} />
           <Route exact path="/customer/register" component={Signup} />
-          <Route exact path="/profile/proof" component={Profile} />
-          <Route exact path="/cart/orderstatus" component={OrderStatus} />
-          <Route exact path="/cart" component={OrderCurrent} />
-          <Route exact path="/cart/past" component={OrderPast} />
+          <Route exact path="/customer/profile" component={Profile} />
+          <Route exact path="/cart/order" component={OrderStatus} />
+          <Route exact path="/cart/order/active" component={OrderCurrent} />
+          <Route exact path="/cart/order/past" component={OrderPast} />
           <Route exact path="/cart/checkout" component={Checkout} />
         </Switch>
         

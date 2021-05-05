@@ -14,11 +14,11 @@ export default function Nav() {
                 <img className="nav" src={Home} alt="Home"/>
             </NavLink>
 
-            <NavLink className="contentNav" to="/cart">
+            <NavLink className="contentNav" to="/cart/order/active">
                 <img className="nav" src={Cart} alt="Cart"/>
             </NavLink>
 
-            <NavLink className="contentNav" to="/profile/login">
+            <NavLink className="contentNav" to="/customer/login">
                 <img className="nav" src={Profile} alt="Profile"/>
             </NavLink>
         </nav>

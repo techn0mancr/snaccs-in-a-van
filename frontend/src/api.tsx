@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import history from './history';
 
 const BASE_URL = "http://localhost:48080/api";
 // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
@@ -34,12 +35,14 @@ function getPastOrders() {
     return axios.get(endpoint);
 }
 
-function customerLogin(email: String, password: String) {
+export function customerLogin(email: String, password: String) {
     const endpoint = `${BASE_URL}/customer/login`;
     return axios.post(endpoint, { email, password })
             .then((response) => {
+                history.push('/customer/profile');
                 console.log(response);
             }, (error) => {
+                alert("Please enter a valid email & password")
                 console.log(error);
         });
 }
@@ -55,7 +58,7 @@ function customerProfile() {
 }
 
 function customerRegister( email: String, givenName: String, familyName: String, password: String ) {
-    const endpoint = `${BASE_URL}/customer/login`;
+    const endpoint = `${BASE_URL}/customer/register`;
     return axios.post(endpoint, { email, givenName, familyName, password })
             .then((response) => {
                 console.log(response);
