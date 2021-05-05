@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import "./App.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 // import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Router, Route, Link, Switch } from 'react-router-dom';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
-import Vue from 'vue';
+import { Router, Route, Link, Switch } from "react-router-dom";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import Vue from "vue";
 
-import history from './history';
+import history from "./history";
 
 // import components
 import Nav from "./components/nav";
@@ -18,31 +18,36 @@ import OrderStatus from "./pages/orderStatus";
 import CustomerLogin from "./pages/customerLogin";
 import Signup from "./pages/signup";
 import Profile from "./pages/profile";
-
+import ItemCounter from "./components/itemCounter";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'https://localhost:3000';
+axios.defaults.baseURL = "https://localhost:3000";
 Vue.use(VueAxios, axios);
 
 function App() {
-
   return (
     <div>
       <Router history={history}>
+        <li>
+          <Link to="/test">TEST</Link>
+        </li>
         <Nav />
         <Switch>
-
           <Route exact path="/" />
           <Route exact path="/customer/login" component={CustomerLogin} />
           <Route exact path="/customer/register" component={Signup} />
           <Route exact path="/customer/profile" component={Profile} />
-          <Route exact path="/cart/order/active/status" component={OrderStatus} />
+          <Route
+            exact
+            path="/cart/order/active/status"
+            component={OrderStatus}
+          />
           <Route exact path="/cart/order/active" component={OrderCurrent} />
           <Route exact path="/cart/order/past" component={OrderPast} />
           <Route exact path="/cart/checkout" component={Checkout} />
+          <Route exact path="/test" component={ItemCounter} />
         </Switch>
-        
-      </Router>  
+      </Router>
     </div>
   );
 }
