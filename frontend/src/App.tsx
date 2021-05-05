@@ -21,6 +21,7 @@ import Profile from "./pages/profile";
 
 
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'https://localhost:3000';
 Vue.use(VueAxios, axios);
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
           <Route exact path="/customer/login" component={CustomerLogin} />
           <Route exact path="/customer/register" component={Signup} />
           <Route exact path="/customer/profile" component={Profile} />
-          <Route exact path="/cart/order" component={OrderStatus} />
+          <Route exact path="/cart/order/active/status" component={OrderStatus} />
           <Route exact path="/cart/order/active" component={OrderCurrent} />
           <Route exact path="/cart/order/past" component={OrderPast} />
           <Route exact path="/cart/checkout" component={Checkout} />

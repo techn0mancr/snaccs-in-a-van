@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import './nav.css';
+import history from '../history';
 
 import Home from "../img/navBar/home.png";
 import Cart from "../img/navBar/cart.png";

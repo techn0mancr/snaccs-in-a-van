@@ -25,10 +25,22 @@ function emptyCart() {
     return axios.get(endpoint);
 }
 
-function getActiveOrders() {
-    const endpoint = `${BASE_URL}/customer/order/active`;
-    return axios.get(endpoint);
-}
+// export function getActiveOrders() {
+//     const endpoint = `${BASE_URL}/customer/order/active`;
+//     return axios.get(endpoint) 
+//         .then(response =>
+//             response.data.results.map(order => ({
+//             status: `${order.status}`,
+//             items: `${order.items}`,
+//             total: `${order.total}`,
+//             isChanged: `${order.isChanged}`,
+//             vendorId: `${order.vendorId}`,
+//             placedTimestamp: `${order.placedTimestamp}`
+//             })), 
+//         (error) => {
+//             console.log(error);
+//         });
+// }
 
 function getPastOrders() {
     const endpoint = `${BASE_URL}/customer/order/past`;
