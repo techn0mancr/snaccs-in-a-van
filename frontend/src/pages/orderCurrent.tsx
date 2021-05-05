@@ -7,6 +7,40 @@ import axios from 'axios';
 import _map from 'lodash/map'
 import { useState, useEffect } from 'react';
 
+// function orderCurrent() {
+//     const header = (
+//         <div className="title">
+//             <br /><br />
+//             <h1>Current Orders</h1>
+//             <Link to={'/cart/order/past'}>
+//                 <button className="past" type="submit" value="past">View past orders</button>
+//             </Link>
+//             <br />
+//         </div>
+//     )
+
+//     const content = (
+        // <div className="content">
+        //     <Link to={'/cart/order/active/status'}>
+        //         <button className="order" type="submit" value="order">
+        //             <img alt="right arrow" className="right" src={rightArrow} />
+        //             <h2>Tasty Trailer</h2>
+        //             <p id="ready">Ready for pick up</p>
+        //             <p className="date">29 April 2021 3.30 PM</p>
+        //         </button>
+        //     </Link>
+        // </div>
+//     )
+
+//     return (
+//         <div>
+//             {header}
+//             {content}
+//         </div>
+//     )
+// }
+// type Order = { status: String; items: any; total: Number; isChanged: Boolean; vendorId: any; placedTimestamp: Date; }
+
 class Header extends React.Component {
     render() {
         return (
@@ -62,6 +96,12 @@ class ListActiveOrder extends React.Component {
     render() {
         const { error, isLoaded, orderList } = this.state;
             return (
+            //   <div className="col">
+            //      <h1>Mi Casa</h1>
+            //      <p>This is my house y'all!</p>
+            //      {orderList.map(order => <div>{order.status}</div>)}
+            //    </div>
+            // );
             <div className="content">
                 { orderList.length ?
 
