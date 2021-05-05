@@ -24,7 +24,12 @@ class Login extends React.Component {
             }, (error) => {
                 console.log(error);
         });
-        }
+
+        // axios.get(`http://localhost:48080/api/customer/profile`)
+        // .then(resp => {
+        //     console.log(resp.data);
+        // });
+    }
 
         
         
