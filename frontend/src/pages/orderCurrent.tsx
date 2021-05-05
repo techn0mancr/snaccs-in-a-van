@@ -78,43 +78,48 @@ class ListActiveOrder extends React.Component {
     //         });
     // }
 
-    // getActiveOrders() {
+    getActiveOrders() {
+        const BASE_URL = "http://localhost:48080/api";
+        const endpoint = `${BASE_URL}/customer/orders/active`;
+        return axios.get(endpoint) 
+        .then((response) => {
+            this.setState({orders: response.data});
+            console.log(response);  
+        }, (error) => {
+            console.log(error);
+        },);
+        // .then(data => {
+        //     console.log(data);
+        //     this.setState({orders:data});
+        // });
+    }
+
+    async componentDidMount() {
+        // const result = this.getActiveOrders()
+        // this.setState(this.getActiveOrders());
+        this.getActiveOrders();
+    }
+
+    // componentDidMount() {
     //     const BASE_URL = "http://localhost:48080/api";
     //     const endpoint = `${BASE_URL}/customer/orders/active`;
-    //     return axios.get(endpoint) 
+    //     axios.get(endpoint) 
     //     .then((response) => {
-    //         this.setState(response.data);
-    //         console.log(response); 
+    //         const statuses = response.data.map((order: { status: String; }) => order.status);
+    //         const itemses = response.data.map((order: { items: any; }) => order.items);
+    //         const totals = response.data.map((order: { total: Number; }) => order.total);
+    //         const isChangeds = response.data.map((order: { isChanged: Boolean; }) => order.isChanged);
+    //         const _ids = response.data.map((order: { _id: String; }) => order._id);
+    //         const vendorIds = response.data.map((order: { vendorId: String; }) => order.vendorId);
+    //         const placedTimestamps = response.data.map((order: { placedTimestamp: Date; }) => order.placedTimestamp);
+    //         console.log(response);
+    //         this.setState({
+    //             orders: response.data
+    //           }); 
     //     }, (error) => {
     //         console.log(error);
     //     });
     // }
-
-    // async componentDidMount() {
-    //     // const result = this.getActiveOrders()
-    //     this.setState(this.getActiveOrders());
-    // }
-
-    componentDidMount() {
-        const BASE_URL = "http://localhost:48080/api";
-        const endpoint = `${BASE_URL}/customer/orders/active`;
-        axios.get(endpoint) 
-        .then((response) => {
-            const statuses = response.data.map((order: { status: String; }) => order.status);
-            const itemses = response.data.map((order: { items: any; }) => order.items);
-            const totals = response.data.map((order: { total: Number; }) => order.total);
-            const isChangeds = response.data.map((order: { isChanged: Boolean; }) => order.isChanged);
-            const _ids = response.data.map((order: { _id: String; }) => order._id);
-            const vendorIds = response.data.map((order: { vendorId: String; }) => order.vendorId);
-            const placedTimestamps = response.data.map((order: { placedTimestamp: Date; }) => order.placedTimestamp);
-            console.log(response);
-            this.setState({
-                orders: response.data
-              }); 
-        }, (error) => {
-            console.log(error);
-        });
-    }
 
     // orders  = this.setState({ users: data })getActiveOrders();
     // if (error) {
@@ -131,10 +136,10 @@ class ListActiveOrder extends React.Component {
         return (
             <div className="content">
                 { orders.length ?
-                    orders.map(order => (  
+                    orders.map((order, i) => (     
                         <button className="order" type="submit" value="order">
                             <img alt="right arrow" className="right" src={rightArrow} />
-                            <h2>hi</h2>
+                            <h2>hello</h2>
                             <p id="ready">Ready for pick up</p>
                             <p className="date">29 April 2021 3.30 PM</p>
                         </button>
