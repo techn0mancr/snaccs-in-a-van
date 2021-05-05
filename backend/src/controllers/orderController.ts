@@ -47,7 +47,20 @@ async function getOrderDetails(req: Request & {
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
         
         /* Query the database */
-        const order = await Order.findById(castedOrderId);
+        const order = await Order.findById(castedOrderId)
+                                 .populate(
+                                     {
+                                         model: "Customer",
+                                         path: "customerId",
+                                         select: "email givenName familyName"
+                                     }
+                                 ).populate(
+                                    {
+                                         model: "Vendor",
+                                         path: "vendorId",
+                                         select: "name locationDescription geolocation"
+                                    }
+                                 );
 
         /* Send the query results */
         if (order)
