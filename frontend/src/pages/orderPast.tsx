@@ -2,7 +2,6 @@ import React from "react";
 import './order.css';
 import leftArrow from "../img/leftArrow.png"
 import rightArrow from "../img/rightArrow.png"
-import { Link } from 'react-router-dom'
 import axios from "axios";
 import history from '../history';
 import moment from 'moment';

@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Router, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
