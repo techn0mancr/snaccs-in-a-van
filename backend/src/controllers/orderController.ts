@@ -60,6 +60,12 @@ async function getOrderDetails(req: Request & {
                                          path: "vendorId",
                                          select: "name locationDescription geolocation"
                                     }
+                                 ).populate(
+                                    {
+                                        model: "Item",
+                                        path: "items.itemId",
+                                        select: "name price"
+                                    }
                                  );
 
         /* Send the query results */
