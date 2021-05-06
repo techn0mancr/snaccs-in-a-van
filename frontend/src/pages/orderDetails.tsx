@@ -1,15 +1,10 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import './order.css';
 import leftArrow from '../img/leftArrow.png';
-import penEdit from '../img/penEdit.png';
 import history from '../history';
-import UseQueryParam from "../hooks/useQueryParam";
-// import {getOrderDetails} from '../api';
 import axios from 'axios';
-import { Details } from "@material-ui/icons";
-// import { QueryClient, QueryClientProvider } from "react-query";
-// import { RouteComponentProps } from '@reach/router';
-// import queryString from 'query-string';
+import moment from 'moment';
+moment().format();
 
 class Header extends React.Component {
     render() {
@@ -30,10 +25,6 @@ function getorderId(){
     const orderId = query.replace('?id=','')
     return orderId;
 } 
-
-function getProperty<T, K extends keyof T>(obj: T, key: K) {
-    return obj[key]; 
-  }
 
 class Invoice extends React.Component {
     state = {
@@ -75,7 +66,7 @@ class Invoice extends React.Component {
                 <div className="title">
                     <h2 className="invoice">INVOICE: {details._id}</h2>
                     <br />
-                    <h2 className="invoice">{details.placedTimestamp}</h2>
+                    <h2 className="invoice">{moment(details.placedTimestamp).format('D MMM YYYY h.mm A')}</h2>
                 </div>
             )
         }
