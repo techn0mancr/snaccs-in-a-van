@@ -6,6 +6,7 @@ import history from '../history';
 import UseQueryParam from "../hooks/useQueryParam";
 // import {getOrderDetails} from '../api';
 import axios from 'axios';
+import { Details } from "@material-ui/icons";
 // import { QueryClient, QueryClientProvider } from "react-query";
 // import { RouteComponentProps } from '@reach/router';
 // import queryString from 'query-string';
@@ -50,8 +51,7 @@ class Invoice extends React.Component {
         .then((response) => {
             var data = response.data
             this.setState({isLoaded: true, details: data});
-            // console.log(response);
-            console.log(this.state.details);  
+            console.log(response); 
             return data;
         }, (error) => {
             this.setState({isLoaded: true, error});
@@ -60,16 +60,12 @@ class Invoice extends React.Component {
     }
 
     componentDidMount() {
-        const details = this.getOrderDetails(this.orderId);
+        this.getOrderDetails(this.orderId);
     }
 
     render() {
         const { error, isLoaded, details } = this.state;
-        const status = getProperty(details, "status");
-        // const getUserName = getKeyValue<keyof object, object>("status")(details);
-        // const data = JSON.parse(details);
-        console.log(details);
-        console.log(typeof(details));
+
         if (error == true) {
             return (
                 <h2>fail</h2>
@@ -77,61 +73,124 @@ class Invoice extends React.Component {
         } else {
             return (
                 <div className="title">
-                    <h2 className="invoice">INVOICE: #A0001</h2>
-                    <h2 className="invoice">29 April 2021 3.25 PM</h2>
-                    <h2>{Object.keys(details)}</h2>
-                    <h2>{details["placedTimestamp"]}</h2>
+                    <h2 className="invoice">INVOICE: {details._id}</h2>
+                    <br />
+                    <h2 className="invoice">{details.placedTimestamp}</h2>
                 </div>
             )
         }
     }
 }
 
-class Location extends React.Component {
-    render() {
-        return (
-            <div className="containerCheckout" id="loc">
-                <h2 className="pickup">Pick up location</h2>
-                <p className="address">757 Swanston St, ParkVille VIC 3010</p>
-                <p className="desc">next to Stop 1</p>
-            </div>
-        )
+class Information extends React.Component {
+    state = {
+        error: null,
+        isLoaded: false,
+        details: [] as  any,
+        items: [] as any[],
+        vendorId: [] as any,
     }
-}
 
-class Cart extends React.Component {
+    orderId = getorderId() || '';
+
+    async getOrderDetails( orderId: String ) {
+        const BASE_URL = "http://localhost:48080/api";
+        const endpoint = `${BASE_URL}/order/${orderId}`;
+        return await axios.get(endpoint)
+        .then((response) => {
+            var data = response.data
+            this.setState({isLoaded: true, details: data, vendorId: data.vendorId, items: data.items});
+            console.log(response); 
+            return data;
+        }, (error) => {
+            this.setState({isLoaded: true, error});
+            console.log(error);
+        },);
+    }
+
+    componentDidMount() {
+        this.getOrderDetails(this.orderId);
+    }
+
     render() {
+        const { error, isLoaded, details, vendorId, items } = this.state;
+
+        if (error == true) {
+            return (
+                <h2>fail</h2>
+            )
+        } else {
         return (
-            <div className="containerCheckout" id="cart">
-                <h2>Your Cart</h2>
-        
-                <div className="cart">
-                    <div className="item">
-                        <h3>1x Cappuccino</h3>
-                    </div>
-                    
-                    <p className="price">$8.00</p>
+            <div>
+                <div className="containerCheckout" id="loc">
+                    <h2 className="pickup">Pick up location</h2>
+                    <p className="address">{vendorId.name}</p>
+                    <p className="desc">{vendorId.locationDescription}</p>
                 </div>
-            </div>
-        )
+               
+                <div className="containerCheckout" id="cart">
+                    <h2>Your Cart</h2>
+                    { items.map((item, i) => (
+                        <div key={i}>
+                            <div className="cart">
+                                <div className="item">
+                                    <h3>{item.quantity}x {item.itemId}</h3>
+                                </div>
+                        
+                                <p className="price">$9.00</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div> 
+        )}
     }
 }
 
 class Payment extends React.Component {
+    state = {
+        error: null,
+        isLoaded: false,
+        details: [] as  any,
+    }
+
+    orderId = getorderId() || '';
+
+    async getOrderDetails( orderId: String ) {
+        const BASE_URL = "http://localhost:48080/api";
+        const endpoint = `${BASE_URL}/order/${orderId}`;
+        return await axios.get(endpoint)
+        .then((response) => {
+            var data = response.data
+            this.setState({isLoaded: true, details: data});
+            console.log(response); 
+            return data;
+        }, (error) => {
+            this.setState({isLoaded: true, error});
+            console.log(error);
+        },);
+    }
+
+    componentDidMount() {
+        this.getOrderDetails(this.orderId);
+    }
+    
     render() {
+        const { error, isLoaded, details } = this.state;
+
         return (
             <div className="containerCheckout" id="payment">
                 <h2>Payment</h2>
         
                 <div className="amount">
                     <h3 className="payment">Total amount</h3>
-                    <h3 className="value">$8.00</h3>
+                    <h3 className="value">${details.total}</h3>
                 </div>
                 <br></br><br></br><br></br>
                 
                 <div className="amountPaid">
                     <h3 className="payment">Amount to be paid</h3>
-                    <h3 className="value">$8.00</h3>
+                    <h3 className="value">${details.total}</h3>
                 </div>
             </div>
         )
@@ -144,8 +203,7 @@ class OrderDetails extends React.Component {
             <div>
                 <Header />
                 <Invoice />
-                <Location />
-                <Cart />
+                <Information />
                 <Payment />
             </div>
         )
@@ -153,8 +211,3 @@ class OrderDetails extends React.Component {
 }
 
 export default OrderDetails;
-
-// function details(details: any) {
-//     throw new Error("Function not implemented.");
-// }
-// export default getorderId;
