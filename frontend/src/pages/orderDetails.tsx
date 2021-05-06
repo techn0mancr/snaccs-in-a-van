@@ -25,8 +25,9 @@ class Header extends React.Component {
 }
 
 function getorderId(){
-    const query = UseQueryParam("id", "order");
-    const orderId = query.get('id')
+    const query = history.location.search
+    // UseQueryParam("id", "order");
+    const orderId = query.replace('?id=','')
     // return orderId;
     return <h2>{orderId}</h2>;
 } 
