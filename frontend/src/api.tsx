@@ -47,12 +47,12 @@ function emptyCart() {
 //     return axios.get(endpoint);
 // }
 
-export async function getPastOrders() {
-    const BASE_URL = "http://localhost:48080/api";
-    const endpoint = `${BASE_URL}/customer/orders/past`;
-    const res = axios.get(endpoint);
-    return res;
-}
+// export async function getPastOrders() {
+//     const BASE_URL = "http://localhost:48080/api";
+//     const endpoint = `${BASE_URL}/customer/orders/past`;
+//     const res = axios.get(endpoint);
+//     return res;
+// }
 
 export function customerLogin(email: String, password: String) {
     const endpoint = `${BASE_URL}/customer/login`;
