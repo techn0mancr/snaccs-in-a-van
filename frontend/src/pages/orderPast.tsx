@@ -5,6 +5,7 @@ import rightArrow from "../img/rightArrow.png"
 import { Link } from 'react-router-dom'
 import axios from "axios";
 import history from '../history';
+// import { getPastOrders } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -39,9 +40,24 @@ class ListPastOrder extends React.Component {
         },);
     }
 
+    // pastOrders() {
+    //     const queryResult = getPastOrders();
+    //     console.log(queryResult);
+    //     if (queryResult) {
+    //         this.setState({isLoaded: true, orderList: queryResult.data.args});
+    //     } else {
+    //         this.setState({isLoaded: true, error: true});
+    //     }
+    // }
+    
+
     componentDidMount() {
         this.getPastOrders();
     }
+
+    // componentDidMount() {
+    //     this.pastOrders();
+    // }
 
     render() {
         const { error, isLoaded, orderList } = this.state;
