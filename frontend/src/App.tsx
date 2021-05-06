@@ -39,7 +39,7 @@ function App() {
           <Route exact path="/cart/order/active/status" component={OrderStatus} />
           <Route exact path="/cart/order/active" component={OrderCurrent} />
           <Route exact path="/cart/order/past" component={OrderPast} />
-          <Route exact path="/cart/checkout" component={Checkout} />
+          <Route exact path="/order/checkout" component={Checkout} />
         </Switch>
         
       </Router>  

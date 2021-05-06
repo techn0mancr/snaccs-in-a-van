@@ -11,9 +11,7 @@ class Header extends React.Component {
             <div className="title">
                 <br /><br />
                 <h1>Current Orders</h1>
-                <Link to={'/cart/order/past'}>
-                    <button className="past" type="submit" value="past">View past orders</button>
-                </Link>
+                <button className="past" type="submit" value="past" onClick={()=> history.push(`/cart/order/past`)}>View past orders</button>
                 <br />
             </div>
         )
@@ -47,25 +45,31 @@ class ListActiveOrder extends React.Component {
 
     render() {
         const { error, isLoaded, orderList } = this.state;
+
+        if (error == true) {
+            return (
+                <h2>No Order Present</h2>
+            )
+        } else if (isLoaded == false) {
+            return (
+                <h2>Loading...</h2>
+            )
+        } else {
             return (
                 <div className="content">
-                    { orderList.length ?
-                        orderList.map((order, i) => (   
+                    { orderList.map((order, i) => (   
                             <div key={i}>
                                 <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/${order._id}`)}>
                                     <img alt="right arrow" className="right" src={rightArrow} />
-                                    <h2>{order.vendorId}</h2>
+                                    <h2>{order.vendorId.name}</h2>
                                     <p id="ready">{order.status}</p>
                                     <p className="date">{order.placedTimestamp}</p>
                                 </button>
                             </div> 
-                            
-                        ))
-                    :
-                    (<h2>No Order Present</h2>)
-                    }
+                        ))}
                 </div>
-            );
+            )
+        }
     }
 
 }
