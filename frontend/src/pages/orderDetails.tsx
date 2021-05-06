@@ -30,11 +30,15 @@ function getorderId(){
     return orderId;
 } 
 
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key]; 
+  }
+
 class Invoice extends React.Component {
     state = {
         error: null,
         isLoaded: false,
-        details: "" as unknown as object,
+        details: [] as  any,
     }
 
     orderId = getorderId() || '';
@@ -48,6 +52,7 @@ class Invoice extends React.Component {
             this.setState({isLoaded: true, details: data});
             // console.log(response);
             console.log(this.state.details);  
+            return data;
         }, (error) => {
             this.setState({isLoaded: true, error});
             console.log(error);
@@ -55,82 +60,29 @@ class Invoice extends React.Component {
     }
 
     componentDidMount() {
-        this.getOrderDetails(this.orderId);
+        const details = this.getOrderDetails(this.orderId);
     }
+
     render() {
         const { error, isLoaded, details } = this.state;
-
-        // {
-// "status":"Completed",
-// "items":[{"itemId":"607073f83ed89dee65af788d","quantity":3}],
-// "total":13.5,
-// "isChanged":false,
-// "_id":"60780115c5c0362b60d60376",
-// "vendorId":{"_id":"60707b103ed89dee65af78a2","name":"Tasty Trailer","locationDescription":"Across Stop 1","geolocation":[-37.7999432,144.9616192,17]},
-// "customerId":{"_id":"60707a6b3ed89dee65af78a0","email":"nputro@student.unimelb.edu.au","givenName":"Nathanael","familyName":"Putro"},
-// "orderTimestamp":"6951301566670307329",
-// "isCancelled":false,
-// "fulfilledTimestamp":"2021-05-03T10:49:54.469Z",
-// "placedTimestamp":"2021-05-06T15:35:47.400Z"
-// }
-
-        var status = ""
-        var total = 0
-        var changed = ""
-        var vendor_name
-        for (const [key, value] of Object.entries(details)) {
-            if (key === "status") {
-                status = value 
-            }
-            if (key === "total") {
-                total = value
-            }
-            if (key === "isChanged") {
-                if (value===true) {
-                    changed = "Changes made"
-                }
-                changed = "No changes made"
-            }
-            if (key === "items") {
-                for ( const [subkeys, subvalues] of Object.entries(key)) {
-                    //need to make a matrix for item id to output... or change order id model
-                }
-            }
-            if (key === "vendorId") {
-                for (const [subkeys, subvalues] of Object.entries(value)) {
-                    if (subkeys === "name") {
-                        vendor_name = subvalues
-                    }
-                }
-            }
-            }
-
+        const status = getProperty(details, "status");
+        // const getUserName = getKeyValue<keyof object, object>("status")(details);
         // const data = JSON.parse(details);
+        console.log(details);
+        console.log(typeof(details));
         if (error == true) {
             return (
                 <h2>fail</h2>
             )
         } else {
-        return (
-            <div className="title">
-                <h2 className="invoice">INVOICE: #A0001</h2>
-                <h2 className="invoice">29 April 2021 3.25 PM</h2>
-                <h3>
-                    <br></br>
-                    Status = {status}
-                    <br></br>
-                    Total = {total}
-                    <br></br>
-                    Changed = {changed}
-                    <br></br>
-                    OrderID = {this.orderId}
-                    <br></br>
-                    Vendor Name = {vendor_name}
-
-                </h3>
-                {/* <h2>{details.status}</h2> */}
-            </div>
-        )
+            return (
+                <div className="title">
+                    <h2 className="invoice">INVOICE: #A0001</h2>
+                    <h2 className="invoice">29 April 2021 3.25 PM</h2>
+                    <h2>{Object.keys(details)}</h2>
+                    <h2>{details["placedTimestamp"]}</h2>
+                </div>
+            )
         }
     }
 }
@@ -202,7 +154,7 @@ class OrderDetails extends React.Component {
 
 export default OrderDetails;
 
-function details(details: any) {
-    throw new Error("Function not implemented.");
-}
+// function details(details: any) {
+//     throw new Error("Function not implemented.");
+// }
 // export default getorderId;
