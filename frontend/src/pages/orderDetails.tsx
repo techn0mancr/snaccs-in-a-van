@@ -26,22 +26,15 @@ class Header extends React.Component {
 
 function getorderId(){
     const query = history.location.search
-<<<<<<< HEAD
-=======
-    // UseQueryParam("id", "order");
->>>>>>> cbeff850b2cb9386fc3bb17d04555d83dad6781f
     const orderId = query.replace('?id=','')
-    // return orderId;
     return orderId;
 } 
-
-// type Props = { component: FunctionComponent } & RouteComponentProps;
 
 class Invoice extends React.Component {
     state = {
         error: null,
         isLoaded: false,
-        state: ""
+        details: "" as unknown as object,
     }
 
     orderId = getorderId() || '';
@@ -52,8 +45,9 @@ class Invoice extends React.Component {
         return await axios.get(endpoint)
         .then((response) => {
             var data = response.data
-            this.setState({isLoaded: true, oDetails: data});
-            console.log(response);  
+            this.setState({isLoaded: true, details: data});
+            // console.log(response);
+            console.log(this.state.details);  
         }, (error) => {
             this.setState({isLoaded: true, error});
             console.log(error);
@@ -65,14 +59,24 @@ class Invoice extends React.Component {
     }
     
     render() {
-        // const { error, isLoaded, oDetails } = this.state;
+        const { error, isLoaded, details } = this.state;
+        // const data = JSON.parse(details);
+        console.log(details);
+        console.log(typeof(details));
+        if (error == true) {
+            return (
+                <h2>fail</h2>
+            )
+        } else {
         return (
             <div className="title">
                 <h2 className="invoice">INVOICE: #A0001</h2>
                 <h2 className="invoice">29 April 2021 3.25 PM</h2>
-                {/* <h2>{oDetails}</h2> */}
+                <h2>{Object.keys(details)}</h2>
+                {/* <h2>{details.status}</h2> */}
             </div>
         )
+        }
     }
 }
 
@@ -142,4 +146,8 @@ class OrderDetails extends React.Component {
 }
 
 export default OrderDetails;
+
+function details(details: any) {
+    throw new Error("Function not implemented.");
+}
 // export default getorderId;
