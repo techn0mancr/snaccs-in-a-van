@@ -97,10 +97,10 @@ function getItemDetails( itemId: String ) {
 }
 
 /* get one order detail */
-function getOrderDetails( orderId: String ) {
-    const endpoint = `${BASE_URL}/order/${orderId}`;
-    return axios.get(endpoint);
-}
+// export async function getOrderDetails( orderId: String ) {
+//     const endpoint = `${BASE_URL}/order/${orderId}`;
+//     return await axios.get(endpoint);
+// }
 
 function fulfillOrder( orderId: String ) {
     const endpoint = `${BASE_URL}/order/${orderId}/fulfill`;

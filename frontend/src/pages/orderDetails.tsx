@@ -3,12 +3,9 @@ import './order.css';
 import leftArrow from '../img/leftArrow.png';
 import penEdit from '../img/penEdit.png';
 import history from '../history';
-import {
-    BrowserRouter as Router,
-    Link,
-    useLocation
-  } from "react-router-dom";
 import UseQueryParam from "../hooks/useQueryParam";
+// import {getOrderDetails} from '../api';
+import axios from 'axios';
 // import { QueryClient, QueryClientProvider } from "react-query";
 // import { RouteComponentProps } from '@reach/router';
 // import queryString from 'query-string';
@@ -29,7 +26,9 @@ class Header extends React.Component {
 
 function getorderId(){
     const query = UseQueryParam("id", "order");
-    return (query.get('id'))
+    const orderId = query.get('id')
+    // return orderId;
+    return <h2>{orderId}</h2>;
 } 
 
 // type Props = { component: FunctionComponent } & RouteComponentProps;
@@ -48,11 +47,16 @@ class Invoice extends React.Component {
     //     this.setState(queries)
     //   }
 
+    orderId = getorderId();
+    // orderId = new URLSearchParams(useLocation().search).get('id');
+
     render() {
         return (
             <div className="title">
                 <h2 className="invoice">INVOICE: #A0001</h2>
                 <h2 className="invoice">29 April 2021 3.25 PM</h2>
+                {/* <h2>{orderDetails.status}</h2> */}
+                <h2>{this.orderId}</h2>
             </div>
         )
     }
@@ -123,4 +127,5 @@ class OrderDetails extends React.Component {
     }
 }
 
-export default OrderDetails;
+// export default OrderDetails;
+export default getorderId;
