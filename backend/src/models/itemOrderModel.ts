@@ -6,6 +6,7 @@ import { IItem } from "./index";
 export interface IItemOrder extends Document {
     itemId: IItem["_id"];
     quantity: number;
+    subtotal: number;
 }
 
 /* Define the item order schema */
@@ -18,6 +19,11 @@ const itemOrderSchema: Schema = new Schema({
     quantity: {
         type: Number,
         min: 1,
+        required: true
+    },
+    subtotal: {
+        type: Number,
+        min: 0,
         required: true
     }
 });

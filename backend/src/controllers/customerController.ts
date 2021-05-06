@@ -32,13 +32,15 @@ async function addItemToCart(req: Request & {
             if (itemOrderIndex > -1) {
                 /* Update the existing item order */
                 ((req.session.cart)[itemOrderIndex]).quantity += req.body.quantity;
+                ((req.session.cart)[itemOrderIndex]).subtotal += existingItem.price * req.body.quantity;
             }
             else {
                 /* Create a new item order */
                 var newItemOrder: IItemOrder = new ItemOrder(
                     {
                         itemId: castedItemId,
-                        quantity: req.body.quantity
+                        quantity: req.body.quantity,
+                        subtotal: existingItem.price * req.body.quantity
                     }
                 );
                 
@@ -59,17 +61,13 @@ async function addItemToCart(req: Request & {
 
 /* Checks out the customer's current cart */
 async function checkoutCart(req: Request, res: Response): Promise<void> {
+    req.session.vendorId = "60707b103ed89dee65af78a2"; // hard code to make this route work for now; normally the customer would've selected a vendor at this point
     try {
         /* Ensures that the cart is populated */
         if (req.session.cart && (req.session.cart.length > 0)) {
             /* Calculate the cart's total */
             var cartTotal: number = 0;
-            for (var itemOrder of req.session.cart) {
-                /* Query the database for the item's price */
-                const item = await Item.findById(itemOrder.itemId);
-                if (item)
-                    cartTotal += item.price * itemOrder.quantity;
-            }
+            req.session.cart.forEach((itemOrder: IItemOrder) => cartTotal += itemOrder.subtotal);
             
             /* Insert a new order into the database */
             var newOrder: IOrder = new Order(
