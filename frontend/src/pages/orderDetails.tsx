@@ -13,7 +13,7 @@ import axios from 'axios';
 class Header extends React.Component {
     render() {
         return (
-            console.log(this.props),
+            // console.log(this.props.),
             <div className="title">
                 <br></br>
                 <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>
@@ -25,38 +25,48 @@ class Header extends React.Component {
 }
 
 function getorderId(){
-    const query = UseQueryParam("id", "order");
-    const orderId = query.get('id')
+    const query = history.location.search
+    const orderId = query.replace('?id=','')
     // return orderId;
-    return <h2>{orderId}</h2>;
+    return orderId;
 } 
 
 // type Props = { component: FunctionComponent } & RouteComponentProps;
 
 class Invoice extends React.Component {
+    state = {
+        error: null,
+        isLoaded: false,
+        state: ""
+    }
+
+    orderId = getorderId() || '';
+
+    async getOrderDetails( orderId: String ) {
+        const BASE_URL = "http://localhost:48080/api";
+        const endpoint = `${BASE_URL}/order/${orderId}`;
+        return await axios.get(endpoint)
+        .then((response) => {
+            var data = response.data
+            this.setState({isLoaded: true, oDetails: data});
+            console.log(response);  
+        }, (error) => {
+            this.setState({isLoaded: true, error});
+            console.log(error);
+        },);
+    }
+
+    componentDidMount() {
+        this.getOrderDetails(this.orderId);
+    }
     
-    // state = {
-    //     orderId: String,
-    // }
-
-    // handleQueryString = () => {
-    //     // Parsing the query string 
-    //     // Using parse method
-    //     // let queries = queryString.parse(this.props.location.search)
-    //     console.log(queries)
-    //     this.setState(queries)
-    //   }
-
-    orderId = getorderId();
-    // orderId = new URLSearchParams(useLocation().search).get('id');
-
     render() {
+        // const { error, isLoaded, oDetails } = this.state;
         return (
             <div className="title">
                 <h2 className="invoice">INVOICE: #A0001</h2>
                 <h2 className="invoice">29 April 2021 3.25 PM</h2>
-                {/* <h2>{orderDetails.status}</h2> */}
-                <h2>{this.orderId}</h2>
+                {/* <h2>{oDetails}</h2> */}
             </div>
         )
     }
@@ -127,5 +137,5 @@ class OrderDetails extends React.Component {
     }
 }
 
-// export default OrderDetails;
-export default getorderId;
+export default OrderDetails;
+// export default getorderId;
