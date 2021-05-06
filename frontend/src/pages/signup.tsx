@@ -8,7 +8,7 @@ function signup() {
             <h1>Sign In</h1>
             <br />
             <h2>Already have an account? </h2>
-            <Link to={"/profile/login"}>
+            <Link to={"/customer/login"}>
             <button className="signup" type="submit" value="signup"><h2>Log in here</h2></button>
             </Link>  
         </div>
