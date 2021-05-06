@@ -9,7 +9,6 @@ moment().format();
 class Header extends React.Component {
     render() {
         return (
-            // console.log(this.props.),
             <div className="title">
                 <br></br>
                 <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>

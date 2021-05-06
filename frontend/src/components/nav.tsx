@@ -7,11 +7,11 @@ import Home from "../img/navBar/home.png";
 import Cart from "../img/navBar/cart.png";
 import Profile from "../img/navBar/profile.png";
 
-
 export default function Nav() {
     return (
         <nav className="navBar">
-            <NavLink className="contentNav" exact to="/">
+            {/* <NavLink className="contentNav" exact to="/"> */}
+            <NavLink className="contentNav" exact to="/order/checkout">
                 <img className="nav" src={Home} alt="Home"/>
             </NavLink>
 

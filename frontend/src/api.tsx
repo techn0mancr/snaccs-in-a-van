@@ -5,6 +5,11 @@ import history from './history';
 const BASE_URL = "http://localhost:48080/api";
 // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
 
+function getCart() {
+    const endpoint = `${BASE_URL}/customer/cart`;
+    return axios.get(endpoint);
+}
+
 function addItemToCart(itemId: String) {
     const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
     return axios.post(endpoint, { itemId })
@@ -15,7 +20,7 @@ function addItemToCart(itemId: String) {
         });
 }
 
-function checkoutCart() {
+export function checkoutCart() {
     const endpoint = `${BASE_URL}/customer/cart/checkout`;
     return axios.get(endpoint);
 }
