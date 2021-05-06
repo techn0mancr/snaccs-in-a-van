@@ -1,7 +1,6 @@
 import React from "react";
 import './checkout.css';
 import leftArrow from '../img/leftArrow.png';
-import penEdit from '../img/penEdit.png';
 import history from '../history';
 import axios from 'axios';
 import { checkoutCart } from '../api';
@@ -28,7 +27,7 @@ class Information extends React.Component {
 
     async getCart() {
         const BASE_URL = "http://localhost:48080/api";
-        const endpoint = `${BASE_URL}/order/checkout`;
+        const endpoint = `${BASE_URL}/customer/cart`;
         return await axios.get(endpoint) 
         .then((response) => {
             var data = response.data

@@ -124,10 +124,10 @@ class Information extends React.Component {
                         <div key={i}>
                             <div className="cart">
                                 <div className="item">
-                                    <h3>{item.quantity}x {item.itemId}</h3>
+                                    <h3>{item.quantity}x {item.itemId.name}</h3>
                                 </div>
                         
-                                <p className="price">$9.00</p>
+                                <p className="price">${item.subtotal}</p>
                             </div>
                         </div>
                     ))}
