@@ -120,6 +120,12 @@ async function getActiveOrders(req: Request, res: Response): Promise<void> {
                 }
             ).populate(
                 {
+                    model: "Vendor",
+                    path: "vendorId",
+                    select: "name locationDescription geolocation"
+                }
+            ).populate(
+                {
                     model: "Item",
                     path: "items.itemId"
                 }
@@ -166,6 +172,12 @@ async function getPastOrders(req: Request, res: Response): Promise<void> {
                         { status: { $eq: OrderStatus.Completed } },
                         { status: { $eq: OrderStatus.Cancelled } }
                     ]
+                }
+            ).populate(
+                {
+                    model: "Vendor",
+                    path: "vendorId",
+                    select: "name locationDescription geolocation"
                 }
             ).populate(
                 {
