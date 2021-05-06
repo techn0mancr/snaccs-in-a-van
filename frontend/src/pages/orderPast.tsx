@@ -5,7 +5,8 @@ import rightArrow from "../img/rightArrow.png"
 import { Link } from 'react-router-dom'
 import axios from "axios";
 import history from '../history';
-// import { getPastOrders } from '../api';
+import moment from 'moment';
+moment().format();
 
 class Header extends React.Component {
     render() {
@@ -40,24 +41,9 @@ class ListPastOrder extends React.Component {
         },);
     }
 
-    // pastOrders() {
-    //     const queryResult = getPastOrders();
-    //     console.log(queryResult);
-    //     if (queryResult) {
-    //         this.setState({isLoaded: true, orderList: queryResult.data.args});
-    //     } else {
-    //         this.setState({isLoaded: true, error: true});
-    //     }
-    // }
-    
-
     componentDidMount() {
         this.getPastOrders();
     }
-
-    // componentDidMount() {
-    //     this.pastOrders();
-    // }
 
     render() {
         const { error, isLoaded, orderList } = this.state;
@@ -75,11 +61,11 @@ class ListPastOrder extends React.Component {
                 <div className="content">
                     { orderList.map((order, i) => (   
                         <div key={i}>
-                            <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/${order._id}`, `_id=${order._id}`)}>
+                            <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/${order._id}`)}>
                                 <img alt="right arrow" className="right" src={rightArrow} />
                                 <h2>{order.vendorId.name}</h2>
                                 <p id="ready">{order.status}</p>
-                                <p className="date">{order.placedTimestamp}</p>
+                                <p className="date">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
                             </button>
                         </div> 
                     ))}
