@@ -42,10 +42,10 @@ function emptyCart() {
 //         });
 // }
 
-function getPastOrders() {
-    const endpoint = `${BASE_URL}/customer/order/past`;
-    return axios.get(endpoint);
-}
+// function getPastOrders() {
+//     const endpoint = `${BASE_URL}/customer/order/past`;
+//     return axios.get(endpoint);
+// }
 
 export function customerLogin(email: String, password: String) {
     const endpoint = `${BASE_URL}/customer/login`;

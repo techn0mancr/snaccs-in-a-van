@@ -21,8 +21,6 @@ class CustomerLogin extends React.Component {
         customerLogin(email, password);
     }
 
-        
-        
     render() {
     const { email, password } = this.state;
     return (

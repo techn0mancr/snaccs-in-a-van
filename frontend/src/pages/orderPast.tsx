@@ -4,6 +4,7 @@ import leftArrow from "../img/leftArrow.png"
 import rightArrow from "../img/rightArrow.png"
 import { Link } from 'react-router-dom'
 import axios from "axios";
+import history from '../history';
 
 class Header extends React.Component {
     render() {
@@ -26,7 +27,7 @@ class ListPastOrder extends React.Component {
 
     async getPastOrders() {
         const BASE_URL = "http://localhost:48080/api";
-        const endpoint = `${BASE_URL}/customer/order/past`;
+        const endpoint = `${BASE_URL}/customer/orders/past`;
         return await axios.get(endpoint)
         .then((response) => {
             var data = response.data
@@ -50,7 +51,7 @@ class ListPastOrder extends React.Component {
                 { orderList.length ?
                     orderList.map((order, i) => (   
                         <div key={i}>
-                            <button className="order" type="submit" value="order">
+                            <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/${order._id}`)}>
                                 <img alt="right arrow" className="right" src={rightArrow} />
                                 <h2>{order.vendorId}</h2>
                                 <p id="ready">{order.status}</p>
