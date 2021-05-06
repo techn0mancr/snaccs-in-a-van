@@ -41,7 +41,7 @@ function App() {
           <Route exact path="/cart/order/active" component={OrderCurrent} />
           <Route exact path="/cart/order/past" component={OrderPast} />
           <Route exact path="/order/checkout" component={Checkout} />
-          <Route path="/order/" component={OrderDetails} />
+          <Route path="/order" component={OrderDetails} />
         </Switch>
         
       </Router>  

@@ -61,7 +61,7 @@ class ListActiveOrder extends React.Component {
                 <div className="content">
                     { orderList.map((order, i) => (   
                             <div key={i}>
-                               <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/${order._id}`, `_id=${order._id}` )}>
+                               <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/id=${order._id}`, `_id=${order._id}` )}>
                                     <img alt="right arrow" className="right" src={rightArrow} />
                                     <h2>{order.vendorId.name}</h2>
                                     <p id="ready">{order.status}</p>

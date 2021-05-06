@@ -1,12 +1,22 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import './order.css';
 import leftArrow from '../img/leftArrow.png';
 import penEdit from '../img/penEdit.png';
 import history from '../history';
+import {
+    BrowserRouter as Router,
+    Link,
+    useLocation
+  } from "react-router-dom";
+import UseQueryParam from "../hooks/useQueryParam";
+// import { QueryClient, QueryClientProvider } from "react-query";
+// import { RouteComponentProps } from '@reach/router';
+// import queryString from 'query-string';
 
 class Header extends React.Component {
     render() {
         return (
+            console.log(this.props),
             <div className="title">
                 <br></br>
                 <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>
@@ -17,7 +27,27 @@ class Header extends React.Component {
     }
 }
 
+function getorderId(){
+    const query = UseQueryParam("id", "order");
+    return (query.get('id'))
+} 
+
+// type Props = { component: FunctionComponent } & RouteComponentProps;
+
 class Invoice extends React.Component {
+    
+    // state = {
+    //     orderId: String,
+    // }
+
+    // handleQueryString = () => {
+    //     // Parsing the query string 
+    //     // Using parse method
+    //     // let queries = queryString.parse(this.props.location.search)
+    //     console.log(queries)
+    //     this.setState(queries)
+    //   }
+
     render() {
         return (
             <div className="title">
