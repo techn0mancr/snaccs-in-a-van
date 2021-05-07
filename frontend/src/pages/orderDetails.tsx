@@ -90,7 +90,7 @@ class Information extends React.Component {
                                     <h3>{item.quantity}x {item.itemId.name}</h3>
                                 </div>
                         
-                                <p className="price">${toTwoDecimalPlaces(item.subtotal)}</p>
+                                <p className="price">${item.subtotal}</p>
                             </div>
                         </div>
                     ))}
@@ -101,13 +101,13 @@ class Information extends React.Component {
             
                     <div className="amount">
                         <h3 className="payment">Total amount</h3>
-                        <h3 className="value">${toTwoDecimalPlaces(details.total)}</h3>
+                        <h3 className="value">${details.total}</h3>
                     </div>
                     <br></br><br></br><br></br>
                     
                     <div className="amountPaid">
                         <h3 className="payment">Amount to be paid</h3>
-                        <h3 className="value">${toTwoDecimalPlaces(details.total)}</h3>
+                        <h3 className="value">${details.total}</h3>
                     </div>
                 </div>
             </div> 
