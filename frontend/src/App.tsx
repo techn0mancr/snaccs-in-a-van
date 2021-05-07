@@ -16,6 +16,7 @@ import Signup from "./pages/signup";
 import Profile from "./pages/profile";
 import OrderDetails from "./pages/orderDetails";
 import Menu from "./pages/menu";
+import ItemCounter from "./components/addToCart";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'https://localhost:3000';
