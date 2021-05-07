@@ -1,0 +1,135 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+    max-width: 90vw;
+}
+
+input[type=image].back {
+    width: 50px;
+    float: left;
+    clear: both;
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+input[type=image].back:hover {
+    opacity: 0.8;
+}
+
+.card {
+    border: none;
+}
+
+
+.van-card {
+    margin: auto;
+}
+
+.van-details {
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.van-image {
+    width: 375px;
+    height: 252px;
+    background-image: url("elements/van-background.jpg");
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 25%;
+}
+
+
+.van-container {
+    height: 110px;
+    width: 303px;
+    border-radius: 20px;
+    background: #FFFFFF;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    top: 200px;
+    padding-top: 3%;
+  }
+
+img  {
+    float: left;
+    border: none;
+    outline: none;
+    padding-right: 10px;
+}
+
+.menu {
+    margin-top: 10%;
+    margin-right: 5vw;
+    margin-left: 5vw;
+}
+
+.menu-card {
+    height: 82px;
+    width: 303px;
+    border-radius: 10px;    
+    background: #FFFFFF;
+    margin: auto;
+}
+
+.menu-container {
+    padding-top: 7%;
+    padding-left: 10px;
+}
+
+.menu-button {
+    background-color: #dd7070;
+    width: 41px;
+    height: 23px;
+    border-radius: 4px;
+    border: none;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: -0.24px;
+    color: #FFFFFF;
+    float: right;
+    margin-right: 10%;
+    margin-top: 2.5%;
+}
+
+
+h1 {
+    font-size: 18px;
+    letter-spacing: -0.24px;
+}
+
+h2 {
+    font-size: 13px;
+}
+
+h3 {
+    font-size: 12px;
+}
+
+p {
+    font-size: 12px;
+    letter-spacing: -0.24px;
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .van-card {
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .menu{
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    button.menu {
+        width: 700px;
+    }
+}
