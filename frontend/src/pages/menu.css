@@ -1,12 +1,3 @@
-body {
-    background-color: #F8F5F2;
-    font-family: 'Poppins', sans-serif;
-    color: #3E4462;
-    width: 90vw;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 input[type=image].back {
     width: 50px;
     float: left;
@@ -23,7 +14,6 @@ input[type=image].back:hover {
     border: none;
 }
 
-
 .van-card {
     margin: auto;
 }
@@ -39,7 +29,7 @@ input[type=image].back:hover {
 .van-image {
     width: 100%;
     height: 40%;
-    background-image: url("elements/van-background.jpg");
+    background-image: url("../img/van-background.jpg");
     padding-top: 40%;
     margin-left: auto;
     margin-right: auto;
@@ -54,13 +44,12 @@ input[type=image].back:hover {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    /* top: 100px; */
     padding-top: 2%;
     padding-bottom: 2%;
     margin-top: -20%;
   }
 
-img  {
+img.card  {
     float: left;
     border: none;
     outline: none;
@@ -68,22 +57,22 @@ img  {
 }
 
 .menu {
-    margin-top: 10%;
-    padding-top: 20px;
     margin-right: 5vw;
     margin-left: 5vw;
 }
 
 .menu-card {
     height: 82px;
-    width: 303px;
+    width: 80vw;
     border-radius: 10px;    
     background: #FFFFFF;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
 }
 
 .menu-container {
-    padding-top: 5%;
+    padding-top: 10px;
     padding-left: 10px;
 }
 
@@ -99,7 +88,7 @@ img  {
     color: #FFFFFF;
     float: right;
     margin-right: 10%;
-    margin-top: 2.5%;
+    margin-top: 20px;
 }
 
 
@@ -127,6 +116,10 @@ img  {
         margin-left: auto;
         margin-right: auto;
         margin-top: 25px;
+    }
+
+    .menu-card {
+        width: 650px;
     }
 
     .menu{

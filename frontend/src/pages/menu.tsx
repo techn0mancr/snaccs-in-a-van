@@ -9,15 +9,14 @@ class VanInfo extends React.Component {
         return (
             <div className="van-card">
                 <div className="van-image">
-                    <div className="van-container">
-                        <h1>Tasty Trailer</h1>
-                        <h2>757 Swanston St, Parkville VIC 3010</h2>
-                        <br />
-                        <h3>next to Stop 1</h3>
-                        <p>0.25 km away from you</p>
-                    </div>
                 </div>
-                <br />
+                <div className="van-container">
+                    <h1 className="menu-h1">Tasty Trailer</h1>
+                    <h2 className="menu-h2">757 Swanston St, Parkville VIC 3010</h2>
+                    <br />
+                    <h3 className="menu-h3">next to Stop 1</h3>
+                    <p className="menu-p">0.25 km away from you</p>
+                </div>
             </div>
         )
     }
@@ -68,8 +67,9 @@ class Items extends React.Component {
                                 <img src= "https://source.unsplash.com/J-4ozdP9EQ0/88x82" className="card" alt="cappucino" />
                                 <div className="menu-container">
                                     <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/id?=${menu.itemId._id}`)}>Add</button>
-                                    <h2>{menu.itemId.name}</h2>
-                                    <h3>${menu.itemId.price}</h3>
+                                    <h2 className="menu-h2">{menu.itemId.name}</h2>
+                                    <br />
+                                    <h3 className="menu-h3">${menu.itemId.price}</h3>
                                 </div>
                             </div>
                         </div>
