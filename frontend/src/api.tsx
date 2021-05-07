@@ -108,7 +108,7 @@ function getMenu(vendorId: String) {
   return axios.get(endpoint);
 }
 
-function getItemDetails( itemId: String ) {
+export function getItemDetails( itemId: String ) {
     const endpoint = `${BASE_URL}/menu/item/${itemId}`;
     return axios.get(endpoint);
 }

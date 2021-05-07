@@ -7,8 +7,8 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import { addItemToCart, getItemDetails } from "../api";
 import "../css/addToCart.css";
 
-export default function AddToCart() {
-  const itemID = "607073f83ed89dee65af788d";
+export default function AddToCart(itemID: string) {
+  // const itemID = "607073f83ed89dee65af788d";
   const [itemCount, setItemCount] = useState(1);
   const [getItem, setItem] = useState({
     data: "",
@@ -29,7 +29,7 @@ export default function AddToCart() {
 
   // Sends a GET request with itemID as parameter and initialises the state of item
   useEffect(() => {
-    getItemDetails(itemID).then((response) => {
+    getItemDetails(itemID).then((response: { data: any }) => {
       console.log("item details: ", response);
       var test = response.data;
       console.log(test);
