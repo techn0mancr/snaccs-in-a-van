@@ -31,6 +31,7 @@
     "npm": "*"
   },
   "scripts": {
+    "prefrontend": "cd frontend/ && npm install",
     "frontend": "cd frontend/ && npm run build",
 
     "prebackend": "cd backend/ && npm install",
