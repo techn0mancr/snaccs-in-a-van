@@ -151,8 +151,32 @@ async function getCart(req: Request, res: Response): Promise<void> {
     if (!req.session.cart)
         req.session.cart = []
 
-    /* Send the contents of the cart */
-    res.status(200).json(req.session.cart);
+    /* Populate the cart */
+    var populatedCart: Array<IItemOrder> = [];
+    for (var itemOrder of req.session.cart) {
+        /* Create a new ItemOrder */
+        var populatedItemOrder: IItemOrder = new ItemOrder(
+            {
+                itemId: itemOrder.itemId,
+                quantity: itemOrder.quantity,
+                subtotal: itemOrder.subtotal
+            }
+        );
+
+        /* Query the database for item details */
+        const itemDetails = await Item.findById(itemOrder.itemId)
+                                      .select("name price");
+        
+        /* Manually populate the itemId field */
+        if (itemDetails)
+            populatedItemOrder.itemId = itemDetails;
+        
+        /* Add the populated item to the populated cart */
+        populatedCart.push(populatedItemOrder);
+    } 
+    
+    /* Send the populated cart */
+    res.status(200).json(populatedCart);
 }
 
 /* Returns the logged in customer's past orders */
