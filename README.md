@@ -36,14 +36,21 @@ Project is created with the following technologies:
 - MongoDB
 
 ### Backend
+- Bcrypt
+- Cors
 - Express
 - Mongoose
 - Node.JS
 - TypeScript
 
 ### Frontend
+- Axios
+- Bootstrap
 - Create React App
+- Moment
 - TypeScript
+- Vue
+- @material-UI
 
 **Now Get ready to complete all the tasks:**
 
@@ -167,3 +174,8 @@ Project is created with the following technologies:
 - Connection string: `mongodb+srv://<username>:<password>@snaccs-in-a-van.4ciyf.mongodb.net/test`
 - Username: `pbhattacharj`
 - Password: `wPOIjfztrqvCKOMe`
+
+### Dummy Customer Login Details
+- Username: `nputro@student.unimelb.edu.au`
+- Password: `123456`
+
