@@ -4,6 +4,18 @@ import axios from "axios";
 import history from "../history";
 import addToCart from "../components/addToCart";
 
+
+const currencyOptions = {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  };
+
+function toTwoDecimalPlaces(number: number) {
+    return number.toLocaleString(undefined, currencyOptions);
+  }
+
+
+
 class VanInfo extends React.Component {
   render() {
     return (
@@ -72,7 +84,7 @@ class Items extends React.Component {
                   {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
                   <h2 className="menu-h2">{menu.itemId.name}</h2>
                   <br />
-                  <h3 className="menu-h3">${menu.itemId.price}</h3>
+                  <h3 className="menu-h3">${toTwoDecimalPlaces(menu.itemId.price)}</h3>
                 </div>
               </div>
               {/* {popupItem && addToCart(menu.itemId._id)} */}
