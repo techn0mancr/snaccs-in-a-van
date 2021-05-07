@@ -20,8 +20,6 @@ class Header extends React.Component {
 
 class Information extends React.Component {
     state = {
-        error: null,
-        isLoaded: false,
         cart: [] as  any[],
     }
 
@@ -44,7 +42,7 @@ class Information extends React.Component {
     }
 
     render() {
-        const { error, isLoaded, cart } = this.state;
+        const { cart } = this.state;
         return (
             <div>
                  <div className="containerCheckout" id="loc">

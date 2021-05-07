@@ -1,9 +1,9 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Router, Route, Link, Switch } from 'react-router-dom';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
-import Vue from 'vue';
-import history from './history';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Router, Route, Switch } from "react-router-dom";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import Vue from "vue";
+import history from "./history";
 
 // import components
 import Nav from "./components/nav";
@@ -19,37 +19,38 @@ import Menu from "./pages/menu";
 import AddToCart from "./components/addToCart";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'https://localhost:3000';
+axios.defaults.baseURL = "https://localhost:3000";
 Vue.use(VueAxios, axios);
 
 export function getId() {
-  const query = history.location.search
-  const id = query.replace('?id=','')
+  const query = history.location.search;
+  const id = query.replace("?id=", "");
   return id;
 }
 
 function App() {
-
   return (
     <div>
       <Router history={history}>
         <Nav />
         <Switch>
-
           <Route exact path="/" />
           <Route exact path="/customer/login" component={CustomerLogin} />
           <Route exact path="/customer/register" component={Signup} />
           <Route exact path="/customer/profile" component={Profile} />
-          <Route exact path="/cart/order/active/status" component={OrderStatus} />
+          <Route
+            exact
+            path="/cart/order/active/status"
+            component={OrderStatus}
+          />
           <Route exact path="/cart/order/active" component={OrderCurrent} />
           <Route exact path="/cart/order/past" component={OrderPast} />
           <Route exact path="/order/checkout" component={Checkout} />
           <Route path="/order" component={OrderDetails} />
           <Route exact path="/menu" component={Menu} />
-          <Route path="/menu/item" component={AddToCart}/>
+          <Route path="/menu/item" component={AddToCart} />
         </Switch>
-        
-      </Router>  
+      </Router>
     </div>
   );
 }

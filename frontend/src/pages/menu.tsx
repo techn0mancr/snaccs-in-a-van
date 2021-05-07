@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import "./menu.css";
 import axios from "axios";
 import history from "../history";
-import addToCart from "../components/addToCart";
+
 
 const currencyOptions = {
     minimumFractionDigits: 2,
@@ -37,8 +37,7 @@ class Items extends React.Component {
     vendorId: "60707b103ed89dee65af78a2",
     error: null,
     isLoaded: false,
-    menuList: [] as any[],
-    popupItem: false
+    menuList: [] as any[]
   };
 
   async getMenu(vendorId: String) {
@@ -62,10 +61,10 @@ class Items extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, menuList, popupItem } = this.state;
-    if (error == true) {
+    const { error, isLoaded, menuList } = this.state;
+    if (error === true) {
       return <h2>No menu at the moment</h2>;
-    } else if (isLoaded == false) {
+    } else if (isLoaded === false) {
       return <h2>Loading...</h2>;
     } else {
       return (
@@ -129,7 +128,7 @@ class Checkout extends React.Component {
 
   render() {
     const { cart } = this.state;
-    if (cart.length == 0) {
+    if (cart.length === 0) {
       return <div></div>;
     } else {
       return (

@@ -61,11 +61,11 @@ class ListPastOrder extends React.Component {
     render() {
         const { error, isLoaded, orderList } = this.state;
 
-        if (error == true) {
+        if (error === true) {
             return (
                 <h2>No Order Present</h2>
             )
-        } else if (isLoaded == false) {
+        } else if (isLoaded === false) {
             return (
                 <h2>Loading...</h2>
             )

@@ -38,7 +38,6 @@ class Header extends React.Component {
 class Information extends React.Component {
   state = {
     error: null,
-    isLoaded: false,
     details: [] as any,
     items: [] as any[],
     vendorId: [] as any,
@@ -73,9 +72,9 @@ class Information extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, details, vendorId, items } = this.state;
+    const { error, details, vendorId, items } = this.state;
 
-    if (error == true) {
+    if (error === true) {
       return <h2>fail</h2>;
     } else {
       return (
