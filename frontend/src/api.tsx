@@ -82,6 +82,7 @@ export function customerProfile() {
     .then((response) => {
         console.log(response);
     }, (error) => {
+        alert("Please login");
         history.push('/customer/login');
         console.log(error);
     });

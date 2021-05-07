@@ -4,6 +4,7 @@ import rightArrow from '../img/rightArrow.png';
 import axios from 'axios';
 import history from '../history';
 import moment from 'moment';
+import { customerProfile } from '../api';
 moment().format();
 
 class Header extends React.Component {
@@ -38,6 +39,10 @@ class ListActiveOrder extends React.Component {
             this.setState({isLoaded: true, error});
             console.log(error);
         },);
+    }
+
+    componentWillMount() {
+        customerProfile();
     }
 
     componentDidMount() {
