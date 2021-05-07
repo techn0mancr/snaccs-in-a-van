@@ -4,7 +4,6 @@ import axios from "axios";
 import history from "../history";
 import addToCart from "../components/addToCart";
 
-
 const currencyOptions = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

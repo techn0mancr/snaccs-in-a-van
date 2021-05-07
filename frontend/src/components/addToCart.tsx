@@ -8,6 +8,8 @@ import leftArrow from "../img/leftArrow.png"
 import { addItemToCart, getItemDetails } from "../api";
 import "../css/addToCart.css";
 import history from '../history';
+import { customerProfile } from '../api';
+
 
 export default function AddToCart() {
   // const itemID = "607073f83ed89dee65af788d";
@@ -39,6 +41,7 @@ export default function AddToCart() {
 
   // Sends a GET request with itemID as parameter and initialises the state of item
   useEffect(() => {
+    customerProfile();
     const itemID = getId();
     setItemID(itemID);
     getItemDetails(itemID).then((response: { data: any }) => {
