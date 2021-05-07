@@ -1,3 +1,14 @@
+body {
+  background-color: rgba(0, 0, 0, 0.5);
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  color: #3e4462;
+  max-width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .card.cart-img {
   border: none;
 }
@@ -19,17 +30,15 @@
 }
 
 .add-card {
-  margin-top: 20%;
-  margin-right: 5vw;
-  margin-left: 10%;
   width: 375px;
   height: 273px;
-  border-radius: 30px 30px 0px 0px;
+  border-radius: 30px 30px 30px 30px;
   background: #ffffff;
-  margin: auto;
-  margin-bottom: 10.5vw;
-  padding-top: 8%;
-  padding-left: 7%;
+  padding-top: 3%;
+  padding-left: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
 }
 
 h1.cart-h1 {
@@ -65,6 +74,8 @@ h3.cart-h3 {
 
 span {
   cursor: pointer;
+}
+.number {
 }
 
 .minus,
