@@ -43,7 +43,9 @@
     "prefrontend-dev": "cd frontend/ && npm install",
     "frontend-dev": "cd frontend/ && npm start",
 
-    "start": "npm-run-all --parallel frontend backend",
-    "start-dev": "npm-run-all --parallel frontend-dev backend-dev"
+    "start": "npm run backend",
+    "start-dev": "npm-run-all --parallel frontend-dev backend-dev",
+
+    "heroku-postbuild": "npm run frontend"
   }
 }
