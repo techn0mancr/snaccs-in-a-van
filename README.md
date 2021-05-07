@@ -36,14 +36,21 @@ Project is created with the following technologies:
 - MongoDB
 
 ### Backend
+- Bcrypt
+- Cors
 - Express
 - Mongoose
 - Node.JS
 - TypeScript
 
 ### Frontend
+- Axios
+- Bootstrap
 - Create React App
+- Moment
 - TypeScript
+- Vue
+- @material-UI
 
 **Now Get ready to complete all the tasks:**
 
