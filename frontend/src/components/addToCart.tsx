@@ -7,7 +7,6 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import leftArrow from "../img/leftArrow.png"
 import { addItemToCart, getItemDetails } from "../api";
 import "../css/addToCart.css";
-// import getId from '../App';
 import history from '../history';
 
 export default function AddToCart() {
@@ -72,8 +71,7 @@ export default function AddToCart() {
 
   return (
     <div>
-        <div className="add-card">
-        <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>
+        <div className="fixed-top add-card">
           <h1 className="cart-h1">Add to Cart</h1>
           <img
             className="cart-img card"
@@ -118,6 +116,7 @@ export default function AddToCart() {
             </div>
           </div>
         </div>
+        <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>
     </div>
   );
 }
