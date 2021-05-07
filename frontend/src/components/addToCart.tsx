@@ -8,7 +8,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import { addItemToCart, getItemDetails } from "../api";
 import "../css/addToCart.css";
 
-export default function ItemCounter() {
+export default function AddToCart() {
   const itemID = "607073f83ed89dee65af788d";
   const [itemCount, setItemCount] = useState(1);
   const [getItem, setItem] = useState({
@@ -74,12 +74,13 @@ export default function ItemCounter() {
 
       <body>
         <div className="fixed-bottom add-card">
-          <h1>Add to Cart?</h1>
-          <img className="cart-img card"
+          <h1 className="cart-h1">Add to Cart?</h1>
+          <img
+            className="cart-img card"
             id="base64image"
             src={`data:${getItem.mimetype};base64,${getItem.data}`}
             alt={getItem.name}
-            />
+          />
 
           <div className="add-container">
             <button
@@ -89,10 +90,10 @@ export default function ItemCounter() {
             >
               Add to Cart
             </button>
-            <h2>{getItem.name}</h2>
-            <h3>${toTwoDecimalPlaces(getItem.price)}</h3>
+            <h2 className="cart-h2">{getItem.name}</h2>
+            <br></br>
+            <h3 className="cart-h3">${toTwoDecimalPlaces(getItem.price)}</h3>
             <div className="number">
-             
               <ButtonGroup>
                 <Button
                   onClick={() => {
@@ -100,9 +101,14 @@ export default function ItemCounter() {
                   }}
                 >
                   {" "}
-                  {/* Minus Icon */}
                   <RemoveIcon fontSize="small" />
                 </Button>
+                <input
+                  className="quantity-input__screen"
+                  type="text"
+                  value={itemCount}
+                  readOnly
+                />
                 <Button
                   onClick={() => {
                     setItemCount(itemCount + 1);
@@ -111,6 +117,7 @@ export default function ItemCounter() {
                   {" "}
                   <AddIcon fontSize="small" />
                 </Button>
+                {/* <Badge color="secondary" badgeContent={itemCount}></Badge> */}
               </ButtonGroup>
             </div>
           </div>

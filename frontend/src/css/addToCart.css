@@ -7,7 +7,7 @@ body {
   max-width: 90vw;
 }
 
-.card {
+.card.cart-img {
   border: none;
 }
 
@@ -41,7 +41,7 @@ body {
   padding-left: 7%;
 }
 
-h1 {
+h1.cart-h1 {
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
@@ -49,11 +49,11 @@ h1 {
   line-height: 26px;
 }
 
-h2 {
+h2.cart-h2 {
   font-size: 16px;
 }
 
-h3 {
+h3.cart-h3 {
   font-size: 12px;
 }
 
@@ -91,13 +91,14 @@ span {
   text-align: center;
 }
 
-input {
-  height: 20px;
-  width: 20px;
+input.quantity-input__screen {
+  height: 32px;
+  width: 10px;
   text-align: center;
   font-size: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   display: inline-block;
   vertical-align: middle;
+  margin-bottom: 0px;
 }
