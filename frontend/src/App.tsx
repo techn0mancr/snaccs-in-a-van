@@ -16,6 +16,7 @@ import CustomerLogin from "./pages/customerLogin";
 import Signup from "./pages/signup";
 import Profile from "./pages/profile";
 import OrderDetails from "./pages/orderDetails";
+import Menu from "./pages/menu";
 
 
 axios.defaults.withCredentials = true;
@@ -39,6 +40,7 @@ function App() {
           <Route exact path="/cart/order/past" component={OrderPast} />
           <Route exact path="/order/checkout" component={Checkout} />
           <Route path="/order" component={OrderDetails} />
+          <Route exact path="/menu" component={Menu} />
         </Switch>
         
       </Router>  

@@ -19,8 +19,8 @@ export default function Nav() {
     }
     return (
         <nav className="navBar">
-            {/* <NavLink className="contentNav" exact to="/"> */}
-            <NavLink className="contentNav" exact to="/order/checkout">
+            <NavLink className="contentNav" exact to="/menu">
+            {/* <NavLink className="contentNav" exact to="/order/checkout"> */}
                 <img className="nav" src={Home} alt="Home"/>
             </NavLink>
 

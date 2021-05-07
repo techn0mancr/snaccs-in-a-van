@@ -1,39 +1,82 @@
 import React from 'react';
 import './menu.css';
+import leftArrow from "../img/leftArrow.png"
+import axios from 'axios';
+import history from '../history';
 
 class VanInfo extends React.Component {
     render() {
         return (
             <div className="van-card">
-                <input type="image" className="back" src="elements/leftArrow.png" />
                 <div className="van-image">
                     <div className="van-container">
                         <h1>Tasty Trailer</h1>
                         <h2>757 Swanston St, Parkville VIC 3010</h2>
+                        <br />
                         <h3>next to Stop 1</h3>
                         <p>0.25 km away from you</p>
                     </div>
                 </div>
+                <br />
             </div>
         )
     }
 }
 
 class Items extends React.Component {
+    state = {
+        vendorId: '60707b103ed89dee65af78a2',
+        error: null,
+        isLoaded: false,
+        menuList: [] as any[]
+    }
+
+    async getMenu(vendorId: String) {
+        const BASE_URL = "http://localhost:48080/api";
+        const endpoint = `${BASE_URL}/menu/${vendorId}`;
+        return await axios.get(endpoint)
+        .then((response) => {
+            var data = response.data
+            this.setState({isLoaded: true, menuList: data});
+            console.log(response);
+        }, (error) => {
+            this.setState({isLoaded: true, error});
+            console.log(error);
+        });
+    }
+
+    componentDidMount() {
+        this.getMenu(this.state.vendorId);
+    }
+
     render() {
-        return (
-            <div className="menu">
-                <h1>Drinks</h1>
-                <div className="menu-card">
-                    <img src= "https://source.unsplash.com/J-4ozdP9EQ0/88x82" class="card" alt="cappucino" />
-                    <div className="menu-container">
-                        <button type="button" className="menu-button">Add</button>
-                        <h2>Cappucino</h2>
-                        <h3>$8.00</h3>
-                    </div>
+        const { error, isLoaded, menuList } = this.state;
+        if (error == true) {
+            return (
+                <h2>No menu at the moment</h2>
+            )
+        } else if (isLoaded == false) {
+            return (
+                <h2>Loading...</h2>
+            )
+        } else {
+            return (
+                <div className="menu">
+                    { menuList.map((menu, i) => 
+                        <div key={i}>
+                            <div className="menu-card">
+                                <img src= "https://source.unsplash.com/J-4ozdP9EQ0/88x82" className="card" alt="cappucino" />
+                                <div className="menu-container">
+                                    <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/id?=${menu.itemId._id}`)}>Add</button>
+                                    <h2>{menu.itemId.name}</h2>
+                                    <h3>${menu.itemId.price}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }
 
