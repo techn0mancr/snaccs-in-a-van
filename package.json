@@ -31,16 +31,18 @@
     "npm": "*"
   },
   "scripts": {
-    "prefrontend": "cd frontend/ && npm install",
-    "frontend": "cd frontend/ && npm start",
+    "frontend": "cd frontend/ && npm run build",
+
     "prebackend": "cd backend/ && npm install",
     "backend": "cd backend/ && npm start",
+
     "prebackend-dev": "cd backend/ && npm install",
     "backend-dev": "cd backend/ && npm run start-dev",
+    
+    "prefrontend-dev": "cd frontend/ && npm install",
+    "frontend-dev": "cd frontend/ && npm start",
+
     "start": "npm-run-all --parallel frontend backend",
-    "start-dev": "npm-run-all --parallel frontend backend-dev"
-  },
-  "devDependencies": {
-    "@types/react-router-dom": "^5.1.7"
+    "start-dev": "npm-run-all --parallel frontend-dev backend-dev"
   }
 }

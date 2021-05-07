@@ -4,6 +4,7 @@ import cors from "cors";
 import express from "express";
 import { Router } from "express";
 import session from "express-session";
+import path from "path";
 import timestring from "timestring";
 
 /* Import the required constants */
@@ -45,6 +46,9 @@ app.use(cors({
     credentials: true,
     optionsSuccessStatus: 200
 }));
+
+/* Serve the React app */
+app.use(express.static(path.join(__dirname, "../../frontend/build")));
 
 /* Register routes */
 import routes from "./routes";
