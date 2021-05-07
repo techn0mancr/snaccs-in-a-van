@@ -1,6 +1,5 @@
 import React from 'react';
 import './menu.css';
-import leftArrow from "../img/leftArrow.png"
 import axios from 'axios';
 import history from '../history';
 

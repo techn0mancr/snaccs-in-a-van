@@ -17,7 +17,6 @@ import Profile from "./pages/profile";
 import OrderDetails from "./pages/orderDetails";
 import Menu from "./pages/menu";
 
-
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'https://localhost:3000';
 Vue.use(VueAxios, axios);

@@ -3,6 +3,7 @@
   width: 100%;
   background-color: #FFFFFF;
   bottom: 0;
+  z-index: 1000000;
   position: fixed;
   box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
   font-family: 'Poppins', sans-serif;
@@ -37,7 +38,6 @@ img.nav {
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
   .navBar {
     width: 768px;
-    position: absolute;
     bottom: 0;
     left:50%;
     margin-left: -384px;
