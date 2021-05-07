@@ -1,0 +1,145 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+}
+
+.titleOrder {
+    width: 75vw;
+    margin-top: 5vw;
+    margin-left: 12.5vw;
+    margin-left: 12.5vw;
+}
+
+input[type=image].back {
+    width: 50px;
+    float: left;
+    clear: both;
+}
+
+input[type=image].back:hover {
+    opacity: 0.8;
+}
+
+h1 {
+    font-size: 28px;
+    font-style: bold;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2.invoice {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: center;
+    color: #626262;
+}
+
+.orderTime {
+    width: 75vw;
+    margin-top: 5vw;
+    margin-left: 12.5vw;
+    content: "";
+    display: table;
+    clear: both;
+}
+
+p.time {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+button.cancel {
+    text-decoration: underline;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 12px;
+    color: #DD7070;
+    border: none;
+    background-color: #F8F5F2;
+    margin-left: -5px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+h3 {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+img.status {
+    width: 57.6px;
+    float: left;
+    clear: left;
+}
+
+img.line {
+    width: 0.5vw;
+    height: 20vw;
+    margin-left: 26px;
+}
+
+#notReady {
+    opacity: 0.3;
+}
+
+#status {
+    margin-bottom: 25vw;
+}
+
+.progressImage {
+    float: left;
+    width: 20%;
+}
+
+.progressStatus {
+    margin-top: -2vw;
+    margin-left: 75px;
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .titleOrder {
+        width: 576px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .orderTime {
+        width: 576px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .progressStatus {
+        margin-top: -8px;
+    }
+
+    #status {
+        margin-bottom: 180px;
+    }
+
+    img.status {
+        width: 57.6px;
+        float: left;
+        clear: left;
+    }
+    
+    img.line {
+        width: 2.88px;
+        height: 180px;
+        margin-left: 26px;
+    }
+
+}

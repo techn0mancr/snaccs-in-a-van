@@ -1,0 +1,176 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+    margin-bottom: 60px;
+}
+
+.title {
+    width: 90vw;
+    margin-right: 5vw;
+    margin-left: 5vw;
+    margin-top: 5vw;
+}
+
+input[type=image].back {
+    width: 50px;
+    float: left;
+    clear: both;
+}
+
+input[type=image].back:hover {
+    opacity: 0.8;
+}
+
+.containerCheckout {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    width: 90vw;
+    margin-top: 5vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#loc {
+    min-height: 80px;
+}
+
+input[type=image].edit {
+    height: 10%;
+    width: 10%;
+}
+
+input[type=image].edit:hover {
+    opacity: 0.8;
+}
+
+.item {
+    float: left;
+    clear: both;
+}
+
+h1 {
+    font-size: 28px;
+    font-style: bold;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 22px;
+    font-style: medium;
+    font-weight: 500;
+}
+
+h2.pickup {
+    font-style: normal;
+    font-size: 14px;
+}
+
+h3 {
+    font-size: 16px;
+    font-style: medium;
+    font-weight: 500;
+    display: inline;
+}
+
+h3.payment {
+    font-style: normal;
+}
+
+h3.value {
+    float: right;
+    clear: right;
+}
+
+.cart {
+    min-height: 30px;
+}
+
+p {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    color: #7E7E7E;
+}
+
+p.address {
+    font-size: 16px;
+    font-style: normal;
+}
+
+p.price {
+    display: inline;
+    float: right;
+    clear: right;
+}
+
+.amountPaid {
+    width: 100%;
+    min-height: 40px;
+}
+
+#order {
+    color: #FFFFFF;
+}
+
+.orderCheckout {
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+    background-color: #FFFFFF;
+    width: 100%;
+    margin-bottom: 10.5vw;
+    height: 60px;
+    display: grid;
+}
+
+button.orderCheckout {
+    background-color: #dd7070;
+    width: 85vw;
+    display: inline;
+    border-radius: 4px;
+    border: none;
+    margin: auto;
+    height: fit-content;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .title {
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .containerCheckout {
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    button.orderCheckout {
+        width: 700px;
+    }
+
+    .orderCheckout {
+        width: 768px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 63px;
+    }
+
+}

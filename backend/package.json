@@ -1,69 +1,69 @@
 {
-  "name": "snaccs-in-a-van_backend",
-  "version": "0.1.0",
-  "author": {
-    "name": "Nathanael Putro",
-    "email": "nputro@student.unimelb.edu.au"
-  },
-  "contributors": [
-    {
-      "name": "Callista Low",
-      "email": "callistaliyi@student.unimelb.edu.au"
+    "name": "snaccs-in-a-van_backend",
+    "version": "0.1.0",
+    "author": {
+        "name": "Nathanael Putro",
+        "email": "nputro@student.unimelb.edu.au"
     },
-    {
-      "name": "Jeffrey Kolenchery",
-      "email": "jkolenchery@student.unimelb.edu.au"
-    },
-    {
-      "name": "Joseph Leonardi",
-      "email": "jleonardi@student.unimelb.edu.au"
-    },
-    {
-      "name": "Livya Riany",
-      "email": "lriany@student.unimelb.edu.au"
-    }
-  ],
-  "private": true,
-  "dependencies": {
-    "@types/bcrypt": "*",
-    "@types/body-parser": "*",
-    "@types/connect-mongodb-session": "*",
-    "@types/cors": "*",
-    "@types/express": "*",
-    "@types/express-session": "*",
-    "@types/mongoose": "*",
-    "@types/node": "*",
-    "@types/timestring": "*",
-    "bcrypt": "*",
-    "body-parser": "*",
-    "connect-mongodb-session": "*",
-    "cors": "*",
-    "express": "*",
-    "express-session": "*",
-    "mongoose": "*",
-    "timestring": "*",
-    "tslib": "*",
-    "typescript": "*"
-  },
-  "devDependencies": {
-    "nodemon": "*"
-  },
-  "engines": {
-    "node": "*",
-    "npm": "*"
-  },
-  "scripts": {
-    "compile": "tsc --project ./",
-    "clean": "rm --force --recursive dist/",
-    "prestart": "npm run compile",
-    "start": "node dist/server.js",
-    "start-dev": "nodemon"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "src/**/*"
+    "contributors": [
+        {
+            "name": "Callista Low",
+            "email": "callistaliyi@student.unimelb.edu.au"
+        },
+        {
+            "name": "Jeffrey Kolenchery",
+            "email": "jkolenchery@student.unimelb.edu.au"
+        },
+        {
+            "name": "Joseph Leonardi",
+            "email": "jleonardi@student.unimelb.edu.au"
+        },
+        {
+            "name": "Livya Riany",
+            "email": "lriany@student.unimelb.edu.au"
+        }
     ],
-    "exec": "npm run start",
-    "ext": "ts"
-  }
+    "private": true,
+    "dependencies": {
+        "@types/bcrypt": "*",
+        "@types/body-parser": "*",
+        "@types/connect-mongodb-session": "*",
+        "@types/cors": "*",
+        "@types/express": "*",
+        "@types/express-session": "*",
+        "@types/mongoose": "*",
+        "@types/node": "*",
+        "@types/timestring": "*",
+        "bcrypt": "*",
+        "body-parser": "*",
+        "connect-mongodb-session": "*",
+        "cors": "*",
+        "express": "*",
+        "express-session": "*",
+        "mongoose": "*",
+        "timestring": "*",
+        "tslib": "*",
+        "typescript": "*"
+    },
+    "devDependencies": {
+        "nodemon": "*"
+    },
+    "engines": {
+        "node": "*",
+        "npm": "*"
+    },
+    "scripts": {
+        "compile": "tsc --project ./",
+        "clean": "rm --force --recursive dist/",
+        "prestart": "npm run compile",
+        "start": "node dist/server.js",
+        "start-dev": "nodemon"
+    },
+    "nodemonConfig": {
+        "watch": [
+            "src/**/*"
+        ],
+        "exec": "npm run start",
+        "ext": "ts"
+    }
 }

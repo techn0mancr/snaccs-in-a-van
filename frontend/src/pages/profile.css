@@ -1,0 +1,88 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+}
+
+.titleLogin {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    margin-top: 30vh;
+}
+
+.titleProfile {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    margin-top: 15vh;
+}
+
+.containerProfile {
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+}
+
+h1.titleLog {
+    font-size: 28px;
+    font-style: bold;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+h2 {
+    font-size: 15px;
+    font-style: normal;
+    text-align: center;
+    display: inline;
+}
+
+h2.click {
+    color:#F8F5F2;
+}
+
+button.signup {
+    text-decoration: underline;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 12px;
+    border: none;
+    background-color: #F8F5F2;
+    color: #3E4462;
+}
+
+input[type=text], input[type=password] {
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #82869A 1px;
+    padding: 3px 10px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+button.login {
+    background-color: #dd7070;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 10px 10px #F6F6F6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}

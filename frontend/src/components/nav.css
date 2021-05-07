@@ -1,0 +1,49 @@
+.navBar {
+  overflow: hidden;
+  width: 100%;
+  background-color: #FFFFFF;
+  bottom: 0;
+  z-index: 1000000;
+  position: fixed;
+  box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+  font-family: 'Poppins', sans-serif;
+}
+  
+.navBar a {
+  display: inline-block;
+  padding: 2vw;
+  text-decoration: none;
+}
+
+img.nav {
+  height: 6vw;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 25px;
+}
+
+.navBar a:hover {
+  background-color: #878585;
+}
+
+.active {
+  background-color: #dd7070;
+}
+
+.contentNav {
+  width: 33.33%;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+  .navBar {
+    width: 768px;
+    bottom: 0;
+    left:50%;
+    margin-left: -384px;
+  }
+
+  .navBar a {
+    padding: 16px;
+  }
+}

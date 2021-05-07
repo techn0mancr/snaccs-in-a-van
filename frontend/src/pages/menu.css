@@ -1,0 +1,142 @@
+input[type=image].back {
+    width: 50px;
+    float: left;
+    clear: both;
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+input[type=image].back:hover {
+    opacity: 0.8;
+}
+
+.card {
+    border: none;
+}
+
+.van-card {
+    margin: auto;
+}
+
+.van-details {
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin: auto;
+    width: 30%;
+    height: 30%;
+}
+
+.van-image {
+    width: 100%;
+    height: 40%;
+    background-image: url("../img/van-background.jpg");
+    padding-top: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.van-container {
+    height: 50%;
+    width: 303px;
+    border-radius: 20px;
+    background: #FFFFFF;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-top: -20%;
+  }
+
+img.card  {
+    float: left;
+    border: none;
+    outline: none;
+    padding-right: 10px;
+    height: 82px;
+}
+
+.menu {
+    margin-right: 5vw;
+    margin-left: 5vw;
+}
+
+.menu-card {
+    height: 82px;
+    width: 80vw;
+    border-radius: 10px;    
+    background: #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
+}
+
+.menu-container {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.menu-button {
+    background-color: #dd7070;
+    width: 41px;
+    height: 23px;
+    border-radius: 4px;
+    border: none;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: -0.24px;
+    color: #FFFFFF;
+    float: right;
+    margin-right: 10%;
+    margin-top: 20px;
+}
+
+
+.menu-h1 {
+    font-size: 18px;
+    letter-spacing: -0.24px;
+}
+
+.menu-h2 {
+    font-size: 13px;
+}
+
+.menu-h3 {
+    font-size: 12px;
+}
+
+.menu-p {
+    font-size: 12px;
+    letter-spacing: -0.24px;
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .van-card {
+        width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .menu-card {
+        width: 650px;
+    }
+
+    .menu{
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+
+    .van-card{
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button.menu {
+        width: 700px;
+    }
+} 
