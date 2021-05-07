@@ -72,7 +72,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:48080",
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7"
   }
