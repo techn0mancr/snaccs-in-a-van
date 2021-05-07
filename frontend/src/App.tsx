@@ -3,7 +3,6 @@ import { Router, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vue from 'vue';
-
 import history from './history';
 
 // import components
@@ -22,6 +21,12 @@ import Menu from "./pages/menu";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'https://localhost:3000';
 Vue.use(VueAxios, axios);
+
+export function getId() {
+  const query = history.location.search
+  const id = query.replace('?id=','')
+  return id;
+}
 
 function App() {
 
