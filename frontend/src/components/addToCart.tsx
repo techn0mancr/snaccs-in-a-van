@@ -72,7 +72,7 @@ export default function AddToCart() {
 
   return (
     <div>
-        <div className="fixed-bottom add-card">
+        <div className="add-card">
         <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>
           <h1 className="cart-h1">Add to Cart</h1>
           <img
