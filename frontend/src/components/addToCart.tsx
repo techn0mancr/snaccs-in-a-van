@@ -34,8 +34,6 @@ export default function AddToCart() {
     return id;
   }
 
-  // const itemID = getId() || '';
-
   function toTwoDecimalPlaces(number: number) {
     return number.toLocaleString(undefined, currencyOptions);
   }
@@ -64,6 +62,7 @@ export default function AddToCart() {
     addItemToCart(itemID, quantity).then(
       (response) => {
         console.log("success", response);
+        history.goBack();
       },
       (error) => {
         console.log("error", error);
@@ -84,11 +83,7 @@ export default function AddToCart() {
           />
 
           <div className="add-container">
-            <button
-              type="button"
-              className="cart-button"
-              onClick={() => add(itemID, itemCount)}
-            >
+            <button type="button" className="cart-button" onClick={() => add(itemID, itemCount)}>
               Add to Cart
             </button>
             <h2 className="cart-h2">{getItem.name}</h2>

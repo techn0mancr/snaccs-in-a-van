@@ -22,7 +22,7 @@ class Information extends React.Component {
     state = {
         error: null,
         isLoaded: false,
-        cart: [] as  any,
+        cart: [] as  any[],
     }
 
     async getCart() {
@@ -49,36 +49,40 @@ class Information extends React.Component {
             <div>
                  <div className="containerCheckout" id="loc">
                     <h2 className="pickup">Pick up location</h2>
-                    <p className="address">757 Swanston St, ParkVille VIC 3010</p>
-                    <p className="desc">next to Stop 1</p>
+                    <p className="address">Tasty Trailer</p>
+                    <p className="desc">Across Stop 1</p>
                 </div>
 
                 <div className="containerCheckout" id="cart">
                     <h2>Your Cart</h2>
-            
-                    <div className="cart">
-                        <div className="item">
-                            <h3>1x Cappuccino</h3>
-                        </div>
+
+                   { cart.map((item, i) => (
+                        <div key={i}>
+                            <div className="cart">
+                                <div className="item">
+                                    <h3>{item.quantity}x {item.itemId.name}</h3>
+                                </div>
                         
-                        <p className="price">$8.00</p>
-                    </div>
+                                <p className="price">${item.subtotal}</p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
-                <div className="containerCheckout" id="payment">
+                {/* <div className="containerCheckout" id="payment">
                     <h2>Payment</h2>
             
                     <div className="amount">
                         <h3 className="payment">Total amount</h3>
-                        <h3 className="value">$8.00</h3>
+                        <h3 className="value">${cart.subtotal}</h3>
                     </div>
                     <br></br><br></br><br></br>
                     
                     <div className="amountPaid">
                         <h3 className="payment">Amount to be paid</h3>
-                        <h3 className="value">$8.00</h3>
+                        <h3 className="value">${cart.subtotal}</h3>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }
@@ -89,6 +93,7 @@ class CheckoutButton extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         checkoutCart();
+        history.push(`/cart/order/active`);
     }
 
     render() {
