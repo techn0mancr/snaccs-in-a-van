@@ -4,11 +4,15 @@ import Back from "./back";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import leftArrow from "../img/leftArrow.png"
 import { addItemToCart, getItemDetails } from "../api";
 import "../css/addToCart.css";
+// import getId from '../App';
+import history from '../history';
 
-export default function AddToCart(itemID: string) {
+export default function AddToCart() {
   // const itemID = "607073f83ed89dee65af788d";
+
   const [itemCount, setItemCount] = useState(1);
   const [getItem, setItem] = useState({
     data: "",
@@ -22,6 +26,14 @@ export default function AddToCart(itemID: string) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   };
+
+  function getId() {
+    const query = history.location.search
+    const id = query.replace('?id=','')
+    return id;
+  }
+
+  const itemID = getId() || '';
 
   function toTwoDecimalPlaces(number: number) {
     return number.toLocaleString(undefined, currencyOptions);
@@ -73,6 +85,7 @@ export default function AddToCart(itemID: string) {
 
       <body>
         <div className="fixed-bottom add-card">
+        <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>
           <h1 className="cart-h1">Add to Cart?</h1>
           <img
             className="cart-img card"

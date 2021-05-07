@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import "./menu.css";
 import axios from "axios";
 import history from "../history";
+import addToCart from "../components/addToCart";
 
 class VanInfo extends React.Component {
   render() {
@@ -26,6 +27,7 @@ class Items extends React.Component {
     error: null,
     isLoaded: false,
     menuList: [] as any[],
+    popupItem: false
   };
 
   async getMenu(vendorId: String) {
@@ -49,7 +51,7 @@ class Items extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, menuList } = this.state;
+    const { error, isLoaded, menuList, popupItem } = this.state;
     if (error == true) {
       return <h2>No menu at the moment</h2>;
     } else if (isLoaded == false) {
@@ -60,27 +62,20 @@ class Items extends React.Component {
           {menuList.map((menu, i) => (
             <div key={i}>
               <div className="menu-card">
-                {/* changes here */}
                 <img
                   src={`data:${menu.itemId.mimetype};base64,${menu.itemId.data}`}
                   className="card"
-                  alt="cappucino"
+                  alt={menu.itemId.name}
                 />
                 <div className="menu-container">
-                  <button
-                    type="button"
-                    className="menu-button"
-                    onClick={() =>
-                      history.push(`/menu/item/id?=${menu.itemId._id}`)
-                    }
-                  >
-                    Add
-                  </button>
+                  <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/id?=${menu.itemId._id}`) }>Add </button>
+                  {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
                   <h2 className="menu-h2">{menu.itemId.name}</h2>
                   <br />
                   <h3 className="menu-h3">${menu.itemId.price}</h3>
                 </div>
               </div>
+              {/* {popupItem && addToCart(menu.itemId._id)} */}
             </div>
           ))}
         </div>
