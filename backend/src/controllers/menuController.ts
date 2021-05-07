@@ -36,7 +36,6 @@ async function getMenu(req: Request & {params: {vendorId: string}}, res: Respons
             {
                 model: "Item",
                 path: "items.itemId",
-                select: "name price mimetype"
             }
         ).select("items");
        
