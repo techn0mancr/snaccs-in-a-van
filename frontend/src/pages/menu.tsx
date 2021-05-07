@@ -68,7 +68,7 @@ class Items extends React.Component {
                   alt={menu.itemId.name}
                 />
                 <div className="menu-container">
-                  <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/id?=${menu.itemId._id}`) }>Add </button>
+                  <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/?id=${menu.itemId._id}`) }>Add </button>
                   {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
                   <h2 className="menu-h2">{menu.itemId.name}</h2>
                   <br />

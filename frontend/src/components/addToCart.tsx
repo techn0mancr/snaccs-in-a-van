@@ -21,6 +21,7 @@ export default function AddToCart() {
     id: "",
     mimetype: "",
   });
+  const [itemID, setItemID] = useState(String);
 
   const currencyOptions = {
     minimumFractionDigits: 2,
@@ -33,7 +34,7 @@ export default function AddToCart() {
     return id;
   }
 
-  const itemID = getId() || '';
+  // const itemID = getId() || '';
 
   function toTwoDecimalPlaces(number: number) {
     return number.toLocaleString(undefined, currencyOptions);
@@ -41,6 +42,8 @@ export default function AddToCart() {
 
   // Sends a GET request with itemID as parameter and initialises the state of item
   useEffect(() => {
+    const itemID = getId();
+    setItemID(itemID);
     getItemDetails(itemID).then((response: { data: any }) => {
       console.log("item details: ", response);
       var test = response.data;
@@ -69,24 +72,10 @@ export default function AddToCart() {
   }
 
   return (
-    <>
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Snacks In a Van</title>
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
-          crossOrigin="anonymous"
-        />
-        <link rel="stylesheet" href="addToCart.css" />
-      </head>
-
-      <body>
+    <div>
         <div className="fixed-bottom add-card">
         <input type="image" alt="back" className="back" src={leftArrow} onClick={()=> history.goBack()}/>
-          <h1 className="cart-h1">Add to Cart?</h1>
+          <h1 className="cart-h1">Add to Cart</h1>
           <img
             className="cart-img card"
             id="base64image"
@@ -134,7 +123,6 @@ export default function AddToCart() {
             </div>
           </div>
         </div>
-      </body>
-    </>
+    </div>
   );
 }
