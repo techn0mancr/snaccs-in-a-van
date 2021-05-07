@@ -6,8 +6,17 @@ import history from '../history';
 import Home from "../img/navBar/home.png";
 import Cart from "../img/navBar/cart.png";
 import Profile from "../img/navBar/profile.png";
+import axios from "axios";
 
 export default function Nav() {
+
+    function handleSubmit() {
+        if (axios.defaults.withCredentials == false) {
+            history.push("/customer/profile")
+        } else {
+            history.push("/customer/login")
+        }
+    }
     return (
         <nav className="navBar">
             {/* <NavLink className="contentNav" exact to="/"> */}

@@ -10,7 +10,7 @@ class Header extends React.Component {
         return (
             <div className="title">
                 <br></br>
-                <input type="image" alt="back" className="back" src={leftArrow}/>
+                <input type="image" alt="back" className="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1>Checkout</h1>
                 <br></br>           
             </div>
