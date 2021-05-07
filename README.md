@@ -167,3 +167,8 @@ Project is created with the following technologies:
 - Connection string: `mongodb+srv://<username>:<password>@snaccs-in-a-van.4ciyf.mongodb.net/test`
 - Username: `pbhattacharj`
 - Password: `wPOIjfztrqvCKOMe`
+
+### Dummy Customer Login Details
+- Username: `nputro@student.unimelb.edu.au`
+- Password: `123456`
+
