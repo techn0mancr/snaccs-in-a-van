@@ -19,7 +19,7 @@ import Menu from "./pages/menu";
 import AddToCart from "./components/addToCart";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "https://localhost:3000";
+axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
 Vue.use(VueAxios, axios);
 
 export function getId() {
