@@ -80,12 +80,62 @@ class Items extends React.Component {
     }
 }
 
+class Checkout extends React.Component {
+
+    state = {
+        error: null,
+        isLoaded: false,
+        cart: [] as  any,
+    }
+
+    async getCart() {
+        const BASE_URL = "http://localhost:48080/api";
+        const endpoint = `${BASE_URL}/customer/cart`;
+        return await axios.get(endpoint) 
+        .then((response) => {
+            var data = response.data
+            this.setState({isLoaded: true, cart: data});
+            console.log(response);  
+        }, (error) => {
+            this.setState({isLoaded: true, error});
+            console.log(error);
+        },);
+    }
+
+    componentDidMount() {
+        this.getCart();
+    }
+
+    handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        history.push("/order/checkout");
+    }
+
+    render() {
+        const {cart} = this.state;
+        if (cart.length == 0) {
+            return (
+                <div></div>
+            )
+        } else {
+            return (
+                <div className="fixed-bottom orderCheckout">
+                    <button className="orderCheckout" type="submit" value="order" onClick={this.handleSubmit}>
+                        <h3 className="payment" id="order">Checkout</h3>
+                    </button>
+                </div>
+            )
+        }
+    }
+}
+
 class Menu extends React.Component {
     render() {
         return (
             <div>
                 <VanInfo />
                 <Items />
+                <Checkout />
             </div>
         )
     }
