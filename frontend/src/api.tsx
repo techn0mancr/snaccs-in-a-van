@@ -71,14 +71,20 @@ export function customerLogin(email: String, password: String) {
         });
 }
 
-function customerLogout() {
+export function customerLogout() {
     const endpoint = `${BASE_URL}/customer/logout`;
     return axios.get(endpoint);
 }
 
-function customerProfile() {
+export function customerProfile() {
     const endpoint = `${BASE_URL}/customer/profile`;
-    return axios.get(endpoint);
+    return axios.get(endpoint)
+    .then((response) => {
+        console.log(response);
+    }, (error) => {
+        history.push('/customer/login');
+        console.log(error);
+    });
 }
 
 function customerRegister( email: String, givenName: String, familyName: String, password: String ) {
