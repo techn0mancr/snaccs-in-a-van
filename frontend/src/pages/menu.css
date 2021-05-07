@@ -2,7 +2,9 @@ body {
     background-color: #F8F5F2;
     font-family: 'Poppins', sans-serif;
     color: #3E4462;
-    max-width: 90vw;
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 input[type=image].back {
@@ -30,28 +32,32 @@ input[type=image].back:hover {
     background: #FFFFFF;
     border-radius: 10px;
     margin: auto;
+    width: 30%;
+    height: 30%;
 }
 
 .van-image {
-    width: 375px;
-    height: 252px;
-    background-image: url("../img/van-background.jpg");
+    width: 100%;
+    height: 40%;
+    background-image: url("elements/van-background.jpg");
+    padding-top: 40%;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 25%;
 }
 
 
 .van-container {
-    height: 110px;
+    height: 50%;
     width: 303px;
     border-radius: 20px;
     background: #FFFFFF;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    top: 200px;
-    padding-top: 3%;
+    /* top: 100px; */
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-top: -20%;
   }
 
 img  {
@@ -63,6 +69,7 @@ img  {
 
 .menu {
     margin-top: 10%;
+    padding-top: 20px;
     margin-right: 5vw;
     margin-left: 5vw;
 }
@@ -76,7 +83,7 @@ img  {
 }
 
 .menu-container {
-    padding-top: 7%;
+    padding-top: 5%;
     padding-left: 10px;
 }
 
@@ -96,27 +103,27 @@ img  {
 }
 
 
-h1 {
+.menu-h1 {
     font-size: 18px;
     letter-spacing: -0.24px;
 }
 
-h2 {
+.menu-h2 {
     font-size: 13px;
 }
 
-h3 {
+.menu-h3 {
     font-size: 12px;
 }
 
-p {
+.menu-p {
     font-size: 12px;
     letter-spacing: -0.24px;
 }
 
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
     .van-card {
-        width: 720px;
+        width: 700px;
         margin-left: auto;
         margin-right: auto;
         margin-top: 25px;
@@ -129,7 +136,13 @@ p {
         margin-top: 25px;
     }
 
+    .van-card{
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     button.menu {
         width: 700px;
     }
-}
+} 
