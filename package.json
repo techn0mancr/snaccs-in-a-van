@@ -43,7 +43,6 @@
     "prefrontend-dev": "cd frontend/ && npm install",
     "frontend-dev": "cd frontend/ && npm start",
 
-    "prestart": "npm run frontend",
     "start": "npm run backend",
     "start-dev": "npm-run-all --parallel frontend-dev backend-dev",
 
