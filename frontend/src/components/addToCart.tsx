@@ -75,12 +75,12 @@ export default function ItemCounter() {
       <body>
         <div className="fixed-bottom add-card">
           <h1>Add to Cart?</h1>
-          <img
+          <img className="cart-img card"
             id="base64image"
             src={`data:${getItem.mimetype};base64,${getItem.data}`}
-            className="card"
             alt={getItem.name}
-          />
+            />
+
           <div className="add-container">
             <button
               type="button"
@@ -92,9 +92,7 @@ export default function ItemCounter() {
             <h2>{getItem.name}</h2>
             <h3>${toTwoDecimalPlaces(getItem.price)}</h3>
             <div className="number">
-              <Badge color="secondary" badgeContent={itemCount}>
-                <ShoppingCartIcon />{" "}
-              </Badge>
+             
               <ButtonGroup>
                 <Button
                   onClick={() => {
@@ -116,7 +114,6 @@ export default function ItemCounter() {
               </ButtonGroup>
             </div>
           </div>
-          <div></div>
         </div>
       </body>
     </>
