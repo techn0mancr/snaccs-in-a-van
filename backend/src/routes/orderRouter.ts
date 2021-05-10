@@ -7,7 +7,7 @@ const orderRouter: Router = Router();
 /* Import the order controller */
 import * as controller from "../controllers/orderController";
 
-/* Handle order routes */
+/* Handle order routes at /api/order/... */
 orderRouter.get("/:orderId", controller.getOrderDetails);
 
 /* Export the router */
