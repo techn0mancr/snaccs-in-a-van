@@ -4,8 +4,8 @@ import { Customer, Vendor } from "../models";
 
 /* Middleware to authenticate a customer based on their session data */
 async function customerAuth(req: Request, res: Response, next: NextFunction) {
-    /* Check if the session's customerId field is populated */
-    if (req.session.customerId && req.session.customerId != undefined) {
+    /* Check if the session data is characteristic of a customer */
+    if (req.session.customerId && req.session.cart) {
         /* Verify that a customer with the customerId exists in the database */
         const existingCustomer = await Customer.findById(req.session.customerId);
         if (existingCustomer)
@@ -17,8 +17,8 @@ async function customerAuth(req: Request, res: Response, next: NextFunction) {
 
 /* Middleware to authenticate a vendor based on their session data */
 async function vendorAuth(req: Request, res: Response, next: NextFunction) {
-    /* Check if the session's vendorId field is populated */
-    if (req.session.vendorId && req.session.vendorId != undefined) {
+    /* Check if the session data is characteristic of a vendor */
+    if (req.session.vendorId && !req.session.customerId && !req.session.cart) {
         /* Verify that a vendor with the vendorId exists in the database */
         const existingVendor = await Vendor.findById(req.session.vendorId);
         if (existingVendor)
