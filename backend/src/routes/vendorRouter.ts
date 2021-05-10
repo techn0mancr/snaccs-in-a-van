@@ -15,10 +15,10 @@ vendorRouter.use(jsonParser);
 /* Handle vendor routes at /api/vendor/... */
 vendorRouter.patch("/login", controller.login);
 vendorRouter.patch("/logout", vendorAuth, controller.logout);
+vendorRouter.patch("/order/:orderId/fulfill", vendorAuth, controller.fulfillOrder);
 vendorRouter.get("/orders/outstanding", vendorAuth, controller.getOutstandingOrders);
 vendorRouter.patch("/update/location", vendorAuth, controller.setVendorLocation);
 vendorRouter.patch("/update/status", vendorAuth, controller.setVendorAvailability);
-
 
 /* Export the router */
 export default vendorRouter;
