@@ -28,7 +28,7 @@ const vendorSchema: Schema = new Schema({
         type: String,
         required: true,
         minlength: 6,
-        set: (plaintext: string) => hashSync(plaintext, 10);
+        set: (plaintext: string) => hashSync(plaintext, 10)
     },
     locationDescription: {
         type: String
