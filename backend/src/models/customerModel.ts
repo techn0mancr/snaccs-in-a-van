@@ -16,7 +16,7 @@ const customerSchema: Schema = new Schema({
         type: String,
         required: true,
         unique: true,
-        set: (email: String) => email.toLowerCase()
+        set: (email: string) => email.toLowerCase()
     },
     givenName: {
         type: String,
@@ -30,7 +30,7 @@ const customerSchema: Schema = new Schema({
         type: String,
         required: true,
         minlength: 6,
-        set: (plaintext: String) => hashSync(plaintext, 10)
+        set: (plaintext: string) => hashSync(plaintext, 10)
     }
 });
 
