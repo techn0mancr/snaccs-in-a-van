@@ -1,19 +1,20 @@
 /* Import required types */
+import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
 /* Import required models */
-import { Order, OrderStatus, Vendor } from "../models";
+import {
+    Order, OrderStatus,
+    Vendor
+} from "../models";
 
 /* Get the given vendor's outstanding orders */
-async function getOutstandingOrders(req: Request & {params: {vendorId: string}}, res: Response): Promise<void> {
+async function getOutstandingOrders(req: Request, res: Response): Promise<void> {
     try {
-        /* Cast the ObjectIds */
-        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-        
         /* Query the database */
         const outstandingOrders = await Order.find(
             {
-                vendorId: castedVendorId,
+                vendorId: req.session.vendorId,
                 status: {
                     $ne: OrderStatus.Completed
                 }
@@ -40,16 +41,56 @@ async function getOutstandingOrders(req: Request & {params: {vendorId: string}},
     }
 }
 
-/* Sets the given vendor's availability */
-async function setVendorAvailability(req: Request & {params: {vendorId: string}, body: {isOpen: boolean}}, res: Response): Promise<void> {
+/* Logs a vendor in */
+async function login(req: Request & {
+    body: { email: String, password: String }
+}, res: Response): Promise<void> {
     try {
-        /* Cast the ObjectIds */
-        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-        
+        /* Check if a vendor with the given email exists */
+        const vendor = await Vendor.findOne(
+            {
+                email: req.body.email.toLowerCase()
+            }
+        );
+
+        /* Verify the vendor's credentials */
+        if (!(vendor && compareSync(req.body.password, vendor.password)))
+            res.status(400).send("Incorrect email/password!");
+        else {
+            /* Update the session data */
+            req.session.customerId = undefined;
+            req.session.vendorId = vendor._id;
+            req.session.cart = undefined;
+
+            /* Send a response */
+            res.status(200).send("OK");
+        }
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Logs a customer out */
+async function logout(req: Request, res: Response): Promise<void> {
+    /* Update the session data */
+    req.session.customerId = undefined;
+    req.session.vendorId = undefined;
+    req.session.cart = undefined;
+
+    /* Send a response */
+    res.status(200).send("OK");
+}
+
+/* Sets the given vendor's availability */
+async function setVendorAvailability(req: Request & {
+    body: { isOpen: boolean }
+}, res: Response): Promise<void> {
+    try {
         /* Query the database */
         const qResult = await Vendor.updateOne(
             {
-                _id: castedVendorId
+                _id: req.session.vendorId
             },
             {
                 $set: {
@@ -78,15 +119,14 @@ async function setVendorAvailability(req: Request & {params: {vendorId: string},
 }
 
 /* Sets a vendor's geolocation coordinates and location description */
-async function setVendorLocation(req: Request & {params: {vendorId: string}, body: {locationDescription: string, geolocation: Array<number>}}, res: Response): Promise<void> {
+async function setVendorLocation(req: Request & {
+    body: { locationDescription: string, geolocation: Array<number> }
+}, res: Response): Promise<void> {
     try {
-        /* Cast the ObjectIds */
-        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
-        
         /* Query the database */
         const qResult = await Vendor.updateOne(
             {
-                _id: castedVendorId
+                _id: req.session.vendorId
             },
             {
                 $set: {
@@ -118,6 +158,8 @@ async function setVendorLocation(req: Request & {params: {vendorId: string}, bod
 /* Export controller functions */
 export {
     getOutstandingOrders,
+    login,
+    logout,
     setVendorAvailability,
     setVendorLocation
 }
