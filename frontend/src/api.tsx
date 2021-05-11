@@ -120,6 +120,16 @@ export function getItemDetails(itemId: String) {
 //     return await axios.get(endpoint);
 // }
 
+function vendorLogin(email: String, password: String) {
+  const endpoint = `${BASE_URL}/vendor/login`;
+  return axios.patch(endpoint, {email, password});
+}
+
+function vendorLogout() {
+  const endpoint = `${BASE_URL}/vendor/logout`;
+  return axios.patch(endpoint);
+}
+
 // function fulfillOrder(orderId: String) {
 //   const endpoint = `${BASE_URL}/order/${orderId}/fulfill`;
 //   return axios.get(endpoint);
