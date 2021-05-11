@@ -24,14 +24,14 @@ class VendorLogin extends React.Component {
     const { email, password } = this.state;
     return (
         <div>
-            <h1>Log In</h1>
+            <h1 className="vendor">Log In</h1>
             <div className="center">
                 <form id="form" onSubmit={this.handleSubmit}> 
-                    <input id="vanName" type="text" name="vanName" placeholder="van name" onChange={this.handleChange} required />
+                    <input className="vanName" type="text" name="email" value={email} placeholder="van name" onChange={this.handleChange} required />
                     <br/><br/>
-                    <input id="pin" type="password" name="pin" placeholder="pin" onChange={this.handleChange} required/>
+                    <input className="pin" type="password" name="password" placeholder="pin" value={password} onChange={this.handleChange} required/>
                     <br/><br/><br/><br/>
-                    <button type="submit" value="Login">Log in</button>
+                    <button className="vendor" type="submit" value="Login">Log in</button>
                 </form>
             </div>
         </div>

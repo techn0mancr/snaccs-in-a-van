@@ -122,7 +122,17 @@ export function getItemDetails(itemId: String) {
 
 export function vendorLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/vendor/login`;
-  return axios.patch(endpoint, {email, password});
+  return axios.patch(endpoint, {email, password}).then(
+    (response) => {
+      history.push("/vendor/geolocation");
+      console.log(response);
+    },
+    (error) => {
+      alert("Please enter a valid email & password");
+      console.log(error);
+    }
+  );
+  
 }
 
 function vendorLogout() {
