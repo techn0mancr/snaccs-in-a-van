@@ -19,7 +19,6 @@ import { customerSchema } from "./customerModel";
 import { itemSchema } from "./itemModel";
 import { menuSchema } from "./menuModel";
 import { orderSchema } from "./orderModel";
-import tokenSchema from "./tokenSchema";
 import { vendorSchema } from "./vendorModel";
 
 /* Import existing primary interfaces */
@@ -27,7 +26,6 @@ import { ICustomer } from "./customerModel";
 import { IItem } from "./itemModel";
 import { IMenu } from "./menuModel";
 import { IOrder } from "./orderModel";
-import { IToken } from "./tokenSchema";
 import { IVendor } from "./vendorModel";
 
 /* Import existing primary models */
@@ -59,7 +57,6 @@ export {
     itemSchema,
     menuSchema,
     orderSchema,
-    tokenSchema,
     vendorSchema,
     
     /* Primary interfaces */
@@ -67,7 +64,6 @@ export {
     IItem,
     IMenu,
     IOrder,
-    IToken,
     IVendor,
     
     /* Primary models */

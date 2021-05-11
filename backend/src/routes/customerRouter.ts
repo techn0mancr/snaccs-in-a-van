@@ -12,7 +12,7 @@ import * as controller from "../controllers/customerController";
 /* Use middlewares on the router */
 customerRouter.use(jsonParser);
 
-/* Handle customer routes */
+/* Handle customer routes at /api/customer/... */
 customerRouter.get("/cart", controller.getCart);
 customerRouter.post("/cart/add/:itemId", controller.addItemToCart);
 customerRouter.get("/cart/checkout", customerAuth, controller.checkoutCart);
