@@ -1,8 +1,8 @@
 import axios from "axios";
 import history from "./history";
 
-// const BASE_URL = "http://localhost:48080/api";
-const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
+const BASE_URL = "http://localhost:48080/api";
+// const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
 
 // function getCart() {
 //     const endpoint = `${BASE_URL}/customer/cart`;
@@ -120,7 +120,7 @@ export function getItemDetails(itemId: String) {
 //     return await axios.get(endpoint);
 // }
 
-function vendorLogin(email: String, password: String) {
+export function vendorLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/vendor/login`;
   return axios.patch(endpoint, {email, password});
 }
