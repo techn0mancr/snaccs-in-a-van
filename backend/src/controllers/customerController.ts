@@ -103,14 +103,11 @@ async function emptyCart(req: Request, res: Response): Promise<void> {
 /* Returns the logged in customer's active orders */
 async function getActiveOrders(req: Request, res: Response): Promise<void> {
     try {
-        if (req.session.customerId && req.session.customerId != undefined) {
-            /* Cast the ObjectIds */
-            var castedCustomerId: undefined = (req.session.customerId as unknown) as undefined;
-
+        if (req.session.customerId) {
             /* Query the database */
             const activeOrders = await Order.find(
                 {
-                    customerId: castedCustomerId,
+                    customerId: req.session.customerId,
                     $or: [
                         { status: { $eq: OrderStatus.Placed } },
                         { status: { $eq: OrderStatus.Fulfilled } }
@@ -182,14 +179,11 @@ async function getCart(req: Request, res: Response): Promise<void> {
 /* Returns the logged in customer's past orders */
 async function getPastOrders(req: Request, res: Response): Promise<void> {
     try {
-        if (req.session.customerId && req.session.customerId != undefined) {
-            /* Cast the ObjectIds */
-            var castedCustomerId: undefined = (req.session.customerId as unknown) as undefined;
-
+        if (req.session.customerId) {
             /* Query the database */
             const pastOrders = await Order.find(
                 {
-                    customerId: castedCustomerId,
+                    customerId: req.session.customerId,
                     $or: [
                         { status: { $eq: OrderStatus.Completed } },
                         { status: { $eq: OrderStatus.Cancelled } }
@@ -227,12 +221,9 @@ async function getPastOrders(req: Request, res: Response): Promise<void> {
 /* Returns the profile of the current logged-in customer */
 async function getProfile(req: Request, res: Response) {
     try {
-        if (req.session.customerId && req.session.customerId != undefined) {
-            /* Cast the ObjectIds */
-            var castedCustomerId: undefined = (req.session.customerId as unknown) as undefined;
-            
+        if (req.session.customerId) {
             /* Query the database */
-            const customer = await Customer.findById(castedCustomerId)
+            const customer = await Customer.findById(req.session.customerId)
                                            .select("email givenName familyName");
             if (customer)
                 res.status(200).json(customer);
@@ -266,6 +257,10 @@ async function login(req: Request & {
         else {
             /* Update the session data */
             req.session.customerId = customer._id;
+            if (!req.session.vendorId)
+                req.session.vendorId = undefined;
+            if (!req.session.cart)
+                req.session.cart = [];
             
             /* Send a response */
             res.status(200).send("OK");
@@ -307,6 +302,10 @@ async function register(req: Request & {
 
             /* Update the session data */
             req.session.customerId = newCustomer._id;
+            if (!req.session.vendorId)
+                req.session.vendorId = undefined;
+            if (!req.session.cart)
+                req.session.cart = [];
 
             /* Send a response */
             res.status(201).send("Created");
