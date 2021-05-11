@@ -124,7 +124,7 @@ export function vendorLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/vendor/login`;
   return axios.patch(endpoint, {email, password}).then(
     (response) => {
-      history.push("/vendor/geolocation");
+      history.push("/vendor/profile");
       console.log(response);
     },
     (error) => {
@@ -150,17 +150,18 @@ function vendorLogout() {
 //   return axios.get(endpoint);
 // }
 
-// function setVendorLocation(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/update/location`;
-//   return axios.post(endpoint, { vendorId }).then(
-//     (response) => {
-//       console.log(response);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// }
+export function setVendorLocation(locationDescription: string, geolocation: Array<number> ) {
+  const endpoint = `${BASE_URL}/vendor/update/location`;
+  return axios.patch(endpoint, { locationDescription, geolocation }).then(
+    (response) => {
+      history.push("/vendor/orders");
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
 // function setVendorAvailability(vendorId: String) {
 //   const endpoint = `${BASE_URL}/vendor/${vendorId}/update/status`;
