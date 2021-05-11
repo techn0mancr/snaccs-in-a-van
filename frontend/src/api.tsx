@@ -16,7 +16,6 @@ export function checkoutCart() {
 
 export function addItemToCart(itemId: String, quantity: number) {
   const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
-
   return axios.post(endpoint, { itemId, quantity: quantity });
 }
 
@@ -25,22 +24,10 @@ export function addItemToCart(itemId: String, quantity: number) {
 //   return axios.get(endpoint);
 // }
 
-// export function getActiveOrders() {
-//     const endpoint = `${BASE_URL}/customer/order/active`;
-//     return axios.get(endpoint)
-//         .then(response =>
-//             response.data.results.map(order => ({
-//             status: `${order.status}`,
-//             items: `${order.items}`,
-//             total: `${order.total}`,
-//             isChanged: `${order.isChanged}`,
-//             vendorId: `${order.vendorId}`,
-//             placedTimestamp: `${order.placedTimestamp}`
-//             })),
-//         (error) => {
-//             console.log(error);
-//         });
-// }
+export async function getActiveOrders() {
+    const endpoint = `${BASE_URL}/customer/orders/active`;
+    return await axios.get(endpoint);
+}
 
 // function getPastOrders() {
 //     const endpoint = `${BASE_URL}/customer/order/past`;

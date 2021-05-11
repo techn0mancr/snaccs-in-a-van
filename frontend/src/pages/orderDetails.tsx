@@ -57,9 +57,7 @@ class Information extends React.Component {
           items: data.items,
         });
         console.log(response);
-        return data;
-      },
-      (error) => {
+      }, (error) => {
         this.setState({ isLoaded: true, error });
         console.log(error);
       }

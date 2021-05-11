@@ -4,7 +4,7 @@ import rightArrow from '../img/rightArrow.png';
 import axios from 'axios';
 import history from '../history';
 import moment from 'moment';
-import { customerProfile } from '../api';
+import { customerProfile, getActiveOrders } from '../api';
 moment().format();
 
 class Header extends React.Component {
@@ -26,28 +26,22 @@ class ListActiveOrder extends React.Component {
         isLoaded: false,
         orderList: [] as any[]
     }
- 
-    async getActiveOrders() {
-        const BASE_URL = "http://localhost:48080/api";
-        // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
-        const endpoint = `${BASE_URL}/customer/orders/active`;
-        return await axios.get(endpoint) 
-        .then((response) => {
-            var data = response.data
-            this.setState({isLoaded: true, orderList: data});
-            console.log(response);  
-        }, (error) => {
-            this.setState({isLoaded: true, error});
-            console.log(error);
-        },);
-    }
 
     componentWillMount() {
         customerProfile();
     }
 
     componentDidMount() {
-        this.getActiveOrders();
+        getActiveOrders().then(
+            (response) => {
+                var data = response.data
+                this.setState({isLoaded: true, orderList: data});
+                console.log(response);  
+            }, (error) => {
+                this.setState({isLoaded: true, error});
+                console.log(error);
+            }
+        );
     }
 
     render() {
