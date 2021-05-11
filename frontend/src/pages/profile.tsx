@@ -1,6 +1,6 @@
 import React from 'react';
 import './profile.css';
-import { customerProfile, customerLogout, emptyCart } from '../api';
+import { customerProfile, customerLogout } from '../api';
 import history from '../history';
 
 class Profile extends React.Component {
@@ -11,7 +11,6 @@ class Profile extends React.Component {
 
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        emptyCart().then(response => {console.log(response);});
         customerLogout();
         history.push('/customer/login');
     }
