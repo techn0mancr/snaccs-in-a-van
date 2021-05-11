@@ -115,10 +115,10 @@ export function getItemDetails(itemId: String) {
 }
 
 /* get one order detail */
-// export async function getOrderDetails( orderId: String ) {
-//     const endpoint = `${BASE_URL}/order/${orderId}`;
-//     return await axios.get(endpoint);
-// }
+export async function getOrderDetails( orderId: String ) {
+    const endpoint = `${BASE_URL}/order/${orderId}`;
+    return await axios.get(endpoint);
+}
 
 export function vendorLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/vendor/login`;
