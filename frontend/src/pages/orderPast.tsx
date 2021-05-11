@@ -2,9 +2,9 @@ import React from "react";
 import './order.css';
 import leftArrow from "../img/leftArrow.png"
 import rightArrow from "../img/rightArrow.png"
-import axios from "axios";
 import history from '../history';
 import moment from 'moment';
+import { getPastOrders } from "../api";
 moment().format();
 
 class Header extends React.Component {
@@ -26,38 +26,18 @@ class ListPastOrder extends React.Component {
         orderList: [] as any[]
     }
 
-    async getPastOrders() {
-        const BASE_URL = "http://localhost:48080/api";
-        // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
-        const endpoint = `${BASE_URL}/customer/orders/past`;
-        return await axios.get(endpoint)
-        .then((response) => {
-            var data = response.data
-            this.setState({isLoaded: true, orderList: data});
-            console.log(response);
-        }, (error) => {
-            this.setState({isLoaded: true, error});
-            console.log(error);
-        },);
-    }
-
-    // pastOrders() {
-    //     const queryResult = getPastOrders();
-    //     console.log(queryResult);
-    //     if (queryResult) {
-    //         this.setState({isLoaded: true, orderList: queryResult.data.args});
-    //     } else {
-    //         this.setState({isLoaded: true, error: true});
-    //     }
-    // }
-
     componentDidMount() {
-        this.getPastOrders();
+        getPastOrders().then(
+            (response) => {
+                var data = response.data
+                this.setState({isLoaded: true, orderList: data});
+                console.log(response);
+            }, (error) => {
+                this.setState({isLoaded: true, error});
+                console.log(error);
+            }
+        );
     }
-
-    // componentDidMount() {
-    //     this.pastOrders();
-    // }
 
     render() {
         const { error, isLoaded, orderList } = this.state;

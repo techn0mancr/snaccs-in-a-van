@@ -4,10 +4,10 @@ import history from "./history";
 const BASE_URL = "http://localhost:48080/api";
 // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
 
-// function getCart() {
-//     const endpoint = `${BASE_URL}/customer/cart`;
-//     return axios.get(endpoint);
-// }
+export async function getCart() {
+    const endpoint = `${BASE_URL}/customer/cart`;
+    return await axios.get(endpoint);
+}
 
 export function checkoutCart() {
   const endpoint = `${BASE_URL}/customer/cart/checkout`;
@@ -19,27 +19,20 @@ export function addItemToCart(itemId: String, quantity: number) {
   return axios.post(endpoint, { itemId, quantity: quantity });
 }
 
-// function emptyCart() {
-//   const endpoint = `${BASE_URL}/customer/cart/clear`;
-//   return axios.get(endpoint);
-// }
+export function emptyCart() {
+  const endpoint = `${BASE_URL}/customer/cart/clear`;
+  return axios.get(endpoint);
+}
 
 export async function getActiveOrders() {
     const endpoint = `${BASE_URL}/customer/orders/active`;
     return await axios.get(endpoint);
 }
 
-// function getPastOrders() {
-//     const endpoint = `${BASE_URL}/customer/order/past`;
-//     return axios.get(endpoint);
-// }
-
-// export async function getPastOrders() {
-//     const BASE_URL = "http://localhost:48080/api";
-//     const endpoint = `${BASE_URL}/customer/orders/past`;
-//     const res = axios.get(endpoint);
-//     return res;
-// }
+export async function getPastOrders() {
+    const endpoint = `${BASE_URL}/customer/orders/past`;
+    return await axios.get(endpoint);
+}
 
 export function customerLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/customer/login`;
@@ -91,10 +84,10 @@ export function customerProfile() {
 //   );
 // }
 
-// function getMenu(vendorId: String) {
-//   const endpoint = `${BASE_URL}/menu/${vendorId}`;
-//   return axios.get(endpoint);
-// }
+export async function getMenu(vendorId: String) {
+  const endpoint = `${BASE_URL}/menu/${vendorId}`;
+  return await axios.get(endpoint);
+}
 
 export function getItemDetails(itemId: String) {
   const endpoint = `${BASE_URL}/menu/item/${itemId}`;
