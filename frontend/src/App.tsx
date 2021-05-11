@@ -46,11 +46,11 @@ function App() {
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
-            <Route exact path="/cart/order/active/status" component={OrderStatus}/>
+            <Route path="/order/active/status" component={OrderStatus}/>
             <Route exact path="/cart/order/active" component={OrderCurrent} />
             <Route exact path="/cart/order/past" component={OrderPast} />
             <Route exact path="/order/checkout" component={Checkout} />
-            <Route path="/order" component={OrderDetails} />
+            <Route path="/order/details" component={OrderDetails} />
             <Route exact path="/menu" component={Menu} />
             <Route path="/menu/item" component={AddToCart} />
           </div>
