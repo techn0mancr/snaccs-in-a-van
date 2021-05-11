@@ -19,9 +19,9 @@ export function addItemToCart(itemId: String, quantity: number) {
   return axios.post(endpoint, { itemId, quantity: quantity });
 }
 
-export function emptyCart() {
+export async function emptyCart() {
   const endpoint = `${BASE_URL}/customer/cart/clear`;
-  return axios.get(endpoint);
+  return await axios.get(endpoint);
 }
 
 export async function getActiveOrders() {
@@ -115,10 +115,10 @@ export function vendorLogin(email: String, password: String) {
   
 }
 
-function vendorLogout() {
-  const endpoint = `${BASE_URL}/vendor/logout`;
-  return axios.patch(endpoint);
-}
+// function vendorLogout() {
+//   const endpoint = `${BASE_URL}/vendor/logout`;
+//   return axios.patch(endpoint);
+// }
 
 // function fulfillOrder(orderId: String) {
 //   const endpoint = `${BASE_URL}/order/${orderId}/fulfill`;

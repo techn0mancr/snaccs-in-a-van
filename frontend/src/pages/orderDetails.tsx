@@ -2,7 +2,6 @@ import React from "react";
 import "./order.css";
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import axios from "axios";
 import moment from "moment";
 import { getId } from "../App";
 import { getOrderDetails } from "../api";

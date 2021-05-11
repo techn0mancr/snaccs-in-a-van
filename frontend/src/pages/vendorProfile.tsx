@@ -1,6 +1,5 @@
 import React from 'react';
 import './vendorProfile.css';
-import { Link } from 'react-router-dom'
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
 import { setVendorLocation } from '../api';
@@ -11,7 +10,7 @@ class Header extends React.Component {
         return (
             <div className="title">
                 <br/><br/>
-                <input className="vendorProfile" type="image" src={leftArrow} onClick={() => history.goBack()}/>
+                <input className="vendorProfile" type="image" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1>Vendor Profile</h1>
                 <br/>
             </div>
@@ -63,7 +62,7 @@ class VendorProfile extends React.Component {
         return (
             <div>
                 <div className="split left">
-                    <img className="vendorProfile" src={map} />
+                    <img className="vendorProfile" alt="map" src={map} />
                 </div>
 
                 <div className="split right">

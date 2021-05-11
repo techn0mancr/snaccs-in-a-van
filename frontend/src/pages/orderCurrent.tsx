@@ -1,7 +1,6 @@
 import React from 'react';
 import './order.css';
 import rightArrow from '../img/rightArrow.png';
-import axios from 'axios';
 import history from '../history';
 import moment from 'moment';
 import { customerProfile, getActiveOrders } from '../api';

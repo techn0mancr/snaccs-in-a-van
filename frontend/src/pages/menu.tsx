@@ -1,6 +1,5 @@
 import React from "react";
 import "./menu.css";
-import axios from "axios";
 import history from "../history";
 import { getMenu, getCart } from "../api";
 
@@ -94,6 +93,7 @@ class Checkout extends React.Component {
     error: null,
     isLoaded: false,
     cart: [] as any,
+    logged: false,
   };
 
   componentDidMount() {
