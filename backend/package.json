@@ -55,8 +55,10 @@
     "scripts": {
         "compile": "tsc --project ./",
         "clean": "rm --force --recursive dist/",
-        "prestart": "npm run compile",
+        
         "start": "node dist/server.js",
+        
+        "prestart-dev": "npm run compile",
         "start-dev": "nodemon"
     },
     "nodemonConfig": {
