@@ -11,7 +11,7 @@ class Profile extends React.Component {
 
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        // emptyCart();
+        emptyCart();
         customerLogout();
         history.push('/customer/login');
     }
