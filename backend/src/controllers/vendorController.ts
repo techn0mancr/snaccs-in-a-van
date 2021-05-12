@@ -80,7 +80,7 @@ async function fulfillOrder(req: Request & {
                 currentOrder.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
 
             /* Save the updates to the database */
-            currentOrder.save();
+            await currentOrder.save();
 
             /* Send a response */
             res.status(200).send("OK");
