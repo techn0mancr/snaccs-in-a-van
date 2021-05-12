@@ -94,7 +94,7 @@ async function checkoutCart(req: Request, res: Response): Promise<void> {
     }
 }
 
-/* Clears the customer's current cart */
+/* Empties the customer's current cart */
 async function emptyCart(req: Request, res: Response): Promise<void> {
     req.session.cart = [];
     res.status(200).send("OK");
@@ -257,6 +257,7 @@ async function login(req: Request & {
         else {
             /* Update the session data */
             req.session.customerId = customer._id;
+            req.session.cart = customer.cart;
             if (!req.session.vendorId)
                 req.session.vendorId = undefined;
             if (!req.session.cart)
@@ -273,8 +274,37 @@ async function login(req: Request & {
 
 /* Logs a customer out */
 async function logout(req: Request, res: Response): Promise<void> {
-    req.session.customerId = undefined;
-    res.status(200).send("OK");
+    /* Store the current customer's cart in the database */
+    try {
+        /* Query the database */
+        const customer = await Customer.findById(req.session.customerId);
+        if (customer && req.session.cart) {
+            /* Empty the current customer's cart */
+            const qResult = await Customer.updateOne(
+                {
+                    _id: req.session.customerId
+                },
+                {
+                    $set: {
+                        cart: []
+                    }
+                }
+            );
+           
+            /* Add all the item orders in the cart to the customer's now-empty cart */
+            req.session.cart.forEach((itemOrder: IItemOrder) => customer.cart.push(itemOrder));
+            await customer.save();
+        }
+        
+        /* Update the session data */
+        req.session.customerId = undefined;
+        req.session.cart = [];
+
+        res.status(200).send("OK");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
 }
 
 /* Registers a new customer */
