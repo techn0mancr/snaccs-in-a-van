@@ -2,20 +2,26 @@
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
-/* Import required models */
+/* Import required constants and models */
+import {
+    LATE_FULFILLMENT_ELAPSED_TIME,
+    LATE_FULFILLMENT_DISCOUNT
+} from "../config";
+
 import {
     Order, OrderStatus,
     Vendor
 } from "../models";
 
-/* Sets the status of a given order to "Fulfilled" */
-async function fulfillOrder(req: Request & {
+
+/* Sets the status of a given order to "Completed" */
+async function completeOrder(req: Request & {
     params: { orderId: string }
-}, res : Response): Promise<void> {
+}, res: Response): Promise<void> {
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
-        
+
         /* Query the database */
         const qResult = await Order.updateOne(
             {
@@ -24,8 +30,8 @@ async function fulfillOrder(req: Request & {
             },
             {
                 $set: {
-                    status: OrderStatus.Fulfilled,
-                    fulfilledTimestamp: new Date()
+                    status: OrderStatus.Completed,
+                    completedTimestamp: new Date()
                 }
             }
         );
@@ -39,6 +45,48 @@ async function fulfillOrder(req: Request & {
         }
         else
             res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+
+    }
+}
+
+/* Sets the status of a given order to "Fulfilled" and applies the fulfillment
+ * discount if a certain amount of time has passed since the order was placed */
+async function fulfillOrder(req: Request & {
+    params: { orderId: string }
+}, res : Response): Promise<void> {
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+             
+        /* Query the database */
+        const currentOrder = await Order.findOne(
+            {
+                _id: castedOrderId,
+                vendorId: req.session.vendorId
+            }
+        );
+
+        if (currentOrder) {
+            /* Update the current order's fields */
+            currentOrder.status = OrderStatus.Fulfilled;
+            currentOrder.fulfilledTimestamp = new Date();
+
+            /* Check if a certain amount of time has passed since placement */
+            var deltaSincePlaced: number =
+                currentOrder.fulfilledTimestamp.getTime() - currentOrder.placedTimestamp.getTime();
+            if (deltaSincePlaced > LATE_FULFILLMENT_ELAPSED_TIME)
+                currentOrder.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
+
+            /* Save the updates to the database */
+            currentOrder.save();
+
+            /* Send a response */
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -193,6 +241,7 @@ async function setVendorLocation(req: Request & {
 
 /* Export controller functions */
 export {
+    completeOrder,
     fulfillOrder,
     getOutstandingOrders,
     login,
