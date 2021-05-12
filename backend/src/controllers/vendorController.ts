@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 /* Import required constants and models */
 import {
-    LATE_FULFILLMENT_ELAPSED_TIME,
+    LATE_FULFILLMENT_TIME_WINDOW,
     LATE_FULFILLMENT_DISCOUNT
 } from "../config";
 
@@ -76,7 +76,7 @@ async function fulfillOrder(req: Request & {
             /* Check if a certain amount of time has passed since placement */
             var deltaSincePlaced: number =
                 currentOrder.fulfilledTimestamp.getTime() - currentOrder.placedTimestamp.getTime();
-            if (deltaSincePlaced > LATE_FULFILLMENT_ELAPSED_TIME)
+            if (deltaSincePlaced > LATE_FULFILLMENT_TIME_WINDOW)
                 currentOrder.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
 
             /* Save the updates to the database */
