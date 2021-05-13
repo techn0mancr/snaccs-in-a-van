@@ -92,15 +92,51 @@ async function fulfillOrder(req: Request & {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
-/* Get the given vendor's outstanding orders */
-async function getOutstandingOrders(req: Request, res: Response): Promise<void> {
+
+/* Get the given vendor's completed orders */
+async function getCompletedOrders(req: Request, res: Response): Promise<void> {
     try {
         /* Query the database */
-        const outstandingOrders = await Order.find(
+        const completedOrders = await Order.find(
+            {
+                vendorId: req.session.vendorId,
+                $or: [
+                    { status: { $eq: OrderStatus.Completed } },
+                    { status: { $eq: OrderStatus.Cancelled } }
+                ]
+            }
+        ).populate(
+            {
+                model: "Item",
+                path: "items.itemId",
+            }
+        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp completedTimestamp isChanged rating")
+         .sort("-completedTimestamp");
+
+        /* Send the query results */
+        if (completedOrders) {
+            if (completedOrders.length > 0)
+                res.status(200).json(completedOrders);
+            else
+                res.status(204).send("No Content");
+        }
+        else
+            res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Get the given vendor's fulfilled orders */
+async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        const fulfilledOrders = await Order.find(
             {
                 vendorId: req.session.vendorId,
                 status: {
-                    $ne: OrderStatus.Completed
+                    $eq: OrderStatus.Fulfilled
                 }
             }
         ).populate(
@@ -108,12 +144,47 @@ async function getOutstandingOrders(req: Request, res: Response): Promise<void> 
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged orderTimestamp fulfilledTimestamp isChanged");
+        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp isChanged")
+         .sort("fulfilledTimestamp");
 
         /* Send the query results */
-        if (outstandingOrders) {
-            if (outstandingOrders.length > 0)
-                res.status(200).json(outstandingOrders);
+        if (fulfilledOrders) {
+            if (fulfilledOrders.length > 0)
+                res.status(200).json(fulfilledOrders);
+            else
+                res.status(204).send("No Content");
+        }
+        else
+            res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Get the given vendor's placed orders */
+async function getPlacedOrders(req: Request, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        const placedOrders = await Order.find(
+            {
+                vendorId: req.session.vendorId,
+                status: {
+                    $eq: OrderStatus.Placed
+                }
+            }
+        ).populate(
+            {
+                model: "Item",
+                path: "items.itemId",
+            }
+        ).select("customerId status items total isChanged placedTimestamp isChanged")
+         .sort("placedTimestamp");
+
+        /* Send the query results */
+        if (placedOrders) {
+            if (placedOrders.length > 0)
+                res.status(200).json(placedOrders);
             else
                 res.status(204).send("No Content");
         }
@@ -243,7 +314,9 @@ async function setVendorLocation(req: Request & {
 export {
     completeOrder,
     fulfillOrder,
-    getOutstandingOrders,
+    getPlacedOrders,
+    getFulfilledOrders,
+    getCompletedOrders,
     login,
     logout,
     setVendorAvailability,
