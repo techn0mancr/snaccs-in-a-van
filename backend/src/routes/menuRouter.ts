@@ -7,7 +7,7 @@ const menuRouter: Router = Router();
 /* Import the menu controller */
 import * as controller from "../controllers/menuController";
 
-/* Handle menu routes */
+/* Handle menu routes at /api/menu/... */
 menuRouter.get("/:vendorId", controller.getMenu);
 menuRouter.get("/item/:itemId", controller.getItemDetails);
 

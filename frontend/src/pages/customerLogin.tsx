@@ -35,7 +35,7 @@ class CustomerLogin extends React.Component {
             </div>
 
             <div className="containerProfile">
-                <form id="form" onSubmit={this.handleSubmit}> 
+                <form onSubmit={this.handleSubmit}> 
                     <input id="email" type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} required /><br/><br/>
                     <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required /><br/><br/>
                     

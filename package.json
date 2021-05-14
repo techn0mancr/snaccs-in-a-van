@@ -33,13 +33,19 @@
   "scripts": {
     "prebuild-frontend": "cd frontend/ && npm install",
     "build-frontend": "cd frontend/ && npm run build",
+    
     "prebuild-backend": "cd backend/ && npm install",
     "build-backend": "cd backend/ && npm run compile",
+
     "frontend-dev": "cd frontend/ && npm start",
+    
     "backend": "cd backend/ && npm start",
     "backend-dev": "cd backend/ && npm run start-dev",
+
+
     "start": "npm run backend",
     "start-dev": "npm-run-all --parallel frontend-dev backend-dev",
+
     "heroku-postbuild": "npm-run-all --parallel build-frontend build-backend"
   }
 }

@@ -1,6 +1,6 @@
 /* Import the required libraries and types */
+import { hashSync } from "bcrypt";
 import { Document, model, Model, Schema } from "mongoose";
-import { IToken, tokenSchema } from "./index";
 
 /* Define the vendor interface */
 export interface IVendor extends Document {
@@ -10,7 +10,6 @@ export interface IVendor extends Document {
     locationDescription: string;
     isOpen: boolean;
     geolocation: Array<number>;
-    tokens: Array<IToken>;
 }
 
 /* Define the vendor schema */
@@ -18,7 +17,8 @@ const vendorSchema: Schema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        set: (email: string) => email.toLowerCase()
     },
     name: {
         type: String,
@@ -27,7 +27,8 @@ const vendorSchema: Schema = new Schema({
     password: {
         type: String,
         required: true,
-        minlength: 6
+        minlength: 6,
+        set: (plaintext: string) => hashSync(plaintext, 10)
     },
     locationDescription: {
         type: String
@@ -39,9 +40,6 @@ const vendorSchema: Schema = new Schema({
     geolocation: {
         type: [Number],
         default: undefined
-    },
-    tokens: {
-        type: [tokenSchema]
     }
 });
 

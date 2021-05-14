@@ -28,6 +28,7 @@ class ListPastOrder extends React.Component {
 
     async getPastOrders() {
         const BASE_URL = "http://localhost:48080/api";
+        // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
         const endpoint = `${BASE_URL}/customer/orders/past`;
         return await axios.get(endpoint)
         .then((response) => {
@@ -74,7 +75,7 @@ class ListPastOrder extends React.Component {
                 <div className="content">
                     { orderList.map((order, i) => (   
                         <div key={i}>
-                            <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/?id=${order._id}`)}>
+                            <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/details/?id=${order._id}`)}>
                                 <img alt="right arrow" className="right" src={rightArrow} />
                                 <h2>{order.vendorId.name}</h2>
                                 <p id="ready">{order.status}</p>

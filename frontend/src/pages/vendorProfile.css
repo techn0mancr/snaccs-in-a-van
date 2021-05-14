@@ -1,0 +1,96 @@
+.split {
+    height: 100%;
+    width: 45%;
+    position: fixed;
+}
+
+.right {
+    right: 0;
+    background-color: #F8F5F2;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+}
+
+.container {
+    background-color: #FFFFFF;
+    width: 420px;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    text-align: left;
+    border-radius: 20px;
+}
+
+
+input[type=text].vendorProfile {
+    background-color: #C4C4C4;
+    border-radius: 10px;
+    border: none;
+    opacity: 52%;
+    width: 90%;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    padding: 15px 10px;
+}
+
+input[type=image].vendorProfile {
+    height: 50px;
+    width: 50px;
+    float: left;
+    margin-left: 30px;
+    margin-right: 0;
+}
+
+.h1 {
+    font-family: Poppins;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: center;
+    display: inline-block;
+}
+
+.h2 {
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: regular;
+    font-weight: 400;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.p {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    opacity: 0.5s;
+}
+
+.open {
+    background-color: #dd7070;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 151px;
+    font-style: regular;
+    font-weight: 400;
+    font-size: 24px;
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0px 10px 10px #F6F6F6;
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    opacity: 0.8;
+}
