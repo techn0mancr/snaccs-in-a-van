@@ -307,6 +307,36 @@ async function logout(req: Request, res: Response): Promise<void> {
     }
 }
 
+/* Submits a rating for a completed order */
+async function rateOrder(req: Request & {
+    params: { orderId: string },
+    body: { rating: number }
+}, res: Response): Promise<void> {
+    try {
+        /* Check if the order is made by the current customer */
+        const order = await Order.findOne(
+            {
+                _id: req.params.orderId,
+                customerId: req.session.customerId,
+                status: OrderStatus.Completed
+            }
+        );
+        if (order) {
+            /* Submit the rating */
+            order.rating = req.body.rating;
+            await order.save();
+
+            /* Send a response */
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Registers a new customer */
 async function register(req: Request & {
     body: { email: String, givenName: String, familyName: String, password: String }
@@ -359,5 +389,6 @@ export {
     getProfile,
     login,
     logout,
+    rateOrder,
     register
 }

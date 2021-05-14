@@ -17,6 +17,7 @@ customerRouter.get("/cart", controller.getCart);
 customerRouter.patch("/cart/add/:itemId", controller.addItemToCart);
 customerRouter.post("/cart/checkout", customerAuth, controller.checkoutCart);
 customerRouter.patch("/cart/empty", controller.emptyCart);
+customerRouter.patch("/order/:orderId/rate", customerAuth, controller.rateOrder);
 customerRouter.get("/orders/active", customerAuth, controller.getActiveOrders);
 customerRouter.get("/orders/past", customerAuth, controller.getPastOrders);
 customerRouter.patch("/login", controller.login);
