@@ -2,7 +2,11 @@
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
-/* Import required models */
+/* Import required constants and models */
+import {
+    ORDER_AMENDMENT_TIME_WINDOW
+} from "../config";
+
 import {
     Customer, ICustomer,
     Item,
@@ -53,6 +57,43 @@ async function addItemToCart(req: Request & {
         }
         else
             res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Cancels the customer's given order */
+async function cancelOrder(req: Request & {
+    params: { orderId: string }
+}, res: Response): Promise<void> {
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+        
+        /* Check if the order is made by the current customer within a certain amount of time  */
+        const currentOrder = await Order.findOne(
+            {
+                _id: castedOrderId,
+                customerId: req.session.customerId
+            }
+        );
+        if (currentOrder) {
+            /* Check if a certain amount of time has passed since placement */
+            var deltaSincePlaced: number =
+                (new Date()).getTime() - currentOrder.placedTimestamp.getTime();
+            if (deltaSincePlaced <= ORDER_AMENDMENT_TIME_WINDOW) {
+                /* Update the order details */
+                currentOrder.status = OrderStatus.Cancelled;
+                currentOrder.completedTimestamp = new Date();
+                await currentOrder.save();
+
+                /* Send a response */
+                res.status(200).send("OK");
+            }
+            else
+                res.status(403).send("Forbidden");
+        }
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -313,7 +354,7 @@ async function rateOrder(req: Request & {
     body: { rating: number }
 }, res: Response): Promise<void> {
     try {
-        /* Check if the order is made by the current customer */
+        /* Check if the order is already completed and made by the current customer */
         const order = await Order.findOne(
             {
                 _id: req.params.orderId,
@@ -381,6 +422,7 @@ async function register(req: Request & {
 /* Export controller functions */
 export {
     addItemToCart,
+    cancelOrder,
     checkoutCart,
     emptyCart,
     getActiveOrders,
