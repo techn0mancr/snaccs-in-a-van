@@ -41,7 +41,7 @@ class Items extends React.Component {
   };
 
   async getMenu(vendorId: String) {
-    const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
+    const BASE_URL = "http://localhost:48080/api";
     const endpoint = `${BASE_URL}/menu/${vendorId}`;
     return await axios.get(endpoint).then(
       (response) => {
@@ -102,7 +102,7 @@ class Checkout extends React.Component {
   };
 
   async getCart() {
-    const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
+    const BASE_URL = "http://localhost:48080/api";
     const endpoint = `${BASE_URL}/customer/cart`;
     return await axios.get(endpoint).then(
       (response) => {

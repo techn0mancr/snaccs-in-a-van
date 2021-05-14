@@ -1,8 +1,8 @@
 import axios from "axios";
 import history from "./history";
 
-// const BASE_URL = "http://localhost:48080/api";
-const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
+const BASE_URL = "http://localhost:48080/api";
+// const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
 
 // function getCart() {
 //     const endpoint = `${BASE_URL}/customer/cart`;
@@ -75,6 +75,9 @@ export function customerLogout() {
 
 export function customerProfile() {
   const endpoint = `${BASE_URL}/customer/profile`;
+
+  getVendorGeolocation() ///////////////////////////////////////
+
   return axios.get(endpoint).then(
     (response) => {
       console.log(response);
@@ -120,27 +123,93 @@ export function getItemDetails(itemId: String) {
 //     return await axios.get(endpoint);
 // }
 
-// function fulfillOrder(orderId: String) {
-//   const endpoint = `${BASE_URL}/order/${orderId}/fulfill`;
-//   return axios.get(endpoint);
-// }
+export function vendorLogin(email: String, password: String) {
+  const endpoint = `${BASE_URL}/vendor/login`;
+  return axios.patch(endpoint, {email, password}).then(
+    (response) => {
+      history.push("/vendor/profile");
+      console.log(response);
+    },
+    (error) => {
+      alert("Please enter a valid email & password");
+      console.log(error);
+    }
+  );
+  
+}
 
-// function getOutstandingOrders(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/order/outstanding`;
-//   return axios.get(endpoint);
-// }
+function vendorLogout() {
+  const endpoint = `${BASE_URL}/vendor/logout`;
+  return axios.patch(endpoint);
+}
 
-// function setVendorLocation(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/update/location`;
-//   return axios.post(endpoint, { vendorId }).then(
-//     (response) => {
-//       console.log(response);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// }
+export function setVendorLocation(locationDescription: string) { ///
+  const endpoint = `${BASE_URL}/vendor/update/location`;
+  getVendorGeolocation();
+
+  return axios.patch(endpoint, { locationDescription }).then(
+    (response) => {
+      history.push("/vendor/orders");
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+
+var geoLocation: number[]; ///
+
+export function getVendorGeolocation() { ///
+  var geoLocation: number[];
+  if (navigator.geolocation) {
+    
+    const successCallback = (position: GeolocationPosition) => {
+
+      geoLocation = [position.coords.latitude, position.coords.longitude]
+      console.log(geoLocation)
+    }
+
+    const errorCallback = (error: any) => {
+      console.log(error);
+    }
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+    setVendorGeolocation()
+  }
+  else {
+    alert("Sorry, browser does not support geolocation!");
+ }
+}
+
+function setVendorGeolocation() { ///
+  if (geoLocation) {
+    console.log("hey there pls workk")
+
+    const endpoint = `${BASE_URL}/vendor/update/geolocation`;
+
+    return axios.patch(endpoint, { geoLocation }).then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+}
+
+export function getDistance(coordinate1: number[], coordinate2: number[]) {
+  /**
+   * put coordinate1 as customer coordinate, coordinate2 as vendor coordinate
+   * This is only accurate in a 2-d plane or small planes of land like melbourne.
+   * This does not account for obstacles or road sytems.
+   */
+
+  var distance = ((coordinate2[1]-coordinate1[1])^2+(coordinate2[0]-coordinate1[0])^2)^0.5
+  return distance;
+}
+
 
 // function setVendorAvailability(vendorId: String) {
 //   const endpoint = `${BASE_URL}/vendor/${vendorId}/update/status`;
@@ -152,4 +221,16 @@ export function getItemDetails(itemId: String) {
 //       console.log(error);
 //     }
 //   );
+// }
+
+
+
+// function fulfillOrder(orderId: String) {
+//   const endpoint = `${BASE_URL}/order/${orderId}/fulfill`;
+//   return axios.get(endpoint);
+// }
+
+// function getOutstandingOrders(vendorId: String) {
+//   const endpoint = `${BASE_URL}/vendor/${vendorId}/order/outstanding`;
+//   return axios.get(endpoint);
 // }

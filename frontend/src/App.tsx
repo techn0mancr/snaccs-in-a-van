@@ -19,7 +19,8 @@ import Menu from "./pages/menu";
 import AddToCart from "./components/addToCart";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
+axios.defaults.baseURL = "http://localhost:48080/api";
+// axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
 Vue.use(VueAxios, axios);
 
 export function getId() {
@@ -38,11 +39,7 @@ function App() {
           <Route exact path="/customer/login" component={CustomerLogin} />
           <Route exact path="/customer/register" component={Signup} />
           <Route exact path="/customer/profile" component={Profile} />
-          <Route
-            exact
-            path="/cart/order/active/status"
-            component={OrderStatus}
-          />
+          <Route exact path="/cart/order/active/status" component={OrderStatus}/>
           <Route exact path="/cart/order/active" component={OrderCurrent} />
           <Route exact path="/cart/order/past" component={OrderPast} />
           <Route exact path="/order/checkout" component={Checkout} />

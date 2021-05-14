@@ -46,7 +46,7 @@ class Information extends React.Component {
   orderId = getId() || "";
 
   async getOrderDetails(orderId: String) {
-    const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
+    const BASE_URL = "http://localhost:48080/api";
     const endpoint = `${BASE_URL}/order/${orderId}`;
     return await axios.get(endpoint).then(
       (response) => {
