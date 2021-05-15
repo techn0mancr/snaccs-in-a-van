@@ -214,6 +214,27 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
     }
 }
 
+/* Returns the profile of the current logged-in vendor */
+async function getProfile(req: Request, res: Response) {
+    try {
+        if (req.session.vendorId) {
+            /* Query the database */
+            const currentVendor = await Vendor.findById(req.session.vendorId)
+                                              .select("email name locationDescription isOpen geolocation");
+            if (currentVendor)
+                res.status(200).json(currentVendor);
+            else
+                res.status(404).send("Not Found");
+
+        }
+        else
+            res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Logs a vendor in */
 async function login(req: Request & {
     body: { email: String, password: String }
@@ -333,6 +354,7 @@ export {
     completeOrder,
     fulfillOrder,
     getPlacedOrders,
+    getProfile,
     getFulfilledOrders,
     getCompletedOrders,
     login,
