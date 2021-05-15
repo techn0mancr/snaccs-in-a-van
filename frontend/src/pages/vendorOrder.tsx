@@ -1,6 +1,7 @@
 import React from 'react';
 import './vendorOrder.css';
 import vanIcon from '../img/vanTruck.png';
+import history from '../history';
 import moment from "moment";
 import { fulfillOrder, completeOrder, getPlacedOrders, getFulfilledOrders, getOrderDetails } from '../api';
 moment().format();
@@ -9,7 +10,7 @@ class Header extends React.Component {
     render() {
         return (
             <div>
-                <input type="image" alt="Profile" className="vanIcon" src={vanIcon} />
+                <input type="image" alt="Profile" className="vanIcon" src={vanIcon} onClick={() => history.push(`/vendor/profile`)}/>
                 <h1 className="vendorOrder">Orders</h1>
             </div>
         )
