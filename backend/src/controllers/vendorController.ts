@@ -107,6 +107,12 @@ async function getCompletedOrders(req: Request, res: Response): Promise<void> {
             }
         ).populate(
             {
+                model: "Customer",
+                path: "customerId",
+                select: "email givenName familyName"
+            }
+        ).populate(
+            {
                 model: "Item",
                 path: "items.itemId",
             }
@@ -141,6 +147,12 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
             }
         ).populate(
             {
+                model: "Customer",
+                path: "customerId",
+                select: "email givenName familyName"
+            }
+        ).populate(
+            {
                 model: "Item",
                 path: "items.itemId",
             }
@@ -172,6 +184,12 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
                 status: {
                     $eq: OrderStatus.Placed
                 }
+            }
+        ).populate(
+            {
+                model: "Customer",
+                path: "customerId",
+                select: "email givenName familyName"
             }
         ).populate(
             {
