@@ -20,7 +20,8 @@ vendorRouter.patch("/order/:orderId/complete", vendorAuth, controller.completeOr
 vendorRouter.get("/orders/placed", vendorAuth, controller.getPlacedOrders);
 vendorRouter.get("/orders/fulfilled", vendorAuth, controller.getFulfilledOrders);
 vendorRouter.get("/orders/completed", vendorAuth, controller.getCompletedOrders);
-vendorRouter.patch("/update/location", vendorAuth, controller.setVendorLocation);
+vendorRouter.patch("/update/location/coordinates", vendorAuth, controller.setVendorGeolocation);
+vendorRouter.patch("/update/location/description", vendorAuth, controller.setVendorLocationDescription);
 vendorRouter.patch("/update/status", vendorAuth, controller.setVendorAvailability);
 
 /* Export the router */
