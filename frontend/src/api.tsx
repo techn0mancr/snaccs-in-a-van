@@ -11,17 +11,17 @@ export async function getCart() {
 
 export function addItemToCart(itemId: String, quantity: number) {
   const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
-  return axios.post(endpoint, { itemId, quantity: quantity });
+  return axios.patch(endpoint, { itemId, quantity: quantity });
 }
 
 export function checkoutCart() {
   const endpoint = `${BASE_URL}/customer/cart/checkout`;
-  return axios.get(endpoint);
+  return axios.post(endpoint);
 }
 
 export async function emptyCart() {
   const endpoint = `${BASE_URL}/customer/cart/clear`;
-  return await axios.get(endpoint);
+  return await axios.patch(endpoint);
 }
 
 export async function getActiveOrders() {
@@ -36,7 +36,7 @@ export async function getPastOrders() {
 
 export function customerLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/customer/login`;
-  return axios.post(endpoint, { email, password }).then(
+  return axios.patch(endpoint, { email, password }).then(
     (response) => {
       history.push("/customer/profile");
       console.log(response);
@@ -50,7 +50,7 @@ export function customerLogin(email: String, password: String) {
 
 export function customerLogout() {
   const endpoint = `${BASE_URL}/customer/logout`;
-  return axios.get(endpoint);
+  return axios.patch(endpoint);
 }
 
 export function customerProfile() {
