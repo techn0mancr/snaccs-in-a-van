@@ -2,13 +2,18 @@
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
-/* Import required models */
+/* Import required constants and models */
+import {
+    ORDER_AMENDMENT_TIME_WINDOW
+} from "../config";
+
 import {
     Customer, ICustomer,
     Item,
     ItemOrder, IItemOrder,
     Order, IOrder,
-    OrderStatus
+    OrderStatus,
+    Vendor
 } from "../models";
 
 /* Adds the given item, in the given quantity, to the customer's cart */
@@ -59,9 +64,45 @@ async function addItemToCart(req: Request & {
     }
 }
 
+/* Cancels the customer's given order */
+async function cancelOrder(req: Request & {
+    params: { orderId: string }
+}, res: Response): Promise<void> {
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+        
+        /* Check if the order is made by the current customer within a certain amount of time  */
+        const currentOrder = await Order.findOne(
+            {
+                _id: castedOrderId,
+                customerId: req.session.customerId
+            }
+        );
+        if (currentOrder) {
+            /* Check if a certain amount of time has passed since placement */
+            var deltaSincePlaced: number =
+                (new Date()).getTime() - currentOrder.placedTimestamp.getTime();
+            if (deltaSincePlaced <= ORDER_AMENDMENT_TIME_WINDOW) {
+                /* Update the order details */
+                currentOrder.status = OrderStatus.Cancelled;
+                currentOrder.completedTimestamp = new Date();
+                await currentOrder.save();
+
+                /* Send a response */
+                res.status(200).send("OK");
+            }
+            else
+                res.status(403).send("Forbidden");
+        }
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Checks out the customer's current cart */
 async function checkoutCart(req: Request, res: Response): Promise<void> {
-    req.session.vendorId = "60707b103ed89dee65af78a2"; // hard code to make this route work for now; normally the customer would've selected a vendor at this point
     try {
         /* Ensures that the cart is populated */
         if (req.session.cart && (req.session.cart.length > 0)) {
@@ -94,10 +135,17 @@ async function checkoutCart(req: Request, res: Response): Promise<void> {
     }
 }
 
-/* Clears the customer's current cart */
+/* Empties the customer's current cart */
 async function emptyCart(req: Request, res: Response): Promise<void> {
     req.session.cart = [];
     res.status(200).send("OK");
+}
+
+/* Finish the order amendment process */
+async function finalizeOrderAmendment(req: Request & {
+    params: { orderId: string }
+}, res: Response): Promise<void> {
+
 }
 
 /* Returns the logged in customer's active orders */
@@ -239,6 +287,13 @@ async function getProfile(req: Request, res: Response) {
     }
 }
 
+/* Begin the order amendment process */
+async function initializeOrderAmendment(req: Request & {
+    params: { orderId: string }
+}, res: Response): Promise<void> {
+
+}
+
 /* Logs a customer in */
 async function login(req: Request & {
     body: { email: String, password: String }
@@ -257,6 +312,7 @@ async function login(req: Request & {
         else {
             /* Update the session data */
             req.session.customerId = customer._id;
+            req.session.cart = customer.cart;
             if (!req.session.vendorId)
                 req.session.vendorId = undefined;
             if (!req.session.cart)
@@ -273,8 +329,67 @@ async function login(req: Request & {
 
 /* Logs a customer out */
 async function logout(req: Request, res: Response): Promise<void> {
-    req.session.customerId = undefined;
-    res.status(200).send("OK");
+    /* Store the current customer's cart in the database */
+    try {
+        /* Query the database */
+        const customer = await Customer.findById(req.session.customerId);
+        if (customer && req.session.cart) {
+            /* Empty the current customer's cart */
+            const qResult = await Customer.updateOne(
+                {
+                    _id: req.session.customerId
+                },
+                {
+                    $set: {
+                        cart: []
+                    }
+                }
+            );
+           
+            /* Add all the item orders in the cart to the customer's now-empty cart */
+            req.session.cart.forEach((itemOrder: IItemOrder) => customer.cart.push(itemOrder));
+            await customer.save();
+        }
+        
+        /* Update the session data */
+        req.session.customerId = undefined;
+        req.session.cart = [];
+
+        res.status(200).send("OK");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Submits a rating for a completed order */
+async function rateOrder(req: Request & {
+    params: { orderId: string },
+    body: { rating: number }
+}, res: Response): Promise<void> {
+    try {
+        /* Check if the order is already completed and made by the current customer */
+        const order = await Order.findOne(
+            {
+                _id: req.params.orderId,
+                customerId: req.session.customerId,
+                status: OrderStatus.Completed
+            }
+        );
+        if (order) {
+            /* Submit the rating */
+            order.rating = req.body.rating;
+            await order.save();
+
+            /* Send a response */
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
 }
 
 /* Registers a new customer */
@@ -318,16 +433,43 @@ async function register(req: Request & {
     }
 }
 
+/* Selects the given vendor */
+async function selectVendor(req: Request & {
+    params: { vendorId: string }
+}, res: Response): Promise<void> {
+    try {
+        /* Cast the ObjectIds */
+        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+        
+        /* Check if a vendor with the given ID is valid */
+        const vendor = await Vendor.findById(castedVendorId);
+        if (vendor) {
+            req.session.vendorId = castedVendorId;
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Export controller functions */
 export {
     addItemToCart,
+    cancelOrder,
     checkoutCart,
     emptyCart,
+    finalizeOrderAmendment,
     getActiveOrders,
     getCart,
     getPastOrders,
     getProfile,
+    initializeOrderAmendment,
     login,
     logout,
-    register
+    rateOrder,
+    register,
+    selectVendor
 }

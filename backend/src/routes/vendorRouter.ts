@@ -16,7 +16,10 @@ vendorRouter.use(jsonParser);
 vendorRouter.patch("/login", controller.login);
 vendorRouter.patch("/logout", vendorAuth, controller.logout);
 vendorRouter.patch("/order/:orderId/fulfill", vendorAuth, controller.fulfillOrder);
-vendorRouter.get("/orders/outstanding", vendorAuth, controller.getOutstandingOrders);
+vendorRouter.patch("/order/:orderId/complete", vendorAuth, controller.completeOrder);
+vendorRouter.get("/orders/placed", vendorAuth, controller.getPlacedOrders);
+vendorRouter.get("/orders/fulfilled", vendorAuth, controller.getFulfilledOrders);
+vendorRouter.get("/orders/completed", vendorAuth, controller.getCompletedOrders);
 vendorRouter.patch("/update/location", vendorAuth, controller.setVendorLocation);
 vendorRouter.patch("/update/status", vendorAuth, controller.setVendorAvailability);
 
