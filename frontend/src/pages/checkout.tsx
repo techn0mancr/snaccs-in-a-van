@@ -2,8 +2,7 @@ import React from "react";
 import './checkout.css';
 import leftArrow from '../img/leftArrow.png';
 import history from '../history';
-import axios from 'axios';
-import { checkoutCart } from '../api';
+import { checkoutCart, getCart } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -23,12 +22,9 @@ class Information extends React.Component {
         cart: [] as  any[],
     }
 
-    async getCart() {
-        const BASE_URL = "http://localhost:48080/api";
-        // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
-        const endpoint = `${BASE_URL}/customer/cart`;
-        return await axios.get(endpoint) 
-        .then((response) => {
+    componentDidMount() {
+        getCart().then(
+            (response) => {
             var data = response.data
             this.setState({isLoaded: true, cart: data});
             console.log(response);  
@@ -36,10 +32,6 @@ class Information extends React.Component {
             this.setState({isLoaded: true, error});
             console.log(error);
         },);
-    }
-
-    componentDidMount() {
-        this.getCart();
     }
 
     render() {

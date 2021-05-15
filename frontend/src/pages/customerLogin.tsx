@@ -1,6 +1,6 @@
 import React from 'react';
 import './profile.css';
-import { Link } from 'react-router-dom'
+import history from '../history';
 import { customerLogin } from '../api';
 
 class CustomerLogin extends React.Component {
@@ -29,9 +29,7 @@ class CustomerLogin extends React.Component {
                 <h1 className="titleLog">Log In</h1>
                 <br />
                 <h2>Don't have an account?</h2>
-                <Link to={"/customer/register"}> 
-                    <button className="signup" type="button"><h2> Sign up here</h2></button>
-                </Link> 
+                <button className="signup" type="button" onClick={() => history.push(`/customer/register`)}><h2> Sign up here</h2></button>
             </div>
 
             <div className="containerProfile">

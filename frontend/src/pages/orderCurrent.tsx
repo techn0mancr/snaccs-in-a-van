@@ -56,16 +56,21 @@ class ListActiveOrder extends React.Component {
         } else {
             return (
                 <div className="content">
-                    { orderList.map((order, i) => (   
-                            <div key={i}>
-                               <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/active/status/?id=${order._id}`)}>
-                                    <img alt="right arrow" className="right" src={rightArrow} />
-                                    <h2>{order.vendorId.name}</h2>
-                                    <p id="ready">{order.status}</p>
-                                    <p className="date">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
-                                </button>
-                            </div> 
-                        ))}
+                    {orderList.length>0 ?
+                        <div>
+                            { orderList.map((order, i) => (   
+                                <div key={i}>
+                                <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/active/status/?id=${order._id}`)}>
+                                        <img alt="right arrow" className="right" src={rightArrow} />
+                                        <h2>{order.vendorId.name}</h2>
+                                        <p id="ready">{order.status}</p>
+                                        <p className="date">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
+                                    </button>
+                                </div> 
+                            ))}
+                        </div>
+                    :
+                    null}
                 </div>
             )
         }

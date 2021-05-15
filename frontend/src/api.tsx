@@ -67,22 +67,18 @@ export function customerProfile() {
   );
 }
 
-// function customerRegister(
-//   email: String,
-//   givenName: String,
-//   familyName: String,
-//   password: String
-// ) {
-//   const endpoint = `${BASE_URL}/customer/register`;
-//   return axios.post(endpoint, { email, givenName, familyName, password }).then(
-//     (response) => {
-//       console.log(response);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// }
+export function customerRegister(email: String, givenName: String, familyName: String, password: String) {
+  const endpoint = `${BASE_URL}/customer/register`;
+  return axios.post(endpoint, { email, givenName, familyName, password }).then(
+    (response) => {
+      history.push("/customer/profile");
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
 // function selectVendor(vendorId: String) {
 //   const endpoint = `${BASE_URL}/vendor/${vendorId}/select`;
