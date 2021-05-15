@@ -5,8 +5,20 @@ import order from '../img/orderStatus/order.png';
 import prepare from '../img/orderStatus/prepare.png';
 import ready from '../img/orderStatus/ready.png';
 import dashLine from '../img/orderStatus/dashLine.png';
+import moment from "moment";
 import { getId } from "../App";
+import { getOrderDetails } from "../api";
 import history from "../history";
+moment().format();
+
+const currencyOptions = {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+};
+
+function toTwoDecimalPlaces(number: number) {
+    return number.toLocaleString(undefined, currencyOptions);
+}
 
 class Header extends React.Component {
     render() {
@@ -23,21 +35,40 @@ class Header extends React.Component {
 class Status extends React.Component {
     state = {
         details: [] as any,
+        fulfilled: false
     }
 
     orderId = getId() || "";
 
+    componentDidMount() {
+        getOrderDetails(this.orderId).then(
+            (response) => {
+                var data = response.data;
+                this.setState({ details: data });
+                if (data.status === "Fulfilled") {
+                    this.setState({fulfilled: true});
+                }
+                console.log(data.status);
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )
+    }
+
     render() {
+        const { details, fulfilled } = this.state;
+
         return (
             <div>
                 <div className="titleOrder">
-                    <h2 className="invoice">INVOICE: #A0001</h2>
-                    <h2 className="invoice">29 April 2021 3.25 PM</h2>
+                    <h2 className="invoice">INVOICE: {details._id}</h2>
+                    <h2 className="invoice">{moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}</h2>
                 </div>
 
                 <div className="orderTime">
                     <h4 className="time">Time Elapsed: 5m 30s</h4>
-                    <button className="cancel" type="submit" value="edit">Edit or Cancel Order</button>
+                    <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/order/checkout`)}>Edit or Cancel Order</button>
                 </div>
 
                 <div className="orderTime">
@@ -46,8 +77,17 @@ class Status extends React.Component {
                         <img className="status" src={order} alt="Order"/>
                         <img className="status line" src={dashLine} alt="Line"/>
                         <img className="status" src={prepare} alt="Prepare"/>
-                        <img className="status line" id="notReady" src={dashLine} alt="Line"/>
-                        <img className="status" id="notReady" src={ready} alt="Ready"/>
+                        { fulfilled ?
+                            <div>
+                                <img className="status line" src={dashLine} alt="Line"/>
+                                <img className="status" src={ready} alt="Ready"/>
+                            </div>
+                        :
+                        <div>
+                            <img className="status line" id="notReady" src={dashLine} alt="Line"/>
+                            <img className="status" id="notReady" src={ready} alt="Ready"/>
+                        </div>
+                        }
                     </div>
 
                     <br />
@@ -55,19 +95,43 @@ class Status extends React.Component {
                     <div className="progressStatus">
                         <div className="status">
                             <h3>Order received</h3>
-                            <p className="time" id="status">03:20 PM</p>
+                            <p className="time" id="status">{moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}</p>
                         </div>
             
                         <div className="status">
                             <h3>Preparing order</h3>
-                            <p className="time" id="status">03:25 PM</p>
+                            <p className="time" id="status">{moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}</p>
                         </div>
-            
+                        {fulfilled ?
+                        <div className="status">
+                            <h3>Ready for pickup</h3>
+                            <p className="time" id="status">{moment(details.fulfilledTimestamp).format("D MMM YYYY h.mm A")}</p>
+                        </div>
+                        :
                         <div className="status">
                             <h3 id="notReady">Ready for pickup</h3>
                         </div>
+                        }
                     </div>
                 </div>
+                
+                {fulfilled ?
+                <div className="containerCheckout" id="payment">
+                    <h2>Payment</h2>
+                
+                    <div className="amount">
+                        <h3 className="payment">Total amount</h3>
+                        <h3 className="value">${toTwoDecimalPlaces(details.total)}</h3>
+                    </div>
+                    <br></br><br></br><br></br>
+                    
+                    <div className="amountPaid">
+                        <h3 className="payment">Amount to be paid</h3>
+                        <h3 className="value">${toTwoDecimalPlaces(details.total)}</h3>
+                    </div>
+                </div>
+                :
+                null}
             </div>
         )
     }
