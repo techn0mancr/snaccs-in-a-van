@@ -2,20 +2,26 @@
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
 
-/* Import required models */
+/* Import required constants and models */
+import {
+    LATE_FULFILLMENT_TIME_WINDOW,
+    LATE_FULFILLMENT_DISCOUNT
+} from "../config";
+
 import {
     Order, OrderStatus,
     Vendor
 } from "../models";
 
-/* Sets the status of a given order to "Fulfilled" */
-async function fulfillOrder(req: Request & {
+
+/* Sets the status of a given order to "Completed" */
+async function completeOrder(req: Request & {
     params: { orderId: string }
-}, res : Response): Promise<void> {
+}, res: Response): Promise<void> {
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
-        
+
         /* Query the database */
         const qResult = await Order.updateOne(
             {
@@ -24,8 +30,8 @@ async function fulfillOrder(req: Request & {
             },
             {
                 $set: {
-                    status: OrderStatus.Fulfilled,
-                    fulfilledTimestamp: new Date()
+                    status: OrderStatus.Completed,
+                    completedTimestamp: new Date()
                 }
             }
         );
@@ -41,18 +47,96 @@ async function fulfillOrder(req: Request & {
             res.status(500).send("Internal Server Error");
     }
     catch (e) {
+
+    }
+}
+
+/* Sets the status of a given order to "Fulfilled" and applies the fulfillment
+ * discount if a certain amount of time has passed since the order was placed */
+async function fulfillOrder(req: Request & {
+    params: { orderId: string }
+}, res : Response): Promise<void> {
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+             
+        /* Query the database */
+        const currentOrder = await Order.findOne(
+            {
+                _id: castedOrderId,
+                vendorId: req.session.vendorId
+            }
+        );
+
+        if (currentOrder) {
+            /* Update the current order's fields */
+            currentOrder.status = OrderStatus.Fulfilled;
+            currentOrder.fulfilledTimestamp = new Date();
+
+            /* Check if a certain amount of time has passed since placement */
+            var deltaSincePlaced: number =
+                currentOrder.fulfilledTimestamp.getTime() - currentOrder.placedTimestamp.getTime();
+            if (deltaSincePlaced > LATE_FULFILLMENT_TIME_WINDOW)
+                currentOrder.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
+
+            /* Save the updates to the database */
+            await currentOrder.save();
+
+            /* Send a response */
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
-/* Get the given vendor's outstanding orders */
-async function getOutstandingOrders(req: Request, res: Response): Promise<void> {
+
+/* Get the given vendor's completed orders */
+async function getCompletedOrders(req: Request, res: Response): Promise<void> {
     try {
         /* Query the database */
-        const outstandingOrders = await Order.find(
+        const completedOrders = await Order.find(
+            {
+                vendorId: req.session.vendorId,
+                $or: [
+                    { status: { $eq: OrderStatus.Completed } },
+                    { status: { $eq: OrderStatus.Cancelled } }
+                ]
+            }
+        ).populate(
+            {
+                model: "Item",
+                path: "items.itemId",
+            }
+        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp completedTimestamp isChanged rating")
+         .sort("-completedTimestamp");
+
+        /* Send the query results */
+        if (completedOrders) {
+            if (completedOrders.length > 0)
+                res.status(200).json(completedOrders);
+            else
+                res.status(204).send("No Content");
+        }
+        else
+            res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Get the given vendor's fulfilled orders */
+async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        const fulfilledOrders = await Order.find(
             {
                 vendorId: req.session.vendorId,
                 status: {
-                    $ne: OrderStatus.Completed
+                    $eq: OrderStatus.Fulfilled
                 }
             }
         ).populate(
@@ -60,12 +144,47 @@ async function getOutstandingOrders(req: Request, res: Response): Promise<void> 
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged orderTimestamp fulfilledTimestamp isChanged");
+        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp isChanged")
+         .sort("fulfilledTimestamp");
 
         /* Send the query results */
-        if (outstandingOrders) {
-            if (outstandingOrders.length > 0)
-                res.status(200).json(outstandingOrders);
+        if (fulfilledOrders) {
+            if (fulfilledOrders.length > 0)
+                res.status(200).json(fulfilledOrders);
+            else
+                res.status(204).send("No Content");
+        }
+        else
+            res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Get the given vendor's placed orders */
+async function getPlacedOrders(req: Request, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        const placedOrders = await Order.find(
+            {
+                vendorId: req.session.vendorId,
+                status: {
+                    $eq: OrderStatus.Placed
+                }
+            }
+        ).populate(
+            {
+                model: "Item",
+                path: "items.itemId",
+            }
+        ).select("customerId status items total isChanged placedTimestamp isChanged")
+         .sort("placedTimestamp");
+
+        /* Send the query results */
+        if (placedOrders) {
+            if (placedOrders.length > 0)
+                res.status(200).json(placedOrders);
             else
                 res.status(204).send("No Content");
         }
@@ -193,8 +312,11 @@ async function setVendorLocation(req: Request & {
 
 /* Export controller functions */
 export {
+    completeOrder,
     fulfillOrder,
-    getOutstandingOrders,
+    getPlacedOrders,
+    getFulfilledOrders,
+    getCompletedOrders,
     login,
     logout,
     setVendorAvailability,
