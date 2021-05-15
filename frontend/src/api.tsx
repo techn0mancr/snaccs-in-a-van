@@ -9,14 +9,14 @@ export async function getCart() {
     return await axios.get(endpoint);
 }
 
-export function checkoutCart() {
-  const endpoint = `${BASE_URL}/customer/cart/checkout`;
-  return axios.get(endpoint);
-}
-
 export function addItemToCart(itemId: String, quantity: number) {
   const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
   return axios.post(endpoint, { itemId, quantity: quantity });
+}
+
+export function checkoutCart() {
+  const endpoint = `${BASE_URL}/customer/cart/checkout`;
+  return axios.get(endpoint);
 }
 
 export async function emptyCart() {
@@ -120,13 +120,28 @@ export function vendorLogin(email: String, password: String) {
 //   return axios.patch(endpoint);
 // }
 
-// function fulfillOrder(orderId: String) {
-//   const endpoint = `${BASE_URL}/order/${orderId}/fulfill`;
-//   return axios.get(endpoint);
-// }
+function fulfillOrder(orderId: String) {
+  const endpoint = `${BASE_URL}/orders/${orderId}/fulfill`;
+  return axios.patch(endpoint);
+}
 
-// function getOutstandingOrders(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/order/outstanding`;
+function completeOrder(orderId: String) {
+  const endpoint = `${BASE_URL}/orders/${orderId}/complete`;
+  return axios.patch(endpoint);
+}
+
+function getPlacedOrders() {
+  const endpoint = `${BASE_URL}/orders/placed`;
+  return axios.get(endpoint);
+}
+
+function getFulfilledOrders() {
+  const endpoint = `${BASE_URL}/orders/fulfilled`;
+  return axios.get(endpoint);
+}
+
+// function getCompletedOrders() {
+//   const endpoint = `${BASE_URL}/orders/completed`;
 //   return axios.get(endpoint);
 // }
 
