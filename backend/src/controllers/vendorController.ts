@@ -107,6 +107,12 @@ async function getCompletedOrders(req: Request, res: Response): Promise<void> {
             }
         ).populate(
             {
+                model: "Customer",
+                path: "customerId",
+                select: "email givenName familyName"
+            }
+        ).populate(
+            {
                 model: "Item",
                 path: "items.itemId",
             }
@@ -138,6 +144,12 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
                 status: {
                     $eq: OrderStatus.Fulfilled
                 }
+            }
+        ).populate(
+            {
+                model: "Customer",
+                path: "customerId",
+                select: "email givenName familyName"
             }
         ).populate(
             {
@@ -175,6 +187,12 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
             }
         ).populate(
             {
+                model: "Customer",
+                path: "customerId",
+                select: "email givenName familyName"
+            }
+        ).populate(
+            {
                 model: "Item",
                 path: "items.itemId",
             }
@@ -187,6 +205,27 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
                 res.status(200).json(placedOrders);
             else
                 res.status(204).send("No Content");
+        }
+        else
+            res.status(500).send("Internal Server Error");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Returns the profile of the current logged-in vendor */
+async function getProfile(req: Request, res: Response) {
+    try {
+        if (req.session.vendorId) {
+            /* Query the database */
+            const currentVendor = await Vendor.findById(req.session.vendorId)
+                                              .select("email name locationDescription isOpen geolocation");
+            if (currentVendor)
+                res.status(200).json(currentVendor);
+            else
+                res.status(404).send("Not Found");
+
         }
         else
             res.status(500).send("Internal Server Error");
@@ -350,6 +389,7 @@ export {
     completeOrder,
     fulfillOrder,
     getPlacedOrders,
+    getProfile,
     getFulfilledOrders,
     getCompletedOrders,
     login,
