@@ -141,6 +141,13 @@ async function emptyCart(req: Request, res: Response): Promise<void> {
     res.status(200).send("OK");
 }
 
+/* Finish the order amendment process */
+async function finalizeOrderAmendment(req: Request & {
+    params: { orderId: string }
+}, res: Response): Promise<void> {
+
+}
+
 /* Returns the logged in customer's active orders */
 async function getActiveOrders(req: Request, res: Response): Promise<void> {
     try {
@@ -278,6 +285,13 @@ async function getProfile(req: Request, res: Response) {
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
+}
+
+/* Begin the order amendment process */
+async function initializeOrderAmendment(req: Request & {
+    params: { orderId: string }
+}, res: Response): Promise<void> {
+
 }
 
 /* Logs a customer in */
@@ -447,10 +461,12 @@ export {
     cancelOrder,
     checkoutCart,
     emptyCart,
+    finalizeOrderAmendment,
     getActiveOrders,
     getCart,
     getPastOrders,
     getProfile,
+    initializeOrderAmendment,
     login,
     logout,
     rateOrder,
