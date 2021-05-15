@@ -21,11 +21,13 @@ class Content extends React.Component {
         orderId: '',
         placedOrders: [] as any[],
         fulfillOrders: [] as any[],
-        order: [] as any,
-        items: [] as any[]
+        details: [] as any,
+        items: [] as any[],
+        showDetail: false,
+        readyButton: false
     }
 
-    componentDidMount() {
+    getPlaced() {
         getPlacedOrders().then(
             (response) => {
                 var data = response.data
@@ -35,10 +37,13 @@ class Content extends React.Component {
                 console.log(error);
             }
         )
+    }
+
+    getFulfill() {
         getFulfilledOrders().then(
             (response) => {
                 var data = response.data
-                this.setState({fulfillOrder: data});
+                this.setState({fulfillOrders: data});
                 console.log(response);
             }, (error) => {
                 console.log(error);
@@ -46,11 +51,45 @@ class Content extends React.Component {
         )
     }
 
-    handleDisplay(orderId: String) {
+    componentDidMount() {
+        this.getPlaced();
+        this.getFulfill();
+    }
+
+    handleDisplay(orderId: String, placed: Boolean) {
         getOrderDetails(orderId).then(
             (response) => {
                 var data = response.data;
-                this.setState({order: data, items: data.items});
+                this.setState({details: data, items: data.items, showDetail: true});
+                if (placed === true) {
+                    this.setState({readyButton: true});
+                } else {
+                    this.setState({readyButton: false});
+                }
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )  
+    }
+
+    handleFulfill(orderId: String) {
+        fulfillOrder(orderId).then(
+            (response) => {
+                this.getPlaced();
+                this.setState({showDetails: false});
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )
+    }
+
+    handleComplete(orderId: String) {
+        completeOrder(orderId).then(
+            (response) => {
+                this.getFulfill();
+                this.setState({showDetails: false});
                 console.log(response);
             }, (error) => {
                 console.log(error);
@@ -59,7 +98,7 @@ class Content extends React.Component {
     }
 
     render() {
-        const { placedOrders, fulfillOrders, order, items } = this.state;
+        const { placedOrders, fulfillOrders, details, items, showDetail, readyButton } = this.state;
 
         return (
             <div className ="row">
@@ -68,12 +107,12 @@ class Content extends React.Component {
                         <h2 className ="vendorOrder">Outstanding Orders</h2>
                         { placedOrders.map((order, i) => (
                             <div key={i}>
-                                <div className ="perOrder" onClick={() => this.handleDisplay(order._id)}>
+                                <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
                                     <div className ="leftBox">
-                                        <p className = "vendorOrder">#A0001</p>
-                                        <p className = "vendorOrder">9:00:20</p>
+                                        <p className = "vendorOrder">{order._id}</p>
+                                        <p className = "vendorOrder">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
                                     </div>
-                                    <p className = "orderName">Natasha Rayani</p>
+                                    <p className = "orderName">{order.customerId}</p>
                                 </div>
                             </div>
                         ))}
@@ -83,30 +122,36 @@ class Content extends React.Component {
                 <div className ="column">
                     <div className ="orderDetails">
                         <h2 className ="vendorOrder">Details</h2>
+                        { showDetail ? 
                         <div className ="orderCard">
-                            <p className ="vendorOrder">{order._id}</p>
-                            <p className = "vendorOrder">{order.placedTimestamp}</p>
-                            <p className="orderName">Natasha Rayani</p>
+                            <p className ="vendorOrder">{details._id}</p>
+                            <p className = "vendorOrder">{moment(details.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
+                            <p className="orderName">{details.customerId.givenName} {details.customerId.familyName}</p>
                             { items.map((item, i) => (
                                 <div key={i}>
                                     <p className = "vendorOrder">{item.quantity}x {item.itemId.name}</p>
                                 </div>
                             ))}
-                            <button type="button" className="btn-vendorOrder">Ready</button>
+                            { readyButton ? 
+                                <button type="button" className="btn-vendorOrder" onClick={() => this.handleFulfill(details._id)}>Ready</button>
+                            :
+                            null }
                         </div>
+                        : 
+                        null }
                     </div>
 
                     <div className ="ordersFulfilled">
                         <h2 className ="vendorOrder">Orders Fulfilled</h2>
-                        { fulfillOrders.map((order, i) => (
+                        { fulfillOrders.map((fulfill, i) => (
                             <div key={i}>
-                                <div className="perOrder" onClick={() => this.handleDisplay(order._id)}>
+                                <div className="perOrder" onClick={() => this.handleDisplay(fulfill._id, false)}>
                                     <div className="leftBox">
-                                        <p className = "vendorOrder">#A0001</p>
-                                        <p className = "vendorOrder">9:00:20</p>
+                                        <p className = "vendorOrder">{fulfill._id}</p>
+                                        <p className = "vendorOrder">{moment(fulfill.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
                                     </div>
-                                    <p className = "orderName">Natasha Rayani</p>
-                                    <button type="button" className="btn-vendorOrder">Completed</button>
+                                    <p className = "orderName">{fulfill.customerId}</p>
+                                    <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Completed</button>
                                 </div>
                             </div>
                         ))}

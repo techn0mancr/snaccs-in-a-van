@@ -126,22 +126,22 @@ export function vendorLogin(email: String, password: String) {
 // }
 
 export function fulfillOrder(orderId: String) {
-  const endpoint = `${BASE_URL}/orders/${orderId}/fulfill`;
+  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/fulfill`;
   return axios.patch(endpoint);
 }
 
 export function completeOrder(orderId: String) {
-  const endpoint = `${BASE_URL}/orders/${orderId}/complete`;
+  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/complete`;
   return axios.patch(endpoint);
 }
 
 export async function getPlacedOrders() {
-  const endpoint = `${BASE_URL}/orders/placed`;
+  const endpoint = `${BASE_URL}/vendor/orders/placed`;
   return await axios.get(endpoint);
 }
 
 export async function getFulfilledOrders() {
-  const endpoint = `${BASE_URL}/orders/fulfilled`;
+  const endpoint = `${BASE_URL}/vendor/orders/fulfilled`;
   return await axios.get(endpoint);
 }
 
