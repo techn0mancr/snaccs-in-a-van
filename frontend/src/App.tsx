@@ -19,7 +19,7 @@ import Menu from "./pages/menu";
 import AddToCart from "./components/addToCart";
 import VendorLogin from "./pages/vendorLogin";
 import VendorProfile from "./pages/vendorProfile";
-import VendorOrders from "./pages/vendorOrders";
+import VendorOrder from "./pages/vendorOrder";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:48080/api";
@@ -39,7 +39,7 @@ function App() {
         <Switch>
         <Route exact path="/vendor/login" component={VendorLogin} />
         <Route exact path="/vendor/profile" component={VendorProfile} />
-        <Route exact path="/vendor/orders" component={VendorOrders} />
+        <Route exact path="/vendor/orders" component={VendorOrder} />
           <div>
             <Nav />
             <Route exact path="/" />

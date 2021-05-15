@@ -1,6 +1,6 @@
 body{
     color: #3E4462;
-    font-family: Poppins;
+    font-family: 'Poppins', sans-serif;
     width: 90vw;
     margin-left: auto;
     margin-right: auto;
@@ -10,9 +10,7 @@ input[type=image].vanIcon {
     float: right;
     height: 30px;
     margin-top: 10px;
-    /* margin-top: -50px;
-    margin-left: -20px; */
-    }
+}
 
 h1.vendorOrder{
     font-size: 36px;
@@ -34,7 +32,15 @@ h3.orderName{
 }
 
 p.orderName{
-    font-family: Inter;
+    float: right;
+    display: inline;
+    font-size: 13px;
+}
+
+p.vendorOrder {
+    font-size: 13px;
+    line-height: 20px;
+    padding-top: 50px;
 }
 
 .row{
@@ -45,22 +51,53 @@ p.orderName{
     flex: 50%;
 }
 
+.leftBox {
+    float: left;
+    width: 20%;
+    background-color: #404040;
+    color: #FFFF;
+    line-height: 0px;
+    height: 60px;
+    border-radius: 9px;
+    padding-left: 25px;
+    padding-top: 20px;
+}
+
+.perOrder {
+    border-radius: 9px;
+    background-color: #FFFF;
+    height: 60px;
+}
+
 .outstanding {
     background-color:#F8F5F2;
     height: 80vh;
-    width: 90%;
+    width: 95%;
     border-radius: 20px;
     padding-top: 30px;
     padding-left: 20px;
+    padding-right: 20px;
     margin-left: 20px;  
 }
-.orderDetails, .ordersFulfilled {
+
+.orderDetails {
     background-color:#F8F5F2;
-    width: 90%;
-    height: 30vh;
+    width: 95%;
+    height: 50vh;
     border-radius: 20px;
     padding-top: 30px;
     padding-left: 20px;
-    margin-bottom: 5vh;
+    padding-right: 20px;
+    margin-bottom: 2vh;
+}
+
+.ordersFulfilled {
+    background-color:#F8F5F2;
+    width: 95%;
+    height: 28vh;
+    border-radius: 20px;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
