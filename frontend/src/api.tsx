@@ -84,6 +84,11 @@ export function customerProfile() {
 //   );
 // }
 
+// function selectVendor(vendorId: String) {
+//   const endpoint = `${BASE_URL}/vendor/${vendorId}/select`;
+//   return axios.patch(endpoint);
+// }
+
 export async function getMenu(vendorId: String) {
   const endpoint = `${BASE_URL}/menu/${vendorId}`;
   return await axios.get(endpoint);
@@ -120,24 +125,24 @@ export function vendorLogin(email: String, password: String) {
 //   return axios.patch(endpoint);
 // }
 
-function fulfillOrder(orderId: String) {
+export function fulfillOrder(orderId: String) {
   const endpoint = `${BASE_URL}/orders/${orderId}/fulfill`;
   return axios.patch(endpoint);
 }
 
-function completeOrder(orderId: String) {
+export function completeOrder(orderId: String) {
   const endpoint = `${BASE_URL}/orders/${orderId}/complete`;
   return axios.patch(endpoint);
 }
 
-function getPlacedOrders() {
+export async function getPlacedOrders() {
   const endpoint = `${BASE_URL}/orders/placed`;
-  return axios.get(endpoint);
+  return await axios.get(endpoint);
 }
 
-function getFulfilledOrders() {
+export async function getFulfilledOrders() {
   const endpoint = `${BASE_URL}/orders/fulfilled`;
-  return axios.get(endpoint);
+  return await axios.get(endpoint);
 }
 
 // function getCompletedOrders() {

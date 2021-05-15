@@ -55,9 +55,7 @@
     "scripts": {
         "compile": "tsc --project ./",
         "clean": "rm --force --recursive dist/",
-        
         "start": "node dist/server.js",
-        
         "start-dev": "nodemon"
     },
     "nodemonConfig": {

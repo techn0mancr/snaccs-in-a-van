@@ -1,6 +1,9 @@
 import React from 'react';
 import './vendorOrder.css';
 import vanIcon from '../img/vanTruck.png';
+import moment from "moment";
+import { fulfillOrder, completeOrder, getPlacedOrders, getFulfilledOrders, getOrderDetails } from '../api';
+moment().format();
 
 class Header extends React.Component {
     render() {
@@ -14,45 +17,99 @@ class Header extends React.Component {
 }
 
 class Content extends React.Component {
+    state = {
+        orderId: '',
+        placedOrders: [] as any[],
+        fulfillOrders: [] as any[],
+        order: [] as any,
+        items: [] as any[]
+    }
+
+    componentDidMount() {
+        getPlacedOrders().then(
+            (response) => {
+                var data = response.data
+                this.setState({placedOrders: data})
+                console.log(response)
+            }, (error) => {
+                console.log(error);
+            }
+        )
+        getFulfilledOrders().then(
+            (response) => {
+                var data = response.data
+                this.setState({fulfillOrder: data});
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )
+    }
+
+    handleDisplay(orderId: String) {
+        getOrderDetails(orderId).then(
+            (response) => {
+                var data = response.data;
+                this.setState({order: data, items: data.items});
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )
+    }
+
     render() {
+        const { placedOrders, fulfillOrders, order, items } = this.state;
+
         return (
             <div className ="row">
                 <div className ="column">
                     <div className ="outstanding">
                         <h2 className ="vendorOrder">Outstanding Orders</h2>
-                        <div className ="perOrder">
-                            <div className ="leftBox">
-                                <p className = "vendorOrder">#A0001</p>
-                                <p className = "vendorOrder">9:00:20</p>
+                        { placedOrders.map((order, i) => (
+                            <div key={i}>
+                                <div className ="perOrder" onClick={() => this.handleDisplay(order._id)}>
+                                    <div className ="leftBox">
+                                        <p className = "vendorOrder">#A0001</p>
+                                        <p className = "vendorOrder">9:00:20</p>
+                                    </div>
+                                    <p className = "orderName">Natasha Rayani</p>
+                                </div>
                             </div>
-                            <p className = "orderName">Natasha Rayani</p>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
                 <div className ="column">
-
                     <div className ="orderDetails">
                         <h2 className ="vendorOrder">Details</h2>
                         <div className ="orderCard">
-                            <p className ="vendorOrder">#A0001</p>
-                            <p className = "vendorOrder">9:00:20</p>
+                            <p className ="vendorOrder">{order._id}</p>
+                            <p className = "vendorOrder">{order.placedTimestamp}</p>
                             <p className="orderName">Natasha Rayani</p>
-                            <p className = "vendorOrder">3x Cappucino</p>
+                            { items.map((item, i) => (
+                                <div key={i}>
+                                    <p className = "vendorOrder">{item.quantity}x {item.itemId.name}</p>
+                                </div>
+                            ))}
                             <button type="button" className="btn-vendorOrder">Ready</button>
                         </div>
                     </div>
 
                     <div className ="ordersFulfilled">
                         <h2 className ="vendorOrder">Orders Fulfilled</h2>
-                            <div className="perOrder">
-                                <div className="leftBox">
-                                    <p className = "vendorOrder">#A0001</p>
-                                    <p className = "vendorOrder">9:00:20</p>
+                        { fulfillOrders.map((order, i) => (
+                            <div key={i}>
+                                <div className="perOrder" onClick={() => this.handleDisplay(order._id)}>
+                                    <div className="leftBox">
+                                        <p className = "vendorOrder">#A0001</p>
+                                        <p className = "vendorOrder">9:00:20</p>
+                                    </div>
+                                    <p className = "orderName">Natasha Rayani</p>
+                                    <button type="button" className="btn-vendorOrder">Completed</button>
                                 </div>
-                                <p className = "orderName">Natasha Rayani</p>
-                                <button type="button" className="btn-vendorOrder">Completed</button>
                             </div>
+                        ))}
                     </div>
                 </div>
             </div>
