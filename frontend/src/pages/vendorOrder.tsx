@@ -112,7 +112,7 @@ class Content extends React.Component {
                                         <p className = "vendorOrder">{order._id}</p>
                                         <p className = "vendorOrder">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
                                     </div>
-                                    <p className = "orderName">{order.customerId}</p>
+                                    <p className = "orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
                                 </div>
                             </div>
                         ))}
@@ -150,7 +150,7 @@ class Content extends React.Component {
                                         <p className = "vendorOrder">{fulfill._id}</p>
                                         <p className = "vendorOrder">{moment(fulfill.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
                                     </div>
-                                    <p className = "orderName">{fulfill.customerId}</p>
+                                    <p className = "orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
                                     <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Completed</button>
                                 </div>
                             </div>
