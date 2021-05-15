@@ -12,7 +12,8 @@ import {
     Item,
     ItemOrder, IItemOrder,
     Order, IOrder,
-    OrderStatus
+    OrderStatus,
+    Vendor
 } from "../models";
 
 /* Adds the given item, in the given quantity, to the customer's cart */
@@ -102,7 +103,6 @@ async function cancelOrder(req: Request & {
 
 /* Checks out the customer's current cart */
 async function checkoutCart(req: Request, res: Response): Promise<void> {
-    req.session.vendorId = "60707b103ed89dee65af78a2"; // hard code to make this route work for now; normally the customer would've selected a vendor at this point
     try {
         /* Ensures that the cart is populated */
         if (req.session.cart && (req.session.cart.length > 0)) {
@@ -419,6 +419,28 @@ async function register(req: Request & {
     }
 }
 
+/* Selects the given vendor */
+async function selectVendor(req: Request & {
+    params: { vendorId: string }
+}, res: Response): Promise<void> {
+    try {
+        /* Cast the ObjectIds */
+        var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
+        
+        /* Check if a vendor with the given ID is valid */
+        const vendor = await Vendor.findById(castedVendorId);
+        if (vendor) {
+            req.session.vendorId = castedVendorId;
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Export controller functions */
 export {
     addItemToCart,
@@ -432,5 +454,6 @@ export {
     login,
     logout,
     rateOrder,
-    register
+    register,
+    selectVendor
 }
