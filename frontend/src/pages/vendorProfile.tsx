@@ -60,7 +60,7 @@ class Description extends React.Component {
                 <p>{details.locationDescription}</p>
             </div>
             <br/><br/><br/>
-            <button type="button" className="open" onClick={this.handleClick}>Close Store</button>
+            <button type="button" className="closeStore" onClick={this.handleClick}>Close Store</button>
         </div>
     )}
 }
