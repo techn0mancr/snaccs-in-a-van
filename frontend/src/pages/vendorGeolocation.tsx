@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { vendorProfile, vendorLogout } from '../api';
+import { setVendorLocation } from '../api';
 import map from "../img/map.png";
 
 class Header extends React.Component {
@@ -11,7 +11,7 @@ class Header extends React.Component {
             <div className="title">
                 <br/><br/>
                 <input className="vendorProfile" type="image" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1>Vendor Profile</h1>
+                <h1>Vendor Geolocation</h1>
                 <br/>
             </div>
         )
@@ -21,51 +21,43 @@ class Header extends React.Component {
 class Description extends React.Component {
     
     state = {
-        details: [] as any,
+        desc: "",
         geolocation: [-37.7999432,144.9616192],
     };
-
-    componentDidMount() {
-        vendorProfile().then(
-            (response) => {
-                var data = response.data;
-                this.setState({details: data});
-                console.log(response);
-            }, (error) => {
-                console.log(error);
-            }
-        )
-    }
 
     handleChange = (event: { target: { name: any; value: String; }; }) => {
         this.setState({ [event.target.name]: event.target.value });
     }
+    
+    handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
 
-    handleClick() {
-        history.push("/vendor/login");
-        vendorLogout();
+        const { desc, geolocation } = this.state;
+        setVendorLocation(desc, geolocation);
     }
 
     render() {
-    const { details } = this.state;
+    const { desc } = this.state;
     return (
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>{details.geolocation}</p>
+                <p>757 Swanston St, Parkville VIC 3010</p>
             </div>
 
-            <div className="container">
-                <h2>Location Description</h2>
-                <p>{details.locationDescription}</p>
+            <form onSubmit={this.handleSubmit}>
+                <div className="container">
+                <label id="location"><h2>Location Description</h2></label>
+                <input className="vendorProfile" type="text" placeholder="Enter text..." name="desc" value={desc} onChange={this.handleChange} required />
             </div>
-            <br/><br/><br/>
-            <button type="button" className="open" onClick={() => this.handleClick}>Close Store</button>
+                <br/><br/><br/>
+                <button type="submit" value="open" className="open">Open Store</button>
+            </form>
         </div>
     )}
 }
 
-class VendorProfile extends React.Component {
+class VendorGeolocation extends React.Component {
     render() {
         return (
             <div>
@@ -82,4 +74,4 @@ class VendorProfile extends React.Component {
     }
 }
 
-export default VendorProfile
+export default VendorGeolocation;

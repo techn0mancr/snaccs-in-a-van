@@ -96,7 +96,7 @@ export function vendorLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/vendor/login`;
   return axios.patch(endpoint, {email, password}).then(
     (response) => {
-      history.push("/vendor/profile");
+      history.push("/vendor/geolocation");
       console.log(response);
     },
     (error) => {
@@ -107,10 +107,23 @@ export function vendorLogin(email: String, password: String) {
   
 }
 
-// function vendorLogout() {
-//   const endpoint = `${BASE_URL}/vendor/logout`;
-//   return axios.patch(endpoint);
-// }
+export function vendorLogout() {
+  const endpoint = `${BASE_URL}/vendor/logout`;
+  return axios.patch(endpoint).then(
+    (response) => {
+      history.push("/vendor/login");
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+export async function vendorProfile() {
+  const endpoint = `${BASE_URL}/vendor/profile`;
+  return await axios.get(endpoint);
+}
 
 export function fulfillOrder(orderId: String) {
   const endpoint = `${BASE_URL}/vendor/orders/${orderId}/fulfill`;
