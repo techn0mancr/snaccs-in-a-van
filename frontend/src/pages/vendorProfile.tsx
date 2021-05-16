@@ -34,7 +34,7 @@ class Description extends React.Component {
         event.preventDefault();
 
         const { desc, geolocation } = this.state;
-        setVendorLocation(desc, geolocation);
+        setVendorLocation(desc);
     }
 
     render() {
