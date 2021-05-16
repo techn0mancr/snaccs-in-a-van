@@ -109,15 +109,7 @@ export function vendorLogin(email: String, password: String) {
 
 export function vendorLogout() {
   const endpoint = `${BASE_URL}/vendor/logout`;
-  return axios.patch(endpoint).then(
-    (response) => {
-      history.push("/vendor/login");
-      console.log(response);
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+  return axios.patch(endpoint);
 }
 
 export async function vendorProfile() {
