@@ -1,7 +1,7 @@
 import React from "react";
 import "./menu.css";
-import axios from "axios";
 import history from "../history";
+import { getMenu, getCart } from "../api";
 
 
 const currencyOptions = {
@@ -40,11 +40,8 @@ class Items extends React.Component {
     menuList: [] as any[]
   };
 
-  async getMenu(vendorId: String) {
-    const BASE_URL = "http://localhost:48080/api";
-    // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
-    const endpoint = `${BASE_URL}/menu/${vendorId}`;
-    return await axios.get(endpoint).then(
+  componentDidMount() {
+    getMenu(this.state.vendorId).then(
       (response) => {
         var data = response.data;
         this.setState({ isLoaded: true, menuList: data });
@@ -55,10 +52,6 @@ class Items extends React.Component {
         console.log(error);
       }
     );
-  }
-
-  componentDidMount() {
-    this.getMenu(this.state.vendorId);
   }
 
   render() {
@@ -100,13 +93,11 @@ class Checkout extends React.Component {
     error: null,
     isLoaded: false,
     cart: [] as any,
+    logged: false,
   };
 
-  async getCart() {
-    const BASE_URL = "http://localhost:48080/api";
-    // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
-    const endpoint = `${BASE_URL}/customer/cart`;
-    return await axios.get(endpoint).then(
+  componentDidMount() {
+    getCart().then(
       (response) => {
         var data = response.data;
         this.setState({ isLoaded: true, cart: data });
@@ -117,10 +108,6 @@ class Checkout extends React.Component {
         console.log(error);
       }
     );
-  }
-
-  componentDidMount() {
-    this.getCart();
   }
 
   handleSubmit = (event: { preventDefault: () => void }) => {

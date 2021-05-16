@@ -4,59 +4,39 @@ import history from "./history";
 const BASE_URL = "http://localhost:48080/api";
 // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
 
-// function getCart() {
-//     const endpoint = `${BASE_URL}/customer/cart`;
-//     return axios.get(endpoint);
-// }
-
-export function checkoutCart() {
-  const endpoint = `${BASE_URL}/customer/cart/checkout`;
-  return axios.get(endpoint);
+export async function getCart() {
+    const endpoint = `${BASE_URL}/customer/cart`;
+    return await axios.get(endpoint);
 }
 
 export function addItemToCart(itemId: String, quantity: number) {
   const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
-
-  return axios.post(endpoint, { itemId, quantity: quantity });
+  return axios.patch(endpoint, { itemId, quantity: quantity });
 }
 
-// function emptyCart() {
-//   const endpoint = `${BASE_URL}/customer/cart/clear`;
-//   return axios.get(endpoint);
-// }
+export function checkoutCart() {
+  const endpoint = `${BASE_URL}/customer/cart/checkout`;
+  return axios.post(endpoint);
+}
 
-// export function getActiveOrders() {
-//     const endpoint = `${BASE_URL}/customer/order/active`;
-//     return axios.get(endpoint)
-//         .then(response =>
-//             response.data.results.map(order => ({
-//             status: `${order.status}`,
-//             items: `${order.items}`,
-//             total: `${order.total}`,
-//             isChanged: `${order.isChanged}`,
-//             vendorId: `${order.vendorId}`,
-//             placedTimestamp: `${order.placedTimestamp}`
-//             })),
-//         (error) => {
-//             console.log(error);
-//         });
-// }
+export async function emptyCart() {
+  const endpoint = `${BASE_URL}/customer/cart/clear`;
+  return await axios.patch(endpoint);
+}
 
-// function getPastOrders() {
-//     const endpoint = `${BASE_URL}/customer/order/past`;
-//     return axios.get(endpoint);
-// }
+export async function getActiveOrders() {
+    const endpoint = `${BASE_URL}/customer/orders/active`;
+    return await axios.get(endpoint);
+}
 
-// export async function getPastOrders() {
-//     const BASE_URL = "http://localhost:48080/api";
-//     const endpoint = `${BASE_URL}/customer/orders/past`;
-//     const res = axios.get(endpoint);
-//     return res;
-// }
+export async function getPastOrders() {
+    const endpoint = `${BASE_URL}/customer/orders/past`;
+    return await axios.get(endpoint);
+}
 
 export function customerLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/customer/login`;
-  return axios.post(endpoint, { email, password }).then(
+  return axios.patch(endpoint, { email, password }).then(
     (response) => {
       history.push("/customer/profile");
       console.log(response);
@@ -70,47 +50,36 @@ export function customerLogin(email: String, password: String) {
 
 export function customerLogout() {
   const endpoint = `${BASE_URL}/customer/logout`;
-  return axios.get(endpoint);
+  return axios.patch(endpoint);
 }
 
 export function customerProfile() {
   const endpoint = `${BASE_URL}/customer/profile`;
+  return axios.get(endpoint);
+}
 
-  getVendorGeolocation() ///////////////////////////////////////
-
-  return axios.get(endpoint).then(
+export function customerRegister(email: String, givenName: String, familyName: String, password: String) {
+  const endpoint = `${BASE_URL}/customer/register`;
+  return axios.post(endpoint, { email, givenName, familyName, password }).then(
     (response) => {
+      history.push("/customer/profile");
       console.log(response);
     },
     (error) => {
-      alert("Please login");
-      history.push("/customer/login");
       console.log(error);
     }
   );
 }
 
-// function customerRegister(
-//   email: String,
-//   givenName: String,
-//   familyName: String,
-//   password: String
-// ) {
-//   const endpoint = `${BASE_URL}/customer/register`;
-//   return axios.post(endpoint, { email, givenName, familyName, password }).then(
-//     (response) => {
-//       console.log(response);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
+// function selectVendor(vendorId: String) {
+//   const endpoint = `${BASE_URL}/vendor/${vendorId}/select`;
+//   return axios.patch(endpoint);
 // }
 
-// function getMenu(vendorId: String) {
-//   const endpoint = `${BASE_URL}/menu/${vendorId}`;
-//   return axios.get(endpoint);
-// }
+export async function getMenu(vendorId: String) {
+  const endpoint = `${BASE_URL}/menu/${vendorId}`;
+  return await axios.get(endpoint);
+}
 
 export function getItemDetails(itemId: String) {
   const endpoint = `${BASE_URL}/menu/item/${itemId}`;
@@ -118,16 +87,16 @@ export function getItemDetails(itemId: String) {
 }
 
 /* get one order detail */
-// export async function getOrderDetails( orderId: String ) {
-//     const endpoint = `${BASE_URL}/order/${orderId}`;
-//     return await axios.get(endpoint);
-// }
+export async function getOrderDetails( orderId: String ) {
+    const endpoint = `${BASE_URL}/order/${orderId}`;
+    return await axios.get(endpoint);
+}
 
 export function vendorLogin(email: String, password: String) {
   const endpoint = `${BASE_URL}/vendor/login`;
   return axios.patch(endpoint, {email, password}).then(
     (response) => {
-      history.push("/vendor/profile");
+      history.push("/vendor/geolocation");
       console.log(response);
     },
     (error) => {
@@ -138,12 +107,43 @@ export function vendorLogin(email: String, password: String) {
   
 }
 
-function vendorLogout() {
+export function vendorLogout() {
   const endpoint = `${BASE_URL}/vendor/logout`;
   return axios.patch(endpoint);
 }
 
-export function setVendorLocation(locationDescription: string) { ///
+// export function setVendorLocation(locationDescription: string) { ///
+export async function vendorProfile() {
+  const endpoint = `${BASE_URL}/vendor/profile`;
+  return await axios.get(endpoint);
+}
+
+export function fulfillOrder(orderId: String) {
+  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/fulfill`;
+  return axios.patch(endpoint);
+}
+
+export function completeOrder(orderId: String) {
+  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/complete`;
+  return axios.patch(endpoint);
+}
+
+export async function getPlacedOrders() {
+  const endpoint = `${BASE_URL}/vendor/orders/placed`;
+  return await axios.get(endpoint);
+}
+
+export async function getFulfilledOrders() {
+  const endpoint = `${BASE_URL}/vendor/orders/fulfilled`;
+  return await axios.get(endpoint);
+}
+
+// function getCompletedOrders() {
+//   const endpoint = `${BASE_URL}/orders/completed`;
+//   return axios.get(endpoint);
+// }
+
+export function setVendorLocation(locationDescription: string, geolocation: Array<number> ) {
   const endpoint = `${BASE_URL}/vendor/update/location`;
   getVendorGeolocation();
 
@@ -245,4 +245,5 @@ export function getDistance(coordinate1: number[], coordinate2: number[]) {
 // function getOutstandingOrders(vendorId: String) {
 //   const endpoint = `${BASE_URL}/vendor/${vendorId}/order/outstanding`;
 //   return axios.get(endpoint);
-// }
+// 
+

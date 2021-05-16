@@ -39,7 +39,16 @@ export default function AddToCart() {
 
   // Sends a GET request with itemID as parameter and initialises the state of item
   useEffect(() => {
-    customerProfile();
+    customerProfile().then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        alert("Please login");
+        history.push("/customer/login");
+        console.log(error);
+      }
+    );
     const itemID = getId();
     setItemID(itemID);
     getItemDetails(itemID).then((response: { data: any }) => {

@@ -2,9 +2,9 @@ import React from "react";
 import "./order.css";
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import axios from "axios";
 import moment from "moment";
 import { getId } from "../App";
+import { getOrderDetails } from "../api";
 moment().format();
 
 const currencyOptions = {
@@ -45,11 +45,8 @@ class Information extends React.Component {
 
   orderId = getId() || "";
 
-  async getOrderDetails(orderId: String) {
-    const BASE_URL = "http://localhost:48080/api";
-    // const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
-    const endpoint = `${BASE_URL}/order/${orderId}`;
-    return await axios.get(endpoint).then(
+  componentDidMount() {
+    getOrderDetails(this.orderId).then(
       (response) => {
         var data = response.data;
         this.setState({
@@ -59,17 +56,11 @@ class Information extends React.Component {
           items: data.items,
         });
         console.log(response);
-        return data;
-      },
-      (error) => {
+      }, (error) => {
         this.setState({ isLoaded: true, error });
         console.log(error);
       }
     );
-  }
-
-  componentDidMount() {
-    this.getOrderDetails(this.orderId);
   }
 
   render() {

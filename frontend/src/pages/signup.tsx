@@ -1,38 +1,51 @@
+import React from 'react';
 import './profile.css';
-import { Link } from 'react-router-dom'
+import { customerRegister } from "../api";
+import history from "../history";
 
-function signup() {
-    const header = (
-        <div className="titleProfile">
-            <h1>Sign In</h1>
-            <br />
-            <h2>Already have an account? </h2>
-            <Link to={"/customer/login"}>
-            <button className="signup" type="submit" value="signup"><h2>Log in here</h2></button>
-            </Link>  
-        </div>
-    )
-    
-    const signup = (
-        <div className="containerProfile">
-            <form method="POST" action="/login" id="form"> 
-                <input id="first" type="text" name="first" placeholder="first name" required/><br/><br/>
-                <input id="last" type="text" name="last" placeholder="last name" required/><br/><br/>
-                <input id="email" type="text" name="email" placeholder="email" required/><br/><br/>
-                <input id="password" type="password" name="password" placeholder="password" required/><br/><br/>
-                <input id="confirmPassword" type="password" name="confirmPassword" placeholder="confirm password" required/><br/><br/><br/><br/>
-                <button className="login" type="submit" value="signup">Sign up</button>
-            </form>
-        </div>
-    )
+class CustomerSignup extends React.Component {
+    state = {
+        email: "", 
+        givenName: "", 
+        familyName: "", 
+        password: ""
+    }
 
-    return (
-        <div>
-            {header}
-            {signup}
-        </div>
-    )
+    handleChange = (event: { target: { name: any; value: String; }; }) => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+
+        const { email,  givenName, familyName, password } = this.state;
+        customerRegister(email, givenName, familyName, password);
+    }
+
+    render() {
+        const { email,  givenName, familyName, password } = this.state;
+        return (
+            <div>
+                <div className="titleProfile">
+                    <h1>Sign In</h1>
+                    <br />
+                    <h2>Already have an account? </h2>
+                    <button className="signup" type="submit" value="signup" onClick={() => history.push(`/customer/login`)}><h2>Log in here</h2></button>
+                </div>
+
+                <div className="containerProfile">
+                    <form onSubmit={this.handleSubmit}> 
+                        <input id="first" type="text" name="givenName" placeholder="given name" value={givenName} onChange={this.handleChange} required/><br/><br/>
+                        <input id="last" type="text" name="familyName" placeholder="family name" value={familyName} onChange={this.handleChange} required/><br/><br/>
+                        <input id="email" type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} required/><br/><br/>
+                        <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
+                        <button className="login" type="submit" value="signup">Sign up</button>
+                    </form>
+                </div>
+            </div>
+        )
+    }
 }
 
-export default signup;
+export default CustomerSignup;
     

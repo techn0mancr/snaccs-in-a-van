@@ -104,6 +104,8 @@ img.right {
     clear: right;
     margin-right: 30px;
     padding-top: 20px;
+    box-shadow: none;
+    background-color: #F8F5F2;
 }
 
 #dark {

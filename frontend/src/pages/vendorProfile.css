@@ -91,6 +91,23 @@ input[type=image].vendorProfile {
     color: white;
     cursor: pointer;
 }
+
+.closeStore {
+    background-color: #F6F6F6;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 151px;
+    font-style: regular;
+    font-weight: 400;
+    font-size: 24px;
+    border-radius: 24px;
+    border: 2px solid #dd7070;
+    color: #dd7070;
+    cursor: pointer;
+}
+
+
+
 button:hover {
     opacity: 0.8;
 }
