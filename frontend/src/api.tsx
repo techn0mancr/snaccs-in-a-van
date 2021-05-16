@@ -55,16 +55,7 @@ export function customerLogout() {
 
 export function customerProfile() {
   const endpoint = `${BASE_URL}/customer/profile`;
-  return axios.get(endpoint).then(
-    (response) => {
-      console.log(response);
-    },
-    (error) => {
-      alert("Please login");
-      history.push("/customer/login");
-      console.log(error);
-    }
-  );
+  return axios.get(endpoint);
 }
 
 export function customerRegister(email: String, givenName: String, familyName: String, password: String) {

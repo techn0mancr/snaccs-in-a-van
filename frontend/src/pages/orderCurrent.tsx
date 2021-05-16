@@ -27,7 +27,16 @@ class ListActiveOrder extends React.Component {
     }
 
     componentWillMount() {
-        customerProfile();
+        customerProfile().then(
+            (response) => {
+              console.log(response);
+            },
+            (error) => {
+              alert("Please login");
+              history.push("/customer/login");
+              console.log(error);
+            }
+          );
     }
 
     componentDidMount() {
