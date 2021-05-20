@@ -314,34 +314,21 @@ async function setVendorAvailability(req: Request & {
 
 /* Sets a vendor's geolocation coordinates */
 async function setVendorGeolocation(req: Request & {
-    body: { geolocation: Array<number> }
+    body: { latitude: number, longitude: number }
 }, res: Response): Promise<void> {
     try {
         /* Query the database */
-        const qResult = await Vendor.updateOne(
-            {
-                _id: req.session.vendorId
-            },
-            {
-                $set: {
-                    geolocation: req.body.geolocation,
-                }
-            }
-        );
+        const vendor = await Vendor.findById(req.session.vendorId);
+        if (vendor) {
+            vendor.latitude = req.body.latitude;
+            vendor.longitude = req.body.longitude;
+            await vendor.save();
 
-        /* Check if the query has successfully executed */
-        if (qResult.ok == 1) {
-            if (qResult.n > 0) {
-                if (qResult.n == qResult.nModified)
-                    res.status(200).send("OK"); // vendor was successfully updated
-                else
-                    res.status(400).send("Bad Request"); // vendor cannot be updated
-            }
-            else
-                res.status(404).send("Not Found"); // vendor wasn't found in the database
+            /* Send a response */
+            res.status(200).send("OK");
         }
         else
-            res.status(500).send("Internal Server Error");
+            res.status(404).send("Not Found");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -354,30 +341,16 @@ async function setVendorLocationDescription(req: Request & {
 }, res: Response): Promise<void> {
     try {
         /* Query the database */
-        const qResult = await Vendor.updateOne(
-            {
-                _id: req.session.vendorId
-            },
-            {
-                $set: {
-                    locationDescription: req.body.locationDescription
-                }
-            }
-        );
+        const vendor = await Vendor.findById(req.session.vendorId);
+        if (vendor) {
+            vendor.locationDescription = req.body.locationDescription;
+            await vendor.save();
 
-        /* Check if the query has successfully executed */
-        if (qResult.ok == 1) {
-            if (qResult.n > 0) {
-                if (qResult.n == qResult.nModified)
-                    res.status(200).send("OK"); // vendor was successfully updated
-                else
-                    res.status(400).send("Bad Request"); // vendor cannot be updated
-            }
-            else
-                res.status(404).send("Not Found"); // vendor wasn't found in the database
+            /* Send a response */
+            res.status(200).send("OK");
         }
         else
-            res.status(500).send("Internal Server Error");
+            res.status(404).send("Not Found");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
