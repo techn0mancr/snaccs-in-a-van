@@ -67,7 +67,7 @@ class ListPastOrder extends React.Component {
                             ))} 
                         </div>
                     :
-                    null}
+                    <h2>No current orders</h2>}
                 </div>
             )
         }
