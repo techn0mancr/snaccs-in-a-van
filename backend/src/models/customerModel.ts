@@ -2,6 +2,7 @@
 import { hashSync } from "bcrypt";
 import { Document, model, Model, Schema } from "mongoose";
 import { itemOrderSchema, IItemOrder } from "./index";
+import { PASSWORD_HASH_ROUNDS } from "../config";
 
 /* Define the customer interface */
 export interface ICustomer extends Document {
@@ -32,7 +33,7 @@ const customerSchema: Schema = new Schema({
         type: String,
         required: true,
         minlength: 6,
-        set: (plaintext: string) => hashSync(plaintext, 10)
+        set: (plaintext: string) => hashSync(plaintext, PASSWORD_HASH_ROUNDS)
     },
     cart: {
         type: [itemOrderSchema],
