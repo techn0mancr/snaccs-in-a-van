@@ -145,7 +145,51 @@ async function emptyCart(req: Request, res: Response): Promise<void> {
 async function finalizeOrderAmendment(req: Request & {
     params: { orderId: string }
 }, res: Response): Promise<void> {
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+        
+        /* Empty the order items */
+        const qResult = await Order.updateOne(
+            {
+                _id: castedOrderId
+            },
+            {
+                $set: {
+                    items: []
+                }
+            }
+        );
+        
+        /* Query the database for the details of the order to be amended */
+        const orderToAmend = await Order.findById(castedOrderId);
+        if (orderToAmend && req.session.cart) {
+            var cartTotal: number = 0;
+            req.session.cart.forEach((itemOrder: IItemOrder) => {
+                orderToAmend.items.push(itemOrder);  // replace the order items with the items in the session cart
+                cartTotal += itemOrder.subtotal;     // calculate the cart's total
+            });
+            
+            /* Update the order details */
+            orderToAmend.total = cartTotal;
+            orderToAmend.placedTimestamp = new Date();
+            orderToAmend.isChanged = true;
+            await orderToAmend.save();
+            
+            /* Replace the session cart contents with the customer's saved cart */
+            const currentCustomer = await Customer.findById(req.session.customerId);
+            if (currentCustomer)
+                req.session.cart = currentCustomer.cart;
 
+            /* Send a response */
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
 }
 
 /* Returns the logged in customer's active orders */
@@ -291,7 +335,56 @@ async function getProfile(req: Request, res: Response) {
 async function initializeOrderAmendment(req: Request & {
     params: { orderId: string }
 }, res: Response): Promise<void> {
-
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+        
+        /* Check if the order is made by the current customer within a certain amount of time  */
+        const orderToAmend = await Order.findOne(
+            {
+                _id: castedOrderId,
+                customerId: req.session.customerId
+            }
+        );
+        if (orderToAmend) {
+            /* Check if a certain amount of time has passed since placement */
+            var deltaSincePlaced: number =
+                (new Date()).getTime() - orderToAmend.placedTimestamp.getTime();
+            if (deltaSincePlaced <= ORDER_AMENDMENT_TIME_WINDOW) {
+                /* Empty the current customer's cart */
+                const qResult = await Customer.updateOne(
+                    {
+                        _id: req.session.customerId
+                    },
+                    {
+                        $set: {
+                            cart: []
+                        }
+                    }
+                );
+                
+                const currentCustomer = await Customer.findById(req.session.customerId);
+                if (currentCustomer && req.session.cart) {
+                    /* Add all the item orders in the cart to the customer's now-empty cart */
+                    req.session.cart.forEach((itemOrder: IItemOrder) => currentCustomer.cart.push(itemOrder));
+                    await currentCustomer.save();
+                    
+                    /* Replace the session cart with the order items */
+                    req.session.cart = orderToAmend.items;
+                }
+                
+                /* Send a response */
+                res.status(200).send("OK");
+            }
+            else
+                res.status(403).send("Forbidden");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
 }
 
 /* Logs a customer in */
