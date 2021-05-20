@@ -38,6 +38,7 @@ import Vendor from "./vendorModel";
 /* Import existing helper schemas */
 import { itemOrderSchema } from "./itemOrderModel";
 import { menuItemSchema } from "./menuItemModel";
+import passwordSchema from "./passwordSchema";
 
 /* Import existing helper interfaces */
 import { IItemOrder } from "./itemOrderModel";
@@ -76,6 +77,7 @@ export {
     /* Helper schemas */
     itemOrderSchema,
     menuItemSchema,
+    passwordSchema,
     
     /* Helper interfaces */
     IItemOrder,

@@ -1,6 +1,7 @@
 /* Import the required libraries and types */
 import { hashSync } from "bcrypt";
 import { Document, model, Model, Schema } from "mongoose";
+import { PASSWORD_HASH_ROUNDS } from "../config";
 
 /* Define the vendor interface */
 export interface IVendor extends Document {
@@ -29,7 +30,7 @@ const vendorSchema: Schema = new Schema({
         type: String,
         required: true,
         minlength: 6,
-        set: (plaintext: string) => hashSync(plaintext, 10)
+        set: (plaintext: string) => hashSync(plaintext, PASSWORD_HASH_ROUNDS)
     },
     locationDescription: {
         type: String
