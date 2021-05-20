@@ -21,6 +21,7 @@ import VendorLogin from "./pages/vendorLogin";
 import VendorProfile from "./pages/vendorProfile";
 import VendorOrder from "./pages/vendorOrder";
 import VendorGeolocation from "./pages/vendorGeolocation";
+import Home from "./pages/home";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:48080/api";
@@ -38,13 +39,13 @@ function App() {
     <div>
       <Router history={history}>
         <Switch>
+        <Route exact path="/" component={Home}/>
         <Route exact path="/vendor/login" component={VendorLogin} />
         <Route exact path="/vendor/geolocation" component={VendorGeolocation}/>
         <Route exact path="/vendor/profile" component={VendorProfile} />
         <Route exact path="/vendor/orders" component={VendorOrder} />
           <div>
             <Nav />
-            <Route exact path="/" />
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
