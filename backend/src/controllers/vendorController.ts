@@ -276,42 +276,6 @@ async function logout(req: Request, res: Response): Promise<void> {
     res.status(200).send("OK");
 }
 
-/* Sets the given vendor's availability */
-async function setVendorAvailability(req: Request & {
-    body: { isOpen: boolean }
-}, res: Response): Promise<void> {
-    try {
-        /* Query the database */
-        const qResult = await Vendor.updateOne(
-            {
-                _id: req.session.vendorId
-            },
-            {
-                $set: {
-                    isOpen: req.body.isOpen
-                }
-            }
-        );
-
-        /* Check if the query has successfully executed */
-        if (qResult.ok == 1) {
-            if (qResult.n > 0) {
-                if (qResult.n == qResult.nModified)
-                    res.status(200).send("OK"); // vendor was successfully updated
-                else
-                    res.status(400).send("Bad Request"); // vendor cannot be updated
-            }
-            else
-                res.status(404).send("Not Found"); // vendor wasn't found in the database
-        }
-        else
-            res.status(500).send("Internal Server Error");
-    }
-    catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
-    }
-}
-
 /* Sets a vendor's geolocation coordinates */
 async function setVendorGeolocation(req: Request & {
     body: { latitude: number, longitude: number }
@@ -357,6 +321,44 @@ async function setVendorLocationDescription(req: Request & {
     }
 }
 
+/* Toggles the given vendor's availability */
+async function toggleVendorAvailability(req: Request, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        const vendor = await Vendor.findById(req.session.vendorId);
+        if (vendor) {
+            /* Check the vendor's current open status */
+            if (vendor.isOpen) {
+                /* Check if the vendor has outstanding orders */
+                const outstandingOrder = await Order.find(
+                    {
+                        vendorId: req.session.vendorId,
+                        $or: [
+                            { status: { $eq: OrderStatus.Placed } },
+                            { status: { $eq: OrderStatus.Fulfilled } }
+                        ]
+                    }
+                );
+
+                if (outstandingOrder.length > 0) {
+                    res.status(403).send("Forbidden");
+                    return; 
+                }
+            }
+            vendor.isOpen = !(vendor.isOpen);
+            await vendor.save();
+
+            /* Send a response */
+            res.status(200).send("OK");
+        }
+        else
+            res.status(404).send("Not Found");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Export controller functions */
 export {
     completeOrder,
@@ -367,7 +369,7 @@ export {
     getCompletedOrders,
     login,
     logout,
-    setVendorAvailability,
     setVendorLocationDescription,
-    setVendorGeolocation
+    setVendorGeolocation,
+    toggleVendorAvailability
 }
