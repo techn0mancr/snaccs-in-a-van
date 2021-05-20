@@ -66,6 +66,65 @@ async function addItemToCart(req: Request & {
     }
 }
 
+/* Amends the current customer's profile details */
+async function amendProfileDetails(req: Request & {
+    body: { email: string, givenName: string, familyName: string, password: string }
+}, res: Response): Promise<void> {
+    try {
+        /* Query the database for the current customer's details */
+        const currentCustomer = await Customer.findById(req.session.customerId);
+        if (!currentCustomer) {
+            res.status(404).send("Not Found");
+            return;
+        }
+
+        /* Check if the customer wants to change his email */
+        if (req.body.email) {
+            /* Check if the email is already used by another customer */
+            const existingCustomer = await Customer.findOne(
+                {
+                    email: req.body.email.toLowerCase()
+                }
+            );
+            if (existingCustomer) {
+                res.status(403).send("Forbidden");
+                return;
+            }
+            
+            /* Update the customer's email */
+            currentCustomer.email = req.body.email.toLowerCase();
+        }
+
+        /* Check if the customer wants to change his given name */
+        if (req.body.givenName)
+            currentCustomer.givenName = req.body.givenName;
+
+        /* Check if the customer wants to change his family name */
+        if (req.body.familyName)
+            currentCustomer.familyName = req.body.familyName;
+
+        /* Check if the customer wants to change his password */
+        if (req.body.password) {
+            /* Validate the customer's new password */
+            if (!passwordSchema.validate(req.body.password)) {
+                res.status(403).send("Forbidden");
+                return;
+            }
+            
+            /* Update the customer's password */
+            currentCustomer.password = req.body.password;
+        }
+        
+        await currentCustomer.save();
+        
+        /* Send a response */
+        res.status(200).send("OK");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
 /* Cancels the customer's given order */
 async function cancelOrder(req: Request & {
     params: { orderId: string }
@@ -585,6 +644,7 @@ async function selectVendor(req: Request & {
 /* Export controller functions */
 export {
     addItemToCart,
+    amendProfileDetails,
     cancelOrder,
     checkoutCart,
     emptyCart,
