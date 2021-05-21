@@ -8,14 +8,15 @@ body{
 
 input[type=image].vanIcon {
     float: right;
-    height: 30px;
-    margin-top: 10px;
+    height: 60px;
+    margin-top: -20px;
 }
 
 h1.vendorOrder{
     font-size: 36px;
     padding-left: 20px;
-    margin-top: 25px;
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 h2.vendorOrder{
@@ -31,17 +32,22 @@ h3.orderName{
     color: #3E4462;
 }
 
-p.orderName{
-    float: right;
-    display: inline;
-    font-size: 13px;
+.p-orderName{
+    font-size: 14px;
+    padding-top: 22px;
+    margin-left: 100px;
+    color: black;
+    font-weight: 300;
 }
 
-p.vendorOrder {
+.p-vendorOrder {
     font-size: 13px;
-    line-height: 20px;
-    padding-top: 50px;
+    color: white;
+    line-height: 0px;
+    margin-left: 0px;
+    margin-bottom: 15px;
 }
+
 
 .row{
     display: flex;
@@ -51,6 +57,7 @@ p.vendorOrder {
     flex: 50%;
 }
 
+
 .leftBox {
     float: left;
     width: 20%;
@@ -58,8 +65,8 @@ p.vendorOrder {
     color: #FFFF;
     line-height: 0px;
     height: 60px;
-    border-radius: 9px;
-    padding-left: 25px;
+    border-radius: 9px 0px 0px 9px;
+    padding-left: 15px;
     padding-top: 20px;
 }
 
@@ -67,13 +74,17 @@ p.vendorOrder {
     border-radius: 9px;
     background-color: #FFFF;
     height: 60px;
+    width: 100%;
+    margin-top: 20px;
+
 }
 
 .outstanding {
-    background-color:#F8F5F2;
+    background-color:#E7E7E7;
     height: 80vh;
-    width: 95%;
+    width: 90%;
     border-radius: 20px;
+    margin-top: 10px;
     padding-top: 30px;
     padding-left: 20px;
     padding-right: 20px;
@@ -81,23 +92,46 @@ p.vendorOrder {
 }
 
 .orderDetails {
-    background-color:#F8F5F2;
-    width: 95%;
-    height: 50vh;
+    background-color:#E7E7E7;
+    width: 90%;
+    height: 50%;
     border-radius: 20px;
     padding-top: 30px;
     padding-left: 20px;
     padding-right: 20px;
     margin-bottom: 2vh;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 .ordersFulfilled {
-    background-color:#F8F5F2;
-    width: 95%;
+    background-color:#E7E7E7;
+    width: 90%;
     height: 28vh;
     border-radius: 20px;
     padding-top: 30px;
     padding-right: 20px;
     padding-left: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.btn-vendorOrder{
+    background-color: #dd7070;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    width: 110px;
+    font-style: regular;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    float: right;
+    margin-top: -35px;
+    margin-right: 20px;
+
+}
