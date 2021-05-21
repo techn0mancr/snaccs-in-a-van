@@ -28,6 +28,7 @@ customerRouter.patch("/logout", customerAuth, controller.logout);
 customerRouter.get("/profile", customerAuth, controller.getProfile);
 customerRouter.post("/register", controller.register);
 customerRouter.patch("/vendor/:vendorId/select", controller.selectVendor);
+customerRouter.get("/getVendors", customerAuth, controller.getVendorGeolocations);
 
 /* Export the router */
 export default customerRouter;

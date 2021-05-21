@@ -220,7 +220,7 @@ async function getProfile(req: Request, res: Response) {
         if (req.session.vendorId) {
             /* Query the database */
             const currentVendor = await Vendor.findById(req.session.vendorId)
-                                              .select("email name locationDescription isOpen geolocation");
+                                              .select("email name locationDescription isOpen latitude longitude");
             if (currentVendor)
                 res.status(200).json(currentVendor);
             else
@@ -276,6 +276,8 @@ async function logout(req: Request, res: Response): Promise<void> {
     res.status(200).send("OK");
 }
 
+
+
 /* Sets the given vendor's availability */
 async function setVendorAvailability(req: Request & {
     body: { isOpen: boolean }
@@ -311,6 +313,8 @@ async function setVendorAvailability(req: Request & {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
+
+///////////////////////////////////////
 
 /* Sets a vendor's geolocation coordinates and location description */
 async function setVendorLocationDesc(req: Request & {
@@ -350,7 +354,7 @@ async function setVendorLocationDesc(req: Request & {
 
 /* Sets a vendor's geolocation coordinates and location description */
 async function setVendorGeolocation(req: Request & {
-    body: { geolocation: Array<number> }
+    body: { lat : number , lng : number }
 }, res: Response): Promise<void> {
     try {
         /* Query the database */
@@ -360,7 +364,8 @@ async function setVendorGeolocation(req: Request & {
             },
             {
                 $set: {
-                    geolocation: req.body.geolocation,
+                    latitude: req.body.lat,
+                    longitude: req.body.lng
                 }
             }
         );
@@ -368,8 +373,10 @@ async function setVendorGeolocation(req: Request & {
         /* Check if the query has successfully executed */
         if (qResult.ok == 1) {
             if (qResult.n > 0) {
-                if (qResult.n == qResult.nModified)
-                    res.status(200).send("OK"); // vendor was successfully updated
+                if (qResult.n == qResult.nModified){
+                    console.log("vendor geolocation formatted");
+                    res.status(200).send("OK");
+                 } // vendor was successfully updated
                 else
                     res.status(400).send("Bad Request"); // vendor cannot be updated
             }
@@ -384,33 +391,7 @@ async function setVendorGeolocation(req: Request & {
     }
 }
 
-///////////////////////////////////////
 
-/* Get the given vendor's outstanding orders */
-async function getVendorGeolocation(req: Request, res: Response): Promise<void> {
-    try {
-        /* Query the database */
-        const vendorGeolocation = await Vendor.find(
-            {
-                vendorId: req.session.vendorId
-            }
-        )
-        .select("geolocation");
-
-        /* Send the query results */
-        if (vendorGeolocation) {
-            // if (vendorGeolocation.length > 0)
-                res.status(200).json(vendorGeolocation);
-            // else
-            //     res.status(204).send("No Content");
-        }
-        else
-            res.status(500).send("Internal Server Error");
-    }
-    catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
-    }
-}
 
 ///////////////////////////////////////
 
@@ -426,6 +407,32 @@ export {
     logout,
     setVendorAvailability,
     setVendorLocationDesc,
-    setVendorGeolocation,
-    getVendorGeolocation
+    setVendorGeolocation
 }
+
+
+// /* Get the given vendor's outstanding orders */
+// async function getVendorGeolocation(req: Request, res: Response): Promise<void> {
+//     try {
+//         /* Query the database */
+//         const vendorGeolocation = await Vendor.find(
+//             {
+//                 vendorId: req.session.vendorId
+//             }
+//         )
+//         .select("geolocation");
+
+//         /* Send the query results */
+//         if (vendorGeolocation) {
+//             // if (vendorGeolocation.length > 0)
+//                 res.status(200).json(vendorGeolocation);
+//             // else
+//             //     res.status(204).send("No Content");
+//         }
+//         else
+//             res.status(500).send("Internal Server Error");
+//     }
+//     catch (e) {
+//         res.status(500).send(`Internal Server Error: ${e.message}`);
+//     }
+// }

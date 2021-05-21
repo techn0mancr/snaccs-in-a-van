@@ -455,6 +455,57 @@ async function selectVendor(req: Request & {
     }
 }
 
+
+async function getVendorGeolocations(req: Request, res: Response): Promise<void> {
+    try {
+        if (req.session.customerId) {
+            /* Query the database */
+            const vendorList = await Vendor.find(
+                {   isOpen: true    }
+            ).populate(
+                {
+                    model: "Vendor",
+                    path: "VendorId",
+                    select: "name latitude longitude"
+                }
+            ).select("name latitude longitude")
+        
+
+            /* Send the query results */
+            if (vendorList) {
+                if (vendorList.length > 0) {
+                    res.status(200).json(vendorList)
+                }
+                else {
+                    res.status(204).send("All Vendors Closed")
+                }
+            }
+
+    }
+    else {
+        res.status(500).send('Internal Server Error');
+    }
+    }
+    catch(e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+//         if (vendorList) {
+//             if (vendorList.length > 0)
+//                 res.status(200).json(vendorList);
+//             else
+//                 res.status(204).send("No Content");
+//         }
+//     }
+//     else
+//         res.status(500).send("Internal Server Error");
+// }
+// catch (e) {
+//     res.status(500).send(`Internal Server Error: ${e.message}`);
+// }
+
+
+
 /* Export controller functions */
 export {
     addItemToCart,
@@ -471,5 +522,6 @@ export {
     logout,
     rateOrder,
     register,
-    selectVendor
+    selectVendor,
+    getVendorGeolocations
 }

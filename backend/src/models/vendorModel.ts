@@ -37,10 +37,15 @@ const vendorSchema: Schema = new Schema({
         type: Boolean,
         required: true
     },
-    geolocation: {
-        type: [Number],
+    latitude: {
+        type: Number,
+        default: undefined
+    },
+    longitude: {
+        type: Number,
         default: undefined
     }
+
 });
 
 /* Export the vendor schema and model */

@@ -143,9 +143,10 @@ export async function getFulfilledOrders() {
 //   return axios.get(endpoint);
 // }
 
-export function setVendorLocation(locationDescription: string, geolocation: Array<number> ) {
+export function setVendorLocation(locationDescription: string) {
   const endpoint = `${BASE_URL}/vendor/update/location`;
-  getVendorGeolocation();
+  var geoLocation = [0,0]
+  getVendorGeolocation(geoLocation);
 
   return axios.patch(endpoint, { locationDescription }).then(
     (response) => {
@@ -159,43 +160,80 @@ export function setVendorLocation(locationDescription: string, geolocation: Arra
 }
 
 
-var geoLocation: number[]; ///
 
-export function getVendorGeolocation() { ///
-  var geoLocation: number[];
+export function getVendorGeolocation(geoLocation: number[]) { ///  
+
   if (navigator.geolocation) {
-    
+
     const successCallback = (position: GeolocationPosition) => {
 
-      geoLocation = [position.coords.latitude, position.coords.longitude]
-      console.log(geoLocation)
+      const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
+      const lat = position.coords.latitude
+      const lng = position.coords.longitude
+      
+      if (NewgeoLocation) {
+      
+          const endpoint = `${BASE_URL}/vendor/update/geolocation`;
+          // console.log(NewgeoLocation);
+          return axios.patch(endpoint, { lat, lng }).then(
+              (response) => {
+                console.log(response);
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
+        }
+        //mapbox 
+  
+    
+    else {
+      alert("Sorry, browser does not support geolocation!");
+      }
     }
+  
 
     const errorCallback = (error: any) => {
       console.log(error);
     }
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
-    setVendorGeolocation()
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    
   }
-  else {
-    alert("Sorry, browser does not support geolocation!");
- }
 }
 
-function setVendorGeolocation() { ///
-  if (geoLocation) {
-    console.log("hey there pls workk")
 
-    const endpoint = `${BASE_URL}/vendor/update/geolocation`;
+export async function getvendors() {
+  const endpoint = `${BASE_URL}/customer/getVendors`;
+  return await axios.get(endpoint);
+}
 
-    return axios.patch(endpoint, { geoLocation }).then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
+
+export async function getCustomerGeolocation() { ///  
+
+  if (navigator.geolocation) {
+
+    const successCallback = (position: GeolocationPosition) => {
+
+      const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
+      const lat = position.coords.latitude
+      const lng = position.coords.longitude
+      
+      if (NewgeoLocation) {
+        return [lat, lng];
         }
-      );
+        //mapbox 
+  
+    else {
+      alert("Sorry, browser does not support geolocation!");
+      }
+    }
+  
+
+    const errorCallback = (error: any) => {
+      console.log(error);
+    }
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    
   }
 }
 

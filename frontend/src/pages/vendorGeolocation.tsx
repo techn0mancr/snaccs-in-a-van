@@ -21,8 +21,7 @@ class Header extends React.Component {
 class Description extends React.Component {
     
     state = {
-        desc: "",
-        geolocation: [-37.7999432,144.9616192],
+        desc: ""
     };
 
     handleChange = (event: { target: { name: any; value: String; }; }) => {
@@ -32,8 +31,8 @@ class Description extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        const { desc, geolocation } = this.state;
-        setVendorLocation(desc, geolocation);
+        const { desc } = this.state;
+        setVendorLocation(desc);
     }
 
     render() {
