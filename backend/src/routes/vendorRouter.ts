@@ -28,7 +28,5 @@ vendorRouter.patch("/update/status", vendorAuth, controller.setVendorAvailabilit
 vendorRouter.patch("/update/location", vendorAuth, controller.setVendorLocationDesc); ///
 vendorRouter.patch("/update/geolocation", vendorAuth, controller.setVendorGeolocation); ///
 
-vendorRouter.get("/getgeolocation", vendorAuth, controller.getVendorGeolocation); ///
-
 /* Export the router */
 export default vendorRouter;
