@@ -31,11 +31,13 @@
     "npm": "*"
   },
   "scripts": {
-    "prebuild-frontend": "cd frontend/ && npm install",
+    "prebuild-frontend": "cd frontend/ && npm install --production=false",
     "build-frontend": "cd frontend/ && npm run build",
+    "postbuild-frontend": "cd frontend/ && npm prune --production",
     
-    "prebuild-backend": "cd backend/ && npm install",
+    "prebuild-backend": "cd backend/ && npm install --production=false",
     "build-backend": "cd backend/ && npm run compile",
+    "postbuild-backend": "cd backend/ && npm prune --production",
 
     "frontend-dev": "cd frontend/ && npm start",
     

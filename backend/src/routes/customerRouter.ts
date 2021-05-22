@@ -26,6 +26,7 @@ customerRouter.get("/orders/past", customerAuth, controller.getPastOrders);
 customerRouter.patch("/login", controller.login);
 customerRouter.patch("/logout", customerAuth, controller.logout);
 customerRouter.get("/profile", customerAuth, controller.getProfile);
+customerRouter.patch("/profile/amend", customerAuth, controller.amendProfileDetails);
 customerRouter.post("/register", controller.register);
 customerRouter.patch("/vendor/:vendorId/select", controller.selectVendor);
 customerRouter.get("/getVendors", customerAuth, controller.getVendorGeolocations);
