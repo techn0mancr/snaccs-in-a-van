@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { setVendorLocation } from '../api';
+import { setVendorGeolocation, setVendorLocationDescription } from '../api';
 import map from "../img/map.png";
 
 class Header extends React.Component {
@@ -22,7 +22,8 @@ class Description extends React.Component {
     
     state = {
         desc: "",
-        geolocation: [-37.7999432,144.9616192],
+        latitude: -37.7999432,
+        longitude: 144.9616192
     };
 
     handleChange = (event: { target: { name: any; value: String; }; }) => {
@@ -32,8 +33,9 @@ class Description extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        const { desc, geolocation } = this.state;
-        setVendorLocation(desc, geolocation);
+        const { desc, latitude, longitude } = this.state;
+        setVendorGeolocation(latitude, longitude);
+        setVendorLocationDescription(desc);
     }
 
     render() {

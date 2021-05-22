@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { vendorProfile, vendorLogout } from '../api';
+import { vendorProfile, vendorLogout, setVendorAvailability } from '../api';
 import map from "../img/map.png";
 
 class Header extends React.Component {
@@ -43,6 +43,7 @@ class Description extends React.Component {
 
     handleClick() {
         history.push("/vendor/login");
+        setVendorAvailability();
         vendorLogout();
     }
 
