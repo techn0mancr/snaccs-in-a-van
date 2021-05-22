@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { setVendorGeolocation, setVendorLocationDescription } from '../api';
+import { setVendorGeolocation, setVendorLocationDescription, setVendorAvailability } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -35,6 +35,7 @@ class Description extends React.Component {
         const { desc, latitude, longitude } = this.state;
         setVendorGeolocation(latitude, longitude);
         setVendorLocationDescription(desc);
+        setVendorAvailability();
         history.push("/vendor/orders");
     }
 
