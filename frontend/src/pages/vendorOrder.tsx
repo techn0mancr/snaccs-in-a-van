@@ -125,12 +125,12 @@ class Content extends React.Component {
                         <h2 className ="vendorOrder">Details</h2>
                         { showDetail ? 
                         <div className ="orderCard">
-                            <p className ="vendorOrder">{details._id}</p>
-                            <p className = "vendorOrder">{moment(details.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
-                            <p className="orderName">{details.customerId.givenName} {details.customerId.familyName}</p>
+                            <p className ="p-orderCard">{details._id}</p>
+                            <p className = "p-orderTime">{moment(details.placedTimestamp).format('h.mm A')}</p>
+                            <p className="p-detailsName">{details.customerId.givenName} {details.customerId.familyName}</p>
                             { items.map((item, i) => (
                                 <div key={i}>
-                                    <p className = "vendorOrder">{item.quantity}x {item.itemId.name}</p>
+                                    <p className = "p-orderCard">{item.quantity}x {item.itemId.name}</p>
                                 </div>
                             ))}
                             { readyButton ? 

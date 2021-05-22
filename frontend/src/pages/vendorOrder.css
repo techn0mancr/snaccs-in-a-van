@@ -36,7 +36,7 @@ h3.orderName{
     font-size: 14px;
     padding-top: 22px;
     margin-left: 100px;
-    color: black;
+    color: #3E4462;;
     font-weight: 300;
 }
 
@@ -46,6 +46,16 @@ h3.orderName{
     line-height: 0px;
     margin-left: 0px;
     margin-bottom: 15px;
+}
+.p-orderCard{
+    color: #3E4462;
+}
+
+.p-detailsName{
+    color: #3E4462;
+    font-style: bold;
+    margin-bottom: 30px;
+    font-size: 16px;
 }
 
 
@@ -79,6 +89,22 @@ h3.orderName{
 
 }
 
+.orderCard {
+    border-radius: 9px;
+    background-color: #FFFF;
+    height: 70%;
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 30px;
+    padding-left: 20px;
+
+}
+
+.p-orderTime {
+    float: right;
+    padding-right: 20px;
+    color: #3E4462;
+}
 .outstanding {
     background-color:#E7E7E7;
     height: 80vh;
