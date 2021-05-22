@@ -164,7 +164,7 @@ export async function getFulfilledOrders() {
 // }
 
 export function setVendorGeolocation(latititude: number, longitude: number) {
-  const endpoint = `${BASE_URL}/vendor/update/coordinates`;
+  const endpoint = `${BASE_URL}/vendor/location/update/coordinates`;
   return axios.patch(endpoint, { latititude, longitude }).then(
     (response) => {
       console.log(response);
@@ -177,7 +177,7 @@ export function setVendorGeolocation(latititude: number, longitude: number) {
 
 
 
-export function getVendorGeolocation(geoLocation: number[]) { ///  
+export function getVendorGeolocation() { ///  
 
   if (navigator.geolocation) {
 
@@ -189,16 +189,8 @@ export function getVendorGeolocation(geoLocation: number[]) { ///
       
       if (NewgeoLocation) {
       
-          const endpoint = `${BASE_URL}/vendor/update/geolocation`;
           // console.log(NewgeoLocation);
-          return axios.patch(endpoint, { lat, lng }).then(
-              (response) => {
-                console.log(response);
-              },
-              (error) => {
-                console.log(error);
-              }
-            );
+          return setVendorGeolocation(lat, lng);
         }
         //mapbox 
   
@@ -266,7 +258,7 @@ export function getDistance(coordinate1: number[], coordinate2: number[]) {
 
 
 export function setVendorLocationDescription(locationDescription: string) {
-  const endpoint = `${BASE_URL}/vendor/update/description`;
+  const endpoint = `${BASE_URL}/vendor/location/update/description`;
   return axios.patch(endpoint, { locationDescription }).then(
     (response) => {
       console.log(response);
