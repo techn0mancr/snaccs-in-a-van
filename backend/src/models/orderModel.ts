@@ -1,6 +1,16 @@
 /* Import the required libraries and types */
 import { Document, model, Model, Schema } from "mongoose";
-import { ICustomer, IItemOrder, itemOrderSchema, IVendor } from "./index";
+import {
+    ICustomer,
+    IItemOrder, itemOrderSchema,
+    IOrderRating,
+    IOrderTimestamps,
+    IVendor
+} from "./index";
+
+/* Don't know why but these have to be imported directly for the subdocuments to work */
+import { orderRatingSchema } from "./orderRatingModel";
+import { orderTimestampsSchema } from "./orderTimestampsModel";
 
 /* Define order status enum */
 enum OrderStatus {
@@ -17,11 +27,9 @@ export interface IOrder extends Document {
     status: string;
     items: Array<IItemOrder>;
     total: number;
-    placedTimestamp: Date;
-    fulfilledTimestamp: Date;
-    completedTimestamp: Date;
+    timestamps: IOrderTimestamps;
     isChanged: boolean;
-    rating: number;
+    rating: IOrderRating;
 }
 
 /* Define the order schema */
@@ -51,26 +59,17 @@ const orderSchema: Schema = new Schema({
         required: true,
         min: 0
     },
-    placedTimestamp: {
-        type: Date,
-        default: Date.now
-    },
-    fulfilledTimestamp: {
-        type: Date,
-        default: undefined
-    },
-    completedTimestamp: {
-        type: Date,
-        default: undefined
+    timestamps: {
+        type: orderTimestampsSchema,
+        default: {}
     },
     isChanged: {
         type: Boolean,
         default: false
     },
     rating: {
-        type: Number,
-        min: 0,
-        max: 5
+        type: orderRatingSchema,
+        default: undefined
     }
 });
 
