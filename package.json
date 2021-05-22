@@ -31,7 +31,7 @@
     "npm": "*"
   },
   "scripts": {
-    "prebuild-frontend": "cd frontend/ && npm install --production=false",
+    "prebuild-frontend": "cd frontend/ && npm install --production=false --legacy-peer-deps",
     "build-frontend": "cd frontend/ && npm run build",
     "postbuild-frontend": "cd frontend/ && npm prune --production",
     
