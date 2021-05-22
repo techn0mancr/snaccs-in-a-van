@@ -24,6 +24,26 @@ export async function emptyCart() {
   return await axios.patch(endpoint);
 }
 
+// export async function amendFinalize(orderId: String) {
+//     const endpoint = `${BASE_URL}/customer/order/${orderId}/amend/finalize`;
+//     return await axios.get(endpoint);
+// }
+
+// export async function amendInitialize(orderId: String) {
+//   const endpoint = `${BASE_URL}/customer/order/${orderId}/amend/initialize`;
+//   return await axios.get(endpoint);
+// }
+
+// export async function cancelOrder(orderId: String) {
+//   const endpoint = `${BASE_URL}/customer/order/${orderId}/cancel`;
+//   return await axios.get(endpoint);
+// }
+
+export async function rateOrder(orderId: String) {
+  const endpoint = `${BASE_URL}/customer/order/${orderId}/rate`;
+  return await axios.get(endpoint);
+}
+
 export async function getActiveOrders() {
     const endpoint = `${BASE_URL}/customer/orders/active`;
     return await axios.get(endpoint);
@@ -142,9 +162,21 @@ export async function getFulfilledOrders() {
 //   return axios.get(endpoint);
 // }
 
-export function setVendorLocation(locationDescription: string, geolocation: Array<number> ) {
-  const endpoint = `${BASE_URL}/vendor/update/location`;
-  return axios.patch(endpoint, { locationDescription, geolocation }).then(
+export function setVendorGeolocation(latititude: number, longitude: number) {
+  const endpoint = `${BASE_URL}/vendor/update/coordinates`;
+  return axios.patch(endpoint, { latititude, longitude }).then(
+    (response) => {
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+export function setVendorLocationDescription(locationDescription: string) {
+  const endpoint = `${BASE_URL}/vendor/update/description`;
+  return axios.patch(endpoint, { locationDescription }).then(
     (response) => {
       history.push("/vendor/orders");
       console.log(response);
@@ -155,14 +187,14 @@ export function setVendorLocation(locationDescription: string, geolocation: Arra
   );
 }
 
-// function setVendorAvailability(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/update/status`;
-//   return axios.post(endpoint, { vendorId }).then(
-//     (response) => {
-//       console.log(response);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// }
+function setVendorAvailability() {
+  const endpoint = `${BASE_URL}/vendor/status/toggle`;
+  return axios.post(endpoint).then(
+    (response) => {
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
