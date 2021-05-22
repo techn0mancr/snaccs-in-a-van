@@ -25,8 +25,8 @@ import Home from "./pages/home";
 import Rate from "./pages/customerRate";
 
 axios.defaults.withCredentials = true;
-// axios.defaults.baseURL = "http://localhost:48080/api";
-axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
+axios.defaults.baseURL = "http://localhost:48080/api";
+// axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
 Vue.use(VueAxios, axios);
 
 export function getId() {
