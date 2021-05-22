@@ -13,6 +13,7 @@ import {
     Item,
     ItemOrder, IItemOrder,
     Order, IOrder,
+    OrderRating,
     OrderStatus,
     Vendor
 } from "../models";
@@ -25,8 +26,12 @@ async function addItemToCart(req: Request & {
     try {
         /* Ensure that the customer's cart exists */
         if (!req.session.cart)
-            req.session.cart = []
+            req.session.cart = [];
         
+        /* Assume a quantity if none was supplied */
+        if (!req.body.quantity)
+            req.body.quantity = 1;
+
         /* Cast the ObjectIds */
         var castedItemId: undefined = (req.params.itemId as unknown) as undefined;
         
@@ -147,7 +152,7 @@ async function cancelOrder(req: Request & {
 
         /* Check if a certain amount of time has passed since placement */
         var deltaSincePlaced: number =
-            (new Date()).getTime() - currentOrder.placedTimestamp.getTime();
+            (new Date()).getTime() - currentOrder.timestamps.placed.getTime();
         if (deltaSincePlaced > ORDER_AMENDMENT_TIME_WINDOW) {
             res.status(403).send("Forbidden");
             return;
@@ -155,7 +160,7 @@ async function cancelOrder(req: Request & {
         
         /* Update the order details */
         currentOrder.status = OrderStatus.Cancelled;
-        currentOrder.completedTimestamp = new Date();
+        currentOrder.timestamps.completed = new Date();
         await currentOrder.save();
 
         /* Send a response */
@@ -166,11 +171,17 @@ async function cancelOrder(req: Request & {
     }
 }
 
+/* Cancels the order amendment process */
+async function cancelOrderAmendment(req: Request, res: Response): Promise<void> {
+    // TODO
+}
+
 /* Checks out the customer's current cart */
 async function checkoutCart(req: Request, res: Response): Promise<void> {
     try {
         /* Ensures that the cart is populated */
-        if (!req.session.cart || (req.session.cart.length <= 0)) {
+        if (!req.session.vendorId ||
+            !req.session.cart || (req.session.cart.length <= 0)) {
             res.status(403).send("Forbidden");
             return;
         }
@@ -254,7 +265,7 @@ async function finalizeOrderAmendment(req: Request & {
         
         /* Update the order details */
         orderToAmend.total = cartTotal;
-        orderToAmend.placedTimestamp = new Date();
+        orderToAmend.timestamps.placed = new Date();
         orderToAmend.isChanged = true;
         await orderToAmend.save();
         
@@ -294,7 +305,7 @@ async function getActiveOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId"
             }
-        ).select("vendorId status items total placedTimestamp fulfilledTimestamp isChanged");
+        ).select("vendorId status items total timestamps isChanged");
 
         /* Check if the query returned anything */
         if (!activeOrders || (activeOrders.length <= 0)) {
@@ -366,7 +377,7 @@ async function getPastOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId"
             }
-        ).select("vendorId status items total placedTimestamp fulfilledTimestamp completedTimestamp isChanged");
+        ).select("vendorId status items total timestamps isChanged");
 
         /* Check if the query returned anything */
         if (!pastOrders || (pastOrders.length <= 0)) {
@@ -421,7 +432,7 @@ async function initializeOrderAmendment(req: Request & {
         
         /* Check if a certain amount of time has passed since placement */
         var deltaSincePlaced: number =
-            (new Date()).getTime() - orderToAmend.placedTimestamp.getTime();
+            (new Date()).getTime() - orderToAmend.timestamps.placed.getTime();
         if (deltaSincePlaced > ORDER_AMENDMENT_TIME_WINDOW) {
             res.status(403).send("Forbidden");
             return;
@@ -539,25 +550,28 @@ async function logout(req: Request, res: Response): Promise<void> {
 /* Submits a rating for a completed order */
 async function rateOrder(req: Request & {
     params: { orderId: string },
-    body: { rating: number }
+    body: { rating: number, comments: string }
 }, res: Response): Promise<void> {
     try {
         /* Check if the order is already completed and made by the current customer */
-        const order = await Order.findOne(
+        const orderToRate = await Order.findOne(
             {
                 _id: req.params.orderId,
                 customerId: req.session.customerId,
                 status: OrderStatus.Completed
             }
         );
-        if (!order) {
+        if (!orderToRate) {
             res.status(403).send("Forbidden");
             return;
         }
         
         /* Submit the rating */
-        order.rating = req.body.rating;
-        await order.save();
+        orderToRate.rating = new OrderRating({
+            overall: req.body.rating,
+            comments: req.body.comments
+        });
+        await orderToRate.save();
 
         /* Send a response */
         res.status(200).send("OK");
@@ -646,6 +660,7 @@ export {
     addItemToCart,
     amendProfileDetails,
     cancelOrder,
+    cancelOrderAmendment,
     checkoutCart,
     emptyCart,
     finalizeOrderAmendment,

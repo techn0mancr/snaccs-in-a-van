@@ -36,7 +36,7 @@ async function completeOrder(req: Request & {
 
         /* Update the order's details */
         orderToComplete.status = OrderStatus.Completed;
-        orderToComplete.completedTimestamp = new Date();
+        orderToComplete.timestamps.completed = new Date();
 
         await orderToComplete.save();
 
@@ -71,11 +71,11 @@ async function fulfillOrder(req: Request & {
         
         /* Update the current order's details */
         orderToFulfill.status = OrderStatus.Fulfilled;
-        orderToFulfill.fulfilledTimestamp = new Date();
+        orderToFulfill.timestamps.fulfilled = new Date();
 
         /* Check if a certain amount of time has passed since placement */
         var deltaSincePlaced: number =
-            orderToFulfill.fulfilledTimestamp.getTime() - orderToFulfill.placedTimestamp.getTime();
+            orderToFulfill.timestamps.fulfilled.getTime() - orderToFulfill.timestamps.placed.getTime();
         if (deltaSincePlaced > LATE_FULFILLMENT_TIME_WINDOW)
             orderToFulfill.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
 
@@ -113,8 +113,8 @@ async function getCompletedOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp completedTimestamp isChanged rating")
-         .sort("-completedTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged rating")
+         .sort("-timestamps.completed");
         
         /* Check if the query returned anything */
         if (!completedOrders || (completedOrders.length <= 0)) {
@@ -151,8 +151,8 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp isChanged")
-         .sort("fulfilledTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged")
+         .sort("timestamps.fulfilled");
 
         /* Check if the query returned anything */
         if (!fulfilledOrders || (fulfilledOrders.length <= 0)) {
@@ -189,8 +189,8 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp isChanged")
-         .sort("placedTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged")
+         .sort("timestamps.placed");
 
         /* Check if the query returned anything */
         if (!placedOrders || (placedOrders.length <= 0)) {
