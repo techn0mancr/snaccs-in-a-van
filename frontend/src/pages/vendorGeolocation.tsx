@@ -2,8 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { setVendorLocation } from '../api';
-import map from "../img/map.png";
+import { setVendorGeolocation, setVendorLocationDescription, setVendorAvailability } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -21,7 +20,9 @@ class Header extends React.Component {
 class Description extends React.Component {
     
     state = {
-        desc: ""
+        desc: "",
+        latitude: -37.7999432,
+        longitude: 144.9616192
     };
 
     handleChange = (event: { target: { name: any; value: String; }; }) => {
@@ -31,8 +32,11 @@ class Description extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        const { desc } = this.state;
-        setVendorLocation(desc);
+        const { desc, latitude, longitude } = this.state;
+        setVendorGeolocation(latitude, longitude);
+        setVendorLocationDescription(desc);
+        setVendorAvailability();
+        history.push("/vendor/orders");
     }
 
     render() {
@@ -46,9 +50,9 @@ class Description extends React.Component {
 
             <form onSubmit={this.handleSubmit}>
                 <div className="container">
-                <label id="location"><h2>Location Description</h2></label>
-                <input className="vendorProfile" type="text" placeholder="Enter text..." name="desc" value={desc} onChange={this.handleChange} required />
-            </div>
+                    <label id="location"><h2>Location Description</h2></label>
+                    <input className="vendorProfile" type="text" placeholder="Enter text..." name="desc" value={desc} onChange={this.handleChange} required />
+                </div>
                 <br/><br/><br/>
                 <button type="submit" value="open" className="open">Open Store</button>
             </form>
@@ -60,14 +64,8 @@ class VendorGeolocation extends React.Component {
     render() {
         return (
             <div>
-                <div className="split left">
-                    <img className="vendorProfile" alt="map" src={map} />
-                </div>
-
-                <div className="split right">
-                    <Header />
-                    <Description />
-                </div>
+                <Header />
+                <Description />
             </div>
         )
     }

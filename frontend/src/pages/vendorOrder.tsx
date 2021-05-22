@@ -110,10 +110,10 @@ class Content extends React.Component {
                             <div key={i}>
                                 <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
                                     <div className ="leftBox">
-                                        <p className = "vendorOrder">{order._id}</p>
-                                        <p className = "vendorOrder">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
+                                    <p className = "p-vendorOrder">{order._id}</p>
+                                    <p className = "p-vendorOrder">{moment(order.placedTimestamp).format('h.mm A')}</p>
                                     </div>
-                                    <p className = "orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
+                                    <p className = "p-orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
                                 </div>
                             </div>
                         ))}
@@ -125,12 +125,12 @@ class Content extends React.Component {
                         <h2 className ="vendorOrder">Details</h2>
                         { showDetail ? 
                         <div className ="orderCard">
-                            <p className ="vendorOrder">{details._id}</p>
-                            <p className = "vendorOrder">{moment(details.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
-                            <p className="orderName">{details.customerId.givenName} {details.customerId.familyName}</p>
+                            <p className ="p-orderCard">{details._id}</p>
+                            <p className = "p-orderTime">{moment(details.placedTimestamp).format('h.mm A')}</p>
+                            <p className="p-detailsName">{details.customerId.givenName} {details.customerId.familyName}</p>
                             { items.map((item, i) => (
                                 <div key={i}>
-                                    <p className = "vendorOrder">{item.quantity}x {item.itemId.name}</p>
+                                    <p className = "p-orderCard">{item.quantity}x {item.itemId.name}</p>
                                 </div>
                             ))}
                             { readyButton ? 
@@ -148,10 +148,10 @@ class Content extends React.Component {
                             <div key={i}>
                                 <div className="perOrder" onClick={() => this.handleDisplay(fulfill._id, false)}>
                                     <div className="leftBox">
-                                        <p className = "vendorOrder">{fulfill._id}</p>
-                                        <p className = "vendorOrder">{moment(fulfill.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
+                                        <p className = "p-vendorOrder">{fulfill._id}</p>
+                                        <p className = "p-vendorOrder">{moment(fulfill.placedTimestamp).format('h.mm A')}</p>
                                     </div>
-                                    <p className = "orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
+                                    <p className = "p-orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
                                     <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Completed</button>
                                 </div>
                             </div>

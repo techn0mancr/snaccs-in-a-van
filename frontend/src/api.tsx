@@ -24,6 +24,26 @@ export async function emptyCart() {
   return await axios.patch(endpoint);
 }
 
+// export async function amendFinalize(orderId: String) {
+//     const endpoint = `${BASE_URL}/customer/order/${orderId}/amend/finalize`;
+//     return await axios.get(endpoint);
+// }
+
+// export async function amendInitialize(orderId: String) {
+//   const endpoint = `${BASE_URL}/customer/order/${orderId}/amend/initialize`;
+//   return await axios.get(endpoint);
+// }
+
+// export async function cancelOrder(orderId: String) {
+//   const endpoint = `${BASE_URL}/customer/order/${orderId}/cancel`;
+//   return await axios.get(endpoint);
+// }
+
+export async function rateOrder(orderId: String, rating: number) {
+  const endpoint = `${BASE_URL}/customer/order/${orderId}/rate`;
+  return await axios.patch(endpoint, { orderId, rating: rating });
+}
+
 export async function getActiveOrders() {
     const endpoint = `${BASE_URL}/customer/orders/active`;
     return await axios.get(endpoint);
@@ -143,14 +163,10 @@ export async function getFulfilledOrders() {
 //   return axios.get(endpoint);
 // }
 
-export function setVendorLocation(locationDescription: string) {
-  const endpoint = `${BASE_URL}/vendor/update/location`;
-  var geoLocation = [0,0]
-  getVendorGeolocation(geoLocation);
-
-  return axios.patch(endpoint, { locationDescription }).then(
+export function setVendorGeolocation(latititude: number, longitude: number) {
+  const endpoint = `${BASE_URL}/vendor/update/coordinates`;
+  return axios.patch(endpoint, { latititude, longitude }).then(
     (response) => {
-      history.push("/vendor/orders");
       console.log(response);
     },
     (error) => {
@@ -248,40 +264,27 @@ export function getDistance(coordinate1: number[], coordinate2: number[]) {
   return distance;
 }
 
-// export function setVendorLocation(locationDescription: string, geolocation: Array<number> ) {
-//   const endpoint = `${BASE_URL}/vendor/update/location`;
-//   return axios.patch(endpoint, { locationDescription, geolocation }).then(
-//     (response) => {
-//       history.push("/vendor/orders");
-//       console.log(response);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// }
 
-// function setVendorAvailability(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/update/status`;
-//   return axios.post(endpoint, { vendorId }).then(
-//     (response) => {
-//       console.log(response);
-//     },
-//     (error) => {
-//       console.log(error);
-//     }
-//   );
-// }
+export function setVendorLocationDescription(locationDescription: string) {
+  const endpoint = `${BASE_URL}/vendor/update/description`;
+  return axios.patch(endpoint, { locationDescription }).then(
+    (response) => {
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
-
-
-// function fulfillOrder(orderId: String) {
-//   const endpoint = `${BASE_URL}/order/${orderId}/fulfill`;
-//   return axios.get(endpoint);
-// }
-
-// function getOutstandingOrders(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/order/outstanding`;
-//   return axios.get(endpoint);
-// 
-
+export function setVendorAvailability() {
+  const endpoint = `${BASE_URL}/vendor/status/toggle`;
+  return axios.post(endpoint).then(
+    (response) => {
+      console.log(response);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}

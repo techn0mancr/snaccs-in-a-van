@@ -26,12 +26,13 @@ class CustomerSignup extends React.Component {
         const { email,  givenName, familyName, password } = this.state;
         return (
             <div>
-                <div className="titleProfile">
-                    <h1>Sign In</h1>
+                <div className="titleLogin">
+                    <h1>Sign up</h1>
                     <br />
                     <h2>Already have an account? </h2>
                     <button className="signup" type="submit" value="signup" onClick={() => history.push(`/customer/login`)}><h2>Log in here</h2></button>
                 </div>
+                <br />
 
                 <div className="containerProfile">
                     <form onSubmit={this.handleSubmit}> 
