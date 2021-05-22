@@ -39,9 +39,9 @@ export async function emptyCart() {
 //   return await axios.get(endpoint);
 // }
 
-export async function rateOrder(orderId: String) {
+export async function rateOrder(orderId: String, rating: number) {
   const endpoint = `${BASE_URL}/customer/order/${orderId}/rate`;
-  return await axios.get(endpoint);
+  return await axios.patch(endpoint, { orderId, rating: rating });
 }
 
 export async function getActiveOrders() {

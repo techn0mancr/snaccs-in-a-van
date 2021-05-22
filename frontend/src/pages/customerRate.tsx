@@ -1,8 +1,11 @@
 import React from 'react';
 import leftArrow from '../img/leftArrow.png';
 import history from "../history";
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
+// import Empty from "../img/emptyBean.png";
+// import Filled from "../img/filledBean.png";
+import StarRatingComponent from 'react-star-rating-component';
+import { rateOrder } from "../api";
+import { getId } from '../App';
 
 class Header extends React.Component {
     render() {
@@ -17,9 +20,47 @@ class Header extends React.Component {
 }
 
 class Content extends React.Component {
+    state = {
+        rating: 0,
+        comment: ""
+    }
+
+    orderId = getId() || "";
+
+    onStarClick(nextValue: number, prevValue: number, name: string) {
+        console.log('name: %s, nextValue: %s, prevValue: %s', name, nextValue, prevValue);
+        this.setState({rating: nextValue});
+    }
+
+    handleChange = (event: { target: { name: any; value: String; }; }) => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+
+        const {rating} = this.state;
+        rateOrder(this.orderId, rating);
+        history.goBack();
+    }
+
     render() {
+        const { rating, comment } = this.state;
+
         return (
-            <div></div>
+            <div>
+                <StarRatingComponent name="rate" starCount={5} value={rating} onStarClick={this.onStarClick.bind(this)} />
+                <br/>
+                <div className ="comments">
+                    <h2 className = "comments">
+                        Additional comments
+                    </h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <input className="vendorProfile" type="text" placeholder="Comments" name="comment" value={comment} onChange={this.handleChange} />
+                        <button type="submit" className="btn-vendorOrder">Submit</button>
+                    </form>
+                </div>
+            </div>
         )
     }
 }

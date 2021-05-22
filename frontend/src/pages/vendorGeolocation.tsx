@@ -49,9 +49,9 @@ class Description extends React.Component {
 
             <form onSubmit={this.handleSubmit}>
                 <div className="container">
-                <label id="location"><h2>Location Description</h2></label>
-                <input className="vendorProfile" type="text" placeholder="Enter text..." name="desc" value={desc} onChange={this.handleChange} required />
-            </div>
+                    <label id="location"><h2>Location Description</h2></label>
+                    <input className="vendorProfile" type="text" placeholder="Enter text..." name="desc" value={desc} onChange={this.handleChange} required />
+                </div>
                 <br/><br/><br/>
                 <button type="submit" value="open" className="open">Open Store</button>
             </form>
