@@ -3,7 +3,6 @@ import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
 import { setVendorGeolocation, setVendorLocationDescription } from '../api';
-import map from "../img/map.png";
 
 class Header extends React.Component {
     render() {
@@ -36,6 +35,7 @@ class Description extends React.Component {
         const { desc, latitude, longitude } = this.state;
         setVendorGeolocation(latitude, longitude);
         setVendorLocationDescription(desc);
+        history.push("/vendor/orders");
     }
 
     render() {
@@ -63,14 +63,8 @@ class VendorGeolocation extends React.Component {
     render() {
         return (
             <div>
-                <div className="split left">
-                    <img className="vendorProfile" alt="map" src={map} />
-                </div>
-
-                <div className="split right">
-                    <Header />
-                    <Description />
-                </div>
+                <Header />
+                <Description />
             </div>
         )
     }

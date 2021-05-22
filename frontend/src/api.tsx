@@ -178,7 +178,6 @@ export function setVendorLocationDescription(locationDescription: string) {
   const endpoint = `${BASE_URL}/vendor/update/description`;
   return axios.patch(endpoint, { locationDescription }).then(
     (response) => {
-      history.push("/vendor/orders");
       console.log(response);
     },
     (error) => {
@@ -187,7 +186,7 @@ export function setVendorLocationDescription(locationDescription: string) {
   );
 }
 
-function setVendorAvailability() {
+export function setVendorAvailability() {
   const endpoint = `${BASE_URL}/vendor/status/toggle`;
   return axios.post(endpoint).then(
     (response) => {
