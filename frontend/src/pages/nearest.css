@@ -45,4 +45,11 @@ p.nVan{
     color: #A0A0A0;
 }
 
-  
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .nearestVan-card {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+} 
