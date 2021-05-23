@@ -695,8 +695,8 @@ async function rateOrder(req: Request & {
           .toInt()
           .run(req);
     await body("comments")
-          .isAlphanumeric()
-          .trim().escape()
+          .isAscii()
+          .trim()
           .run(req);
 
     /* Check for any validation errors */

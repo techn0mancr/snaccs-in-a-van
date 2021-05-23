@@ -8,6 +8,17 @@ import { Order, OrderStatus } from "../models";
 async function getOrderDetails(req: Request & {
     params: { orderId: string }
 }, res: Response) {
+    /* Validate the inputs */
+    await param("orderId")
+          .isMongoId()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;

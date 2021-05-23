@@ -18,6 +18,17 @@ import {
 async function completeOrder(req: Request & {
     params: { orderId: string }
 }, res: Response): Promise<void> {
+    /* Validate the inputs */
+    await param("orderId")
+          .isMongoId()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
@@ -53,6 +64,17 @@ async function completeOrder(req: Request & {
 async function fulfillOrder(req: Request & {
     params: { orderId: string }
 }, res : Response): Promise<void> {
+    /* Validate the inputs */
+    await param("orderId")
+          .isMongoId()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
@@ -227,6 +249,21 @@ async function getProfile(req: Request, res: Response) {
 async function login(req: Request & {
     body: { email: String, password: String }
 }, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await body("email")
+          .isEmail()
+          .trim().escape()
+          .run(req);
+    await body("password")
+          .isAscii().isLength({ min: 8 })
+          .run(req);
+    
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    
     try {
         /* Check if a vendor with the given email exists */
         const vendor = await Vendor.findOne(
@@ -269,6 +306,22 @@ async function logout(req: Request, res: Response): Promise<void> {
 async function setVendorGeolocation(req: Request & {
     body: { latitude: number, longitude: number }
 }, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await body("latitude")
+          .isFloat()
+          .toFloat()
+          .run(req);
+    await body("longitude")
+          .isFloat()
+          .toFloat()
+          .run(req);
+    
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
     try {
         /* Query the database for the current vendor's details */
         const currentVendor = await Vendor.findById(req.session.vendorId);
@@ -294,6 +347,18 @@ async function setVendorGeolocation(req: Request & {
 async function setVendorLocationDescription(req: Request & {
     body: { locationDescription: string }
 }, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await body("locationDescription")
+          .isAscii()
+          .trim()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
     try {
         /* Query the database for the current vendor's details */
         const currentVendor = await Vendor.findById(req.session.vendorId);
