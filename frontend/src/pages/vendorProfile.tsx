@@ -40,9 +40,21 @@ class Description extends React.Component {
     }
 
     handleClick() {
-        history.push("/vendor/login");
-        setVendorAvailability();
-        vendorLogout();
+        setVendorAvailability().then(
+            (response) => {
+                if (response.status === 200) {
+                    history.push("/vendor/login");
+                    vendorLogout();
+                } 
+                console.log(response);
+            })
+            .catch(error=>{ 
+                if (error.response) {
+                    alert("Please fulfill all order!"); 
+                    history.goBack();
+                }
+                console.log(error);
+            });
     }
 
     render() {

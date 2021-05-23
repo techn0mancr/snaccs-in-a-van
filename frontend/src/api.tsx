@@ -264,12 +264,5 @@ export function setVendorLocationDescription(locationDescription: string) {
 
 export function setVendorAvailability() {
   const endpoint = `${BASE_URL}/vendor/status/toggle`;
-  return axios.patch(endpoint).then(
-    (response) => {
-      console.log(response);
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+  return axios.patch(endpoint);
 }
