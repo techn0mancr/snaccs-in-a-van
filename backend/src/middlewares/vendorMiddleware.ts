@@ -4,7 +4,7 @@ import { body } from "express-validator";
 import { Vendor } from "../models";
 
 /* Authenticate a vendor based on their session data */
-async function authenticateVendor(req: Request, res: Response, next: NextFunction) {
+async function authenticate(req: Request, res: Response, next: NextFunction) {
     /* Check if the session data is characteristic of a vendor */
     if (!req.session.vendorId || req.session.customerId || req.session.cart) {
         res.status(401).send("Unauthorized");
@@ -24,5 +24,5 @@ async function authenticateVendor(req: Request, res: Response, next: NextFunctio
 
 /* Export the vendor middlewares */
 export {
-    authenticateVendor
+    authenticate
 }

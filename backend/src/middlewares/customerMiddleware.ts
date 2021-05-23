@@ -1,10 +1,9 @@
 /* Import the required libraries and types */
 import { NextFunction, Request, Response } from "express";
-import { body } from "express-validator";
 import { Customer } from "../models";
 
 /* Authenticate a customer based on their session data */
-async function authenticateCustomer(req: Request, res: Response, next: NextFunction) {
+async function authenticate(req: Request, res: Response, next: NextFunction) {
     /* Check if the session data is characteristic of a customer */
     if (!req.session.customerId || !req.session.cart) {
         res.status(401).send("Unauthorized");
@@ -18,11 +17,11 @@ async function authenticateCustomer(req: Request, res: Response, next: NextFunct
         return;
     }
     
-    /* Continue executing the route's controller */
+    /* Continue executing the next middleware */
     next();
 }
 
 /* Export the customer middlewares */
 export {
-    authenticateCustomer
+    authenticate
 }
