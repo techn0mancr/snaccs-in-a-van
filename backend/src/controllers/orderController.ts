@@ -1,5 +1,6 @@
 /* Import required types */
 import { Request, Response } from "express";
+import { body, param, validationResult } from "express-validator";
 
 /* Import required models */
 import { Order, OrderStatus } from "../models";

@@ -1,6 +1,7 @@
 /* Import required types */
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
+import { body, param, validationResult } from "express-validator";
 
 /* Import required constants and models */
 import {
