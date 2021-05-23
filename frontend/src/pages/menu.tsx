@@ -1,8 +1,8 @@
 import React from "react";
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart } from "../api";
-
+import { getMenu, getCart, vendorProfile } from "../api";
+import { getId } from "../App";
 
 const currencyOptions = {
     minimumFractionDigits: 2,
@@ -13,18 +13,35 @@ function toTwoDecimalPlaces(number: number) {
     return number.toLocaleString(undefined, currencyOptions);
   }
 
-
-
 class VanInfo extends React.Component {
+
+  state = {
+    profile: [] as any,
+  }
+
+  componentDidMount() {
+    vendorProfile().then(
+        (response) => {
+            var data = response.data;
+            this.setState({profile: data});
+            console.log(response);
+        }, (error) => {
+            console.log(error);
+        }
+    )
+}
+
   render() {
+    const { profile } = this.state;
+
     return (
       <div className="van-card">
         <div className="van-image"></div>
         <div className="van-container">
-          <h1 className="menu-h1">Tasty Trailer</h1>
-          <h2 className="menu-h2">757 Swanston St, Parkville VIC 3010</h2>
+          <h1 className="menu-h1">{profile.name}</h1>
+          <h2 className="menu-h2">{profile.locationDescription}</h2>
           <br />
-          <h3 className="menu-h3">next to Stop 1</h3>
+          <h3 className="menu-h3">{profile.latitude},{profile.longitute}</h3>
           <p className="menu-p">0.25 km away from you</p>
         </div>
       </div>
@@ -34,14 +51,15 @@ class VanInfo extends React.Component {
 
 class Items extends React.Component {
   state = {
-    vendorId: "60707b103ed89dee65af78a2",
     error: null,
     isLoaded: false,
     menuList: [] as any[]
   };
 
+  vendorId = getId() || "";
+
   componentDidMount() {
-    getMenu(this.state.vendorId).then(
+    getMenu(this.vendorId).then(
       (response) => {
         var data = response.data;
         this.setState({ isLoaded: true, menuList: data });
@@ -59,29 +77,34 @@ class Items extends React.Component {
     if (error === true) {
       return <h2>No menu at the moment</h2>;
     } else if (isLoaded === false) {
-      return <h2>Loading...</h2>;
+      return <h2 className="load-h2">Loading...</h2>;
     } else {
       return (
         <div className="menu">
-          {menuList.map((menu, i) => (
-            <div key={i}>
-              <div className="menu-card">
-                <img
-                  src={`data:${menu.itemId.mimetype};base64,${menu.itemId.data}`}
-                  className="card"
-                  alt={menu.itemId.name}
-                />
-                <div className="menu-container">
-                  <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/?id=${menu.itemId._id}`) }>Add </button>
-                  {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
-                  <h2 className="menu-h2">{menu.itemId.name}</h2>
-                  <br />
-                  <h3 className="menu-h3">${toTwoDecimalPlaces(menu.itemId.price)}</h3>
+          {menuList.length>0 ? 
+            <div>
+            {menuList.map((menu, i) => (
+              <div key={i}>
+                  <div className="menu-card">
+                    <img
+                      src={`data:${menu.itemId.mimetype};base64,${menu.itemId.data}`}
+                      className="card"
+                      alt={menu.itemId.name}
+                    />
+                    <div className="menu-container">
+                      <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/?id=${menu.itemId._id}`) }>Add </button>
+                      {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
+                      <h2 className="menu-h2">{menu.itemId.name}</h2>
+                      <br />
+                      <h3 className="menu-h3">${toTwoDecimalPlaces(menu.itemId.price)}</h3>
+                    </div>
+                  </div>
+                  {/* {popupItem && addToCart(menu.itemId._id)} */}
                 </div>
-              </div>
-              {/* {popupItem && addToCart(menu.itemId._id)} */}
+            ))}
             </div>
-          ))}
+          :
+          <h2>No items for sale</h2>}
         </div>
       );
     }

@@ -9,7 +9,7 @@ class Home extends React.Component {
                 <br/>
                 <h2>Are you a ...</h2>
                 <br/>
-                <button className="login" type="button" onClick={() => history.push(`/menu`)}>Customer</button>
+                <button className="login" type="button" onClick={() => history.push(`/menu/list`)}>Customer</button>
                 <button className="login" type="button" onClick={() => history.push(`/vendor/login`)}>Vendor</button>
             </div>
         )

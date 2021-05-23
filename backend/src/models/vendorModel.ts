@@ -47,6 +47,7 @@ const vendorSchema: Schema = new Schema({
         type: Number,
         default: undefined
     }
+
 });
 
 /* Export the vendor schema and model */

@@ -78,6 +78,11 @@ export function customerProfile() {
   return axios.get(endpoint);
 }
 
+// export function customerProfileAmmend() {
+//   const endpoint = `${BASE_URL}/customer/profile/amend`;
+//   return axios.get(endpoint);
+// }
+
 export function customerRegister(email: String, givenName: String, familyName: String, password: String) {
   const endpoint = `${BASE_URL}/customer/register`;
   return axios.post(endpoint, { email, givenName, familyName, password }).then(
@@ -91,10 +96,10 @@ export function customerRegister(email: String, givenName: String, familyName: S
   );
 }
 
-// function selectVendor(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/select`;
-//   return axios.patch(endpoint);
-// }
+export function selectVendor(vendorId: String) {
+  const endpoint = `${BASE_URL}/customer/vendor/${vendorId}/select`;
+  return axios.patch(endpoint);
+}
 
 export async function getMenu(vendorId: String) {
   const endpoint = `${BASE_URL}/menu/${vendorId}`;
@@ -138,12 +143,12 @@ export async function vendorProfile() {
 }
 
 export function fulfillOrder(orderId: String) {
-  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/fulfill`;
+  const endpoint = `${BASE_URL}/vendor/order/${orderId}/fulfill`;
   return axios.patch(endpoint);
 }
 
 export function completeOrder(orderId: String) {
-  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/complete`;
+  const endpoint = `${BASE_URL}/vendor/order/${orderId}/complete`;
   return axios.patch(endpoint);
 }
 
@@ -162,9 +167,9 @@ export async function getFulfilledOrders() {
 //   return axios.get(endpoint);
 // }
 
-export function setVendorGeolocation(latititude: number, longitude: number) {
-  const endpoint = `${BASE_URL}/vendor/update/coordinates`;
-  return axios.patch(endpoint, { latititude, longitude }).then(
+export function setVendorGeolocation(latitude: number, longitude: number) {
+  const endpoint = `${BASE_URL}/vendor/location/update/coordinates`;
+  return axios.patch(endpoint, { latitude, longitude }).then(
     (response) => {
       console.log(response);
     },
@@ -174,8 +179,84 @@ export function setVendorGeolocation(latititude: number, longitude: number) {
   );
 }
 
+export function getVendorGeolocation() { ///  
+
+  if (navigator.geolocation) {
+
+    const successCallback = (position: GeolocationPosition) => {
+
+      const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
+      const lat = position.coords.latitude
+      const lng = position.coords.longitude
+      
+      if (NewgeoLocation) {
+      
+          // console.log(NewgeoLocation);
+          return setVendorGeolocation(lat, lng);
+        }
+        //mapbox 
+  
+    
+    else {
+      alert("Sorry, browser does not support geolocation!");
+      }
+    }
+  
+    const errorCallback = (error: any) => {
+      console.log(error);
+    }
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    
+  }
+}
+
+export async function getVendors() {
+  const endpoint = `${BASE_URL}/customer/getVendors`;
+  return await axios.get(endpoint);
+}
+
+export async function getCustomerGeolocation() { ///  
+
+  if (navigator.geolocation) {
+
+    const successCallback = (position: GeolocationPosition) => {
+
+      const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
+      const lat = position.coords.latitude
+      const lng = position.coords.longitude
+      
+      if (NewgeoLocation) {
+        return [lat, lng];
+        }
+        //mapbox 
+  
+    else {
+      alert("Sorry, browser does not support geolocation!");
+      }
+    }
+  
+
+    const errorCallback = (error: any) => {
+      console.log(error);
+    }
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    
+  }
+}
+
+export function getDistance(coordinate1: number[], coordinate2: number[]) {
+  /**
+   * put coordinate1 as customer coordinate, coordinate2 as vendor coordinate
+   * This is only accurate in a 2-d plane or small planes of land like melbourne.
+   * This does not account for obstacles or road sytems.
+   */
+
+  var distance = ((coordinate2[1]-coordinate1[1])^2+(coordinate2[0]-coordinate1[0])^2)^0.5
+  return distance;
+}
+
 export function setVendorLocationDescription(locationDescription: string) {
-  const endpoint = `${BASE_URL}/vendor/update/description`;
+  const endpoint = `${BASE_URL}/vendor/location/update/description`;
   return axios.patch(endpoint, { locationDescription }).then(
     (response) => {
       console.log(response);
@@ -188,12 +269,5 @@ export function setVendorLocationDescription(locationDescription: string) {
 
 export function setVendorAvailability() {
   const endpoint = `${BASE_URL}/vendor/status/toggle`;
-  return axios.post(endpoint).then(
-    (response) => {
-      console.log(response);
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+  return axios.patch(endpoint);
 }

@@ -419,6 +419,10 @@ async function toggleVendorAvailability(req: Request, res: Response): Promise<vo
     }
 }
 
+
+
+///////////////////////////////////////
+
 /* Export controller functions */
 export {
     completeOrder,
