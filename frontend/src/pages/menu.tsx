@@ -1,7 +1,7 @@
 import React from "react";
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart } from "../api";
+import { getMenu, getCart, vendorProfile } from "../api";
 import { getId } from "../App";
 
 
@@ -17,15 +17,34 @@ function toTwoDecimalPlaces(number: number) {
 
 
 class VanInfo extends React.Component {
+
+  state = {
+    profile: [] as any,
+  }
+
+  componentDidMount() {
+    vendorProfile().then(
+        (response) => {
+            var data = response.data;
+            this.setState({profile: data});
+            console.log(response);
+        }, (error) => {
+            console.log(error);
+        }
+    )
+}
+
   render() {
+    const { profile } = this.state;
+
     return (
       <div className="van-card">
         <div className="van-image"></div>
         <div className="van-container">
-          <h1 className="menu-h1">Tasty Trailer</h1>
-          <h2 className="menu-h2">757 Swanston St, Parkville VIC 3010</h2>
+          <h1 className="menu-h1">{profile.name}</h1>
+          <h2 className="menu-h2">{profile.locationDescription}</h2>
           <br />
-          <h3 className="menu-h3">next to Stop 1</h3>
+          <h3 className="menu-h3">{profile.latitude},{profile.longitute}</h3>
           <p className="menu-p">0.25 km away from you</p>
         </div>
       </div>

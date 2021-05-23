@@ -21,7 +21,6 @@ class Description extends React.Component {
     
     state = {
         details: [] as any,
-        geolocation: [-37.7999432,144.9616192],
     };
 
     componentDidMount() {
@@ -48,7 +47,6 @@ class Description extends React.Component {
 
     render() {
     const { details } = this.state;
-    // console.log(details)
     
     return (
         <div>
@@ -67,47 +65,6 @@ class Description extends React.Component {
         </div>
     )}
 }
-
-
-// class VendorLocation extends React.Component {
-
-//     state = {
-//         details: [] as any,
-//         geolocation: [-37.7999432,144.9616192],
-//     };
-
-//     componentDidMount() {
-//         vendorProfile().then(
-//             (response) => {
-//                 var data = response.data;
-//                 this.setState({details: data});
-//                 console.log(response);
-//             }, (error) => {
-//                 console.log(error);
-//             }
-//         )
-//     }
-
-//     handleChange = (event: { target: { name: any; value: String; }; }) => {
-//         this.setState({ [event.target.name]: event.target.value });
-//     }
-
-//     render() {
-//         const { details } = this.state;
-//         console.log(details);
-//         const latitude = details.latitude;
-//         // console.log("latitude = "+details.latitude);
-//         const longitude = details.longitude;
-//         // console.log("longitude = "+details.longitude);
-
-//         return (
-//             <div title = "map">
-//             </div>
-//         );
-//     }
-
-// }
-
 
 class VendorProfile extends React.Component {
     render() {
