@@ -59,7 +59,7 @@ class Items extends React.Component {
     if (error === true) {
       return <h2>No menu at the moment</h2>;
     } else if (isLoaded === false) {
-      return <h2>Loading...</h2>;
+      return <h2 className="load-h2">Loading...</h2>;
     } else {
       return (
         <div className="menu">
