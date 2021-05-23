@@ -5,16 +5,20 @@ import { Request, Response } from "express";
 import { Item, Menu } from "../models";
 
 /* Returns the item details associated with the given itemId */
-async function getItemDetails(req: Request & {params: {itemId: string}}, res: Response): Promise<void> {
+async function getItemDetails(req: Request & {
+    params: {itemId: string}
+}, res: Response): Promise<void> {
     try {
         /* Query the database */
-        const item = await Item.findById(req.params.itemId);
+        const itemDetails = await Item.findById(req.params.itemId);
         
-        /* Send the query results */
-        if (item)
-            res.status(200).json(item);
-        else
+        /* Check if the query returned anything */
+        if (!itemDetails) {
             res.status(404).send("Not Found");
+            return;
+        }
+        
+        res.status(200).json(itemDetails);
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -27,7 +31,7 @@ async function getMenu(req: Request & {params: {vendorId: string}}, res: Respons
         /* Cast the ObjectIds */
         var castedVendorId: undefined = (req.params.vendorId as unknown) as undefined;
         
-        /* Query the database */
+        /* Query the database for the given vendor's menu */
         const menuItems = await Menu.findOne(
             {
                 vendorId: castedVendorId
@@ -39,15 +43,13 @@ async function getMenu(req: Request & {params: {vendorId: string}}, res: Respons
             }
         ).select("items");
        
-        /* Send the query results */
-        if (menuItems) {
-            if (menuItems.items.length > 0)
-                res.status(200).json(menuItems.items);
-            else
-                res.status(204).send("No Content");
+        /* Check if the query returned anything */
+        if (!menuItems || (menuItems.items.length) <= 0) {
+            res.status(204).send("No Content");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+        
+        res.status(200).json(menuItems.items);
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);

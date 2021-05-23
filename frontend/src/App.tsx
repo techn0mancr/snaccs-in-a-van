@@ -22,10 +22,11 @@ import VendorProfile from "./pages/vendorProfile";
 import VendorOrder from "./pages/vendorOrder";
 import VendorGeolocation from "./pages/vendorGeolocation";
 import Home from "./pages/home";
+import Rate from "./pages/customerRate";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://localhost:48080/api";
-// axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
+// axios.defaults.baseURL = "http://localhost:48080/api";
+axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
 Vue.use(VueAxios, axios);
 
 export function getId() {
@@ -54,6 +55,7 @@ function App() {
             <Route exact path="/cart/order/past" component={OrderPast} />
             <Route exact path="/order/checkout" component={Checkout} />
             <Route path="/order/details" component={OrderDetails} />
+            <Route path="/order/rate" component={Rate} />
             <Route exact path="/menu" component={Menu} />
             <Route path="/menu/item" component={AddToCart} />
           </div>

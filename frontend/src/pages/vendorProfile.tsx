@@ -2,8 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { vendorProfile, vendorLogout } from '../api';
-import map from "../img/map.png";
+import { vendorProfile, vendorLogout, setVendorAvailability } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -43,6 +42,7 @@ class Description extends React.Component {
 
     handleClick() {
         history.push("/vendor/login");
+        setVendorAvailability();
         vendorLogout();
     }
 
@@ -69,14 +69,8 @@ class VendorProfile extends React.Component {
     render() {
         return (
             <div>
-                <div className="split left">
-                    <img className="vendorProfile" alt="map" src={map} />
-                </div>
-
-                <div className="split right">
-                    <Header />
-                    <Description />
-                </div>
+                <Header />
+                <Description />
             </div>
         )
     }

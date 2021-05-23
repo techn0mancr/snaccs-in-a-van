@@ -47,6 +47,8 @@ class Status extends React.Component {
                 this.setState({ details: data });
                 if (data.status === "Fulfilled") {
                     this.setState({fulfilled: true});
+                } else if (data.status === "Completed") {
+                    history.push(`/order/details/?id=${this.orderId}`)
                 }
                 console.log(data.status);
                 console.log(response);

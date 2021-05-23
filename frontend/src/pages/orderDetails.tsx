@@ -77,6 +77,8 @@ class Information extends React.Component {
             <h2 className="invoice">
               {moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}
             </h2>
+            <br/>
+            <button className="signup" type="submit" value="signup" onClick={() => history.push(`/order/rate/?id=${this.orderId}`)}><h2>Rate Order</h2></button>
           </div>
 
           <div className="containerCheckout" id="loc">
