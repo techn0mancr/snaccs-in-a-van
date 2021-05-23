@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { setVendorLocationDescription, setVendorAvailability, getVendorGeolocation } from '../api';
+import { setVendorLocationDescription, setVendorAvailability, getVendorGeolocation, vendorProfile } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -20,8 +20,22 @@ class Header extends React.Component {
 class Description extends React.Component {
     
     state = {
-        desc: ""
+        desc: "",
+        profile: [] as any
     };
+
+    componentDidMount() {
+        getVendorGeolocation();
+        vendorProfile().then(
+            (response) => {
+                var data = response.data;
+                this.setState({profile: data});
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )
+    }
 
     handleChange = (event: { target: { name: any; value: String; }; }) => {
         this.setState({ [event.target.name]: event.target.value });
@@ -31,19 +45,18 @@ class Description extends React.Component {
         event.preventDefault();
 
         const { desc } = this.state;
-        getVendorGeolocation();
         setVendorLocationDescription(desc);
         setVendorAvailability();
         history.push("/vendor/orders");
     }
 
     render() {
-    const { desc } = this.state;
+    const { desc, profile } = this.state;
     return (
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>757 Swanston St, Parkville VIC 3010</p>
+                <p>{profile.latitude}, {profile.longitude}</p>
             </div>
 
             <form onSubmit={this.handleSubmit}>

@@ -52,7 +52,7 @@ class Description extends React.Component {
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>Latitude = {details.latitude} Longitude = {details.longitude}</p>
+                <p>{details.latitude},{details.longitude}</p>
                 
             </div>
 
