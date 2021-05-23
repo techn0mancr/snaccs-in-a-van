@@ -17,6 +17,7 @@ customerRouter.get("/cart", controller.getCart);
 customerRouter.patch("/cart/add/:itemId", controller.addItemToCart);
 customerRouter.post("/cart/checkout", customerAuth, controller.checkoutCart);
 customerRouter.patch("/cart/empty", controller.emptyCart);
+customerRouter.patch("/order/:orderId/amend/cancel", customerAuth, controller.cancelOrderAmendment);
 customerRouter.patch("/order/:orderId/amend/finalize", customerAuth, controller.finalizeOrderAmendment);
 customerRouter.patch("/order/:orderId/amend/initialize", customerAuth, controller.initializeOrderAmendment);
 customerRouter.patch("/order/:orderId/cancel", customerAuth, controller.cancelOrder);

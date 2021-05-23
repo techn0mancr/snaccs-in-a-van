@@ -139,29 +139,29 @@ async function cancelOrder(req: Request & {
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
         
         /* Check if the order exists and is made by the current customer  */
-        const currentOrder = await Order.findOne(
+        const orderToCancel = await Order.findOne(
             {
                 _id: castedOrderId,
                 customerId: req.session.customerId
             }
         );
-        if (!currentOrder) {
+        if (!orderToCancel) {
             res.status(403).send("Forbidden");
             return;
         }
 
         /* Check if a certain amount of time has passed since placement */
         var deltaSincePlaced: number =
-            (new Date()).getTime() - currentOrder.timestamps.placed.getTime();
+            (new Date()).getTime() - orderToCancel.timestamps.placed.getTime();
         if (deltaSincePlaced > ORDER_AMENDMENT_TIME_WINDOW) {
             res.status(403).send("Forbidden");
             return;
         }
         
         /* Update the order details */
-        currentOrder.status = OrderStatus.Cancelled;
-        currentOrder.timestamps.completed = new Date();
-        await currentOrder.save();
+        orderToCancel.status = OrderStatus.Cancelled;
+        orderToCancel.timestamps.completed = new Date();
+        await orderToCancel.save();
 
         /* Send a response */
         res.status(200).send("OK");
@@ -173,7 +173,38 @@ async function cancelOrder(req: Request & {
 
 /* Cancels the order amendment process */
 async function cancelOrderAmendment(req: Request, res: Response): Promise<void> {
-    // TODO
+    try {
+        /* Cast the ObjectIds */
+        var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
+        
+        /* Check if the order to be amended exists and is made by the current customer */
+        const orderToAmend = await Order.findOne(
+            {
+                _id: castedOrderId,
+                customerId: req.session.customerId
+            }
+        );
+        if (!orderToAmend) {
+            res.status(403).send("Forbidden");
+            return;
+        }
+        
+        /* Query the database for the current customer's details */
+        const currentCustomer = await Customer.findById(req.session.customerId);
+        if (!currentCustomer) {
+            res.status(403).send("Forbidden");
+            return;
+        }
+        
+        /* Replace the session cart contents with the customer's saved cart */
+        req.session.cart = currentCustomer.cart;
+
+        /* Send a response */
+        res.status(200).send("OK");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
 }
 
 /* Checks out the customer's current cart */
