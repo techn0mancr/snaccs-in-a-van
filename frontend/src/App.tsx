@@ -23,6 +23,7 @@ import VendorOrder from "./pages/vendorOrder";
 import VendorGeolocation from "./pages/vendorGeolocation";
 import Home from "./pages/home";
 import Rate from "./pages/customerRate";
+import ListNearest from "./pages/nearest";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:48080/api";
@@ -56,8 +57,9 @@ function App() {
             <Route exact path="/order/checkout" component={Checkout} />
             <Route path="/order/details" component={OrderDetails} />
             <Route path="/order/rate" component={Rate} />
-            <Route exact path="/menu" component={Menu} />
+            <Route exact path="/menu/vendor" component={Menu} />
             <Route path="/menu/item" component={AddToCart} />
+            <Route path="/menu/list" component={ListNearest} />
           </div>
         </Switch>
       </Router>

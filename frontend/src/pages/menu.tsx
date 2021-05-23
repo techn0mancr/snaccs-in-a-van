@@ -2,6 +2,7 @@ import React from "react";
 import "./menu.css";
 import history from "../history";
 import { getMenu, getCart } from "../api";
+import { getId } from "../App";
 
 
 const currencyOptions = {
@@ -34,14 +35,15 @@ class VanInfo extends React.Component {
 
 class Items extends React.Component {
   state = {
-    vendorId: "60707b103ed89dee65af78a2",
     error: null,
     isLoaded: false,
     menuList: [] as any[]
   };
 
+  vendorId = getId() || "";
+
   componentDidMount() {
-    getMenu(this.state.vendorId).then(
+    getMenu(this.vendorId).then(
       (response) => {
         var data = response.data;
         this.setState({ isLoaded: true, menuList: data });

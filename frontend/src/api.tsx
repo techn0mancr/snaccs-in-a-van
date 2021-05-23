@@ -91,10 +91,10 @@ export function customerRegister(email: String, givenName: String, familyName: S
   );
 }
 
-// function selectVendor(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/select`;
-//   return axios.patch(endpoint);
-// }
+export function selectVendor(vendorId: String) {
+  const endpoint = `${BASE_URL}/customer/vendor/${vendorId}/select`;
+  return axios.patch(endpoint);
+}
 
 export async function getMenu(vendorId: String) {
   const endpoint = `${BASE_URL}/menu/${vendorId}`;
@@ -210,7 +210,7 @@ export function getVendorGeolocation() { ///
 }
 
 
-export async function getvendors() {
+export async function getVendors() {
   const endpoint = `${BASE_URL}/customer/getVendors`;
   return await axios.get(endpoint);
 }
