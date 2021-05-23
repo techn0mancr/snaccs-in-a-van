@@ -4,7 +4,6 @@ import history from "../history";
 import { getMenu, getCart, vendorProfile } from "../api";
 import { getId } from "../App";
 
-
 const currencyOptions = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -13,8 +12,6 @@ const currencyOptions = {
 function toTwoDecimalPlaces(number: number) {
     return number.toLocaleString(undefined, currencyOptions);
   }
-
-
 
 class VanInfo extends React.Component {
 
@@ -84,25 +81,30 @@ class Items extends React.Component {
     } else {
       return (
         <div className="menu">
-          {menuList.map((menu, i) => (
-            <div key={i}>
-              <div className="menu-card">
-                <img
-                  src={`data:${menu.itemId.mimetype};base64,${menu.itemId.data}`}
-                  className="card"
-                  alt={menu.itemId.name}
-                />
-                <div className="menu-container">
-                  <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/?id=${menu.itemId._id}`) }>Add </button>
-                  {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
-                  <h2 className="menu-h2">{menu.itemId.name}</h2>
-                  <br />
-                  <h3 className="menu-h3">${toTwoDecimalPlaces(menu.itemId.price)}</h3>
+          {menuList.length>0 ? 
+            <div>
+            {menuList.map((menu, i) => (
+              <div key={i}>
+                  <div className="menu-card">
+                    <img
+                      src={`data:${menu.itemId.mimetype};base64,${menu.itemId.data}`}
+                      className="card"
+                      alt={menu.itemId.name}
+                    />
+                    <div className="menu-container">
+                      <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/?id=${menu.itemId._id}`) }>Add </button>
+                      {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
+                      <h2 className="menu-h2">{menu.itemId.name}</h2>
+                      <br />
+                      <h3 className="menu-h3">${toTwoDecimalPlaces(menu.itemId.price)}</h3>
+                    </div>
+                  </div>
+                  {/* {popupItem && addToCart(menu.itemId._id)} */}
                 </div>
-              </div>
-              {/* {popupItem && addToCart(menu.itemId._id)} */}
+            ))}
             </div>
-          ))}
+          :
+          <h2>No items for sale</h2>}
         </div>
       );
     }
