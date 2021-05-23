@@ -143,12 +143,12 @@ export async function vendorProfile() {
 }
 
 export function fulfillOrder(orderId: String) {
-  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/fulfill`;
+  const endpoint = `${BASE_URL}/vendor/order/${orderId}/fulfill`;
   return axios.patch(endpoint);
 }
 
 export function completeOrder(orderId: String) {
-  const endpoint = `${BASE_URL}/vendor/orders/${orderId}/complete`;
+  const endpoint = `${BASE_URL}/vendor/order/${orderId}/complete`;
   return axios.patch(endpoint);
 }
 
