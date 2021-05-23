@@ -78,6 +78,11 @@ export function customerProfile() {
   return axios.get(endpoint);
 }
 
+// export function customerProfileAmmend() {
+//   const endpoint = `${BASE_URL}/customer/profile/amend`;
+//   return axios.get(endpoint);
+// }
+
 export function customerRegister(email: String, givenName: String, familyName: String, password: String) {
   const endpoint = `${BASE_URL}/customer/register`;
   return axios.post(endpoint, { email, givenName, familyName, password }).then(
@@ -91,10 +96,10 @@ export function customerRegister(email: String, givenName: String, familyName: S
   );
 }
 
-// function selectVendor(vendorId: String) {
-//   const endpoint = `${BASE_URL}/vendor/${vendorId}/select`;
-//   return axios.patch(endpoint);
-// }
+export function selectVendor(vendorId: String) {
+  const endpoint = `${BASE_URL}/vendor/${vendorId}/select`;
+  return axios.patch(endpoint);
+}
 
 export async function getMenu(vendorId: String) {
   const endpoint = `${BASE_URL}/menu/${vendorId}`;
@@ -188,7 +193,7 @@ export function setVendorLocationDescription(locationDescription: string) {
 
 export function setVendorAvailability() {
   const endpoint = `${BASE_URL}/vendor/status/toggle`;
-  return axios.post(endpoint).then(
+  return axios.patch(endpoint).then(
     (response) => {
       console.log(response);
     },
