@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
 import VueAxios from "vue-axios";
@@ -35,30 +36,50 @@ export function getId() {
 }
 
 function App() {
+  const [open, setOpen] = useState(false);
+  const [itemId, setItemId] = useState<string>("");
+
   return (
     <div>
       <Router history={history}>
         <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route exact path="/vendor/login" component={VendorLogin} />
-        <Route exact path="/vendor/geolocation" component={VendorGeolocation}/>
-        <Route exact path="/vendor/profile" component={VendorProfile} />
-        <Route exact path="/vendor/orders" component={VendorOrder} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/vendor/login" component={VendorLogin} />
+          <Route
+            exact
+            path="/vendor/geolocation"
+            component={VendorGeolocation}
+          />
+          <Route exact path="/vendor/profile" component={VendorProfile} />
+          <Route exact path="/vendor/orders" component={VendorOrder} />
           <div>
             <Nav />
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
-            <Route path="/order/active/status" component={OrderStatus}/>
+            <Route path="/order/active/status" component={OrderStatus} />
             <Route exact path="/cart/order/active" component={OrderCurrent} />
             <Route exact path="/cart/order/past" component={OrderPast} />
             <Route exact path="/order/checkout" component={Checkout} />
             <Route path="/order/details" component={OrderDetails} />
-            <Route exact path="/menu" component={Menu} />
-            <Route path="/menu/item" component={AddToCart} />
+            <Route
+              exact
+              path="/menu"
+              render={() => (
+                <Menu
+                  openModalForAddingItemWithId={(id: string) => {
+                    setItemId(id);
+                    setOpen(true);
+                  }}
+                />
+              )}
+            />
           </div>
         </Switch>
       </Router>
+      {open && (
+        <AddToCart id={itemId} open={open} handleClose={() => setOpen(false)} />
+      )}
     </div>
   );
 }
