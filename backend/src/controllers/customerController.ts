@@ -652,9 +652,9 @@ async function getVendorGeolocations(req: Request, res: Response): Promise<void>
                 {
                     model: "Vendor",
                     path: "VendorId",
-                    select: "name latitude longitude"
+                    select: "name locationDescription latitude longitude"
                 }
-            ).select("name latitude longitude")
+            ).select("name locationDescription latitude longitude")
         
 
             /* Send the query results */
