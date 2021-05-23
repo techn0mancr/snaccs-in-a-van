@@ -92,22 +92,25 @@ async function amendProfileDetails(req: Request & {
     body: { email: string, givenName: string, familyName: string, password: string }
 }, res: Response): Promise<void> {
     /* Validate and sanitize the inputs */
-    await body("email")
-          .isEmail()
-          .trim().escape()
-          .run(req);
-    await body("givenName")
-          .isAlpha()
-          .trim()
-          .run(req);
-    await body("familyName")
-          .isAlpha()
-          .trim()
-          .run(req);
-    await body("password")
-          .isStrongPassword({ minLength: 8, minNumbers: 1 })
-          .run(req);
-
+    if (req.body.email)
+        await body("email")
+              .isEmail()
+              .trim().escape()
+              .run(req);
+    if (req.body.givenName)
+        await body("givenName")
+              .isAlpha()
+              .trim()
+              .run(req);
+    if (req.body.familyName)
+        await body("familyName")
+              .isAlpha()
+              .trim()
+              .run(req);
+    if (req.body.password)
+        await body("password")
+              .isAscii().isLength({ min: 8 })
+              .run(req);
     /* Check for any validation errors */
     if (!validationResult(req).isEmpty()) {
         res.status(400).send("Bad Request");
@@ -604,7 +607,7 @@ async function login(req: Request & {
           .trim().escape()
           .run(req);
     await body("password")
-          .isStrongPassword({ minLength: 8, minNumbers: 1 })
+          .isAscii().isLength({ min: 8 })
           .run(req);
     
     /* Check for any validation errors */
@@ -749,7 +752,7 @@ async function register(req: Request & {
           .trim()
           .run(req);
     await body("password")
-          .isStrongPassword({ minLength: 8, minNumbers: 1 })
+          .isAscii().isLength({ min: 8 })
           .run(req);
 
     /* Check for any validation errors */
