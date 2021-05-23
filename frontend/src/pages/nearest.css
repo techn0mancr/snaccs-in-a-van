@@ -1,0 +1,52 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+}
+
+.h1-nearest{
+    font-size: 24px;
+    padding-left: 20px;
+}
+.nearestVan-card {
+    height: 82px;
+    width: 80vw;
+    border-radius: 10px;    
+    background: #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
+}
+
+
+.van-details {
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin: auto;
+    width: 30%;
+    height: 30%;
+}
+
+.van-image {
+    width: 100%;
+    height: 40%;
+    background-image: url("../img/van-background.jpg");
+    padding-top: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2.nVan {
+    font-size: 14px;
+}
+
+h3.nVan {
+    font-size: 10px;
+}
+
+p.nVan{
+    font-size: 10px;
+    letter-spacing: -0.24px}
+
+
+  
