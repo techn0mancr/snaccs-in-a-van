@@ -163,9 +163,9 @@ export async function getFulfilledOrders() {
 //   return axios.get(endpoint);
 // }
 
-export function setVendorGeolocation(latititude: number, longitude: number) {
+export function setVendorGeolocation(latitude: number, longitude: number) {
   const endpoint = `${BASE_URL}/vendor/location/update/coordinates`;
-  return axios.patch(endpoint, { latititude, longitude }).then(
+  return axios.patch(endpoint, { latitude, longitude }).then(
     (response) => {
       console.log(response);
     },
