@@ -105,18 +105,22 @@ class Content extends React.Component {
             <div className ="row">
                 <div className ="column">
                     <div className ="outstanding">
-                        <h2 className ="vendorOrder">Outstanding Orders</h2>
-                        { placedOrders.map((order, i) => (
-                            <div key={i}>
-                                <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
-                                    <div className ="leftBox">
-                                    <p className = "p-vendorOrder">{order._id}</p>
-                                    <p className = "p-vendorOrder">{moment(order.placedTimestamp).format('h.mm A')}</p>
+                        <h2 className ="vendorOrder">Outstanding Orders</h2><br/>
+                        {placedOrders.length>0 ?
+                            <div>
+                                { placedOrders.map((order, i) => (
+                                    <div key={i}>
+                                        <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
+                                            <div className ="leftBox">
+                                            <p className = "p-vendorOrder">{order._id}</p>
+                                            <p className = "p-vendorOrder">{moment(order.placedTimestamp).format('h.mm A')}</p>
+                                            </div>
+                                            <p className = "p-orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
+                                        </div>
                                     </div>
-                                    <p className = "p-orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
-                                </div>
+                                ))}
                             </div>
-                        ))}
+                        :<h2>No more orders</h2>}
                     </div>
                 </div>
 
@@ -143,19 +147,23 @@ class Content extends React.Component {
                     </div>
 
                     <div className ="ordersFulfilled">
-                        <h2 className ="vendorOrder">Orders Fulfilled</h2>
-                        { fulfillOrders.map((fulfill, i) => (
-                            <div key={i}>
-                                <div className="perOrder" onClick={() => this.handleDisplay(fulfill._id, false)}>
-                                    <div className="leftBox">
-                                        <p className = "p-vendorOrder">{fulfill._id}</p>
-                                        <p className = "p-vendorOrder">{moment(fulfill.placedTimestamp).format('h.mm A')}</p>
+                        <h2 className ="vendorOrder">Orders Fulfilled</h2><br/>
+                        {fulfillOrders.length>0 ?
+                            <div>
+                                { fulfillOrders.map((fulfill, i) => (
+                                    <div key={i}>
+                                        <div className="perOrder" onClick={() => this.handleDisplay(fulfill._id, false)}>
+                                            <div className="leftBox">
+                                                <p className = "p-vendorOrder">{fulfill._id}</p>
+                                                <p className = "p-vendorOrder">{moment(fulfill.placedTimestamp).format('h.mm A')}</p>
+                                            </div>
+                                            <p className = "p-orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
+                                            <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Completed</button>
+                                        </div>
                                     </div>
-                                    <p className = "p-orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
-                                    <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Completed</button>
-                                </div>
+                                ))}
                             </div>
-                        ))}
+                        :<h2>No Orders Fulfilled</h2>}
                     </div>
                 </div>
             </div>

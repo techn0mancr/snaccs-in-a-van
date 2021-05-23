@@ -18,7 +18,6 @@ vendorRouter.patch("/logout", vendorAuth, controller.logout);
 
 vendorRouter.patch("/order/:orderId/fulfill", vendorAuth, controller.fulfillOrder);
 // vendorRouter.get("/orders/outstanding", vendorAuth, controller.getOutstandingOrders);
-
 vendorRouter.get("/profile", vendorAuth, controller.getProfile);
 vendorRouter.patch("/order/:orderId/complete", vendorAuth, controller.completeOrder);
 vendorRouter.get("/orders/placed", vendorAuth, controller.getPlacedOrders);

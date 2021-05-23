@@ -132,7 +132,6 @@ export function vendorLogout() {
   return axios.patch(endpoint);
 }
 
-// export function setVendorLocation(locationDescription: string) { ///
 export async function vendorProfile() {
   const endpoint = `${BASE_URL}/vendor/profile`;
   return await axios.get(endpoint);
@@ -175,8 +174,6 @@ export function setVendorGeolocation(latitude: number, longitude: number) {
   );
 }
 
-
-
 export function getVendorGeolocation() { ///  
 
   if (navigator.geolocation) {
@@ -200,7 +197,6 @@ export function getVendorGeolocation() { ///
       }
     }
   
-
     const errorCallback = (error: any) => {
       console.log(error);
     }
@@ -209,12 +205,10 @@ export function getVendorGeolocation() { ///
   }
 }
 
-
 export async function getVendors() {
   const endpoint = `${BASE_URL}/customer/getVendors`;
   return await axios.get(endpoint);
 }
-
 
 export async function getCustomerGeolocation() { ///  
 
@@ -256,7 +250,6 @@ export function getDistance(coordinate1: number[], coordinate2: number[]) {
   return distance;
 }
 
-
 export function setVendorLocationDescription(locationDescription: string) {
   const endpoint = `${BASE_URL}/vendor/location/update/description`;
   return axios.patch(endpoint, { locationDescription }).then(
@@ -271,7 +264,7 @@ export function setVendorLocationDescription(locationDescription: string) {
 
 export function setVendorAvailability() {
   const endpoint = `${BASE_URL}/vendor/status/toggle`;
-  return axios.post(endpoint).then(
+  return axios.patch(endpoint).then(
     (response) => {
       console.log(response);
     },
