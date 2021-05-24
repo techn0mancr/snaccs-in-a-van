@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
-import './nav.css';
-
+import '../css/nav.css';
 
 import Home from "../img/navBar/home.png";
 import Cart from "../img/navBar/cart.png";
