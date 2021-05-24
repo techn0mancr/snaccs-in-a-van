@@ -51,15 +51,15 @@ function App() {
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
-            <Route path="/order/active/status" component={OrderStatus}/>
+            <Route exact path="/order/active/status" component={OrderStatus}/>
             <Route exact path="/cart/order/active" component={OrderCurrent} />
             <Route exact path="/cart/order/past" component={OrderPast} />
             <Route exact path="/order/checkout" component={Checkout} />
-            <Route path="/order/details" component={OrderDetails} />
-            <Route path="/order/rate" component={Rate} />
+            <Route exact path="/order/details" component={OrderDetails} />
+            <Route exact path="/order/rate" component={Rate} />
             <Route exact path="/menu/vendor" component={Menu} />
-            <Route path="/menu/item" component={AddToCart} />
-            <Route path="/menu/list" component={ListNearest} />
+            <Route exact path="/menu/item" component={AddToCart} />
+            <Route exact path="/menu" component={ListNearest} />
           </div>
         </Switch>
       </Router>

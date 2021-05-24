@@ -1,7 +1,7 @@
 import React from "react";
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart, vendorProfile } from "../api";
+import { getMenu, getCart } from "../api";
 import { getId } from "../App";
 
 const currencyOptions = {
@@ -19,11 +19,13 @@ class VanInfo extends React.Component {
     profile: [] as any,
   }
 
+  vendorId = getId() || "";
+
   componentDidMount() {
-    vendorProfile().then(
+    getMenu(this.vendorId).then(
         (response) => {
             var data = response.data;
-            this.setState({profile: data});
+            this.setState({profile: data.vendorId});
             console.log(response);
         }, (error) => {
             console.log(error);
@@ -41,7 +43,7 @@ class VanInfo extends React.Component {
           <h1 className="menu-h1">{profile.name}</h1>
           <h2 className="menu-h2">{profile.locationDescription}</h2>
           <br />
-          <h3 className="menu-h3">{profile.latitude},{profile.longitute}</h3>
+          <h3 className="menu-h3">{profile.latitude},{profile.longitude}</h3>
           <p className="menu-p">0.25 km away from you</p>
         </div>
       </div>
@@ -62,7 +64,7 @@ class Items extends React.Component {
     getMenu(this.vendorId).then(
       (response) => {
         var data = response.data;
-        this.setState({ isLoaded: true, menuList: data });
+        this.setState({ isLoaded: true, menuList: data.items });
         console.log(response);
       },
       (error) => {
