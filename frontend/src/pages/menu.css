@@ -1,9 +1,9 @@
 input[type=image].back {
-    width: 50px;
-    float: left;
+    width: 35px;
+    /* float: left; */
     clear: both;
     margin-top: 5%;
-    margin-left: 5%;
+    /* margin-left: 2%; */
 }
 
 input[type=image].back:hover {
