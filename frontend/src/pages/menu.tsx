@@ -121,6 +121,9 @@ class Checkout extends React.Component {
     logged: false,
   };
 
+  vendorId = getId() || "";
+
+
   componentDidMount() {
     getCart().then(
       (response) => {
@@ -137,7 +140,7 @@ class Checkout extends React.Component {
 
   handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    history.push("/order/checkout");
+    history.push(`/order/checkout/?id=${this.vendorId}`);
   };
 
   render() {
