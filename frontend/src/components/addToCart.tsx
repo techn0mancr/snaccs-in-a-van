@@ -70,7 +70,7 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
     addItemToCart(itemID, quantity).then(
       (response) => {
         console.log("success", response);
-        history.goBack();
+        alert(`Added ${quantity}x ${item.name}`);
       },
       (error) => {
         console.log("error", error);
@@ -137,13 +137,6 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
               </div>
             </div>
           </div>
-          <input
-            type="image"
-            alt="back"
-            className="back"
-            src={leftArrow}
-            onClick={() => history.goBack()}
-          />
         </div>
       </Dialog>
     </>
