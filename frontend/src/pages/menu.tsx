@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./menu.css";
 import history from "../history";
 import { getMenu, getCart } from "../api";
+import { getId } from "../App";
 
 const currencyOptions = {
   minimumFractionDigits: 2,
