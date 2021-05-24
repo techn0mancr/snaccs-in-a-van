@@ -59,9 +59,6 @@ class Information extends React.Component {
           items: data.items,
           rating: data.rating
         });
-        // if ($(`#data.rate`).length) {
-        //   this.setState({rating: false})
-        // }
         console.log(data.rating)
         console.log(response);
       }, (error) => {

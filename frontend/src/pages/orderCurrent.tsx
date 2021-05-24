@@ -40,6 +40,16 @@ class ListActiveOrder extends React.Component {
     }
 
     componentDidMount() {
+        try {
+            setInterval(async () => { 
+                this.activeOrders();
+            }, 60000);
+            } catch(e) {
+                console.log(e);
+            }
+    }
+    
+    activeOrders() {
         getActiveOrders().then(
             (response) => {
                 var data = response.data

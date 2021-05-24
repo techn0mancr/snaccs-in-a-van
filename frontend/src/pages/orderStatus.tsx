@@ -42,7 +42,17 @@ class Status extends React.Component {
     orderId = getId() || "";
 
     componentDidMount() {
-        getOrderDetails(this.orderId).then(
+        try {
+            setInterval(async () => { 
+                this.orderDetails(this.orderId);
+            }, 60000);
+            } catch(e) {
+                console.log(e);
+            }
+    }
+
+    orderDetails(orderId: String) {
+        getOrderDetails(orderId).then(
             (response) => {
                 var data = response.data;
                 this.setState({ details: data, timeStamps: data.timestamps });

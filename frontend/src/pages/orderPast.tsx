@@ -27,6 +27,16 @@ class ListPastOrder extends React.Component {
     }
 
     componentDidMount() {
+        try {
+            setInterval(async () => { 
+                this.pastOrders();
+            }, 60000);
+            } catch(e) {
+                console.log(e);
+            }
+    }
+
+    pastOrders() {
         getPastOrders().then(
             (response) => {
                 var data = response.data

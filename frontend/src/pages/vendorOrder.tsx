@@ -53,8 +53,14 @@ class Content extends React.Component {
     }
 
     componentDidMount() {
-        this.getPlaced();
-        this.getFulfill();
+        try {
+            setInterval(async () => { 
+                this.getPlaced();
+                this.getFulfill();
+            }, 60000);
+            } catch(e) {
+                console.log(e);
+            }
     }
 
     handleDisplay(orderId: String, placed: Boolean) {
@@ -75,27 +81,31 @@ class Content extends React.Component {
     }
 
     handleFulfill(orderId: String) {
+        this.setState({showDetails: false});
         fulfillOrder(orderId).then(
             (response) => {
                 this.getPlaced();
-                this.setState({showDetails: false});
                 console.log(response);
             }, (error) => {
                 console.log(error);
             }
         )
+        this.getPlaced();
+        this.getFulfill();
     }
 
     handleComplete(orderId: String) {
+        this.setState({showDetails: false});
         completeOrder(orderId).then(
             (response) => {
                 this.getFulfill();
-                this.setState({showDetails: false});
                 console.log(response);
             }, (error) => {
                 console.log(error);
             }
         )
+        this.getPlaced();
+        this.getFulfill();
     }
 
     render() {
