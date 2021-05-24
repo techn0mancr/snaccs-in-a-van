@@ -41,11 +41,12 @@ class Information extends React.Component {
     details: [] as any,
     items: [] as any[],
     vendorId: [] as any,
-    timeStamps: [] as any
+    timeStamps: [] as any,
+    rating: null
   };
 
   orderId = getId() || "";
-
+  
   componentDidMount() {
     getOrderDetails(this.orderId).then(
       (response) => {
@@ -56,7 +57,12 @@ class Information extends React.Component {
           timeStamps: data.timestamps,
           vendorId: data.vendorId,
           items: data.items,
+          rating: data.rating
         });
+        // if ($(`#data.rate`).length) {
+        //   this.setState({rating: false})
+        // }
+        console.log(data.rating)
         console.log(response);
       }, (error) => {
         this.setState({ isLoaded: true, error });
@@ -66,7 +72,7 @@ class Information extends React.Component {
   }
 
   render() {
-    const { error, details, vendorId, items, timeStamps } = this.state;
+    const { error, details, vendorId, items, timeStamps, rating } = this.state;
 
     if (error === true) {
       return <h2>fail</h2>;
@@ -80,7 +86,9 @@ class Information extends React.Component {
               {moment(timeStamps.completed).format("D MMM YYYY h.mm A")}
             </h2>
             <br/>
+            {rating == null ?
             <button className="signup" type="submit" value="signup" onClick={() => history.push(`/order/rate/?id=${this.orderId}`)}><h2>Rate Order</h2></button>
+            :null}
           </div>
 
           <div className="containerCheckout" id="loc">
