@@ -3,10 +3,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-
-import leftArrow from "../img/leftArrow.png";
 import { addItemToCart, getItemDetails } from "../api";
 import "../css/addToCart.css";
 import history from "../history";
@@ -54,11 +51,11 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
     if (id) {
       getItemDetails(id).then((response: { data: any }) => {
         console.log("item details: ", response);
-        var test = response.data;
-        console.log(test);
+        var res = response.data;
+        console.log(res);
         setItem({
-          ...test,
-          id: test._id,
+          ...res,
+          id: res._id,
         });
       });
     }
