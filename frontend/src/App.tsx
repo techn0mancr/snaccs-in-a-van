@@ -27,8 +27,18 @@ import Rate from "./pages/customerRate";
 import ListNearest from "./pages/nearest";
 
 axios.defaults.withCredentials = true;
-// axios.defaults.baseURL = "http://localhost:48080/api";
-axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
+
+/* Change the Axios base URL based on the environment */
+switch (process.env.NODE_ENV) {
+    case "production":
+        axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
+        break;
+    case "development":
+    default:
+        axios.defaults.baseURL = "http://localhost:48080/api";
+        break;
+}
+
 Vue.use(VueAxios, axios);
 
 export function getId() {

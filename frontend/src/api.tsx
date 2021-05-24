@@ -1,8 +1,17 @@
 import axios from "axios";
 import history from "./history";
 
-// const BASE_URL = "http://localhost:48080/api";
-const BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
+/* Change the API base URL based on the environment */
+var BASE_URL: string = "";
+switch (process.env.NODE_ENV) {
+    case "production":
+        BASE_URL = "https://snaccs-in-a-van.herokuapp.com/api";
+        break;
+    case "development":
+    default:
+        BASE_URL = "http://localhost:48080/api";
+        break;
+}
 
 export async function getCart() {
     const endpoint = `${BASE_URL}/customer/cart`;
