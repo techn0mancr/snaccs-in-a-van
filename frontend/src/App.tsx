@@ -47,11 +47,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/vendor/login" component={VendorLogin} />
-          <Route
-            exact
-            path="/vendor/geolocation"
-            component={VendorGeolocation}
-          />
+          <Route exact path="/vendor/geolocation" component={VendorGeolocation}/>
           <Route exact path="/vendor/profile" component={VendorProfile} />
           <Route exact path="/vendor/orders" component={VendorOrder} />
           <div>
@@ -59,17 +55,16 @@ function App() {
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
-            <Route path="/order/active/status" component={OrderStatus} />
+            <Route exact path="/order/active/status" component={OrderStatus} />
             <Route exact path="/cart/order/active" component={OrderCurrent} />
             <Route exact path="/cart/order/past" component={OrderPast} />
+            <Route exact path="/order/rate" component={Rate}/>
             <Route exact path="/order/checkout" component={Checkout} />
-            <Route path="/order/details" component={OrderDetails} />
-            <Route
-              exact
-              path="/menu"
+            <Route exact path="/order/details" component={OrderDetails} />
+            <Route exact path="/menu" component={ListNearest}/>
+            <Route exact path="/menu/vendor"
               render={() => (
-                <Menu
-                  openModalForAddingItemWithId={(id: string) => {
+                <Menu openModalForAddingItemWithId={(id: string) => {
                     setItemId(id);
                     setOpen(true);
                   }}
