@@ -6,13 +6,14 @@ import { Router } from "express";
 import session from "express-session";
 import path from "path";
 import timestring from "timestring";
+import routes from "./routes";
 
 /* Import the required constants */
 import { MONGODB_CONNECTION_STRING, MONGODB_DATABASE_NAME, SESSIONS_COLLECTION_NAME } from "./config";
 import { SESSIONS_SECRET } from "./secrets";
 
 /* Connect to the database */
-require("./models");
+import "./models";
 
 /* Set up server app */
 const app = express();
@@ -42,17 +43,19 @@ app.use(session({
 
 /* Enable CORS */
 app.use(cors({
-    origin: ["http://localhost:3000", "https://snaccs-in-a-van.herokuapp.com"],
+    origin: ["http://localhost:3000", "http://localhost:48080", "https://snaccs-in-a-van.herokuapp.com"],
     credentials: true,
     optionsSuccessStatus: 200
 }));
 
+/* Register API routes */
+app.use("/api", routes);
+
 /* Serve the React app */
 app.use(express.static(path.join(__dirname, "../../frontend/build")));
-
-/* Register routes */
-import routes from "./routes";
-app.use("/api", routes);
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../frontend/build", 'index.html'));
+ });
 
 /* Listen for incoming connections */
 app.listen(port, () => {
