@@ -26,11 +26,11 @@ class ListPastOrder extends React.Component {
         orderList: [] as any[]
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         try {
             setInterval(async () => { 
                 this.pastOrders();
-            }, 60000);
+            }, 1000);
             } catch(e) {
                 console.log(e);
             }

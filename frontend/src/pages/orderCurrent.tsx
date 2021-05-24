@@ -39,11 +39,11 @@ class ListActiveOrder extends React.Component {
           );
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         try {
             setInterval(async () => { 
                 this.activeOrders();
-            }, 60000);
+            }, 1000);
             } catch(e) {
                 console.log(e);
             }

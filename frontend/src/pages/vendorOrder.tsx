@@ -52,12 +52,12 @@ class Content extends React.Component {
         )
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         try {
             setInterval(async () => { 
                 this.getPlaced();
                 this.getFulfill();
-            }, 60000);
+            }, 1000);
             } catch(e) {
                 console.log(e);
             }

@@ -41,11 +41,11 @@ class Status extends React.Component {
 
     orderId = getId() || "";
 
-    componentDidMount() {
+    async componentDidMount() {
         try {
             setInterval(async () => { 
                 this.orderDetails(this.orderId);
-            }, 60000);
+            }, 1000);
             } catch(e) {
                 console.log(e);
             }
