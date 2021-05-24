@@ -34,7 +34,8 @@
         "express-validator": "*",
         "mongoose": "*",
         "password-validator": "*",
-        "timestring": "*"
+        "timestring": "*",
+        "tslib": "*"
     },
     "devDependencies": {
         "@types/bcrypt": "*",
@@ -49,7 +50,6 @@
         "@types/timestring": "*",
         "jest": "*",
         "nodemon": "*",
-        "tslib": "*",
         "typescript": "*"
     },
     "engines": {
