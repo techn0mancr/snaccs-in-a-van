@@ -73,7 +73,7 @@ class ListActiveOrder extends React.Component {
                                         <img alt="right arrow" className="right" src={rightArrow} />
                                         <h2>{order.vendorId.name}</h2>
                                         <p id="ready">{order.status}</p>
-                                        <p className="date">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
+                                        <p className="date">{moment(order.timestamps.placed).format('D MMM YYYY h.mm A')}</p>
                                     </button>
                                 </div> 
                             ))}

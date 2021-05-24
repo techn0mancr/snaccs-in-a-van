@@ -2,6 +2,7 @@ import React from "react";
 import "./menu.css";
 import history from "../history";
 import { getMenu, getCart } from "../api";
+import leftArrow from '../img/leftArrow.png';
 import { getId } from "../App";
 
 const currencyOptions = {
@@ -31,13 +32,14 @@ class VanInfo extends React.Component {
             console.log(error);
         }
     )
-}
+  }
 
   render() {
     const { profile } = this.state;
 
     return (
       <div className="van-card">
+                        <input type="image" alt="back" className="back" src={leftArrow} onClick={() => history.goBack()}/>
         <div className="van-image"></div>
         <div className="van-container">
           <h1 className="menu-h1">{profile.name}</h1>
