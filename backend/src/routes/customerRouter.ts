@@ -30,7 +30,7 @@ customerRouter.get("/profile", middleware.authenticate, controller.getProfile);
 customerRouter.patch("/profile/amend", middleware.authenticate, controller.amendProfileDetails);
 customerRouter.post("/register", controller.register);
 customerRouter.patch("/vendor/:vendorId/select", controller.selectVendor);
-customerRouter.get("/getVendors", customerAuth, controller.getVendorGeolocations);
+customerRouter.get("/getVendors", controller.getVendorGeolocations);
 
 /* Export the router */
 export default customerRouter;
