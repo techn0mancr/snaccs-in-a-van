@@ -31,10 +31,14 @@
     "npm": "*"
   },
   "scripts": {
-    "prebuild-frontend": "cd frontend/ && npm install",
+    "prebuild-frontend": "cd frontend/ && npm install --production=false --legacy-peer-deps",
     "build-frontend": "cd frontend/ && npm run build",
-    "prebuild-backend": "cd backend/ && npm install",
+    "postbuild-frontend": "cd frontend/ && npm prune --production",
+    
+    "prebuild-backend": "cd backend/ && npm install --production=false",
     "build-backend": "cd backend/ && npm run compile",
+    "postbuild-backend": "cd backend/ && npm prune --production",
+
     "frontend-dev": "cd frontend/ && npm start",
     "backend": "cd backend/ && npm start",
     "backend-dev": "cd backend/ && npm run start-dev",

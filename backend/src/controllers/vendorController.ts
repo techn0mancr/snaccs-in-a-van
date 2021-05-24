@@ -1,6 +1,7 @@
 /* Import required types */
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
+import { body, param, validationResult } from "express-validator";
 
 /* Import required constants and models */
 import {
@@ -18,36 +19,44 @@ import {
 async function completeOrder(req: Request & {
     params: { orderId: string }
 }, res: Response): Promise<void> {
+    /* Validate the inputs */
+    await param("orderId")
+          .isMongoId()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
 
-        /* Query the database */
-        const qResult = await Order.updateOne(
+        /* Query the database for the given order's details */
+        const orderToComplete = await Order.findOne(
             {
                 _id: castedOrderId,
                 vendorId: req.session.vendorId
-            },
-            {
-                $set: {
-                    status: OrderStatus.Completed,
-                    completedTimestamp: new Date()
-                }
             }
         );
-        
-        /* Check if the query has successfully executed */
-        if (qResult.ok == 1) {
-            if (qResult.n > 0 && qResult.nModified > 0 && qResult.n == qResult.nModified)
-                res.status(200).send("OK");
-            else
-                res.status(404).send("Not Found");
+        if (!orderToComplete) {
+            res.status(404).send("Not Found");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+
+        /* Update the order's details */
+        orderToComplete.status = OrderStatus.Completed;
+        orderToComplete.timestamps.completed = new Date();
+
+        await orderToComplete.save();
+
+        /* Send a response */
+        res.status(200).send("OK");
     }
     catch (e) {
-
+        res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
@@ -56,37 +65,48 @@ async function completeOrder(req: Request & {
 async function fulfillOrder(req: Request & {
     params: { orderId: string }
 }, res : Response): Promise<void> {
+    /* Validate the inputs */
+    await param("orderId")
+          .isMongoId()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
              
-        /* Query the database */
-        const currentOrder = await Order.findOne(
+        /* Query the database for the given order's details */
+        const orderToFulfill = await Order.findOne(
             {
                 _id: castedOrderId,
                 vendorId: req.session.vendorId
             }
         );
-
-        if (currentOrder) {
-            /* Update the current order's fields */
-            currentOrder.status = OrderStatus.Fulfilled;
-            currentOrder.fulfilledTimestamp = new Date();
-
-            /* Check if a certain amount of time has passed since placement */
-            var deltaSincePlaced: number =
-                currentOrder.fulfilledTimestamp.getTime() - currentOrder.placedTimestamp.getTime();
-            if (deltaSincePlaced > LATE_FULFILLMENT_TIME_WINDOW)
-                currentOrder.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
-
-            /* Save the updates to the database */
-            await currentOrder.save();
-
-            /* Send a response */
-            res.status(200).send("OK");
-        }
-        else
+        if (!orderToFulfill) {
             res.status(404).send("Not Found");
+            return;
+        }
+        
+        /* Update the current order's details */
+        orderToFulfill.status = OrderStatus.Fulfilled;
+        orderToFulfill.timestamps.fulfilled = new Date();
+
+        /* Check if a certain amount of time has passed since placement */
+        var deltaSincePlaced: number =
+            orderToFulfill.timestamps.fulfilled.getTime() - orderToFulfill.timestamps.placed.getTime();
+        if (deltaSincePlaced > LATE_FULFILLMENT_TIME_WINDOW)
+            orderToFulfill.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
+
+        /* Save the updates to the database */
+        await orderToFulfill.save();
+
+        /* Send a response */
+        res.status(200).send("OK");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -116,18 +136,16 @@ async function getCompletedOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp completedTimestamp isChanged rating")
-         .sort("-completedTimestamp");
-
-        /* Send the query results */
-        if (completedOrders) {
-            if (completedOrders.length > 0)
-                res.status(200).json(completedOrders);
-            else
-                res.status(204).send("No Content");
+        ).select("customerId status items total isChanged timestamps isChanged rating")
+         .sort("-timestamps.completed");
+        
+        /* Check if the query returned anything */
+        if (!completedOrders || (completedOrders.length <= 0)) {
+            res.status(204).send("No Content");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+        
+        res.status(200).json(completedOrders);
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -156,18 +174,16 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp isChanged")
-         .sort("fulfilledTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged")
+         .sort("timestamps.fulfilled");
 
-        /* Send the query results */
-        if (fulfilledOrders) {
-            if (fulfilledOrders.length > 0)
-                res.status(200).json(fulfilledOrders);
-            else
-                res.status(204).send("No Content");
+        /* Check if the query returned anything */
+        if (!fulfilledOrders || (fulfilledOrders.length <= 0)) {
+            res.status(204).send("No Content");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+        
+        res.status(200).json(fulfilledOrders);
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -196,18 +212,16 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp isChanged")
-         .sort("placedTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged")
+         .sort("timestamps.placed");
 
-        /* Send the query results */
-        if (placedOrders) {
-            if (placedOrders.length > 0)
-                res.status(200).json(placedOrders);
-            else
-                res.status(204).send("No Content");
+        /* Check if the query returned anything */
+        if (!placedOrders || (placedOrders.length <= 0)) {
+            res.status(204).send("No Content");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+        
+        res.status(200).json(placedOrders);
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -217,18 +231,15 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
 /* Returns the profile of the current logged-in vendor */
 async function getProfile(req: Request, res: Response) {
     try {
-        if (req.session.vendorId) {
-            /* Query the database */
-            const currentVendor = await Vendor.findById(req.session.vendorId)
-                                              .select("email name locationDescription isOpen geolocation");
-            if (currentVendor)
-                res.status(200).json(currentVendor);
-            else
-                res.status(404).send("Not Found");
-
+        /* Query the database for the current vendor's details */
+        const vendorDetails = await Vendor.findById(req.session.vendorId)
+                                          .select("email name locationDescription isOpen latitude longitude");
+        if (!vendorDetails) {
+            res.status(404).send("Not Found");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+        
+        res.status(200).json(vendorDetails);
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -239,6 +250,21 @@ async function getProfile(req: Request, res: Response) {
 async function login(req: Request & {
     body: { email: String, password: String }
 }, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await body("email")
+          .isEmail()
+          .trim().escape()
+          .run(req);
+    await body("password")
+          .isAscii().isLength({ min: 8 })
+          .run(req);
+    
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    
     try {
         /* Check if a vendor with the given email exists */
         const vendor = await Vendor.findOne(
@@ -248,17 +274,18 @@ async function login(req: Request & {
         );
 
         /* Verify the vendor's credentials */
-        if (!(vendor && compareSync(req.body.password, vendor.password)))
+        if (!(vendor && compareSync(req.body.password, vendor.password))) {
             res.status(400).send("Incorrect email/password!");
-        else {
-            /* Update the session data */
-            req.session.customerId = undefined;
-            req.session.vendorId = vendor._id;
-            req.session.cart = undefined;
-
-            /* Send a response */
-            res.status(200).send("OK");
+            return;
         }
+        
+        /* Update the session data */
+        req.session.customerId = undefined;
+        req.session.vendorId = vendor._id;
+        req.session.cart = undefined;
+
+        /* Send a response */
+        res.status(200).send("OK");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -276,78 +303,125 @@ async function logout(req: Request, res: Response): Promise<void> {
     res.status(200).send("OK");
 }
 
-/* Sets the given vendor's availability */
-async function setVendorAvailability(req: Request & {
-    body: { isOpen: boolean }
+/* Sets a vendor's geolocation coordinates */
+async function setVendorGeolocation(req: Request & {
+    body: { latitude: number, longitude: number }
 }, res: Response): Promise<void> {
-    try {
-        /* Query the database */
-        const qResult = await Vendor.updateOne(
-            {
-                _id: req.session.vendorId
-            },
-            {
-                $set: {
-                    isOpen: req.body.isOpen
-                }
-            }
-        );
+    /* Validate and sanitize the inputs */
+    await body("latitude")
+          .isFloat()
+          .toFloat()
+          .run(req);
+    await body("longitude")
+          .isFloat()
+          .toFloat()
+          .run(req);
+    
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
 
-        /* Check if the query has successfully executed */
-        if (qResult.ok == 1) {
-            if (qResult.n > 0) {
-                if (qResult.n == qResult.nModified)
-                    res.status(200).send("OK"); // vendor was successfully updated
-                else
-                    res.status(400).send("Bad Request"); // vendor cannot be updated
-            }
-            else
-                res.status(404).send("Not Found"); // vendor wasn't found in the database
+    try {
+        /* Query the database for the current vendor's details */
+        const currentVendor = await Vendor.findById(req.session.vendorId);
+        if (!currentVendor) {
+            res.status(404).send("Not Found");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+        
+        /* Update the current vendor's details */
+        currentVendor.latitude = req.body.latitude;
+        currentVendor.longitude = req.body.longitude;
+        await currentVendor.save();
+
+        /* Send a response */
+        res.status(200).send("OK");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
 
-/* Sets a vendor's geolocation coordinates and location description */
-async function setVendorLocation(req: Request & {
-    body: { locationDescription: string, geolocation: Array<number> }
+/* Sets a vendor's location description */
+async function setVendorLocationDescription(req: Request & {
+    body: { locationDescription: string }
 }, res: Response): Promise<void> {
-    try {
-        /* Query the database */
-        const qResult = await Vendor.updateOne(
-            {
-                _id: req.session.vendorId
-            },
-            {
-                $set: {
-                    geolocation: req.body.geolocation,
-                    locationDescription: req.body.locationDescription
-                }
-            }
-        );
+    /* Validate and sanitize the inputs */
+    await body("locationDescription")
+          .isAscii()
+          .trim()
+          .run(req);
 
-        /* Check if the query has successfully executed */
-        if (qResult.ok == 1) {
-            if (qResult.n > 0) {
-                if (qResult.n == qResult.nModified)
-                    res.status(200).send("OK"); // vendor was successfully updated
-                else
-                    res.status(400).send("Bad Request"); // vendor cannot be updated
-            }
-            else
-                res.status(404).send("Not Found"); // vendor wasn't found in the database
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
+    try {
+        /* Query the database for the current vendor's details */
+        const currentVendor = await Vendor.findById(req.session.vendorId);
+        if (!currentVendor) {
+            res.status(404).send("Not Found");
+            return;
         }
-        else
-            res.status(500).send("Internal Server Error");
+        
+        /* Update the current vendor's details */
+        currentVendor.locationDescription = req.body.locationDescription;
+        await currentVendor.save();
+
+        /* Send a response */
+        res.status(200).send("OK");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
 }
+
+/* Toggles the given vendor's availability */
+async function toggleVendorAvailability(req: Request, res: Response): Promise<void> {
+    try {
+        /* Query the database */
+        const currentVendor = await Vendor.findById(req.session.vendorId);
+        if (!currentVendor) {
+            res.status(404).send("Not Found");
+            return;
+        }
+        
+        /* Check the vendor's current open status */
+        if (currentVendor.isOpen) {
+            /* Check if the vendor has outstanding orders */
+            const outstandingOrders = await Order.find(
+                {
+                    vendorId: req.session.vendorId,
+                    $or: [
+                        { status: { $eq: OrderStatus.Placed } },
+                        { status: { $eq: OrderStatus.Fulfilled } }
+                    ]
+                }
+            );
+
+            if (outstandingOrders && (outstandingOrders.length > 0)) {
+                res.status(403).send("Forbidden");
+                return; 
+            }
+        }
+        currentVendor.isOpen = !(currentVendor.isOpen);
+        await currentVendor.save();
+
+        /* Send a response */
+        res.status(200).send("OK");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+
+
+///////////////////////////////////////
 
 /* Export controller functions */
 export {
@@ -359,6 +433,7 @@ export {
     getCompletedOrders,
     login,
     logout,
-    setVendorAvailability,
-    setVendorLocation
+    setVendorLocationDescription,
+    setVendorGeolocation,
+    toggleVendorAvailability
 }

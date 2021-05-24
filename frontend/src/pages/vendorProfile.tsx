@@ -2,8 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { vendorProfile, vendorLogout } from '../api';
-import map from "../img/map.png";
+import { vendorProfile, vendorLogout, setVendorAvailability } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -22,7 +21,6 @@ class Description extends React.Component {
     
     state = {
         details: [] as any,
-        geolocation: [-37.7999432,144.9616192],
     };
 
     componentDidMount() {
@@ -42,17 +40,32 @@ class Description extends React.Component {
     }
 
     handleClick() {
-        history.push("/vendor/login");
-        vendorLogout();
+        setVendorAvailability().then(
+            (response) => {
+                if (response.status === 200) {
+                    history.push("/vendor/login");
+                    vendorLogout();
+                } 
+                console.log(response);
+            })
+            .catch(error=>{ 
+                if (error.response) {
+                    alert("Please fulfill all order!"); 
+                    history.goBack();
+                }
+                console.log(error);
+            });
     }
 
     render() {
     const { details } = this.state;
+    
     return (
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>{details.geolocation}</p>
+                <p>{details.latitude},{details.longitude}</p>
+                
             </div>
 
             <div className="container">
@@ -69,14 +82,8 @@ class VendorProfile extends React.Component {
     render() {
         return (
             <div>
-                <div className="split left">
-                    <img className="vendorProfile" alt="map" src={map} />
-                </div>
-
-                <div className="split right">
-                    <Header />
-                    <Description />
-                </div>
+                <Header />
+                <Description />
             </div>
         )
     }

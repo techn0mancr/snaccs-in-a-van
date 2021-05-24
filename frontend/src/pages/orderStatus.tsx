@@ -35,18 +35,31 @@ class Header extends React.Component {
 class Status extends React.Component {
     state = {
         details: [] as any,
+        timeStamps: [] as any,
         fulfilled: false
     }
 
     orderId = getId() || "";
 
-    componentDidMount() {
-        getOrderDetails(this.orderId).then(
+    async componentDidMount() {
+        try {
+            setInterval(async () => { 
+                this.orderDetails(this.orderId);
+            }, 1000);
+            } catch(e) {
+                console.log(e);
+            }
+    }
+
+    orderDetails(orderId: String) {
+        getOrderDetails(orderId).then(
             (response) => {
                 var data = response.data;
-                this.setState({ details: data });
+                this.setState({ details: data, timeStamps: data.timestamps });
                 if (data.status === "Fulfilled") {
                     this.setState({fulfilled: true});
+                } else if (data.status === "Completed") {
+                    history.push(`/order/details/?id=${this.orderId}`)
                 }
                 console.log(data.status);
                 console.log(response);
@@ -57,13 +70,13 @@ class Status extends React.Component {
     }
 
     render() {
-        const { details, fulfilled } = this.state;
+        const { details, fulfilled, timeStamps } = this.state;
 
         return (
             <div>
                 <div className="titleOrder">
                     <h2 className="invoice">INVOICE: {details._id}</h2>
-                    <h2 className="invoice">{moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}</h2>
+                    <h2 className="invoice">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</h2>
                 </div>
 
                 <div className="orderTime">
@@ -95,17 +108,17 @@ class Status extends React.Component {
                     <div className="progressStatus">
                         <div className="status">
                             <h3>Order received</h3>
-                            <p className="time" id="status">{moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}</p>
+                            <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
                         </div>
             
                         <div className="status">
                             <h3>Preparing order</h3>
-                            <p className="time" id="status">{moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}</p>
+                            <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
                         </div>
                         {fulfilled ?
                         <div className="status">
                             <h3>Ready for pickup</h3>
-                            <p className="time" id="status">{moment(details.fulfilledTimestamp).format("D MMM YYYY h.mm A")}</p>
+                            <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
                         </div>
                         :
                         <div className="status">

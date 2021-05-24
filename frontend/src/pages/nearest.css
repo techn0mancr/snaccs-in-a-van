@@ -1,0 +1,55 @@
+body {
+    background-color: #F8F5F2;
+    font-family: 'Poppins', sans-serif;
+    color: #3E4462;
+}
+
+h1.nVan {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 40px;
+
+}
+
+
+.nearestVan-card {
+    height: 82px;
+    width: 80vw;
+    border-radius: 10px;    
+    background: #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+i.fa-chevron-right{
+    color: #DD7070;
+    float: right;
+    margin-top: -45px;
+    padding-right: 20px;
+}
+
+h2.nVan {
+    font-size: 14px;
+}
+
+h3.nVan {
+    font-size: 10px;
+}
+
+p.nVan{
+    font-size: 10px;
+    line-height: 0px;
+    color: #A0A0A0;
+}
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .nearestVan-card {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+    }
+} 

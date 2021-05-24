@@ -1,6 +1,7 @@
 /* Import the required libraries and types */
 import { hashSync } from "bcrypt";
 import { Document, model, Model, Schema } from "mongoose";
+import { PASSWORD_HASH_ROUNDS } from "../config";
 
 /* Define the vendor interface */
 export interface IVendor extends Document {
@@ -9,7 +10,8 @@ export interface IVendor extends Document {
     password: string;
     locationDescription: string;
     isOpen: boolean;
-    geolocation: Array<number>;
+    latitude: number;
+    longitude: number;
 }
 
 /* Define the vendor schema */
@@ -28,7 +30,7 @@ const vendorSchema: Schema = new Schema({
         type: String,
         required: true,
         minlength: 6,
-        set: (plaintext: string) => hashSync(plaintext, 10)
+        set: (plaintext: string) => hashSync(plaintext, PASSWORD_HASH_ROUNDS)
     },
     locationDescription: {
         type: String
@@ -37,10 +39,15 @@ const vendorSchema: Schema = new Schema({
         type: Boolean,
         required: true
     },
-    geolocation: {
-        type: [Number],
+    latitude: {
+        type: Number,
+        default: undefined
+    },
+    longitude: {
+        type: Number,
         default: undefined
     }
+
 });
 
 /* Export the vendor schema and model */

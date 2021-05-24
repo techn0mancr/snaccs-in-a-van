@@ -2,6 +2,7 @@ import React from 'react';
 import './profile.css';
 import { customerRegister } from "../api";
 import history from "../history";
+import passwordSchema from "../models/passwordSchema";
 
 class CustomerSignup extends React.Component {
     state = {
@@ -19,7 +20,11 @@ class CustomerSignup extends React.Component {
         event.preventDefault();
 
         const { email,  givenName, familyName, password } = this.state;
-        customerRegister(email, givenName, familyName, password);
+        if (passwordSchema.validate(password)) {
+            customerRegister(email, givenName, familyName, password);
+        } else {
+            alert("Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters")
+        }
     }
 
     render() {
@@ -40,6 +45,7 @@ class CustomerSignup extends React.Component {
                         <input id="last" type="text" name="familyName" placeholder="family name" value={familyName} onChange={this.handleChange} required/><br/><br/>
                         <input id="email" type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} required/><br/><br/>
                         <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
+                        <p className="menu-p">Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters</p><br/><br/>
                         <button className="login" type="submit" value="signup">Sign up</button>
                     </form>
                 </div>

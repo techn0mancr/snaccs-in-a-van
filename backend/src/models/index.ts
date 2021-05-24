@@ -14,77 +14,19 @@ db.once("open", () => {
     console.log("Successfully connected to MongoDB database.");
 });
 
-/* Import existing primary schemas */
-import { customerSchema } from "./customerModel";
-import { itemSchema } from "./itemModel";
-import { menuSchema } from "./menuModel";
-import { orderSchema } from "./orderModel";
-import { vendorSchema } from "./vendorModel";
+/* Re-export primary interfaces, schemas, and models */
+export { ICustomer, customerSchema, default as Customer } from "./customerModel";
+export { IItem, itemSchema, default as Item } from "./itemModel";
+export { IMenu, menuSchema, default as Menu } from "./menuModel";
+export { IOrder, orderSchema, default as Order } from "./orderModel";
+export { IVendor, vendorSchema, default as Vendor } from "./vendorModel";
 
-/* Import existing primary interfaces */
-import { ICustomer } from "./customerModel";
-import { IItem } from "./itemModel";
-import { IMenu } from "./menuModel";
-import { IOrder } from "./orderModel";
-import { IVendor } from "./vendorModel";
+/* Re-export helper interfaces, schemas, and models */
+export { IItemOrder, itemOrderSchema, default as ItemOrder } from "./itemOrderModel";
+export { IMenuItem, menuItemSchema, default as MenuItem } from "./menuItemModel";
+export { IOrderRating, orderRatingSchema, default as OrderRating } from "./orderRatingModel";
+export { IOrderTimestamps, orderTimestampsSchema, default as OrderTimestamps } from "./orderTimestampsModel";
+export { default as passwordSchema } from "./passwordSchema";
 
-/* Import existing primary models */
-import Customer from "./customerModel";
-import Item from "./itemModel";
-import Menu from "./menuModel";
-import Order from "./orderModel";
-import Vendor from "./vendorModel";
-
-/* Import existing helper schemas */
-import { itemOrderSchema } from "./itemOrderModel";
-import { menuItemSchema } from "./menuItemModel";
-
-/* Import existing helper interfaces */
-import { IItemOrder } from "./itemOrderModel";
-import { IMenuItem } from "./menuItemModel";
-
-/* Import existing helper models */
-import ItemOrder from "./itemOrderModel";
-import MenuItem from "./menuItemModel";
-
-/* Import existing enums */
-import { OrderStatus } from "./orderModel";
-
-/* Re-export existing schemas, interfaces, and models for easy access */
-export {
-    /* Primary schemas */
-    customerSchema,
-    itemSchema,
-    menuSchema,
-    orderSchema,
-    vendorSchema,
-    
-    /* Primary interfaces */
-    ICustomer,
-    IItem,
-    IMenu,
-    IOrder,
-    IVendor,
-    
-    /* Primary models */
-    Customer,
-    Item,
-    Menu,
-    Order,
-    Vendor,
-
-    /* Helper schemas */
-    itemOrderSchema,
-    menuItemSchema,
-    
-    /* Helper interfaces */
-    IItemOrder,
-    IMenuItem,
-    
-    /* Helper models */
-    ItemOrder,
-    MenuItem,
-
-    /* Enums */
-    OrderStatus
-}
+/* Re-export helper enums */
+export { OrderStatus } from "./orderModel";
