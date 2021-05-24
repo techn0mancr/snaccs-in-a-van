@@ -26,8 +26,8 @@ import Rate from "./pages/customerRate";
 import ListNearest from "./pages/nearest";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://localhost:48080/api";
-// axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
+// axios.defaults.baseURL = "http://localhost:48080/api";
+axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
 Vue.use(VueAxios, axios);
 
 export function getId() {
