@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { setVendorLocationDescription, setVendorAvailability, getVendorGeolocation, vendorProfile } from '../api';
+import { setVendorLocationDescription, setVendorAvailability, vendorProfile } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -26,7 +26,6 @@ class Description extends React.Component {
     };
 
     componentDidMount() {
-        getVendorGeolocation();
         vendorProfile().then(
             (response) => {
                 var data = response.data;
