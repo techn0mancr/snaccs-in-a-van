@@ -1,6 +1,6 @@
 import React from 'react';
 import './vendorLogin.css';
-import { vendorLogin } from '../api';
+import { vendorLogin, getVendorGeolocation } from '../api';
 
 class VendorLogin extends React.Component {
     
@@ -16,6 +16,7 @@ class VendorLogin extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
+        getVendorGeolocation();
         const { email, password } = this.state;
         vendorLogin(email, password);
     }
