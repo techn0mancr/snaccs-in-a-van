@@ -2,7 +2,7 @@ import React from 'react';
 import './nearest.css';
 import history from "../history";
 import { getVendors, selectVendor } from "../api";
-import rightArrow from "../img/rightArrow.png"
+import rightArrow from "../img/right.svg"
 
 class ListNearest extends React.Component {
     state = {
@@ -36,11 +36,11 @@ class ListNearest extends React.Component {
                     <div>
                         {vendors.map((vendor, i) => (
                             <div key={i}>
-                                
+                                <div className="content">
                                 <button className="order" type="submit" value="order" onClick={()=> this.onClick(vendor._id)}>
                                     {/* <div className="nearestVan-card"> */}
                                         <div className="nearestVan-container">
-                                        <img alt="right arrow" className="right" src={rightArrow} />
+                                        <img alt="right arrow" className="nearRight" src={rightArrow} />
                                             <h2 className ="nVan">{vendor.name}</h2>
                                             <h3 className="nVan">{vendor.locationDescription}</h3>
                                             <p className="nVan">0.25 km away from you</p>
@@ -48,12 +48,14 @@ class ListNearest extends React.Component {
                                         </div>
                                     {/* </div> */}
                                 </button>
-                               
+                                </div>
+
                             </div>
                         ))}
                     </div>
+                    
                 :
-                <h2>No Van Within 10km</h2>}
+                <h2 className ="error">No Van Within 10km</h2>}
             </div>
         )
     }

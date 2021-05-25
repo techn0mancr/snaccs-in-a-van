@@ -62,7 +62,7 @@ button:hover {
     background-color: #FFFFFF;
     border-radius: 8px;
     width: 90vw;
-    margin-top: 5vw;
+    margin-top: 15px;
     padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 5px;
@@ -103,9 +103,8 @@ img.right {
     float: right;
     clear: right;
     margin-right: 30px;
-    padding-top: 20px;
+    padding-top: 10px;
     box-shadow: none;
-    background-color: #F8F5F2;
 }
 
 #dark {
@@ -124,13 +123,14 @@ img.right {
         width: 720px;
         margin-left: auto;
         margin-right: auto;
-    }
+        text-align: center;    
+}
 
     .order {
-        width: 700px;
-        margin-top: 30px;
-        margin-left: 10px;
-        margin-right: 10px;
+        width: 500px;
+        margin-top: 15px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     button.past {
