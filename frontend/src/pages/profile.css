@@ -5,11 +5,10 @@ body {
 }
 
 .titleLogin {
-    /* width: 70vw; */
     margin-left: 10vw;
     margin-right: 10vw;
-    /* padding-left: 10vw; */
-    margin-top: 15vh;
+    margin-top: 100px;
+    text-align: center;
   
 }
 
@@ -23,7 +22,7 @@ body {
 }
 
 h1.titleLog {
-    font-size: 28px;
+    font-size: 24px;
     font-style: bold;
     font-weight: 500;
     line-height: 26px;
@@ -89,3 +88,18 @@ button.login {
 button:hover {
     opacity: 0.8;
 }
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .titleLogin {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .containerProfile{
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+} 

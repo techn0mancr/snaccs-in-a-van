@@ -1,6 +1,8 @@
 import React from 'react';
 import './vendorLogin.css';
 import { vendorLogin } from '../api';
+import vendor from "../img/vendor.svg";
+
 
 class VendorLogin extends React.Component {
     
@@ -24,17 +26,23 @@ class VendorLogin extends React.Component {
     const { email, password } = this.state;
     return (
         <div>
-            <h1 className="vendor">Log In</h1>
-            <div className="center">
-                <form id="form" onSubmit={this.handleSubmit}> 
-                    <input className="vanName" type="text" name="email" value={email} placeholder="van name" onChange={this.handleChange} required />
-                    <br/><br/>
-                    <input className="pin" type="password" name="password" placeholder="pin" value={password} onChange={this.handleChange} required/>
-                    <br/><br/><br/><br/>
-                    <button className="vendor" type="submit" value="Login">Log in</button>
-                </form>
+            <div className="titleLogin">
+            <input className="vendor" type="image" alt="vendorimage" src={vendor}/>
+            <h1 className="titleLog">Log In</h1>
             </div>
+            <br/>
+
+            <div className="containerProfile">
+                <form id="form" onSubmit={this.handleSubmit}> 
+                    <input type="text" name="email" value={email} placeholder="van name" onChange={this.handleChange} required />
+                    <br/><br/>
+                    <input  type="password" name="password" placeholder="pin" value={password} onChange={this.handleChange} required/>
+                    <br/><br/>
+                    <button className="login" type="submit" value="Login">Log in</button>
+                </form>
         </div>
+        </div>
+
     )
     }
 

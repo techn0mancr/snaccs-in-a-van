@@ -71,10 +71,11 @@ class Description extends React.Component {
             <div className="container">
                 <h2>Location Description</h2>
                 <p>{details.locationDescription}</p>
-            </div>
             <br/><br/><br/>
             <button type="button" className="closeStore" onClick={this.handleClick}>Close Store</button>
         </div>
+        </div>
+
     )}
 }
 

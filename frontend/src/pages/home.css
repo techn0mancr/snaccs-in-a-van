@@ -1,10 +1,12 @@
 input[type=image].snaccVan {
-    width: 100% ;
+    width: 300px ;
     margin-top: 40px;
 }
 
 h1.home {
-    font-family: 'Pacifico'}
+    font-size: 20px;
+    font-weight: semibold;
+}
 
 h2.home {
     display: block;

@@ -11,6 +11,7 @@ class Home extends React.Component {
                 <span className="landing">
                 <input type="image" alt="Snaccs-In-A-Van" className="snaccVan" src={snaccVan}/>
                 </span>
+                {/* <h1 className="home">Snaccs In A Van</h1> */}
                 <h2 className="home">I am a ...</h2>
                 <span className="landingbtn">
                 <button className="home" type="button" onClick={() => history.push(`/menu/list`)}>Customer</button>

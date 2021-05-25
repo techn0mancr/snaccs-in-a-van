@@ -2,7 +2,9 @@ import React from 'react';
 import './nearest.css';
 import history from "../history";
 import { getVendors, selectVendor } from "../api";
-import rightArrow from "../img/right.svg"
+import rightArrow from "../img/right.svg";
+import sorry from "../img/sorry.svg";
+
 
 class ListNearest extends React.Component {
     state = {
@@ -55,7 +57,9 @@ class ListNearest extends React.Component {
                     </div>
                     
                 :
-                <h2 className ="error">No Van Within 10km</h2>}
+                // <input type="image" alt="Sorry" className="sorry" src={sorry}/>
+
+                <h3 className ="error">Oh no, we can't find a van near you</h3>}
             </div>
         )
     }
