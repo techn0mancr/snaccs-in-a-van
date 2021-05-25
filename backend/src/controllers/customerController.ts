@@ -29,7 +29,7 @@ async function addItemToCart(req: Request & {
           .isMongoId()
           .run(req);
     await body("quantity")
-          .isInt({ min: 0 })
+          .isInt()
           .toInt()
           .run(req);
 

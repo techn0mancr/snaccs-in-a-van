@@ -25,6 +25,8 @@ import VendorGeolocation from "./pages/vendorGeolocation";
 import Home from "./pages/home";
 import Rate from "./pages/customerRate";
 import ListNearest from "./pages/nearest";
+import ProfileAmendName from "./pages/profileAmend";
+import ProfileAmendPassword from "./pages/profilePassword";
 
 axios.defaults.withCredentials = true;
 
@@ -65,6 +67,8 @@ function App() {
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
+            <Route exact path="/customer/profile/amend/name" component={ProfileAmendName} />
+            <Route exact path="/customer/profile/amend/password" component={ProfileAmendPassword} />
             <Route exact path="/order/active/status" component={OrderStatus} />
             <Route exact path="/cart/order/active" component={OrderCurrent} />
             <Route exact path="/cart/order/past" component={OrderPast} />
