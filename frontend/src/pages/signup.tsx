@@ -2,13 +2,15 @@ import React from 'react';
 import './profile.css';
 import { customerRegister } from "../api";
 import history from "../history";
+import passwordSchema from "../models/passwordSchema";
 
 class CustomerSignup extends React.Component {
     state = {
         email: "", 
         givenName: "", 
         familyName: "", 
-        password: ""
+        password: "",
+        confirm: ""
     }
 
     handleChange = (event: { target: { name: any; value: String; }; }) => {
@@ -18,12 +20,20 @@ class CustomerSignup extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        const { email,  givenName, familyName, password } = this.state;
-        customerRegister(email, givenName, familyName, password);
+        const { email,  givenName, familyName, password, confirm } = this.state;
+        if (password === confirm) {
+            if (passwordSchema.validate(password)) {
+                customerRegister(email, givenName, familyName, password);
+            } else {
+                alert("Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters")
+            }
+        } else {
+            alert("Please enter the same password");
+        }
     }
 
     render() {
-        const { email,  givenName, familyName, password } = this.state;
+        const { email,  givenName, familyName, password, confirm } = this.state;
         return (
             <div>
                 <div className="titleLogin">
@@ -40,6 +50,8 @@ class CustomerSignup extends React.Component {
                         <input id="last" type="text" name="familyName" placeholder="family name" value={familyName} onChange={this.handleChange} required/><br/><br/>
                         <input id="email" type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} required/><br/><br/>
                         <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
+                        <p className="menu-p">Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters</p><br/><br/>
+                        <input id="confirm password" type="password" name="confirm" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/><br/><br/>
                         <button className="login" type="submit" value="signup">Sign up</button>
                     </form>
                 </div>

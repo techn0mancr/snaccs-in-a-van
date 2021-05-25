@@ -39,7 +39,17 @@ class ListActiveOrder extends React.Component {
           );
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        try {
+            setInterval(async () => { 
+                this.activeOrders();
+            }, 1000);
+            } catch(e) {
+                console.log(e);
+            }
+    }
+    
+    activeOrders() {
         getActiveOrders().then(
             (response) => {
                 var data = response.data
@@ -73,7 +83,7 @@ class ListActiveOrder extends React.Component {
                                         <img alt="right arrow" className="right" src={rightArrow} />
                                         <h2>{order.vendorId.name}</h2>
                                         <p id="ready">{order.status}</p>
-                                        <p className="date">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
+                                        <p className="date">{moment(order.timestamps.placed).format('D MMM YYYY h.mm A')}</p>
                                     </button>
                                 </div> 
                             ))}

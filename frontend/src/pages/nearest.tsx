@@ -7,11 +7,13 @@ import rightArrow from "../img/right.svg"
 class ListNearest extends React.Component {
     state = {
         vendors: [] as any[],
+        distance: 0
     }
 
     componentDidMount() {
         getVendors().then(
             (response) => {
+                if (response)
                 var data = response.data
                 this.setState({vendors: data})
                 console.log(response);
@@ -19,6 +21,7 @@ class ListNearest extends React.Component {
                 console.log(error);
             }
         )
+        
     }
 
     onClick(vendorId: String) {
@@ -43,7 +46,9 @@ class ListNearest extends React.Component {
                                         <img alt="right arrow" className="nearRight" src={rightArrow} />
                                             <h2 className ="nVan">{vendor.name}</h2>
                                             <h3 className="nVan">{vendor.locationDescription}</h3>
-                                            <p className="nVan">0.25 km away from you</p>
+                                            <p className="nVan">{getDistance([localStorage.getItem("lat") as unknown as number, 
+                                            localStorage.getItem("lng") as unknown as number],
+                                             vendor.geolocation)} kms away...</p>
                                             <i className="fas fa-chevron-right"></i>
                                         </div>
                                     {/* </div> */}

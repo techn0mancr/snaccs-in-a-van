@@ -10,8 +10,7 @@ export interface IVendor extends Document {
     password: string;
     locationDescription: string;
     isOpen: boolean;
-    latitude: number;
-    longitude: number;
+    geolocation: Array<number>;
 }
 
 /* Define the vendor schema */
@@ -39,15 +38,10 @@ const vendorSchema: Schema = new Schema({
         type: Boolean,
         required: true
     },
-    latitude: {
-        type: Number,
-        default: undefined
-    },
-    longitude: {
-        type: Number,
+    geolocation: {
+        type: [Number],
         default: undefined
     }
-
 });
 
 /* Export the vendor schema and model */

@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'></link>
+
 
 ReactDOM.render(
   <React.StrictMode>
