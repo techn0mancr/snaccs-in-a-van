@@ -52,7 +52,7 @@ class Profile extends React.Component {
         const {_id, email, givenName, familyName} = this.state;
         return (
             <div className="titleLogin">
-                                <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
+                <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1 className="titleLog">Change Name</h1>
                 <h3>ID</h3>
                 <p className="time">{_id}</p>
