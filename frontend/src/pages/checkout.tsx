@@ -2,7 +2,8 @@ import React from "react";
 import './checkout.css';
 import leftArrow from '../img/leftArrow.png';
 import history from '../history';
-import { checkoutCart, getCart } from '../api';
+import { checkoutCart, getCart, getMenu } from '../api';
+import { getId } from "../App";
 
 class Header extends React.Component {
     render() {
@@ -12,6 +13,37 @@ class Header extends React.Component {
                 <input type="image" alt="back" className="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1>Checkout</h1>
                 <br></br>           
+            </div>
+        )
+    }
+}
+
+class Vendor extends React.Component {
+    state = {
+        profile: [] as any
+    }
+
+    vendorId = getId() || "";
+
+  componentDidMount() {
+    getMenu(this.vendorId).then(
+            (response) => {
+                var data = response.data;
+                this.setState({profile: data.vendorId});
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )
+    } 
+    render() {
+        const { profile } = this.state;
+
+        return (
+            <div className="containerCheckout" id="loc">
+                <h2 className="pickup">Pick up location</h2>
+                <p className="address">{profile.name}</p>
+                <p className="desc">{profile.locationDescription} ({profile.latitude},{profile.longitude})</p>
             </div>
         )
     }
@@ -38,12 +70,6 @@ class Information extends React.Component {
         const { cart } = this.state;
         return (
             <div>
-                 <div className="containerCheckout" id="loc">
-                    <h2 className="pickup">Pick up location</h2>
-                    <p className="address">Tasty Trailer</p>
-                    <p className="desc">Across Stop 1</p>
-                </div>
-
                 <div className="containerCheckout" id="cart">
                     <h2>Your Cart</h2>
 
@@ -103,6 +129,7 @@ class Checkout extends React.Component {
         return (
             <div>
                 <Header />
+                <Vendor />
                 <Information />
                 <CheckoutButton />
             </div>

@@ -39,8 +39,8 @@ class Content extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        const {rating} = this.state;
-        rateOrder(this.orderId, rating);
+        const {rating, comment} = this.state;
+        rateOrder(this.orderId, rating, comment);
         history.goBack();
     }
 

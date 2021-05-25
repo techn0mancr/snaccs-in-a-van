@@ -1,115 +1,132 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart, vendorProfile } from "../api";
+import { getMenu, getCart, getDistance } from "../api";
+import leftArrow from "../img/leftArrow.png";
 import { getId } from "../App";
 
 const currencyOptions = {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  };
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+};
 
 function toTwoDecimalPlaces(number: number) {
-    return number.toLocaleString(undefined, currencyOptions);
-  }
+  return number.toLocaleString(undefined, currencyOptions);
+}
 
-class VanInfo extends React.Component {
+interface Profile {
+  name: string;
+  locationDescription: string;
+  geolocation: number[];
+}
 
-  state = {
-    profile: [] as any,
-  }
+const VanInfo = () => {
+  const [profile, setProfile] = useState<Profile>({
+    name: "",
+    locationDescription: "",
+    geolocation: [0,0]
+  });
+  const vendorId = getId() || "";
 
-  componentDidMount() {
-    vendorProfile().then(
+  useEffect(() => {
+    getMenu(vendorId)
+      .then(
         (response) => {
-            var data = response.data;
-            this.setState({profile: data});
-            console.log(response);
-        }, (error) => {
-            console.log(error);
-        }
-    )
-}
+          setProfile(response.data.vendorId);
+        },
+        (error) => console.log("Got an error fetching the Profile: ", error)
+      )
+      .catch((error) =>
+        console.log("Got an error fetching the Profile: ", error)
+      );
+  }, []);
 
-  render() {
-    const { profile } = this.state;
-
-    return (
-      <div className="van-card">
-        <div className="van-image"></div>
-        <div className="van-container">
-          <h1 className="menu-h1">{profile.name}</h1>
-          <h2 className="menu-h2">{profile.locationDescription}</h2>
-          <br />
-          <h3 className="menu-h3">{profile.latitude},{profile.longitute}</h3>
-          <p className="menu-p">0.25 km away from you</p>
-        </div>
+  return (
+    <div className="van-card">
+      <input
+        type="image"
+        alt="back"
+        className="back"
+        src={leftArrow}
+        onClick={() => history.goBack()}
+      />
+      <div className="van-image"></div>
+      <div className="van-container">
+        <h1 className="menu-h1">{profile?.name}</h1>
+        <h2 className="menu-h2">{profile?.locationDescription}</h2>
+        {/* <br />
+        <h3 className="menu-h3">
+          {profile.geolocation[0]}, {profile.geolocation[1]}
+        </h3> */}
+        <p className="menu-p">{getDistance([localStorage.getItem("lat") as unknown as number, 
+                                            localStorage.getItem("lng") as unknown as number],
+                                             profile.geolocation)} km away from you</p>
       </div>
-    );
-  }
+    </div>
+  );
+};
+
+interface ItemsProps {
+  openModalForAddingItemWithId: (id: string) => void;
 }
 
-class Items extends React.Component {
-  state = {
+const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
+  const vendorId = getId() || "";
+  const [state, setState] = useState({
+    vendorId,
     error: null,
     isLoaded: false,
-    menuList: [] as any[]
-  };
+    menuList: [] as any[],
+  });
 
-  vendorId = getId() || "";
-
-  componentDidMount() {
-    getMenu(this.vendorId).then(
+  useEffect(() => {
+    getMenu(state.vendorId).then(
       (response) => {
-        var data = response.data;
-        this.setState({ isLoaded: true, menuList: data });
+        var data = response.data.items;
+        setState({ ...state, isLoaded: true, menuList: data });
         console.log(response);
       },
       (error) => {
-        this.setState({ isLoaded: true, error });
+        setState({ ...state, isLoaded: true, error });
         console.log(error);
       }
     );
-  }
+  }, []);
 
-  render() {
-    const { error, isLoaded, menuList } = this.state;
-    if (error === true) {
-      return <h2>No menu at the moment</h2>;
-    } else if (isLoaded === false) {
-      return <h2 className="load-h2">Loading...</h2>;
-    } else {
-      return (
-        <div className="menu">
-          {menuList.length>0 ? 
-            <div>
-            {menuList.map((menu, i) => (
-              <div key={i}>
-                  <div className="menu-card">
-                    <img
-                      src={`data:${menu.itemId.mimetype};base64,${menu.itemId.data}`}
-                      className="card"
-                      alt={menu.itemId.name}
-                    />
-                    <div className="menu-container">
-                      <button type="button" className="menu-button" onClick={() => history.push(`/menu/item/?id=${menu.itemId._id}`) }>Add </button>
-                      {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
-                      <h2 className="menu-h2">{menu.itemId.name}</h2>
-                      <br />
-                      <h3 className="menu-h3">${toTwoDecimalPlaces(menu.itemId.price)}</h3>
-                    </div>
-                  </div>
-                  {/* {popupItem && addToCart(menu.itemId._id)} */}
-                </div>
-            ))}
+  return state.error ? (
+    <h2>No menu at the moment</h2>
+  ) : !state.isLoaded ? (
+    <h2>Loading...</h2>
+  ) : (
+    <div className="menu">
+      {state.menuList.map((menu, i) => (
+        <div key={i}>
+          <div className="menu-card">
+            <img
+              src={`data:${menu.itemId.mimetype};base64,${menu.itemId.data}`}
+              className="card"
+              alt={menu.itemId.name}
+            />
+            <div className="menu-container">
+              <button
+                type="button"
+                className="menu-button"
+                onClick={() => openModalForAddingItemWithId(menu.itemId._id)}
+              >
+                Add{" "}
+              </button>
+              <h2 className="menu-h2">{menu.itemId.name}</h2>
+              <br />
+              <h3 className="menu-h3">
+                ${toTwoDecimalPlaces(menu.itemId.price)}
+              </h3>
             </div>
-          :
-          <h2>No items for sale</h2>}
+          </div>
         </div>
-      );
-    }
-  }
-}
+      ))}
+    </div>
+  );
+};
 
 class Checkout extends React.Component {
   state = {
@@ -118,6 +135,8 @@ class Checkout extends React.Component {
     cart: [] as any,
     logged: false,
   };
+
+  vendorId = getId() || "";
 
   componentDidMount() {
     getCart().then(
@@ -135,7 +154,7 @@ class Checkout extends React.Component {
 
   handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    history.push("/order/checkout");
+    history.push(`/order/checkout/?id=${this.vendorId}`);
   };
 
   render() {
@@ -161,16 +180,16 @@ class Checkout extends React.Component {
   }
 }
 
-class Menu extends React.Component {
-  render() {
-    return (
-      <div>
-        <VanInfo />
-        <Items />
-        <Checkout />
-      </div>
-    );
-  }
+interface MenuProps {
+  openModalForAddingItemWithId: (id: string) => void;
 }
+
+const Menu = ({ openModalForAddingItemWithId }: MenuProps) => (
+  <div>
+    <VanInfo />
+    <Items openModalForAddingItemWithId={openModalForAddingItemWithId} />
+    <Checkout />
+  </div>
+);
 
 export default Menu;

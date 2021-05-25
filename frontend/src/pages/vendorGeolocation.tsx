@@ -21,7 +21,8 @@ class Description extends React.Component {
     
     state = {
         desc: "",
-        profile: [] as any
+        profile: [] as any,
+        geolocation: [] as any
     };
 
     componentDidMount() {
@@ -29,7 +30,7 @@ class Description extends React.Component {
         vendorProfile().then(
             (response) => {
                 var data = response.data;
-                this.setState({profile: data});
+                this.setState({profile: data, geolocation: data.geolocation});
                 console.log(response);
             }, (error) => {
                 console.log(error);
@@ -51,12 +52,12 @@ class Description extends React.Component {
     }
 
     render() {
-    const { desc, profile } = this.state;
+    const { desc, geolocation } = this.state;
     return (
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>{profile.latitude}, {profile.longitude}</p>
+                <p>{geolocation[0]},{geolocation[1]}</p>
             </div>
 
             <form onSubmit={this.handleSubmit}>

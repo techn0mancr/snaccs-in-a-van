@@ -21,13 +21,14 @@ class Description extends React.Component {
     
     state = {
         details: [] as any,
+        geolocation: [] as any
     };
 
     componentDidMount() {
         vendorProfile().then(
             (response) => {
                 var data = response.data;
-                this.setState({details: data});
+                this.setState({details: data, geolocation: data.geolocation});
                 console.log(response);
             }, (error) => {
                 console.log(error);
@@ -58,13 +59,13 @@ class Description extends React.Component {
     }
 
     render() {
-    const { details } = this.state;
+    const { details, geolocation } = this.state;
     
     return (
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>{details.latitude},{details.longitude}</p>
+                <p>{geolocation[0]},{geolocation[1]}</p>
                 
             </div>
 

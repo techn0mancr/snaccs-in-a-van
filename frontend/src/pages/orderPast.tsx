@@ -26,7 +26,17 @@ class ListPastOrder extends React.Component {
         orderList: [] as any[]
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        try {
+            setInterval(async () => { 
+                this.pastOrders();
+            }, 1000);
+            } catch(e) {
+                console.log(e);
+            }
+    }
+
+    pastOrders() {
         getPastOrders().then(
             (response) => {
                 var data = response.data
@@ -61,7 +71,7 @@ class ListPastOrder extends React.Component {
                                         <img alt="right arrow" className="right" src={rightArrow} />
                                         <h2>{order.vendorId.name}</h2>
                                         <p id="ready">{order.status}</p>
-                                        <p className="date">{moment(order.placedTimestamp).format('D MMM YYYY h.mm A')}</p>
+                                        <p className="date">{moment(order.timestamps.completed).format('D MMM YYYY h.mm A')}</p>
                                     </button>
                                 </div> 
                             ))} 

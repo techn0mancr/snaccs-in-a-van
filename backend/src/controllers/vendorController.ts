@@ -1,16 +1,18 @@
 /* Import required types */
 import { compareSync } from "bcrypt";
 import { Request, Response } from "express";
+import { body, param, validationResult } from "express-validator";
 
 /* Import required constants and models */
 import {
     LATE_FULFILLMENT_TIME_WINDOW,
-    LATE_FULFILLMENT_DISCOUNT
+    LATE_FULFILLMENT_DISCOUNT,
+    MAX_NEAREST_VENDORS
 } from "../config";
 
 import {
     Order, OrderStatus,
-    Vendor
+    IVendor, Vendor
 } from "../models";
 
 
@@ -18,6 +20,17 @@ import {
 async function completeOrder(req: Request & {
     params: { orderId: string }
 }, res: Response): Promise<void> {
+    /* Validate the inputs */
+    await param("orderId")
+          .isMongoId()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
@@ -36,7 +49,7 @@ async function completeOrder(req: Request & {
 
         /* Update the order's details */
         orderToComplete.status = OrderStatus.Completed;
-        orderToComplete.completedTimestamp = new Date();
+        orderToComplete.timestamps.completed = new Date();
 
         await orderToComplete.save();
 
@@ -53,6 +66,17 @@ async function completeOrder(req: Request & {
 async function fulfillOrder(req: Request & {
     params: { orderId: string }
 }, res : Response): Promise<void> {
+    /* Validate the inputs */
+    await param("orderId")
+          .isMongoId()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
     try {
         /* Cast the ObjectIds */
         var castedOrderId: undefined = (req.params.orderId as unknown) as undefined;
@@ -71,11 +95,11 @@ async function fulfillOrder(req: Request & {
         
         /* Update the current order's details */
         orderToFulfill.status = OrderStatus.Fulfilled;
-        orderToFulfill.fulfilledTimestamp = new Date();
+        orderToFulfill.timestamps.fulfilled = new Date();
 
         /* Check if a certain amount of time has passed since placement */
         var deltaSincePlaced: number =
-            orderToFulfill.fulfilledTimestamp.getTime() - orderToFulfill.placedTimestamp.getTime();
+            orderToFulfill.timestamps.fulfilled.getTime() - orderToFulfill.timestamps.placed.getTime();
         if (deltaSincePlaced > LATE_FULFILLMENT_TIME_WINDOW)
             orderToFulfill.total *= (1 - LATE_FULFILLMENT_DISCOUNT);
 
@@ -113,8 +137,8 @@ async function getCompletedOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp completedTimestamp isChanged rating")
-         .sort("-completedTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged rating")
+         .sort("-timestamps.completed");
         
         /* Check if the query returned anything */
         if (!completedOrders || (completedOrders.length <= 0)) {
@@ -151,8 +175,8 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp fulfilledTimestamp isChanged")
-         .sort("fulfilledTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged")
+         .sort("timestamps.fulfilled");
 
         /* Check if the query returned anything */
         if (!fulfilledOrders || (fulfilledOrders.length <= 0)) {
@@ -165,6 +189,64 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
     }
+}
+
+/* Get the nearest MAX_NEAREST_VENDORS open vendors to the given geolocation tuple */
+async function getNearestOpenVendors(req: Request & {
+    params: { geolocation: string }
+}, res: Response): Promise<void> {
+    /* Validate the inputs */
+    await param("geolocation")  // should be formatted as "<latitude>,<longitude>"
+          .isLatLong()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
+    try {
+        /* Query the database for all the vendors */
+        const vendorList = await Vendor.find(
+            {
+                isOpen: true
+            }
+        ).select("email name locationDescription isOpen geolocation");
+        if (!vendorList || (vendorList.length <= 0)) {
+            res.status(204).send("No Content");
+            return;
+        }
+        
+        /* Sort the vendors based on their distance to the given geolocation */
+        var [givenLat, givenLong] = req.params.geolocation.split(",").map(Number);
+        vendorList.sort((v1: IVendor, v2: IVendor) => {
+            var [v1Lat, v1Long] = v1.geolocation;
+            var [v2Lat, v2Long] = v2.geolocation;
+            var sqDistToV1: number = Math.pow(
+                Math.pow(v1Long - givenLong, 2) +
+                Math.pow(v1Lat - givenLat, 2)
+                , 0.5);
+            var sqDistToV2: number = Math.pow(
+                Math.pow(v2Long - givenLong, 2) +
+                Math.pow(v2Lat - givenLat, 2)
+                , 0.5);
+            return sqDistToV1 - sqDistToV2;
+        });
+        
+        /* Take the nearest MAX_NEAREST_VENDORS vendors */
+        var nearestVendors: Array<IVendor> = vendorList.slice(0, MAX_NEAREST_VENDORS);
+        if (!nearestVendors || (nearestVendors.length <= 0)) {
+            res.status(204).send("No Content");
+        }
+
+        /* Send a response */
+        res.status(200).json(nearestVendors);
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+    return;
 }
 
 /* Get the given vendor's placed orders */
@@ -189,8 +271,8 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
                 model: "Item",
                 path: "items.itemId",
             }
-        ).select("customerId status items total isChanged placedTimestamp isChanged")
-         .sort("placedTimestamp");
+        ).select("customerId status items total isChanged timestamps isChanged")
+         .sort("timestamps.placed");
 
         /* Check if the query returned anything */
         if (!placedOrders || (placedOrders.length <= 0)) {
@@ -210,7 +292,7 @@ async function getProfile(req: Request, res: Response) {
     try {
         /* Query the database for the current vendor's details */
         const vendorDetails = await Vendor.findById(req.session.vendorId)
-                                          .select("email name locationDescription isOpen latitude longitude");
+                                          .select("email name locationDescription isOpen geolocation");
         if (!vendorDetails) {
             res.status(404).send("Not Found");
             return;
@@ -227,6 +309,21 @@ async function getProfile(req: Request, res: Response) {
 async function login(req: Request & {
     body: { email: String, password: String }
 }, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await body("email")
+          .isEmail()
+          .trim().escape()
+          .run(req);
+    await body("password")
+          .isAscii().isLength({ min: 8 })
+          .run(req);
+    
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    
     try {
         /* Check if a vendor with the given email exists */
         const vendor = await Vendor.findOne(
@@ -269,6 +366,22 @@ async function logout(req: Request, res: Response): Promise<void> {
 async function setVendorGeolocation(req: Request & {
     body: { latitude: number, longitude: number }
 }, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await body("latitude")
+          .isFloat()
+          .toFloat()
+          .run(req);
+    await body("longitude")
+          .isFloat()
+          .toFloat()
+          .run(req);
+    
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
     try {
         /* Query the database for the current vendor's details */
         const currentVendor = await Vendor.findById(req.session.vendorId);
@@ -278,8 +391,7 @@ async function setVendorGeolocation(req: Request & {
         }
         
         /* Update the current vendor's details */
-        currentVendor.latitude = req.body.latitude;
-        currentVendor.longitude = req.body.longitude;
+        currentVendor.geolocation = [req.body.latitude, req.body.longitude];
         await currentVendor.save();
 
         /* Send a response */
@@ -294,6 +406,18 @@ async function setVendorGeolocation(req: Request & {
 async function setVendorLocationDescription(req: Request & {
     body: { locationDescription: string }
 }, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await body("locationDescription")
+          .isAscii()
+          .trim()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
     try {
         /* Query the database for the current vendor's details */
         const currentVendor = await Vendor.findById(req.session.vendorId);
@@ -353,18 +477,15 @@ async function toggleVendorAvailability(req: Request, res: Response): Promise<vo
     }
 }
 
-
-
-///////////////////////////////////////
-
 /* Export controller functions */
 export {
     completeOrder,
     fulfillOrder,
+    getCompletedOrders,
+    getFulfilledOrders,
+    getNearestOpenVendors,
     getPlacedOrders,
     getProfile,
-    getFulfilledOrders,
-    getCompletedOrders,
     login,
     logout,
     setVendorLocationDescription,
