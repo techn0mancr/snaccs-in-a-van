@@ -1,15 +1,9 @@
 import React from 'react';
 import './nearest.css';
 import history from "../history";
-<<<<<<< HEAD
-import { getVendors, selectVendor } from "../api";
-import rightArrow from "../img/right.svg";
-import sorry from "../img/sorry.svg";
-
-=======
 import { getVendors, selectVendor, getDistance, getCustomerGeolocation } from "../api";
-import rightArrow from "../img/rightArrow.png"
->>>>>>> main
+import rightArrow from "../img/right.png"
+import sorry from "../img/sorry.svg";
 
 class ListNearest extends React.Component {
     state = {
