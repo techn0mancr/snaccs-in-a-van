@@ -41,9 +41,9 @@ class Profile extends React.Component {
     render() {
         const {details} = this.state;
         return (
-            <div className="titleLogin">
-                <h1 className="titleLog">Profile</h1>
-                
+            <div className="profile">
+                <h1 className="nVan">Profile</h1>
+                <br></br>
                 <h3>ID</h3>
                 <p className="time">{details._id}</p>
                 <h3>Email</h3>

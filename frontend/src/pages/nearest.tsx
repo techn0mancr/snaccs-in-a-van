@@ -2,7 +2,7 @@ import React from 'react';
 import './nearest.css';
 import history from "../history";
 import { getVendors, selectVendor, getDistance, getCustomerGeolocation } from "../api";
-import rightArrow from "../img/right.png"
+import rightArrow from "../img/right.svg";
 import sorry from "../img/sorry.svg";
 
 class ListNearest extends React.Component {

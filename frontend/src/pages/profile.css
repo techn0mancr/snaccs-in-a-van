@@ -12,6 +12,14 @@ body {
   
 }
 
+.profile{
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 50px;
+    text-align: left;
+
+}
+
 
 .containerProfile {
     /* width: 70vw; */
@@ -92,6 +100,12 @@ button:hover {
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
     .titleLogin {
         width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile {
+        width: 400px;
         margin-left: auto;
         margin-right: auto;
     }

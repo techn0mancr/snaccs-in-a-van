@@ -29,10 +29,6 @@ import ProfileAmendName from "./pages/profileAmend";
 import ProfileAmendPassword from "./pages/profilePassword";
 
 axios.defaults.withCredentials = true;
-<<<<<<< HEAD
-axios.defaults.baseURL = "http://localhost:48080/api";
-// axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
-=======
 
 /* Change the Axios base URL based on the environment */
 switch (process.env.NODE_ENV) {
@@ -45,7 +41,6 @@ switch (process.env.NODE_ENV) {
         break;
 }
 
->>>>>>> origin/main
 Vue.use(VueAxios, axios);
 
 export function getId() {
