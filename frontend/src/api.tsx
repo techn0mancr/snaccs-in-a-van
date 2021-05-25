@@ -188,7 +188,7 @@ export function setVendorGeolocation(latitude: number, longitude: number) {
   );
 }
 
-export function getVendorGeolocation() { ///  
+export function getVendorGeolocation() { 
 
   if (navigator.geolocation) {
 
@@ -199,69 +199,68 @@ export function getVendorGeolocation() { ///
       const lng = position.coords.longitude
       
       if (NewgeoLocation) {
-      
-          // console.log(NewgeoLocation);
           return setVendorGeolocation(lat, lng);
         }
-        //mapbox 
-  
-    
     else {
       alert("Sorry, browser does not support geolocation!");
       }
     }
-  
     const errorCallback = (error: any) => {
       console.log(error);
     }
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    
   }
 }
 
+// declare var result_location: string;
+
+
 export async function getVendors() {
-  const endpoint = `${BASE_URL}/customer/getVendors`;
+  getCustomerGeolocation();
+  const lat = localStorage.getItem("lat") as unknown as number;
+  const lng = localStorage.getItem("lng") as unknown as number;
+  const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;
   return await axios.get(endpoint);
 }
 
 export async function getCustomerGeolocation() { ///  
-
+  
   if (navigator.geolocation) {
+    var result_location;
 
-    const successCallback = (position: GeolocationPosition) => {
+    const successCallback = async (position: GeolocationPosition) => {
 
       const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
-      const lat = position.coords.latitude
-      const lng = position.coords.longitude
+      const lat = position.coords.latitude as unknown as string
+      const lng = position.coords.longitude as unknown as string
       
+      
+
       if (NewgeoLocation) {
-        return [lat, lng];
-        }
-        //mapbox 
-  
+        const lat_string = lat.toString();
+        const lng_string = lng.toString();
+        result_location =  lat_string.concat(",");
+        result_location = result_location.concat(lng_string.toString());
+        localStorage.setItem("lat",lat);
+        localStorage.setItem("lng",lng);
+        localStorage.setItem("CustomerLocation",result_location);
+        
+        return [lat as unknown as number , lng as unknown as number];
+        }  
     else {
       alert("Sorry, browser does not support geolocation!");
       }
     }
-  
-
     const errorCallback = (error: any) => {
       console.log(error);
     }
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    
   }
+  return result_location;
 }
 
-export function getDistance(coordinate1: number[], coordinate2: number[]) {
-  /**
-   * put coordinate1 as customer coordinate, coordinate2 as vendor coordinate
-   * This is only accurate in a 2-d plane or small planes of land like melbourne.
-   * This does not account for obstacles or road sytems.
-   */
-
-  var distance = ((coordinate2[1]-coordinate1[1])^2+(coordinate2[0]-coordinate1[0])^2)^0.5
-  return distance;
+export function getDistance(geolocation1 : number[], geolocation2: number[]) {
+  return (Math.pow(Math.pow(geolocation2[0]-geolocation1[0], 2) + Math.pow(geolocation2[1]-geolocation1[1], 2), 0.5)).toFixed(2);
 }
 
 export function setVendorLocationDescription(locationDescription: string) {

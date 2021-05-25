@@ -223,12 +223,14 @@ async function getNearestOpenVendors(req: Request & {
         vendorList.sort((v1: IVendor, v2: IVendor) => {
             var [v1Lat, v1Long] = v1.geolocation;
             var [v2Lat, v2Long] = v2.geolocation;
-            var sqDistToV1: number =
+            var sqDistToV1: number = Math.pow(
                 Math.pow(v1Long - givenLong, 2) +
-                Math.pow(v1Lat - givenLat, 2);
-            var sqDistToV2: number =
+                Math.pow(v1Lat - givenLat, 2)
+                , 0.5);
+            var sqDistToV2: number = Math.pow(
                 Math.pow(v2Long - givenLong, 2) +
-                Math.pow(v2Lat - givenLat, 2);
+                Math.pow(v2Lat - givenLat, 2)
+                , 0.5);
             return sqDistToV1 - sqDistToV2;
         });
         
