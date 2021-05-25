@@ -63,6 +63,10 @@ class Content extends React.Component {
             this.interval = setInterval(async () => { 
                 this.getPlaced();
                 this.getFulfill();
+                var now = moment(new Date());
+                var end = moment(this.state.timeStamps.placed);
+                var duration = moment.duration(now.diff(end));
+                this.setState({hour: duration.hours(), minute: duration.minutes(), second: duration.seconds()});
             }, 1000);
             } catch(e) {
                 console.log(e);
@@ -80,10 +84,6 @@ class Content extends React.Component {
                 this.setState({details: data, items: data.items, timeStamps: data.timestamps, showDetail: true});
                 if (placed === true) {
                     this.setState({readyButton: true});
-                    var now = moment(new Date());
-                    var end = moment(this.state.timeStamps.placed);
-                    var duration = moment.duration(now.diff(end));
-                    this.setState({hour: duration.hours(), minute: duration.minutes(), second: duration.seconds()});
                 } else {
                     this.setState({readyButton: false});
                 }
@@ -95,31 +95,27 @@ class Content extends React.Component {
     }
 
     handleFulfill(orderId: String) {
-        this.setState({showDetails: false});
         fulfillOrder(orderId).then(
             (response) => {
+                this.setState({showDetail: false});
                 this.getPlaced();
                 console.log(response);
             }, (error) => {
                 console.log(error);
             }
         )
-        this.getPlaced();
-        this.getFulfill();
     }
 
     handleComplete(orderId: String) {
-        this.setState({showDetails: false});
         completeOrder(orderId).then(
             (response) => {
+                this.setState({showDetail: false});
                 this.getFulfill();
                 console.log(response);
             }, (error) => {
                 console.log(error);
             }
         )
-        this.getPlaced();
-        this.getFulfill();
     }
 
     render() {
@@ -137,7 +133,7 @@ class Content extends React.Component {
                                         <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
                                             <div className ="leftBox">
                                             <p className = "p-vendorOrder">{order._id}</p>
-                                            <p className = "p-vendorOrder">{moment(order.placedTimestamp).format('h.mm A')}</p>
+                                            <p className = "p-vendorOrder">{moment(order.timestamps.placed).format('h.mm A')}</p>
                                             </div>
                                             <p className = "p-orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
                                         </div>
@@ -154,7 +150,10 @@ class Content extends React.Component {
                         { showDetail ? 
                         <div className ="orderCard">
                             <p className ="p-orderCard">{details._id}</p>
-                            <p className = "p-orderTime">{moment(details.placedTimestamp).format('h.mm A')}</p>
+                            {readyButton? 
+                            <p className = "p-orderTime">{moment(details.timestamps.placed).format('h.mm A')}</p>
+                            :
+                            <p className = "p-orderTime">{moment(details.timestamps.fulfilled).format('h.mm A')}</p>}
                             <p className="p-detailsName">{details.customerId.givenName} {details.customerId.familyName}</p>
                             { items.map((item, i) => (
                                 <div key={i}>
@@ -163,7 +162,7 @@ class Content extends React.Component {
                             ))}
                             { readyButton ? 
                                 <div>
-                                    <h4 className="time">Time Elapsed: {hour}h {minute}m {second}s</h4>
+                                    <p>Time Elapsed: {hour}h {minute}m {second}s</p>
                                     <button type="button" className="btn-vendorOrder" onClick={() => this.handleFulfill(details._id)}>Ready</button>
                                 </div>
                             :
@@ -182,7 +181,7 @@ class Content extends React.Component {
                                         <div className="perOrder" onClick={() => this.handleDisplay(fulfill._id, false)}>
                                             <div className="leftBox">
                                                 <p className = "p-vendorOrder">{fulfill._id}</p>
-                                                <p className = "p-vendorOrder">{moment(fulfill.placedTimestamp).format('h.mm A')}</p>
+                                                <p className = "p-vendorOrder">{moment(fulfill.timestamps.fulfilled).format('h.mm A')}</p>
                                             </div>
                                             <p className = "p-orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
                                             <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Completed</button>
