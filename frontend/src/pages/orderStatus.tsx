@@ -36,7 +36,11 @@ class Status extends React.Component {
     state = {
         details: [] as any,
         timeStamps: [] as any,
-        fulfilled: false
+        fulfilled: false,
+        hour: 0,
+        minute: 0,
+        second: 0,
+        showEdit: false
     }
 
     orderId = getId() || "";
@@ -45,7 +49,13 @@ class Status extends React.Component {
     async componentDidMount() {
         try {
             this.interval = setInterval(async () => { 
+                this.checkTimeLimit();
                 this.orderDetails(this.orderId);
+                var now = moment(new Date());
+                var end = moment(this.state.timeStamps.placed);
+                var duration = moment.duration(now.diff(end));
+                this.setState({hour: duration.hours(), minute: duration.minutes(), second: duration.seconds()});
+                console.log(duration);
             }, 1000);
             } catch(e) {
                 console.log(e);
@@ -54,6 +64,13 @@ class Status extends React.Component {
     
     componentWillUnmount() {
         clearInterval(this.interval);
+    }
+
+    checkTimeLimit() {
+        const {hour, minute} = this.state;
+        if (minute < 10 && hour < 0) {
+            this.setState({showEdit: true});
+        }
     }
 
     orderDetails(orderId: String) {
@@ -66,16 +83,15 @@ class Status extends React.Component {
                 } else if (data.status === "Completed") {
                     history.push(`/order/details/?id=${this.orderId}`)
                 }
-                console.log(data.status);
                 console.log(response);
             }, (error) => {
                 console.log(error);
             }
         )
     }
-
+ 
     render() {
-        const { details, fulfilled, timeStamps } = this.state;
+        const { details, fulfilled, timeStamps, hour, minute, second, showEdit } = this.state;
 
         return (
             <div>
@@ -85,8 +101,10 @@ class Status extends React.Component {
                 </div>
 
                 <div className="orderTime">
-                    <h4 className="time">Time Elapsed: 5m 30s</h4>
-                    <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/order/checkout`)}>Edit or Cancel Order</button>
+                    <h4 className="time">Time Elapsed: {hour}h {minute}m {second}s</h4>
+                    {showEdit ?
+                        <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/order/checkout`)}>Edit or Cancel Order</button>
+                    :null}
                 </div>
 
                 <div className="orderTime">
