@@ -52,10 +52,10 @@ class Profile extends React.Component {
                 <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1 className="titleLogin">Change Password</h1>
                 <h3>Password</h3>
-                <input id="password" type="text" name="password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
+                <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
                 <p className="menu-p">Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters</p><br/>
                 <h3>Confirm Password</h3>
-                <input id="confirm" type="text" name="confirm" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/><br/><br/>
+                <input id="confirm" type="password" name="confirm" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/><br/><br/>
                 <br />
                 <button className="login" type="submit" onClick={this.handleSubmit}>
                     <h2 className="click">Change Password</h2>
