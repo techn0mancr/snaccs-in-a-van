@@ -2,10 +2,11 @@ import React from 'react';
 import './profile.css';
 import { customerProfile, customerLogout } from '../api';
 import history from '../history';
+import pencilEdit from '../img/penEdit.png';
 
 class Profile extends React.Component {
     state = {   
-        details: [] as any
+        details: [] as any,
     }
 
     componentWillMount() {
@@ -42,14 +43,23 @@ class Profile extends React.Component {
         return (
             <div className="titleLogin">
                 <h1 className="titleLog">Profile</h1>
+                
                 <h3>ID</h3>
                 <p className="time">{details._id}</p>
                 <h3>Email</h3>
                 <p className="time">{details.email}</p>
-                <h3>Given Name</h3>
-                <p className="time">{details.givenName}</p>
-                <h3>Family Name</h3>
-                <p className="time">{details.familyName}</p>
+                <h3>Name</h3>
+                <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/customer/profile/amend/name`)}>
+                    <input type="image" className="edit" alt="Edit" src={pencilEdit}/>
+                    Edit Name
+                </button>
+                <p className="time">{details.givenName} {details.familyName}</p>
+                <h3>Password</h3>
+                <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/customer/profile/amend/password`)}>
+                    <input type="image" className="edit" alt="Edit" src={pencilEdit}/>
+                    Change Password
+                </button>
+                <p className="time">********</p>
                 <br />
                 <button className="login" type="submit" onClick={this.handleSubmit}>
                     <h2 className="click">Log out</h2>
