@@ -82,9 +82,14 @@ export function customerLogout() {
   return axios.patch(endpoint);
 }
 
-export function customerProfileAmend(givenName: String, familyName: String) {
+export function customerProfileAmendName(givenName: String, familyName: String) {
   const endpoint = `${BASE_URL}/customer/profile/amend`;
   return axios.patch(endpoint, { givenName, familyName });
+}
+
+export function customerProfileAmendPassword(password: String) {
+  const endpoint = `${BASE_URL}/customer/profile/amend`;
+  return axios.patch(endpoint, { password });
 }
 
 export function customerProfile() {

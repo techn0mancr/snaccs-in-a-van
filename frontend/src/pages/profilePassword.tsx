@@ -1,6 +1,6 @@
 import React from 'react';
 import './profile.css';
-import { customerProfile, customerProfileAmendName} from '../api';
+import { customerProfile, customerProfileAmendPassword} from '../api';
 import history from '../history';
 
 class Profile extends React.Component {
@@ -41,27 +41,23 @@ class Profile extends React.Component {
 
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        const {givenName, familyName} = this.state;
-        customerProfileAmendName(givenName, familyName)
+        const {password} = this.state;
+        customerProfileAmendPassword(password);
         history.push('/customer/profile');
     }
 
     render() {
-        const {_id, email, givenName, familyName} = this.state;
+        const {givenName, familyName} = this.state;
         return (
             <div className="titleLogin">
-                <h1 className="titleLog">Change Name</h1>
-                <h3>ID</h3>
-                <p className="time">{_id}</p>
-                <h3>Email</h3>
-                <p className="time">{email}</p>
-                <h3>Given Name</h3>
+                <h1 className="titleLog">Change Password</h1>
+                <h3>Password</h3>
                 <input id="first" type="text" name="givenName" placeholder={givenName} value={givenName} onChange={this.handleChange} required/><br/><br/>
-                <h3>Family Name</h3>
+                <h3>Confirm Password</h3>
                 <input id="last" type="text" name="familyName" placeholder={familyName} value={familyName} onChange={this.handleChange} required/><br/><br/>
                 <br />
                 <button className="login" type="submit" onClick={this.handleSubmit}>
-                    <h2 className="click">Save Changes</h2>
+                    <h2 className="click">Change Password</h2>
                 </button>
             </div>
         )
