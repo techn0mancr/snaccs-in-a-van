@@ -87,10 +87,10 @@ export function customerProfile() {
   return axios.get(endpoint);
 }
 
-// export function customerProfileAmmend() {
-//   const endpoint = `${BASE_URL}/customer/profile/amend`;
-//   return axios.get(endpoint);
-// }
+export function customerProfileAmmend() {
+  const endpoint = `${BASE_URL}/customer/profile/amend`;
+  return axios.get(endpoint);
+}
 
 export function customerRegister(email: String, givenName: String, familyName: String, password: String) {
   const endpoint = `${BASE_URL}/customer/register`;

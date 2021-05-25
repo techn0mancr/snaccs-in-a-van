@@ -1,8 +1,7 @@
 import React from 'react';
 import './profile.css';
-import { customerProfile, customerLogout } from '../api';
+import { customerProfile, customerProfileAmmend} from '../api';
 import history from '../history';
-import pencilEdit from '../img/penEdit.png';
 
 class Profile extends React.Component {
     state = {   
@@ -34,8 +33,7 @@ class Profile extends React.Component {
 
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        customerLogout();
-        history.push('/customer/login');
+        history.push('/customer/profile');
     }
 
     render() {
@@ -43,10 +41,6 @@ class Profile extends React.Component {
         return (
             <div className="titleLogin">
                 <h1 className="titleLog">Profile</h1>
-                <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/customer/profile/amend`)}>
-                    <input type="image" className="edit" src={pencilEdit}/>
-                    Edit Profile
-                </button><br/>
                 <h3>ID</h3>
                 <p className="time">{details._id}</p>
                 <h3>Email</h3>
@@ -57,7 +51,7 @@ class Profile extends React.Component {
                 <p className="time">{details.familyName}</p>
                 <br />
                 <button className="login" type="submit" onClick={this.handleSubmit}>
-                    <h2 className="click">Log out</h2>
+                    <h2 className="click">Save Changes</h2>
                 </button>
             </div>
         )
