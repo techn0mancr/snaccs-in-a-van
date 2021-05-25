@@ -40,15 +40,20 @@ class Status extends React.Component {
     }
 
     orderId = getId() || "";
+    interval!: NodeJS.Timeout;
 
     async componentDidMount() {
         try {
-            setInterval(async () => { 
+            this.interval = setInterval(async () => { 
                 this.orderDetails(this.orderId);
             }, 1000);
             } catch(e) {
                 console.log(e);
             }
+    }
+    
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     orderDetails(orderId: String) {

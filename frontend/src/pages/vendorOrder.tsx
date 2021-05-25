@@ -28,6 +28,8 @@ class Content extends React.Component {
         readyButton: false
     }
 
+    interval!: NodeJS.Timeout;
+
     getPlaced() {
         getPlacedOrders().then(
             (response) => {
@@ -54,13 +56,17 @@ class Content extends React.Component {
 
     async componentDidMount() {
         try {
-            setInterval(async () => { 
+            this.interval = setInterval(async () => { 
                 this.getPlaced();
                 this.getFulfill();
             }, 1000);
             } catch(e) {
                 console.log(e);
             }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     handleDisplay(orderId: String, placed: Boolean) {
