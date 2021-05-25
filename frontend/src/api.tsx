@@ -119,20 +119,6 @@ async function getCustomerGeolocation() {
   }
 }
 
-// function getCompletedOrders() {
-//   const endpoint = `${BASE_URL}/orders/completed`;
-//   return axios.get(endpoint);
-// }
-
-
-
-
-// declare var result_location: string;
-
-
-
-
-
 async function getFulfilledOrders() {
   const endpoint = `${BASE_URL}/vendor/orders/fulfilled`;
   return await axios.get(endpoint);
@@ -172,7 +158,7 @@ async function getVendors() {
   return await axios.get(endpoint);
 }
 
-function getVendorGeolocation() { ///  
+function getVendorGeolocation() { 
 
   if (navigator.geolocation) {
     var result_location;
@@ -211,6 +197,7 @@ function getVendorGeolocation() { ///
 function getDistance(geolocation1 : number[], geolocation2: number[]) {
   return (Math.pow(Math.pow(geolocation2[0]-geolocation1[0], 2) + Math.pow(geolocation2[1]-geolocation1[1], 2), 0.5)).toFixed(2);
 }
+
 async function rateOrder(orderId: String, rating: number, comment: string) {
   const endpoint = `${BASE_URL}/customer/order/${orderId}/rate`;
   return await axios.patch(endpoint, { orderId, rating: rating, comments: comment });

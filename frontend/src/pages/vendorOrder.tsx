@@ -24,9 +24,15 @@ class Content extends React.Component {
         fulfillOrders: [] as any[],
         details: [] as any,
         items: [] as any[],
+        timeStamps: [] as any,
         showDetail: false,
-        readyButton: false
+        readyButton: false,
+        hour: 0,
+        minute: 0,
+        second: 0,
     }
+
+    interval!: NodeJS.Timeout;
 
     getPlaced() {
         getPlacedOrders().then(
@@ -54,7 +60,7 @@ class Content extends React.Component {
 
     async componentDidMount() {
         try {
-            setInterval(async () => { 
+            this.interval = setInterval(async () => { 
                 this.getPlaced();
                 this.getFulfill();
             }, 1000);
@@ -63,13 +69,21 @@ class Content extends React.Component {
             }
     }
 
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     handleDisplay(orderId: String, placed: Boolean) {
         getOrderDetails(orderId).then(
             (response) => {
                 var data = response.data;
-                this.setState({details: data, items: data.items, showDetail: true});
+                this.setState({details: data, items: data.items, timeStamps: data.timestamps, showDetail: true});
                 if (placed === true) {
                     this.setState({readyButton: true});
+                    var now = moment(new Date());
+                    var end = moment(this.state.timeStamps.placed);
+                    var duration = moment.duration(now.diff(end));
+                    this.setState({hour: duration.hours(), minute: duration.minutes(), second: duration.seconds()});
                 } else {
                     this.setState({readyButton: false});
                 }
@@ -109,7 +123,7 @@ class Content extends React.Component {
     }
 
     render() {
-        const { placedOrders, fulfillOrders, details, items, showDetail, readyButton } = this.state;
+        const { placedOrders, fulfillOrders, details, items, showDetail, readyButton, hour, minute, second } = this.state;
 
         return (
             <div className ="row">
@@ -148,7 +162,10 @@ class Content extends React.Component {
                                 </div>
                             ))}
                             { readyButton ? 
-                                <button type="button" className="btn-vendorOrder" onClick={() => this.handleFulfill(details._id)}>Ready</button>
+                                <div>
+                                    <h4 className="time">Time Elapsed: {hour}h {minute}m {second}s</h4>
+                                    <button type="button" className="btn-vendorOrder" onClick={() => this.handleFulfill(details._id)}>Ready</button>
+                                </div>
                             :
                             null }
                         </div>

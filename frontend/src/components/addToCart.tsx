@@ -23,7 +23,6 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
     data: "",
     name: "",
     price: 0,
-    id: "",
     mimetype: "",
   });
 
@@ -48,18 +47,16 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
         console.log(error);
       }
     );
-    if (id) {
-      getItemDetails(id).then((response: { data: any }) => {
-        console.log("item details: ", response);
-        var res = response.data;
-        console.log(res);
-        setItem({
-          ...res,
-          id: res._id,
-        });
+    getItemDetails(id).then((response: { data: any }) => {
+      console.log("item details: ", response);
+      var res = response.data;
+      console.log(res);
+      setItem({
+        ...res,
+        id: res._id,
       });
-    }
-  }, []);
+    });
+  });
 
   // Sends a POST request to the API of a specified itemID and quantity
   function add(itemID: string, quantity: number) {

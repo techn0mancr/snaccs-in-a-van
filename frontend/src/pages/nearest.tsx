@@ -11,6 +11,7 @@ class ListNearest extends React.Component {
     }
 
     componentDidMount() {
+        getCustomerGeolocation();
         getVendors().then(
             (response) => {
                 if (response)
