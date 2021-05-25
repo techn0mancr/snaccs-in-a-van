@@ -26,6 +26,7 @@ const VanInfo = () => {
     locationDescription: "",
     geolocation: [0,0]
   });
+
   const vendorId = getId() || "";
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const VanInfo = () => {
       .catch((error) =>
         console.log("Got an error fetching the Profile: ", error)
       );
-  }, []);
+  });
 
   return (
     <div className="van-card">
@@ -54,10 +55,10 @@ const VanInfo = () => {
       <div className="van-container">
         <h1 className="menu-h1">{profile?.name}</h1>
         <h2 className="menu-h2">{profile?.locationDescription}</h2>
-        {/* <br />
+        <br />
         <h3 className="menu-h3">
-          {profile.geolocation[0]}, {profile.geolocation[1]}
-        </h3> */}
+          {profile?.geolocation[0]}, {profile?.geolocation[1]}
+        </h3>
         <p className="menu-p">{getDistance([localStorage.getItem("lat") as unknown as number, 
                                             localStorage.getItem("lng") as unknown as number],
                                              profile.geolocation)} km away from you</p>
@@ -91,7 +92,7 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
         console.log(error);
       }
     );
-  }, []);
+  });
 
   return state.error ? (
     <h2>No menu at the moment</h2>

@@ -20,7 +20,9 @@ class Header extends React.Component {
 
 class Vendor extends React.Component {
     state = {
-        profile: [] as any
+        profile: [] as any, 
+        lat: "",
+        lng: ""
     }
 
     vendorId = getId() || "";
@@ -29,21 +31,23 @@ class Vendor extends React.Component {
     getMenu(this.vendorId).then(
             (response) => {
                 var data = response.data;
-                this.setState({profile: data.vendorId});
+                this.setState({profile: data.vendorId, lat: data.vendorId.geolocation[0], lng: data.vendorId.geolocation[1]});
                 console.log(response);
+                console.log(data.vendorId.geolocation[0]);
             }, (error) => {
                 console.log(error);
             }
         )
     } 
+    
     render() {
-        const { profile } = this.state;
+        const { profile, lat, lng } = this.state;
 
         return (
             <div className="containerCheckout" id="loc">
                 <h2 className="pickup">Pick up location</h2>
                 <p className="address">{profile.name}</p>
-                <p className="desc">{profile.locationDescription} ({profile.latitude},{profile.longitude})</p>
+                <p className="desc">{profile.locationDescription} ({lat}, {lng})</p>
             </div>
         )
     }
