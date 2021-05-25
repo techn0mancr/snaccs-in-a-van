@@ -44,7 +44,7 @@ class Profile extends React.Component {
             <div className="titleLogin">
                 <h1 className="titleLog">Profile</h1>
                 <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/customer/profile/amend`)}>
-                    <input type="image" className="edit" src={pencilEdit}/>
+                    <input type="image" className="edit" alt="Edit" src={pencilEdit}/>
                     Edit Profile
                 </button><br/>
                 <h3>ID</h3>
