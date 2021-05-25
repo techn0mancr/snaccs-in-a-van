@@ -99,15 +99,15 @@ async function getCustomerGeolocation() {
 
   if (navigator.geolocation) {
 
-    const successCallback = (position: GeolocationPosition) => {
+    const successCallback = async (position: GeolocationPosition) => {
 
       const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
       const lat = position.coords.latitude
       const lng = position.coords.longitude
       
       if (NewgeoLocation) {
-        window.sessionStorage.setItem("lat",lat as any as string);
-        window.sessionStorage.setItem("lng",lng as any as string);
+        await window.sessionStorage.setItem("lat",lat as any as string);
+        await window.sessionStorage.setItem("lng",lng as any as string);
 
         // window.sessionStorage.setItem("CustomerLocation",result_location);
         }
@@ -173,7 +173,10 @@ function getVendorGeolocation() {
       const lng = position.coords.longitude as unknown as string
       
       if (NewgeoLocation) {
-        return setVendorGeolocation(lat as any as number , lng as any as number);
+        window.sessionStorage.setItem("vendorLat",lat as any as string);
+        window.sessionStorage.setItem("vendorLng",lng as any as string);
+
+        setVendorGeolocation(lat as any as number , lng as any as number);
         }  
     else {
       alert("Sorry, browser does not support geolocation!");
