@@ -14,7 +14,7 @@ class ListNearest extends React.Component {
         getCustomerGeolocation();
         getVendors().then(
             (response) => {
-                if (response)
+                // if (response)
                 var data = response.data
                 this.setState({vendors: data})
                 console.log(response);
@@ -47,8 +47,8 @@ class ListNearest extends React.Component {
                                         <img alt="right arrow" className="right" src={rightArrow} />
                                             <h2 className ="nVan">{vendor.name}</h2>
                                             <h3 className="nVan">{vendor.locationDescription}</h3>
-                                            <p className="nVan">{getDistance([localStorage.getItem("lat") as unknown as number, 
-                                            localStorage.getItem("lng") as unknown as number],
+                                            <p className="nVan">{getDistance([window.sessionStorage.getItem("lat") as unknown as number, 
+                                            window.sessionStorage.getItem("lng") as unknown as number],
                                              vendor.geolocation)} kms away...</p>
                                             <i className="fas fa-chevron-right"></i>
                                         </div>
