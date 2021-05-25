@@ -85,7 +85,10 @@ function App() {
         </Switch>
       </Router>
       {open && (
-        <AddToCart id={itemId} open={open} handleClose={() => setOpen(false)} />
+        <AddToCart 
+        id={itemId} 
+        open={open} 
+        handleClose={() => setOpen(false)} />
       )}
     </div>
   );

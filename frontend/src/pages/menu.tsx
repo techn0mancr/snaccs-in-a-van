@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./menu.css";
 import history from "../history";
 import { getMenu, getCart } from "../api";
+import leftArrow from "../img/leftArrow.png";
 import { getId } from "../App";
 
 const currencyOptions = {
@@ -13,26 +14,66 @@ function toTwoDecimalPlaces(number: number) {
   return number.toLocaleString(undefined, currencyOptions);
 }
 
-const VanInfo = () => (
-  <div className="van-card">
-    <div className="van-image"></div>
-    <div className="van-container">
-      <h1 className="menu-h1">Tasty Trailer</h1>
-      <h2 className="menu-h2">757 Swanston St, Parkville VIC 3010</h2>
-      <br />
-      <h3 className="menu-h3">next to Stop 1</h3>
-      <p className="menu-p">0.25 km away from you</p>
+interface Profile {
+  name: string;
+  locationDescription: string;
+  latitude: number;
+  longitude: number;
+}
+
+const VanInfo = () => {
+  const [profile, setProfile] = useState<Profile>({
+    name: "",
+    locationDescription: "",
+    latitude: 0,
+    longitude: 0,
+  });
+  const vendorId = getId() || "";
+
+  useEffect(() => {
+    getMenu(vendorId)
+      .then(
+        (response) => {
+          setProfile(response.data.vendorId);
+        },
+        (error) => console.log("Got an error fetching the Profile: ", error)
+      )
+      .catch((error) =>
+        console.log("Got an error fetching the Profile: ", error)
+      );
+  }, []);
+
+  return (
+    <div className="van-card">
+      <input
+        type="image"
+        alt="back"
+        className="back"
+        src={leftArrow}
+        onClick={() => history.goBack()}
+      />
+      <div className="van-image"></div>
+      <div className="van-container">
+        <h1 className="menu-h1">{profile?.name}</h1>
+        <h2 className="menu-h2">{profile?.locationDescription}</h2>
+        <br />
+        <h3 className="menu-h3">
+          {profile?.latitude}, {profile?.longitude}
+        </h3>
+        <p className="menu-p">0.25 km away from you</p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 interface ItemsProps {
   openModalForAddingItemWithId: (id: string) => void;
 }
 
 const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
+  const vendorId = getId() || "";
   const [state, setState] = useState({
-    vendorId: "60707b103ed89dee65af78a2",
+    vendorId,
     error: null,
     isLoaded: false,
     menuList: [] as any[],
@@ -41,7 +82,7 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
   useEffect(() => {
     getMenu(state.vendorId).then(
       (response) => {
-        var data = response.data;
+        var data = response.data.items;
         setState({ ...state, isLoaded: true, menuList: data });
         console.log(response);
       },
@@ -67,7 +108,6 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
               alt={menu.itemId.name}
             />
             <div className="menu-container">
-              {/* EDIT THIS BUTTON */}
               <button
                 type="button"
                 className="menu-button"
@@ -75,7 +115,6 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
               >
                 Add{" "}
               </button>
-              {/* <button type="button" className="menu-button" onClick={() => addToCart(menu.itemId._id)}>Add </button> */}
               <h2 className="menu-h2">{menu.itemId.name}</h2>
               <br />
               <h3 className="menu-h3">
@@ -83,7 +122,6 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
               </h3>
             </div>
           </div>
-          {/* {popupItem && addToCart(menu.itemId._id)} */}
         </div>
       ))}
     </div>
@@ -99,7 +137,6 @@ class Checkout extends React.Component {
   };
 
   vendorId = getId() || "";
-
 
   componentDidMount() {
     getCart().then(

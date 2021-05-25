@@ -68,6 +68,7 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
       (response) => {
         console.log("success", response);
         alert(`Added ${quantity}x ${item.name}`);
+        handleClose({}, "backdropClick");
       },
       (error) => {
         console.log("error", error);
