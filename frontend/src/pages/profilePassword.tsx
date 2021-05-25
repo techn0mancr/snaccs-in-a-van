@@ -1,15 +1,14 @@
 import React from 'react';
 import './profile.css';
+import leftArrow from '../img/leftArrow.png';
 import { customerProfile, customerProfileAmendPassword} from '../api';
 import history from '../history';
+import passwordSchema from "../models/passwordSchema";
 
 class Profile extends React.Component {
     state = {   
-        _id: "",
-        email: "",
-        givenName: "",
-        familyName: "",
-        password: ""
+        password: "",
+        confirm: ""
     }
 
     componentWillMount() {
@@ -25,36 +24,38 @@ class Profile extends React.Component {
         );
     }
 
-    componentDidMount() {
-        customerProfile().then(
-            (response) => {
-                var data = response.data;
-                this.setState({ _id: data._id, email: data.email, givenName: data.givenName, familyName: data.familyName });
-                console.log(response);
-            }
-        );
-    }
-
     handleChange = (event: { target: { name: any; value: String; }; }) => {
         this.setState({ [event.target.name]: event.target.value });
     }
 
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        const {password} = this.state;
-        customerProfileAmendPassword(password);
-        history.push('/customer/profile');
+
+        const {password, confirm} = this.state;
+        if (password === confirm) {
+            if (passwordSchema.validate(password)) {
+                customerProfileAmendPassword(password);
+                alert("Password successfuly changed!");
+                history.push('/customer/profile');
+            } else {
+                alert("Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters")
+            }
+        } else {
+            alert("Please enter the same password");
+        }
     }
 
     render() {
-        const {givenName, familyName} = this.state;
+        const {password, confirm} = this.state;
         return (
             <div className="titleLogin">
-                <h1 className="titleLog">Change Password</h1>
+                <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
+                <h1 className="titleLogin">Change Password</h1>
                 <h3>Password</h3>
-                <input id="first" type="text" name="givenName" placeholder={givenName} value={givenName} onChange={this.handleChange} required/><br/><br/>
+                <input id="password" type="text" name="password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
+                <p className="menu-p">Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters</p><br/>
                 <h3>Confirm Password</h3>
-                <input id="last" type="text" name="familyName" placeholder={familyName} value={familyName} onChange={this.handleChange} required/><br/><br/>
+                <input id="confirm" type="text" name="confirm" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/><br/><br/>
                 <br />
                 <button className="login" type="submit" onClick={this.handleSubmit}>
                     <h2 className="click">Change Password</h2>

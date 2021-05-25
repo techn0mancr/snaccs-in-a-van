@@ -1,5 +1,6 @@
 import React from 'react';
 import './profile.css';
+import leftArrow from '../img/leftArrow.png';
 import { customerProfile, customerProfileAmendName} from '../api';
 import history from '../history';
 
@@ -42,7 +43,8 @@ class Profile extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         const {givenName, familyName} = this.state;
-        customerProfileAmendName(givenName, familyName)
+        customerProfileAmendName(givenName, familyName);
+        alert("Name successfuly changed!");
         history.push('/customer/profile');
     }
 
@@ -50,6 +52,7 @@ class Profile extends React.Component {
         const {_id, email, givenName, familyName} = this.state;
         return (
             <div className="titleLogin">
+                                <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1 className="titleLog">Change Name</h1>
                 <h3>ID</h3>
                 <p className="time">{_id}</p>
