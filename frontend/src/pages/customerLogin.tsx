@@ -28,8 +28,8 @@ class CustomerLogin extends React.Component {
             <div className="titleLogin">
                 <h1 className="titleLog">Log In</h1>
                 <br/>
-                <h2>Don't have an account? </h2>
-                <button className="signup" type="button" onClick={() => history.push(`/customer/register`)}><h2>Sign up here</h2></button>
+                <h2 className="titleLog">Don't have an account? </h2>
+                <button className="signup" type="button" onClick={() => history.push(`/customer/register`)}><h2 className="titleLog">Sign up here</h2></button>
              </div>
              <br/>
 
