@@ -106,7 +106,10 @@ async function getCustomerGeolocation() {
       const lng = position.coords.longitude
       
       if (NewgeoLocation) {
-          return setVendorGeolocation(lat, lng);
+        window.sessionStorage.setItem("lat",lat as any as string);
+        window.sessionStorage.setItem("lng",lng as any as string);
+
+        // window.sessionStorage.setItem("CustomerLocation",result_location);
         }
     else {
       alert("Sorry, browser does not support geolocation!");
@@ -152,8 +155,8 @@ async function getPlacedOrders() {
 
 async function getVendors() {
   getCustomerGeolocation();
-  const lat = localStorage.getItem("lat") as unknown as number;
-  const lng = localStorage.getItem("lng") as unknown as number;
+  const lat = window.sessionStorage.getItem("lat") as any as number;
+  const lng = window.sessionStorage.getItem("lng") as any as number;
   const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;
   return await axios.get(endpoint);
 }
@@ -169,22 +172,12 @@ function getVendorGeolocation() {
       const lat = position.coords.latitude as unknown as string
       const lng = position.coords.longitude as unknown as string
       
-      
-
       if (NewgeoLocation) {
-        const lat_string = lat.toString();
-        const lng_string = lng.toString();
-        result_location =  lat_string.concat(",");
-        result_location = result_location.concat(lng_string.toString());
-        localStorage.setItem("lat",lat);
-        localStorage.setItem("lng",lng);
-        localStorage.setItem("CustomerLocation",result_location);
-        
-        return [lat as unknown as number , lng as unknown as number];
+        return setVendorGeolocation(lat as any as number , lng as any as number);
         }  
     else {
       alert("Sorry, browser does not support geolocation!");
-      }
+      } 
     }
     const errorCallback = (error: any) => {
       console.log(error);
