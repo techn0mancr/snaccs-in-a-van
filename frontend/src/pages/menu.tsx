@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart } from "../api";
+import { getMenu, getCart, getDistance } from "../api";
 import leftArrow from "../img/leftArrow.png";
 import { getId } from "../App";
 
@@ -17,16 +17,14 @@ function toTwoDecimalPlaces(number: number) {
 interface Profile {
   name: string;
   locationDescription: string;
-  latitude: number;
-  longitude: number;
+  geolocation: number[];
 }
 
 const VanInfo = () => {
   const [profile, setProfile] = useState<Profile>({
     name: "",
     locationDescription: "",
-    latitude: 0,
-    longitude: 0,
+    geolocation: [0,0]
   });
   const vendorId = getId() || "";
 
@@ -56,11 +54,13 @@ const VanInfo = () => {
       <div className="van-container">
         <h1 className="menu-h1">{profile?.name}</h1>
         <h2 className="menu-h2">{profile?.locationDescription}</h2>
-        <br />
+        {/* <br />
         <h3 className="menu-h3">
-          {profile?.latitude}, {profile?.longitude}
-        </h3>
-        <p className="menu-p">0.25 km away from you</p>
+          {profile.geolocation[0]}, {profile.geolocation[1]}
+        </h3> */}
+        <p className="menu-p">{getDistance([localStorage.getItem("lat") as unknown as number, 
+                                            localStorage.getItem("lng") as unknown as number],
+                                             profile.geolocation)} km away from you</p>
       </div>
     </div>
   );

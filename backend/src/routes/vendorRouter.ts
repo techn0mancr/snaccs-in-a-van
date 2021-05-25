@@ -15,6 +15,7 @@ vendorRouter.use(jsonParser);
 /* Handle vendor routes at /api/vendor/... */
 vendorRouter.patch("/login", controller.login);
 vendorRouter.patch("/logout", middleware.authenticate, controller.logout);
+vendorRouter.get("/nearest/:geolocation", controller.getNearestOpenVendors);
 vendorRouter.get("/profile", middleware.authenticate, controller.getProfile);
 vendorRouter.patch("/order/:orderId/fulfill", middleware.authenticate, controller.fulfillOrder);
 vendorRouter.patch("/order/:orderId/complete", middleware.authenticate, controller.completeOrder);

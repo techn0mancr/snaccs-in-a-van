@@ -16,6 +16,7 @@ const SESSIONS_COLLECTION_NAME = "sessions";
 /* Application-related constants */
 const LATE_FULFILLMENT_TIME_WINDOW = timestring("15mins", "ms");
 const LATE_FULFILLMENT_DISCOUNT = 0.2;
+const MAX_NEAREST_VENDORS = 5;
 
 const ORDER_AMENDMENT_TIME_WINDOW = timestring("10mins", "ms");
 
@@ -32,6 +33,7 @@ export {
     
     LATE_FULFILLMENT_TIME_WINDOW,
     LATE_FULFILLMENT_DISCOUNT,
+    MAX_NEAREST_VENDORS,
 
     ORDER_AMENDMENT_TIME_WINDOW,
 
