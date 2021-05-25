@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
-import './nav.css';
-
+import '../css/nav.css';
 
 import Home from "../img/navBar/home.png";
 import Cart from "../img/navBar/cart.png";
@@ -11,7 +10,7 @@ export default function Nav() {
 
     return (
         <nav className="navBar">
-            <NavLink className="contentNav" exact to="/menu/list">
+            <NavLink className="contentNav" exact to="/menu">
  
                 <img className="nav" src={Home} alt="Home"/>
             </NavLink>

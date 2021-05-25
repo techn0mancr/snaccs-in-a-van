@@ -41,10 +41,12 @@ class Information extends React.Component {
     details: [] as any,
     items: [] as any[],
     vendorId: [] as any,
+    timeStamps: [] as any,
+    rating: null
   };
 
   orderId = getId() || "";
-
+  
   componentDidMount() {
     getOrderDetails(this.orderId).then(
       (response) => {
@@ -52,9 +54,12 @@ class Information extends React.Component {
         this.setState({
           isLoaded: true,
           details: data,
+          timeStamps: data.timestamps,
           vendorId: data.vendorId,
           items: data.items,
+          rating: data.rating
         });
+        console.log(data.rating)
         console.log(response);
       }, (error) => {
         this.setState({ isLoaded: true, error });
@@ -64,7 +69,7 @@ class Information extends React.Component {
   }
 
   render() {
-    const { error, details, vendorId, items } = this.state;
+    const { error, details, vendorId, items, timeStamps, rating } = this.state;
 
     if (error === true) {
       return <h2>fail</h2>;
@@ -75,10 +80,12 @@ class Information extends React.Component {
             <h2 className="invoice">INVOICE: {details._id}</h2>
             <br />
             <h2 className="invoice">
-              {moment(details.placedTimestamp).format("D MMM YYYY h.mm A")}
+              {moment(timeStamps.completed).format("D MMM YYYY h.mm A")}
             </h2>
             <br/>
+            {rating == null ?
             <button className="signup" type="submit" value="signup" onClick={() => history.push(`/order/rate/?id=${this.orderId}`)}><h2>Rate Order</h2></button>
+            :null}
           </div>
 
           <div className="containerCheckout" id="loc">
