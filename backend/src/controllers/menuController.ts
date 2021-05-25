@@ -65,7 +65,7 @@ async function getMenu(req: Request & {
             {
                 "model": "Vendor",
                 "path": "vendorId",
-                "select": "email name locationDescription isOpen latitude longitude"
+                "select": "email name locationDescription isOpen geolocation"
             }
         ).populate(
             {
