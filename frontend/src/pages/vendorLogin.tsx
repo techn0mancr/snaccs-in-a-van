@@ -18,6 +18,7 @@ class VendorLogin extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
+        getVendorGeolocation();
         const { email, password } = this.state;
         vendorLogin(email, password);
     }

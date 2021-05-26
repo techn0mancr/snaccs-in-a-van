@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { setVendorLocationDescription, setVendorAvailability, getVendorGeolocation, vendorProfile } from '../api';
+import { setVendorLocationDescription, setVendorAvailability, vendorProfile, getVendorGeolocation } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -21,8 +21,7 @@ class Description extends React.Component {
     
     state = {
         desc: "",
-        profile: [] as any,
-        geolocation: [] as any
+        profile: [] as any
     };
 
     componentDidMount() {
@@ -30,7 +29,7 @@ class Description extends React.Component {
         vendorProfile().then(
             (response) => {
                 var data = response.data;
-                this.setState({profile: data, geolocation: data.geolocation});
+                this.setState({profile: data});
                 console.log(response);
             }, (error) => {
                 console.log(error);
@@ -52,12 +51,12 @@ class Description extends React.Component {
     }
 
     render() {
-    const { desc, geolocation } = this.state;
+    const { desc } = this.state;
     return (
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>{geolocation[0]},{geolocation[1]}</p>
+                <p>{window.sessionStorage.getItem("vendorLat") as any as number},{window.sessionStorage.getItem("vendorLng") as any as number}</p>
             </div>
 
             <form onSubmit={this.handleSubmit}>

@@ -9,7 +9,7 @@ class Profile extends React.Component {
         details: [] as any,
     }
 
-    componentWillMount() {
+    componentWillMount() {    
         customerProfile().then(
             (response) => {
                 console.log(response);

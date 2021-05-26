@@ -14,7 +14,7 @@ switch (process.env.NODE_ENV) {
 }
 
 function addItemToCart(itemId: String, quantity: number) {
-  const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
+  const endpoint = `${BASE_URL}/customer/cart/edit/${itemId}`;
   return axios.patch(endpoint, { itemId, quantity: quantity });
 }
 
@@ -99,14 +99,17 @@ async function getCustomerGeolocation() {
 
   if (navigator.geolocation) {
 
-    const successCallback = (position: GeolocationPosition) => {
+    const successCallback = async (position: GeolocationPosition) => {
 
       const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
       const lat = position.coords.latitude
       const lng = position.coords.longitude
       
       if (NewgeoLocation) {
-          return setVendorGeolocation(lat, lng);
+        await window.sessionStorage.setItem("lat",lat as any as string);
+        await window.sessionStorage.setItem("lng",lng as any as string);
+
+        // window.sessionStorage.setItem("CustomerLocation",result_location);
         }
     else {
       alert("Sorry, browser does not support geolocation!");
@@ -118,20 +121,6 @@ async function getCustomerGeolocation() {
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
   }
 }
-
-// function getCompletedOrders() {
-//   const endpoint = `${BASE_URL}/orders/completed`;
-//   return axios.get(endpoint);
-// }
-
-
-
-
-// declare var result_location: string;
-
-
-
-
 
 async function getFulfilledOrders() {
   const endpoint = `${BASE_URL}/vendor/orders/fulfilled`;
@@ -166,13 +155,13 @@ async function getPlacedOrders() {
 
 async function getVendors() {
   getCustomerGeolocation();
-  const lat = localStorage.getItem("lat") as unknown as number;
-  const lng = localStorage.getItem("lng") as unknown as number;
+  const lat = window.sessionStorage.getItem("lat") as any as number;
+  const lng = window.sessionStorage.getItem("lng") as any as number;
   const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;
   return await axios.get(endpoint);
 }
 
-function getVendorGeolocation() { ///  
+function getVendorGeolocation() { 
 
   if (navigator.geolocation) {
     var result_location;
@@ -183,22 +172,15 @@ function getVendorGeolocation() { ///
       const lat = position.coords.latitude as unknown as string
       const lng = position.coords.longitude as unknown as string
       
-      
-
       if (NewgeoLocation) {
-        const lat_string = lat.toString();
-        const lng_string = lng.toString();
-        result_location =  lat_string.concat(",");
-        result_location = result_location.concat(lng_string.toString());
-        localStorage.setItem("lat",lat);
-        localStorage.setItem("lng",lng);
-        localStorage.setItem("CustomerLocation",result_location);
-        
-        return [lat as unknown as number , lng as unknown as number];
+        window.sessionStorage.setItem("vendorLat",lat as any as string);
+        window.sessionStorage.setItem("vendorLng",lng as any as string);
+
+        setVendorGeolocation(lat as any as number , lng as any as number);
         }  
     else {
       alert("Sorry, browser does not support geolocation!");
-      }
+      } 
     }
     const errorCallback = (error: any) => {
       console.log(error);
@@ -211,6 +193,7 @@ function getVendorGeolocation() { ///
 function getDistance(geolocation1 : number[], geolocation2: number[]) {
   return (Math.pow(Math.pow(geolocation2[0]-geolocation1[0], 2) + Math.pow(geolocation2[1]-geolocation1[1], 2), 0.5)).toFixed(2);
 }
+
 async function rateOrder(orderId: String, rating: number, comment: string) {
   const endpoint = `${BASE_URL}/customer/order/${orderId}/rate`;
   return await axios.patch(endpoint, { orderId, rating: rating, comments: comment });

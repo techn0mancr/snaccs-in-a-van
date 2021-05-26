@@ -26,6 +26,18 @@ class ListActiveOrder extends React.Component {
         orderList: [] as any[]
     }
 
+    interval!: NodeJS.Timeout;
+
+    async componentDidMount() {
+        try {
+            this.interval = setInterval(async () => { 
+                this.activeOrders();
+            }, 1000);
+            } catch(e) {
+                console.log(e);
+            }
+    }
+
     componentWillMount() {
         customerProfile().then(
             (response) => {
@@ -36,17 +48,11 @@ class ListActiveOrder extends React.Component {
               history.push("/customer/login");
               console.log(error);
             }
-          );
+        );
     }
 
-    async componentDidMount() {
-        try {
-            setInterval(async () => { 
-                this.activeOrders();
-            }, 1000);
-            } catch(e) {
-                console.log(e);
-            }
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
     
     activeOrders() {
