@@ -38,10 +38,12 @@ i.fa-chevron-right{
 
 h2.nVan {
     font-size: 14px;
+    margin-bottom: 0px;
 }
 
 h3.nVan {
     font-size: 10px;
+    margin-top: -3px;
 }
 
 p.nVan{

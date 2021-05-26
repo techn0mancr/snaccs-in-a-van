@@ -12,12 +12,17 @@
     box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
 }
 
+.vendorGeolocation{
+    width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: right;
+}
+
 .container {
     background-color: #FFFFFF;
     width: 420px;
     padding: 15px;
-    margin-right: auto;
-    margin-left: auto;
     margin-top: 20px;
     text-align: left;
     border-radius: 20px;
@@ -25,10 +30,10 @@
 
 
 input[type=text].vendorProfile {
-    background-color: #C4C4C4;
+    background-color: #E0E0E0;
     border-radius: 10px;
     border: none;
-    opacity: 52%;
+    opacity: 100%;
     width: 90%;
     font-size: 18px;
     font-style: normal;
@@ -37,6 +42,7 @@ input[type=text].vendorProfile {
     letter-spacing: 0px;
     text-align: left;
     padding: 15px 10px;
+    color: #AFB1BA;
 }
 
 input[type=image].vendorProfile {
@@ -90,6 +96,7 @@ input[type=image].vendorProfile {
     box-shadow: 0px 10px 10px #F6F6F6;
     color: white;
     cursor: pointer;
+
 }
 
 .closeStore {
@@ -104,6 +111,8 @@ input[type=image].vendorProfile {
     border: 2px solid #dd7070;
     color: #dd7070;
     cursor: pointer;
+    
+
 }
 
 

@@ -53,7 +53,7 @@ class Description extends React.Component {
     render() {
     const { desc } = this.state;
     return (
-        <div>
+        <div className ="vendorGeolocation">
             <div className="container">
                 <h2>Current location</h2>
                 <p>{window.sessionStorage.getItem("vendorLat") as any as number},{window.sessionStorage.getItem("vendorLng") as any as number}</p>
@@ -64,7 +64,7 @@ class Description extends React.Component {
                     <label id="location"><h2>Location Description</h2></label>
                     <input className="vendorProfile" type="text" placeholder="Enter text..." name="desc" value={desc} onChange={this.handleChange} required />
                 </div>
-                <br/><br/><br/>
+                <br/>
                 <button type="submit" value="open" className="open">Open Store</button>
             </form>
         </div>
