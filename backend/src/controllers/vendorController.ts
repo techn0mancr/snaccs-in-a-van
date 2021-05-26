@@ -309,7 +309,7 @@ async function login(req: Request & {
 }, res: Response): Promise<void> {
     /* Validate and sanitize the inputs */
     await body("name")
-          .isAlphanumeric()
+          .isAscii()
           .trim().escape()
           .run(req);
     await body("password")
