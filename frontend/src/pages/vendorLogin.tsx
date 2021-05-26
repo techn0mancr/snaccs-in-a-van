@@ -1,6 +1,6 @@
 import React from 'react';
 import './vendorLogin.css';
-import { vendorLogin } from '../api';
+import { vendorLogin, getVendorGeolocation } from '../api';
 import vendor from "../img/vendor.svg";
 
 

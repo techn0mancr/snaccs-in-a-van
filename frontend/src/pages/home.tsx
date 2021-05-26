@@ -14,7 +14,7 @@ class Home extends React.Component {
                 {/* <h1 className="home">Snaccs In A Van</h1> */}
                 <h2 className="home">I am a ...</h2>
                 <span className="landingbtn">
-                <button className="home" type="button" onClick={() => history.push(`/menu/list`)}>Customer</button>
+                <button className="home" type="button" onClick={() => history.push(`/menu`)}>Customer</button>
                 <button className="login" type="button" onClick={() => history.push(`/vendor/login`)}>Vendor</button>
                 </span>
             </div>
