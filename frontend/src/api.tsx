@@ -14,7 +14,7 @@ switch (process.env.NODE_ENV) {
 }
 
 function addItemToCart(itemId: String, quantity: number) {
-  const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
+  const endpoint = `${BASE_URL}/customer/cart/edit/${itemId}`;
   return axios.patch(endpoint, { itemId, quantity: quantity });
 }
 
