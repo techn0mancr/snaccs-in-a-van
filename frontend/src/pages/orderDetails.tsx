@@ -42,12 +42,24 @@ class Information extends React.Component {
     items: [] as any[],
     vendorId: [] as any,
     timeStamps: [] as any,
-    rating: null
+    rating: null,
+    showDiscount: false,
+    totalAmount: 0,
+    paidAmount: 0,
+    discount: 0,
   };
 
   orderId = getId() || "";
-  
+
+  componentWillMount() {
+    this.orderDetails(this.orderId);
+  }
+
   componentDidMount() {
+    this.checkDiscount();
+  }  
+
+  orderDetails(orderId: String) {
     getOrderDetails(this.orderId).then(
       (response) => {
         var data = response.data;
@@ -57,9 +69,11 @@ class Information extends React.Component {
           timeStamps: data.timestamps,
           vendorId: data.vendorId,
           items: data.items,
-          rating: data.rating
-        });
-        console.log(data.rating)
+          rating: data.rating,
+          paidAmount: data.total,
+          totalAmount: data.total
+        })
+        this.checkDiscount();;
         console.log(response);
       }, (error) => {
         this.setState({ isLoaded: true, error });
@@ -68,8 +82,22 @@ class Information extends React.Component {
     );
   }
 
+  checkDiscount() {
+    const { timeStamps, paidAmount } = this.state;
+    var fulfilled = moment(timeStamps.fulfilled);
+    console.log(timeStamps.fulfilled);
+    console.log(timeStamps.placed);
+    var placed = moment(timeStamps.placed);
+    var duration = moment.duration(fulfilled.diff(placed));
+    if (duration.minutes() > 15 || duration.hours() > 0) {
+      var totalAmount = paidAmount*1.25;
+      var discount = totalAmount-paidAmount;
+      this.setState({showDiscount: true, totalAmount: totalAmount, discount: discount});
+    }
+  }
+
   render() {
-    const { error, details, vendorId, items, timeStamps, rating } = this.state;
+    const { showDiscount, error, details, vendorId, items, timeStamps, rating, paidAmount, totalAmount, discount } = this.state;
 
     if (error === true) {
       return <h2>fail</h2>;
@@ -104,7 +132,6 @@ class Information extends React.Component {
                       {item.quantity}x {item.itemId.name}
                     </h3>
                   </div>
-
                   <p className="price">${toTwoDecimalPlaces(item.subtotal)}</p>
                 </div>
               </div>
@@ -116,15 +143,26 @@ class Information extends React.Component {
 
             <div className="amount">
               <h3 className="payment">Total amount</h3>
-              <h3 className="value">${details.total}</h3>
+              <h3 className="value">${totalAmount}</h3>
             </div>
-            <br></br>
-            <br></br>
+            {showDiscount? 
+            <div className="amount">
+              <h3 className="payment">20% discount</h3>
+              <h3 className="value">${discount}</h3>
+            </div>
+            :
+            <div>
+              <br></br>
+              <br></br>
+            </div>
+            }
+            
+            
             <br></br>
 
             <div className="amountPaid">
               <h3 className="payment">Amount to be paid</h3>
-              <h3 className="value">${details.total}</h3>
+              <h3 className="value">${paidAmount}</h3>
             </div>
           </div>
         </div>

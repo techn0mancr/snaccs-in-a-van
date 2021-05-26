@@ -25,15 +25,21 @@ class ListPastOrder extends React.Component {
         isLoaded: false,
         orderList: [] as any[]
     }
+    
+    interval!: NodeJS.Timeout;
 
     async componentDidMount() {
         try {
-            setInterval(async () => { 
+            this.interval = setInterval(async () => { 
                 this.pastOrders();
             }, 1000);
             } catch(e) {
                 console.log(e);
             }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     pastOrders() {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart } from "../api";
+import { getMenu, getCart, getDistance } from "../api";
 import leftArrow from "../img/leftArrow.png";
 import { getId } from "../App";
 
@@ -17,17 +17,16 @@ function toTwoDecimalPlaces(number: number) {
 interface Profile {
   name: string;
   locationDescription: string;
-  latitude: number;
-  longitude: number;
+  geolocation: number[];
 }
 
 const VanInfo = () => {
   const [profile, setProfile] = useState<Profile>({
     name: "",
     locationDescription: "",
-    latitude: 0,
-    longitude: 0,
+    geolocation: [0,0]
   });
+
   const vendorId = getId() || "";
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const VanInfo = () => {
       .catch((error) =>
         console.log("Got an error fetching the Profile: ", error)
       );
-  }, []);
+  });
 
   return (
     <div className="van-card">
@@ -58,9 +57,11 @@ const VanInfo = () => {
         <h2 className="menu-h2">{profile?.locationDescription}</h2>
         <br />
         <h3 className="menu-h3">
-          {profile?.latitude}, {profile?.longitude}
+          {profile?.geolocation[0]}, {profile?.geolocation[1]}
         </h3>
-        <p className="menu-p">0.25 km away from you</p>
+        <p className="menu-p">{getDistance([window.sessionStorage.getItem("lat") as unknown as number, 
+                                            window.sessionStorage.getItem("lng") as unknown as number],
+                                             profile.geolocation)} km away from you</p>
       </div>
     </div>
   );
@@ -91,7 +92,7 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
         console.log(error);
       }
     );
-  }, []);
+  });
 
   return state.error ? (
     <h2>No menu at the moment</h2>

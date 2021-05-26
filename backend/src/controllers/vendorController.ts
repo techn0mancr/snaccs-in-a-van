@@ -6,12 +6,13 @@ import { body, param, validationResult } from "express-validator";
 /* Import required constants and models */
 import {
     LATE_FULFILLMENT_TIME_WINDOW,
-    LATE_FULFILLMENT_DISCOUNT
+    LATE_FULFILLMENT_DISCOUNT,
+    MAX_NEAREST_VENDORS
 } from "../config";
 
 import {
     Order, OrderStatus,
-    Vendor
+    IVendor, Vendor
 } from "../models";
 
 
@@ -190,6 +191,62 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
     }
 }
 
+/* Get the nearest MAX_NEAREST_VENDORS open vendors to the given geolocation tuple */
+async function getNearestOpenVendors(req: Request & {
+    params: { geolocation: string }
+}, res: Response): Promise<void> {
+    /* Validate the inputs */
+    await param("geolocation")  // should be formatted as "<latitude>,<longitude>"
+          .isLatLong()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
+    try {
+        /* Query the database for all the vendors */
+        const vendorList = await Vendor.find(
+            {
+                isOpen: true
+            }
+        ).select("email name locationDescription isOpen geolocation");
+        if (!vendorList || (vendorList.length <= 0)) {
+            res.status(204).send("No Content");
+            return;
+        }
+        
+        /* Sort the vendors based on their distance to the given geolocation */
+        var [givenLat, givenLong] = req.params.geolocation.split(",").map(Number);
+        vendorList.sort((v1: IVendor, v2: IVendor) => {
+            var [v1Lat, v1Long] = v1.geolocation;
+            var [v2Lat, v2Long] = v2.geolocation;
+            var sqDistToV1: number =
+                Math.pow(v1Long - givenLong, 2) +
+                Math.pow(v1Lat - givenLat, 2)
+            var sqDistToV2: number =
+                Math.pow(v2Long - givenLong, 2) +
+                Math.pow(v2Lat - givenLat, 2)
+            return sqDistToV1 - sqDistToV2;
+        });
+        
+        /* Take the nearest MAX_NEAREST_VENDORS vendors */
+        var nearestVendors: Array<IVendor> = vendorList.slice(0, MAX_NEAREST_VENDORS);
+        if (!nearestVendors || (nearestVendors.length <= 0)) {
+            res.status(204).send("No Content");
+        }
+
+        /* Send a response */
+        res.status(200).json(nearestVendors);
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+    return;
+}
+
 /* Get the given vendor's placed orders */
 async function getPlacedOrders(req: Request, res: Response): Promise<void> {
     try {
@@ -233,7 +290,7 @@ async function getProfile(req: Request, res: Response) {
     try {
         /* Query the database for the current vendor's details */
         const vendorDetails = await Vendor.findById(req.session.vendorId)
-                                          .select("email name locationDescription isOpen latitude longitude");
+                                          .select("email name locationDescription isOpen geolocation");
         if (!vendorDetails) {
             res.status(404).send("Not Found");
             return;
@@ -332,8 +389,7 @@ async function setVendorGeolocation(req: Request & {
         }
         
         /* Update the current vendor's details */
-        currentVendor.latitude = req.body.latitude;
-        currentVendor.longitude = req.body.longitude;
+        currentVendor.geolocation = [req.body.latitude, req.body.longitude];
         await currentVendor.save();
 
         /* Send a response */
@@ -419,18 +475,15 @@ async function toggleVendorAvailability(req: Request, res: Response): Promise<vo
     }
 }
 
-
-
-///////////////////////////////////////
-
 /* Export controller functions */
 export {
     completeOrder,
     fulfillOrder,
+    getCompletedOrders,
+    getFulfilledOrders,
+    getNearestOpenVendors,
     getPlacedOrders,
     getProfile,
-    getFulfilledOrders,
-    getCompletedOrders,
     login,
     logout,
     setVendorLocationDescription,

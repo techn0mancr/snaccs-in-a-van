@@ -14,8 +14,8 @@ customerRouter.use(jsonParser);
 
 /* Handle customer routes at /api/customer/... */
 customerRouter.get("/cart", controller.getCart);
-customerRouter.patch("/cart/add/:itemId", controller.addItemToCart);
 customerRouter.post("/cart/checkout", middleware.authenticate, controller.checkoutCart);
+customerRouter.patch("/cart/edit/:itemId", controller.editCartItem);
 customerRouter.patch("/cart/empty", controller.emptyCart);
 customerRouter.patch("/order/:orderId/amend/cancel", middleware.authenticate, controller.cancelOrderAmendment);
 customerRouter.patch("/order/:orderId/amend/finalize", middleware.authenticate, controller.finalizeOrderAmendment);
@@ -30,7 +30,6 @@ customerRouter.get("/profile", middleware.authenticate, controller.getProfile);
 customerRouter.patch("/profile/amend", middleware.authenticate, controller.amendProfileDetails);
 customerRouter.post("/register", controller.register);
 customerRouter.patch("/vendor/:vendorId/select", controller.selectVendor);
-customerRouter.get("/getVendors", controller.getVendorGeolocations);
 
 /* Export the router */
 export default customerRouter;

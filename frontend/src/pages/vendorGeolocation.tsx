@@ -2,7 +2,7 @@ import React from 'react';
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { setVendorLocationDescription, setVendorAvailability, getVendorGeolocation, vendorProfile } from '../api';
+import { setVendorLocationDescription, setVendorAvailability, vendorProfile, getVendorGeolocation } from '../api';
 
 class Header extends React.Component {
     render() {
@@ -51,12 +51,12 @@ class Description extends React.Component {
     }
 
     render() {
-    const { desc, profile } = this.state;
+    const { desc } = this.state;
     return (
         <div>
             <div className="container">
                 <h2>Current location</h2>
-                <p>{profile.latitude}, {profile.longitude}</p>
+                <p>{window.sessionStorage.getItem("vendorLat") as any as number},{window.sessionStorage.getItem("vendorLng") as any as number}</p>
             </div>
 
             <form onSubmit={this.handleSubmit}>

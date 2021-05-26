@@ -14,7 +14,7 @@ switch (process.env.NODE_ENV) {
 }
 
 function addItemToCart(itemId: String, quantity: number) {
-  const endpoint = `${BASE_URL}/customer/cart/add/${itemId}`;
+  const endpoint = `${BASE_URL}/customer/cart/edit/${itemId}`;
   return axios.patch(endpoint, { itemId, quantity: quantity });
 }
 
@@ -99,39 +99,27 @@ async function getCustomerGeolocation() {
 
   if (navigator.geolocation) {
 
-    const successCallback = (position: GeolocationPosition) => {
+    const successCallback = async (position: GeolocationPosition) => {
 
       const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
       const lat = position.coords.latitude
       const lng = position.coords.longitude
       
       if (NewgeoLocation) {
-        return [lat, lng];
+        await window.sessionStorage.setItem("lat",lat as any as string);
+        await window.sessionStorage.setItem("lng",lng as any as string);
+
+        // window.sessionStorage.setItem("CustomerLocation",result_location);
         }
-  
     else {
       alert("Sorry, browser does not support geolocation!");
       }
     }
-  
-
     const errorCallback = (error: any) => {
       console.log(error);
     }
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    
   }
-}
-
-function getDistance(coordinate1: number[], coordinate2: number[]) {
-  /**
-   * put coordinate1 as customer coordinate, coordinate2 as vendor coordinate
-   * This is only accurate in a 2-d plane or small planes of land like melbourne.
-   * This does not account for obstacles or road sytems.
-   */
-
-  var distance = ((coordinate2[1]-coordinate1[1])^2+(coordinate2[0]-coordinate1[0])^2)^0.5
-  return distance;
 }
 
 async function getFulfilledOrders() {
@@ -166,39 +154,44 @@ async function getPlacedOrders() {
 }
 
 async function getVendors() {
-  const endpoint = `${BASE_URL}/customer/getVendors`;
+  getCustomerGeolocation();
+  const lat = window.sessionStorage.getItem("lat") as any as number;
+  const lng = window.sessionStorage.getItem("lng") as any as number;
+  const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;
   return await axios.get(endpoint);
 }
 
-function getVendorGeolocation() { ///  
+function getVendorGeolocation() { 
 
   if (navigator.geolocation) {
+    var result_location;
 
-    const successCallback = (position: GeolocationPosition) => {
+    const successCallback = async (position: GeolocationPosition) => {
 
       const NewgeoLocation = [position.coords.latitude, position.coords.longitude]
-      const lat = position.coords.latitude
-      const lng = position.coords.longitude
+      const lat = position.coords.latitude as unknown as string
+      const lng = position.coords.longitude as unknown as string
       
       if (NewgeoLocation) {
-      
-          // console.log(NewgeoLocation);
-          return setVendorGeolocation(lat, lng);
-        }
-        //mapbox 
-  
-    
+        window.sessionStorage.setItem("vendorLat",lat as any as string);
+        window.sessionStorage.setItem("vendorLng",lng as any as string);
+
+        setVendorGeolocation(lat as any as number , lng as any as number);
+        }  
     else {
       alert("Sorry, browser does not support geolocation!");
-      }
+      } 
     }
-  
     const errorCallback = (error: any) => {
       console.log(error);
     }
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    
   }
+  return result_location;
+}
+
+function getDistance(geolocation1 : number[], geolocation2: number[]) {
+  return (Math.pow(Math.pow(geolocation2[0]-geolocation1[0], 2) + Math.pow(geolocation2[1]-geolocation1[1], 2), 0.5)).toFixed(2);
 }
 
 async function rateOrder(orderId: String, rating: number, comment: string) {
