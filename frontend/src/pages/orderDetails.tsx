@@ -100,7 +100,7 @@ class Information extends React.Component {
     const { showDiscount, error, details, vendorId, items, timeStamps, rating, paidAmount, totalAmount, discount } = this.state;
 
     if (error === true) {
-      return <h2>fail</h2>;
+      return <h3 className ="error">fail</h3>;
     } else {
       return (
         <div>
@@ -119,7 +119,7 @@ class Information extends React.Component {
 
           <div className="containerCheckout" id="loc">
             <h2 className="pickup">Pick up location</h2>
-            <p className="address">{vendorId.name}</p>
+            <p className="desc">{vendorId.name}</p>
             <p className="desc">{vendorId.locationDescription}</p>
           </div>
 
@@ -129,9 +129,9 @@ class Information extends React.Component {
               <div key={i}>
                 <div className="cart">
                   <div className="item">
-                    <h3>
+                    <p className="desc">
                       {item.quantity}x {item.itemId.name}
-                    </h3>
+                    </p>
                   </div>
                   <p className="price">${toTwoDecimalPlaces(item.subtotal)}</p>
                 </div>
@@ -143,24 +143,31 @@ class Information extends React.Component {
             <h2>Payment</h2>
 
             <div className="amount">
-              <h3 className="payment">Total amount</h3>
-              <h3 className="value">${totalAmount}</h3>
+              <div className="item">
+              <p className="desc">Total amount</p>
+              </div>
+              <p className="price">${totalAmount}</p>
             </div>
             {showDiscount? 
               <div className="amount">
-                <h3 className="payment">20% discount</h3>
-                <h3 className="value">${discount}</h3>
+                <div className="item">
+                <p className="desc">20% discount</p>
+                </div>
+                <p className="price">-${discount}</p>
               </div>
               :<div>
                 <br></br>
                 <br></br>
               </div>
             }
-            <br></br>
+            <hr></hr>
 
             <div className="amountPaid">
-              <h3 className="payment">Amount to be paid</h3>
-              <h3 className="value">${paidAmount}</h3>
+            <div className="item">
+              <p className="desc">Amount to be paid</p>
+              </div>
+
+              <p className="price">${paidAmount}</p>
             </div>
           </div>
         </div>

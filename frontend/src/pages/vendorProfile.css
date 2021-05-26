@@ -33,15 +33,15 @@ input[type=text].vendorProfile {
     background-color: #E0E0E0;
     border-radius: 10px;
     border: none;
-    opacity: 100%;
+    opacity: 1nn;
     width: 90%;
-    font-size: 18px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
     letter-spacing: 0px;
     text-align: left;
-    padding: 15px 10px;
+    padding: 10px 10px;
     color: #AFB1BA;
 }
 
