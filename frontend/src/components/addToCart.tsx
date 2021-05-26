@@ -91,13 +91,7 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
             />
 
             <div className="add-container">
-              <button
-                type="button"
-                className="cart-button"
-                onClick={() => add(id, itemCount)}
-              >
-                Add to Cart
-              </button>
+             
               <h2 className="cart-h2">{item.name}</h2>
               <br></br>
               <h3 className="cart-h3">
@@ -129,6 +123,13 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
                   </Button>
                   {/* <Badge color="secondary" badgeContent={itemCount}></Badge> */}
                 </ButtonGroup>
+                <button
+                type="button"
+                className="cart-button"
+                onClick={() => add(id, itemCount)}
+              >
+                Add to Cart
+              </button>
               </div>
             </div>
           </div>

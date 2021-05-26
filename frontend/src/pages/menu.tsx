@@ -95,9 +95,9 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
   });
 
   return state.error ? (
-    <h2>No menu at the moment</h2>
+    <h3 className="error">No menu at the moment</h3>
   ) : !state.isLoaded ? (
-    <h2>Loading...</h2>
+    <h3 className="error">Loading...</h3>
   ) : (
     <div className="menu">
       {state.menuList.map((menu, i) => (
@@ -125,6 +125,7 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
           </div>
         </div>
       ))}
+      <br></br><br></br>
     </div>
   );
 };
