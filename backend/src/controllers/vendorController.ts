@@ -305,11 +305,11 @@ async function getProfile(req: Request, res: Response) {
 
 /* Logs a vendor in */
 async function login(req: Request & {
-    body: { email: String, password: String }
+    body: { name: string, password: string }
 }, res: Response): Promise<void> {
     /* Validate and sanitize the inputs */
-    await body("email")
-          .isEmail()
+    await body("name")
+          .isAlphanumeric()
           .trim().escape()
           .run(req);
     await body("password")
@@ -326,7 +326,7 @@ async function login(req: Request & {
         /* Check if a vendor with the given email exists */
         const vendor = await Vendor.findOne(
             {
-                email: req.body.email.toLowerCase()
+                name: req.body.name
             }
         );
 

@@ -23,7 +23,8 @@ const vendorSchema: Schema = new Schema({
     },
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
