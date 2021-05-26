@@ -37,7 +37,6 @@ class Content extends React.Component {
         minute: 0,
         second: 0
     }
-
     interval!: NodeJS.Timeout;
 
     /* Function to call placed order from api */
@@ -68,7 +67,7 @@ class Content extends React.Component {
 
     /* During on page, re-render every second */
     async componentDidMount() {
-        /* Call placed and fulfilled order */
+        /* Get placed and fulfilled order */
         try {
             this.interval = setInterval(async () => { 
                 this.getPlaced();
@@ -213,7 +212,7 @@ class Content extends React.Component {
     }
 }
 
-/* Render all components on vendor order page */
+/* Render all components on Vendor Order Page */
 class VendorOrder extends React.Component {
     render() {
         return (

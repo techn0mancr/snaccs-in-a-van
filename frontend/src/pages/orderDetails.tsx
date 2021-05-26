@@ -1,42 +1,42 @@
 /* Import the required libraries and types */
 import React from "react";
+import moment from "moment";
+
+/* Import components */
 import "./order.css";
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import moment from "moment";
-import { getId } from "../App";
-import { getOrderDetails } from "../api";
+import { getOrderDetails, getId } from "../api";
 moment().format();
 
+/* Put currency option */
 const currencyOptions = {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 };
 
+/* Return number into 2 decimal places */
 function toTwoDecimalPlaces(number: number) {
   return number.toLocaleString(undefined, currencyOptions);
 }
 
+/* Header component of Order Details Page */
 class Header extends React.Component {
   render() {
     return (
       <div className="title">
         <br></br>
-        <input
-          type="image"
-          alt="back"
-          className="back"
-          src={leftArrow}
-          onClick={() => history.goBack()}
-        />
+        <input type="image" alt="back" className="back" src={leftArrow} onClick={() => history.goBack()}/>
         <h1>Order</h1>
         <br></br>
       </div>
-    );
+    )
   }
 }
 
+/* Content component of Order Details Page */
 class Information extends React.Component {
+
   state = {
     error: null,
     details: [] as any,
@@ -47,54 +47,53 @@ class Information extends React.Component {
     showDiscount: false,
     totalAmount: 0,
     paidAmount: 0,
-    discount: 0,
-  };
-
+    discount: 0
+  }
   orderId = getId() || "";
 
+  /* Before rendering page */
   componentWillMount() {
     this.orderDetails(this.orderId);
   }
 
+  /* During on page */
   componentDidMount() {
     this.checkDiscount();
   }  
 
+  /* Get order details from api */
   orderDetails(orderId: String) {
     getOrderDetails(this.orderId).then(
       (response) => {
         var data = response.data;
-        this.setState({
-          isLoaded: true,
-          details: data,
-          timeStamps: data.timestamps,
-          vendorId: data.vendorId,
-          items: data.items,
-          rating: data.rating,
-          paidAmount: data.total,
-          totalAmount: data.total
-        })
+        this.setState({isLoaded: true, details: data, timeStamps: data.timestamps,vendorId: data.vendorId, items: data.items, rating: data.rating,paidAmount: data.total})
         this.checkDiscount();;
         console.log(response);
       }, (error) => {
         this.setState({ isLoaded: true, error });
         console.log(error);
       }
-    );
+    )
   }
 
+   /* Check if there is discount if more than 15 minutes */
   checkDiscount() {
     const { timeStamps, paidAmount } = this.state;
     var fulfilled = moment(timeStamps.fulfilled);
-    console.log(timeStamps.fulfilled);
-    console.log(timeStamps.placed);
     var placed = moment(timeStamps.placed);
     var duration = moment.duration(fulfilled.diff(placed));
+
+     /* Count the values if more than 15 minutes */
     if (duration.minutes() > 15 || duration.hours() > 0) {
       var totalAmount = paidAmount*1.25;
       var discount = totalAmount-paidAmount;
       this.setState({showDiscount: true, totalAmount: totalAmount, discount: discount});
+    } else {
+      this.setState({totalAmount: paidAmount});
     }
+
+    console.log(timeStamps.fulfilled);
+    console.log(timeStamps.placed);
   }
 
   render() {
@@ -113,8 +112,9 @@ class Information extends React.Component {
             </h2>
             <br/>
             {rating == null ?
-            <button className="signup" type="submit" value="signup" onClick={() => history.push(`/order/rate/?id=${this.orderId}`)}><h2>Rate Order</h2></button>
-            :null}
+              <button className="signup" type="submit" value="signup" onClick={() => history.push(`/order/rate/?id=${this.orderId}`)}><h2>Rate Order</h2></button>
+              :null
+            }
           </div>
 
           <div className="containerCheckout" id="loc">
@@ -147,18 +147,15 @@ class Information extends React.Component {
               <h3 className="value">${totalAmount}</h3>
             </div>
             {showDiscount? 
-            <div className="amount">
-              <h3 className="payment">20% discount</h3>
-              <h3 className="value">${discount}</h3>
-            </div>
-            :
-            <div>
-              <br></br>
-              <br></br>
-            </div>
+              <div className="amount">
+                <h3 className="payment">20% discount</h3>
+                <h3 className="value">${discount}</h3>
+              </div>
+              :<div>
+                <br></br>
+                <br></br>
+              </div>
             }
-            
-            
             <br></br>
 
             <div className="amountPaid">
@@ -172,6 +169,7 @@ class Information extends React.Component {
   }
 }
 
+/* Render all components on Order Details Page */
 class OrderDetails extends React.Component {
   render() {
     return (

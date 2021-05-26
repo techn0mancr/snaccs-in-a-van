@@ -2,9 +2,8 @@
 import React, { useEffect, useState } from "react";
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart, getDistance } from "../api";
+import { getMenu, getCart, getDistance, getId } from "../api";
 import leftArrow from "../img/leftArrow.png";
-import { getId } from "../App";
 
 const currencyOptions = {
   minimumFractionDigits: 2,

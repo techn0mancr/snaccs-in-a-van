@@ -44,12 +44,6 @@ switch (process.env.NODE_ENV) {
 
 Vue.use(VueAxios, axios);
 
-export function getId() {
-  const query = history.location.search;
-  const id = query.replace("?id=", "");
-  return id;
-}
-
 function App() {
   const [open, setOpen] = useState(false);
   const [itemId, setItemId] = useState<string>("");
