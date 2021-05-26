@@ -1,25 +1,30 @@
+/* Import the required libraries and types */
 import React from "react";
+import moment from "moment";
+
+/* Import components */
 import './orderStatus.css';
 import leftArrow from '../img/leftArrow.png';
 import order from '../img/orderStatus/order.png';
 import prepare from '../img/orderStatus/prepare.png';
 import ready from '../img/orderStatus/ready.png';
 import dashLine from '../img/orderStatus/dashLine.png';
-import moment from "moment";
-import { getId } from "../App";
-import { getOrderDetails } from "../api";
+import { getOrderDetails, getId } from "../api";
 import history from "../history";
 moment().format();
 
+/* Put currency option */
 const currencyOptions = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
 };
 
+/* Return number into 2 decimal places */
 function toTwoDecimalPlaces(number: number) {
     return number.toLocaleString(undefined, currencyOptions);
 }
 
+/* Header component of Order Status Page */
 class Header extends React.Component {
     render() {
         return (
@@ -32,7 +37,9 @@ class Header extends React.Component {
     }
 }
 
+/* Content component of Order Status Page */
 class Status extends React.Component {
+
     state = {
         details: [] as any,
         timeStamps: [] as any,
@@ -44,13 +51,14 @@ class Status extends React.Component {
         showDiscount: false,
         totalAmount: 0,
         paidAmount: 0,
-        discount: 0,
+        discount: 0
     }
-
     orderId = getId() || "";
     interval!: NodeJS.Timeout;
 
+    /* During on page, re-render every second */
     async componentDidMount() {
+        /* Get order information, and count time */
         try {
             this.interval = setInterval(async () => { 
                 this.orderDetails(this.orderId);
@@ -67,10 +75,12 @@ class Status extends React.Component {
             }
     }
     
+    /* Clear time interval when unmount */
     componentWillUnmount() {
         clearInterval(this.interval);
     }
 
+    /* Check if time is within 10 minutes */
     checkTimeLimit() {
         const {hour, minute} = this.state;
         if (minute < 10 && hour < 0) {
@@ -78,12 +88,12 @@ class Status extends React.Component {
         }
     }
 
+    /* Get order details from api */
     orderDetails(orderId: String) {
         getOrderDetails(orderId).then(
             (response) => {
                 var data = response.data;
-                this.setState({ details: data, timeStamps: data.timestamps,paidAmount: data.total,
-                    totalAmount: data.total });
+                this.setState({ details: data, timeStamps: data.timestamps,paidAmount: data.total});
                 if (data.status === "Fulfilled") {
                     this.setState({fulfilled: true});
                 } else if (data.status === "Completed") {
@@ -96,19 +106,25 @@ class Status extends React.Component {
         )
     }
 
+    /* Check if there is discount if more than 15 minutes */
     checkDiscount() {
         const { timeStamps, paidAmount } = this.state;
         var fulfilled = moment(timeStamps.fulfilled);
-        console.log(timeStamps.fulfilled);
-        console.log(timeStamps.placed);
         var placed = moment(timeStamps.placed);
         var duration = moment.duration(fulfilled.diff(placed));
+
+        /* Count the values if more than 15 minutes */
         if (duration.minutes() > 15 || duration.hours() > 0) {
-          var totalAmount = paidAmount*1.25;
-          var discount = totalAmount-paidAmount;
-          this.setState({showDiscount: true, totalAmount: totalAmount, discount: discount});
+            var totalAmount = paidAmount*1.25;
+            var discount = totalAmount-paidAmount;
+            this.setState({showDiscount: true, totalAmount: totalAmount, discount: discount});
+        } else {
+            this.setState({totalAmount: paidAmount});
         }
-      }
+
+        console.log(timeStamps.fulfilled);
+        console.log(timeStamps.placed);
+    }
  
     render() {
         const { details, fulfilled, timeStamps, hour, minute, second, showEdit, showDiscount, totalAmount, discount, paidAmount} = this.state;
@@ -124,7 +140,8 @@ class Status extends React.Component {
                     <h4 className="time">Time Elapsed: {hour}h {minute}m {second}s</h4>
                     {showEdit ?
                         <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/order/checkout`)}>Edit or Cancel Order</button>
-                    :null}
+                        :null
+                    }
                 </div>
 
                 <div className="orderTime">
@@ -138,14 +155,12 @@ class Status extends React.Component {
                                 <img className="status line" src={dashLine} alt="Line"/>
                                 <img className="status" src={ready} alt="Ready"/>
                             </div>
-                        :
-                        <div>
-                            <img className="status line" id="notReady" src={dashLine} alt="Line"/>
-                            <img className="status" id="notReady" src={ready} alt="Ready"/>
-                        </div>
+                            :<div>
+                                <img className="status line" id="notReady" src={dashLine} alt="Line"/>
+                                <img className="status" id="notReady" src={ready} alt="Ready"/>
+                            </div>
                         }
                     </div>
-
                     <br />
                     
                     <div className="progressStatus">
@@ -159,52 +174,51 @@ class Status extends React.Component {
                             <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
                         </div>
                         {fulfilled ?
-                        <div className="status">
-                            <h3>Ready for pickup</h3>
-                            <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
-                        </div>
-                        :
-                        <div className="status">
-                            <h3 id="notReady">Ready for pickup</h3>
-                        </div>
+                            <div className="status">
+                                <h3>Ready for pickup</h3>
+                                <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
+                            </div>
+                            :<div className="status">
+                                <h3 id="notReady">Ready for pickup</h3>
+                            </div>
                         }
                     </div>
                 </div>
                 
                 {fulfilled ?
-                <div className="containerCheckout" id="payment">
-                    <h2>Payment</h2>
-                
-                    <div className="amount">
-                        <h3 className="payment">Total amount</h3>
-                        <h3 className="value">${toTwoDecimalPlaces(totalAmount)}</h3>
-                    </div>
-                    {showDiscount? 
+                    <div className="containerCheckout" id="payment">
+                        <h2>Payment</h2>
+                    
                         <div className="amount">
-                        <h3 className="payment">20% discount</h3>
-                        <h3 className="value">${discount}</h3>
+                            <h3 className="payment">Total amount</h3>
+                            <h3 className="value">${toTwoDecimalPlaces(totalAmount)}</h3>
                         </div>
-                        :
-                        <div>
-                        <br></br>
-                        <br></br>
-                        </div>
+
+                        {showDiscount? 
+                            <div className="amount">
+                                <h3 className="payment">20% discount</h3>
+                                <h3 className="value">${discount}</h3>
+                            </div>
+                            :<div>
+                                <br></br>
+                                <br></br>
+                            </div>
                         }
-                    
-                    <br></br>
-                    
-                    <div className="amountPaid">
-                        <h3 className="payment">Amount to be paid</h3>
-                        <h3 className="value">${toTwoDecimalPlaces(paidAmount)}</h3>
+                        <br></br>
+                        
+                        <div className="amountPaid">
+                            <h3 className="payment">Amount to be paid</h3>
+                            <h3 className="value">${toTwoDecimalPlaces(paidAmount)}</h3>
+                        </div>
                     </div>
-                </div>
-                :
-                null}
+                    :null
+                }
             </div>
         )
     }
 }
 
+/* Render all components on Order Status Page */
 class OrderStatus extends React.Component {
     render() {
         return (

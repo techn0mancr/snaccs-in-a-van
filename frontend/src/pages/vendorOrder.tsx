@@ -1,11 +1,15 @@
+/* Import the required libraries and types */
 import React from 'react';
+import moment from "moment";
+
+/* Import components */
 import './vendorOrder.css';
 import vanIcon from '../img/vanTruck.png';
 import history from '../history';
-import moment from "moment";
 import { fulfillOrder, completeOrder, getPlacedOrders, getFulfilledOrders, getOrderDetails } from '../api';
 moment().format();
 
+/* Header component of Vendor Order Page */
 class Header extends React.Component {
     render() {
         return (
@@ -17,7 +21,9 @@ class Header extends React.Component {
     }
 }
 
+/* Content component of Vendor Order Page */
 class Content extends React.Component {
+
     state = {
         orderId: '',
         placedOrders: [] as any[],
@@ -29,27 +35,28 @@ class Content extends React.Component {
         readyButton: false,
         hour: 0,
         minute: 0,
-        second: 0,
+        second: 0
     }
-
     interval!: NodeJS.Timeout;
 
+    /* Function to call placed order from api */
     getPlaced() {
         getPlacedOrders().then(
             (response) => {
-                var data = response.data
-                this.setState({placedOrders: data})
-                console.log(response)
+                var data = response.data;
+                this.setState({placedOrders: data});
+                console.log(response);
             }, (error) => {
                 console.log(error);
             }
         )
     }
 
+    /* Function to call fulfilled order from api */
     getFulfill() {
         getFulfilledOrders().then(
             (response) => {
-                var data = response.data
+                var data = response.data;
                 this.setState({fulfillOrders: data});
                 console.log(response);
             }, (error) => {
@@ -58,7 +65,9 @@ class Content extends React.Component {
         )
     }
 
+    /* During on page, re-render every second */
     async componentDidMount() {
+        /* Get placed and fulfilled order */
         try {
             this.interval = setInterval(async () => { 
                 this.getPlaced();
@@ -73,10 +82,12 @@ class Content extends React.Component {
             }
     }
 
+    /* Clear time interval when unmount */
     componentWillUnmount() {
         clearInterval(this.interval);
     }
 
+    /* Handle display of details */
     handleDisplay(orderId: String, placed: Boolean) {
         getOrderDetails(orderId).then(
             (response) => {
@@ -94,6 +105,7 @@ class Content extends React.Component {
         )  
     }
 
+    /* Handle when order is fulfilled by marking status as fulfilled */
     handleFulfill(orderId: String) {
         fulfillOrder(orderId).then(
             (response) => {
@@ -106,6 +118,7 @@ class Content extends React.Component {
         )
     }
 
+    /* Handle when order is complete by marking status as complete */
     handleComplete(orderId: String) {
         completeOrder(orderId).then(
             (response) => {
@@ -132,15 +145,16 @@ class Content extends React.Component {
                                     <div key={i}>
                                         <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
                                             <div className ="leftBox">
-                                            <p className = "p-vendorOrder">{order._id}</p>
-                                            <p className = "p-vendorOrder">{moment(order.timestamps.placed).format('h.mm A')}</p>
+                                                <p className = "p-vendorOrder">{order._id}</p>
+                                                <p className = "p-vendorOrder">{moment(order.timestamps.placed).format('h.mm A')}</p>
                                             </div>
                                             <p className = "p-orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                        :<h2>No more orders</h2>}
+                            :<h2>No more orders</h2>
+                        }
                     </div>
                 </div>
 
@@ -148,28 +162,28 @@ class Content extends React.Component {
                     <div className ="orderDetails">
                         <h2 className ="vendorOrder">Details</h2>
                         { showDetail ? 
-                        <div className ="orderCard">
-                            <p className ="p-orderCard">{details._id}</p>
-                            {readyButton? 
-                            <p className = "p-orderTime">{moment(details.timestamps.placed).format('h.mm A')}</p>
-                            :
-                            <p className = "p-orderTime">{moment(details.timestamps.fulfilled).format('h.mm A')}</p>}
-                            <p className="p-detailsName">{details.customerId.givenName} {details.customerId.familyName}</p>
-                            { items.map((item, i) => (
-                                <div key={i}>
-                                    <p className = "p-orderCard">{item.quantity}x {item.itemId.name}</p>
-                                </div>
-                            ))}
-                            { readyButton ? 
-                                <div>
-                                    <p>Time Elapsed: {hour}h {minute}m {second}s</p>
-                                    <button type="button" className="btn-vendorOrder" onClick={() => this.handleFulfill(details._id)}>Ready</button>
-                                </div>
-                            :
-                            null }
-                        </div>
-                        : 
-                        null }
+                            <div className ="orderCard">
+                                <p className ="p-orderCard">{details._id}</p>
+                                {readyButton? 
+                                    <p className = "p-orderTime">{moment(details.timestamps.placed).format('h.mm A')}</p>
+                                    :<p className = "p-orderTime">{moment(details.timestamps.fulfilled).format('h.mm A')}</p>
+                                }
+                                <p className="p-detailsName">{details.customerId.givenName} {details.customerId.familyName}</p>
+                                { items.map((item, i) => (
+                                    <div key={i}>
+                                        <p className = "p-orderCard">{item.quantity}x {item.itemId.name}</p>
+                                    </div>
+                                ))}
+                                { readyButton ? 
+                                    <div>
+                                        <p>Time Elapsed: {hour}h {minute}m {second}s</p>
+                                        <button type="button" className="btn-vendorOrder" onClick={() => this.handleFulfill(details._id)}>Ready</button>
+                                    </div>
+                                    :null 
+                                }
+                            </div>
+                            :null 
+                        }
                     </div>
 
                     <div className ="ordersFulfilled">
@@ -189,7 +203,8 @@ class Content extends React.Component {
                                     </div>
                                 ))}
                             </div>
-                        :<h2>No Orders Fulfilled</h2>}
+                            :<h2>No Orders Fulfilled</h2>
+                        }
                     </div>
                 </div>
             </div>
@@ -197,6 +212,7 @@ class Content extends React.Component {
     }
 }
 
+/* Render all components on Vendor Order Page */
 class VendorOrder extends React.Component {
     render() {
         return (
@@ -208,4 +224,4 @@ class VendorOrder extends React.Component {
     }
 }
 
-export default VendorOrder
+export default VendorOrder;
