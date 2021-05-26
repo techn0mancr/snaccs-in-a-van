@@ -12,17 +12,22 @@ input[type=text].vanName, input[type=password].pin {
     letter-spacing: 0em;
     width: 25%;
 }
+input.vendor{
+    width: 250px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
 
 .center {
     display: table;
     width: 100%;
 }
 
-#form {
+/* #form {
     Display: table-cell;
     text-align: center;
     vertical-align: middle;
-}
+} */
 h1.vendor {
     margin-top: 25%;
     font-size: 36px;

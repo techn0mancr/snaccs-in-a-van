@@ -154,7 +154,7 @@ async function getPlacedOrders() {
 }
 
 async function getVendors() {
-  getCustomerGeolocation();
+  await getCustomerGeolocation();
   const lat = window.sessionStorage.getItem("lat") as any as number;
   const lng = window.sessionStorage.getItem("lng") as any as number;
   const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;

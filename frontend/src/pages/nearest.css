@@ -7,14 +7,12 @@ body {
 h1.nVan {
     font-size: 24px;
     text-align: center;
-    margin-top: 40px;
+    margin-top: 70px;
 
 }
 
-
 .nearestVan-card {
     height: 82px;
-    width: 80vw;
     border-radius: 10px;    
     background: #FFFFFF;
     margin-left: auto;
@@ -22,6 +20,13 @@ h1.nVan {
     margin-top: 35px;
     padding-left: 20px;
     padding-top: 15px;
+}
+
+h3.error {
+    display: block; 
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
 }
 
 i.fa-chevron-right{
@@ -43,6 +48,15 @@ p.nVan{
     font-size: 10px;
     line-height: 0px;
     color: #A0A0A0;
+    margin-top: 5px;
+}
+
+img.nearRight {
+    width: 20px;
+    float: right;
+    margin-right: 20px;
+    padding-top: 10px;
+    box-shadow: none;
 }
 
 @media screen and (min-width: 768px) { /* for tablet-sized screens */

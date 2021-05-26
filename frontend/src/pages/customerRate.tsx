@@ -1,19 +1,19 @@
 import React from 'react';
+import "./customerRate.css";
 import leftArrow from '../img/leftArrow.png';
 import history from "../history";
-// import Empty from "../img/emptyBean.png";
-// import Filled from "../img/filledBean.png";
 import StarRatingComponent from 'react-star-rating-component';
 import { rateOrder } from "../api";
 import { getId } from '../App';
+
 
 class Header extends React.Component {
     render() {
         return (
             <div className="titleOrder">
-                <br></br><br></br>
-                <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1>Rate your experience</h1>
+            <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
+            <br></br>
+                <h1 className="h1-rate">Rate your experience</h1>
             </div>
         )
     }
@@ -52,12 +52,14 @@ class Content extends React.Component {
                 <StarRatingComponent name="rate" starCount={5} value={rating} onStarClick={this.onStarClick.bind(this)} />
                 <br/>
                 <div className ="comments">
-                    <h2 className = "comments">
+                    <h2 className = "h2-comments">
                         Additional comments
                     </h2>
+                    <br></br>
                     <form onSubmit={this.handleSubmit}>
-                        <input className="vendorProfile" type="text" placeholder="Comments" name="comment" value={comment} onChange={this.handleChange} />
-                        <button type="submit" className="btn-vendorOrder">Submit</button>
+                        <input className="customerRate" type="text" placeholder="Comments" name="comment" value={comment} onChange={this.handleChange} />
+                        <br></br>
+                        <button type="submit" className="btn-customerRate">Submit</button>
                     </form>
                 </div>
             </div>
