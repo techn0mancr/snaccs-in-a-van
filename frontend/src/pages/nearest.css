@@ -4,12 +4,11 @@ body {
     color: #3E4462;
 }
 
-h1.nVan {
-    font-size: 24px;
+ h1.nVan {
     text-align: center;
     margin-top: 70px;
 
-}
+} 
 
 .nearestVan-card {
     height: 82px;

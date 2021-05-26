@@ -1,9 +1,9 @@
 input[type=image].back {
     width: 35px;
-    /* float: left; */
-    clear: both;
-    margin-top: 5%;
-    /* margin-left: 2%; */
+    float: left;
+    top: 50px;
+    position: absolute;
+    left: 30px;
 }
 
 input[type=image].back:hover {
@@ -46,7 +46,8 @@ input[type=image].back:hover {
     padding-top: 15px;
     padding-bottom: 2%;
     margin-top: -40px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
   }
 
 img.card  {
@@ -69,7 +70,8 @@ img.card  {
     background: #FFFFFF;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 35px;
+    margin-top: 20px;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
 }
 
 .menu-container {
@@ -147,4 +149,14 @@ img.card  {
     button.menu {
         width: 700px;
     }
+
+
+    input[type=image].back {
+        width: 35px;
+        float: left;
+        top: 50px;
+        position: absolute;
+        left: 100px
+    }
+    
 } 

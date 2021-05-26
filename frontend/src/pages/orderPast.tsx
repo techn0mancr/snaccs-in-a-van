@@ -60,11 +60,11 @@ class ListPastOrder extends React.Component {
 
         if (error === true) {
             return (
-                <h2>No Order Present</h2>
+                <h3 className="error">No Order Present</h3>
             )
         } else if (isLoaded === false) {
             return (
-                <h2>Loading...</h2>
+                <h3 className="error">Loading...</h3>
             )
         } else {
             return (
@@ -83,7 +83,7 @@ class ListPastOrder extends React.Component {
                             ))} 
                         </div>
                     :
-                    <h2>No current orders</h2>}
+                    <h3 className="error">No current orders</h3>}
                 </div>
             )
         }

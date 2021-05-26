@@ -1,6 +1,6 @@
-.card.cart-img {
+/* .card.cart-img {
   border: none;
-}
+} */
 
 .add-container {
   padding-top: 5%;
@@ -11,23 +11,25 @@
 .cart-img {
   float: left;
   border: none;
+  border-radius: 0px;
   outline: none;
   padding-right: 10px;
-  padding-top: 5%;
+  padding-top: 10px;
+  margin-top: 13px;
   height: 82px;
   width: 82px;
 }
 
 .add-card {
-  width: 375px;
-  height: 273px;
-  border-radius: 30px 30px 30px 30px;
+  width: 350px;
+  height: 200px;
+  border-radius: 30px;
   background: #ffffff;
-  padding-top: 3%;
-  padding-left: 5%;
+  padding-top: 30px;
+  padding-left: 12px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 100px;
+  margin-top: 200px;
 }
 
 h1.cart-h1 {
@@ -36,6 +38,8 @@ h1.cart-h1 {
   font-weight: normal;
   font-size: 24px;
   line-height: 26px;
+  /* text-align: left; */
+
 }
 
 h2.cart-h2 {
@@ -57,25 +61,12 @@ h3.cart-h3 {
   letter-spacing: -0.24px;
   color: #ffffff;
   float: right;
-  margin-right: 15%;
-  margin-top: 2.5%;
+  margin-right: 50px;
+  /* margin-top: 2.5%; */
 }
 
 span {
   cursor: pointer;
-}
-
-.minus,
-.plus {
-  width: 20px;
-  height: 20px;
-  background: #dd7070;
-  color: #ffffff;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
 }
 
 input.quantity-input__screen {

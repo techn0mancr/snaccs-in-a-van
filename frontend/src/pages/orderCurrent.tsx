@@ -1,6 +1,5 @@
 import React from 'react';
 import './order.css';
-import rightArrow from '../img/rightArrow.png';
 import history from '../history';
 import moment from 'moment';
 import { customerProfile, getActiveOrders } from '../api';
@@ -86,7 +85,7 @@ class ListActiveOrder extends React.Component {
                             { orderList.map((order, i) => (   
                                 <div key={i}>
                                 <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/active/status/?id=${order._id}`)}>
-                                        <img alt="right arrow" className="right" src={rightArrow} />
+                                <i className="fas fa-chevron-right"></i>
                                         <h2>{order.vendorId.name}</h2>
                                         <p id="ready">{order.status}</p>
                                         <p className="date">{moment(order.timestamps.placed).format('D MMM YYYY h.mm A')}</p>

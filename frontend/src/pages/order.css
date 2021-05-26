@@ -4,6 +4,13 @@ body {
     color: #3E4462;
 }
 
+i.fa-chevron-right{
+    color: #DD7070;
+    float: right;
+    margin-top: -45px;
+    padding-right: 20px;
+}
+
 .title {
     width: 90vw;
     margin-top: 5vw;
@@ -68,6 +75,8 @@ button:hover {
     padding-bottom: 5px;
     border: none;
     text-align: left;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+
 }
 
 h2 {
@@ -83,6 +92,7 @@ p {
     font-style: normal;
     font-weight: 400;
     line-height: 10px;
+    margin-bottom: 8px;
     /* margin-left: 3px; */
 }
 
@@ -103,8 +113,9 @@ img.right {
     float: right;
     clear: right;
     margin-right: 30px;
-    padding-top: 10px;
+    padding-top: 20px;
     box-shadow: none;
+    background-color: transparent;
 }
 
 #dark {
