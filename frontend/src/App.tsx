@@ -77,24 +77,11 @@ function App() {
             <Route exact path="/order/checkout" component={Checkout} />
             <Route exact path="/order/details" component={OrderDetails} />
             <Route exact path="/menu" component={ListNearest}/>
-            <Route exact path="/menu/vendor"
-              render={() => (
-                <Menu openModalForAddingItemWithId={(id: string) => {
-                    setItemId(id);
-                    setOpen(true);
-                  }}
-                />
-              )}
-            />
+            <Route exact path="/menu/vendor" render={() => (<Menu openModalForAddingItemWithId={(id: string) => {setItemId(id); setOpen(true); }} /> )} />
           </div>
         </Switch>
       </Router>
-      {open && (
-        <AddToCart 
-        id={itemId} 
-        open={open} 
-        handleClose={() => setOpen(false)} />
-      )}
+      {open && ( <AddToCart id={itemId} open={open} handleClose={() => setOpen(false)} />)}
     </div>
   );
 }

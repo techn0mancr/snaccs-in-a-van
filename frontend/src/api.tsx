@@ -144,6 +144,13 @@ async function getFulfilledOrders() {
   return await axios.get(endpoint);
 }
 
+/* Get ID from the URL */
+function getId() {
+  const query = history.location.search;
+  const id = query.replace("?id=", "");
+  return id;
+}
+
 /* Returns the item details associated with the given itemId */
 function getItemDetails(itemId: String) {
   const endpoint = `${BASE_URL}/menu/item/${itemId}`;
@@ -329,6 +336,7 @@ export {
   getCustomerGeolocation,
   getDistance,
   getFulfilledOrders,
+  getId,
   getItemDetails,
   getMenu,
   getOrderDetails,
