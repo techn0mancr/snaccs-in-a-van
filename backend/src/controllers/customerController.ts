@@ -13,79 +13,13 @@ import {
     Customer, ICustomer,
     Item,
     ItemOrder, IItemOrder,
+    Menu,
+    IMenuItem,
     Order, IOrder,
     OrderRating,
     OrderStatus,
     Vendor
 } from "../models";
-
-/* Adds the given item, in the given quantity, to the customer's cart */
-async function addItemToCart(req: Request & {
-    params: { itemId: string },
-    body: { quantity: number }
-}, res: Response): Promise<void> {
-    /* Validate and sanitize the inputs */
-    await param("itemId")
-          .isMongoId()
-          .run(req);
-    await body("quantity")
-          .isInt()
-          .toInt()
-          .run(req);
-
-    /* Check for any validation errors */
-    if (!validationResult(req).isEmpty()) {
-        res.status(400).send("Bad Request");
-        return;
-    }
-
-    try {
-        /* Ensure that the customer's cart exists */
-        if (!req.session.cart)
-            req.session.cart = [];
-        
-        /* Assume a quantity if none was supplied */
-        if (!req.body.quantity)
-            req.body.quantity = 1;
-
-        /* Cast the ObjectIds */
-        var castedItemId: undefined = (req.params.itemId as unknown) as undefined;
-        
-        /* Check the existence of the given itemId in the database */
-        const existingItem = await Item.findById(castedItemId);
-        if (!existingItem) {
-            res.status(404).send("Not Found");
-            return;
-        }
-        
-        /* Check if an item order of the given itemId already exists in the cart */
-        var itemOrderIndex = req.session.cart.findIndex((itemOrder: IItemOrder) => itemOrder.itemId.equals(castedItemId));
-        if (itemOrderIndex > -1) {
-            /* Update the existing item order */
-            ((req.session.cart)[itemOrderIndex]).quantity += req.body.quantity;
-            ((req.session.cart)[itemOrderIndex]).subtotal += existingItem.price * req.body.quantity;
-        }
-        else {
-            /* Create a new item order */
-            var newItemOrder: IItemOrder = new ItemOrder(
-                {
-                    itemId: castedItemId,
-                    quantity: req.body.quantity,
-                    subtotal: existingItem.price * req.body.quantity
-                }
-            );
-            
-            /* Add the new item order to the cart */
-            req.session.cart.push(newItemOrder);
-        }
-        
-        /* Send a response */
-        res.status(200).send("OK");
-    }
-    catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
-    }
-}
 
 /* Amends the current customer's profile details */
 async function amendProfileDetails(req: Request & {
@@ -276,7 +210,7 @@ async function cancelOrderAmendment(req: Request & {
 /* Checks out the customer's current cart */
 async function checkoutCart(req: Request, res: Response): Promise<void> {
     try {
-        /* Ensures that the cart is populated */
+        /* Ensures that a vendor has been selected and the cart is populated */
         if (!req.session.vendorId ||
             !req.session.cart || (req.session.cart.length <= 0)) {
             res.status(403).send("Forbidden");
@@ -303,6 +237,93 @@ async function checkoutCart(req: Request, res: Response): Promise<void> {
 
         /* Send a response */
         res.status(201).send("Created");
+    }
+    catch (e) {
+        res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+}
+
+/* Edits the amount of the given item in the customer's cart by the given quantity */
+async function editCartItem(req: Request & {
+    params: { itemId: string },
+    body: { quantity: number }
+}, res: Response): Promise<void> {
+    /* Validate and sanitize the inputs */
+    await param("itemId")
+          .isMongoId()
+          .run(req);
+    await body("quantity")
+          .isInt()
+          .toInt()
+          .run(req);
+
+    /* Check for any validation errors */
+    if (!validationResult(req).isEmpty()) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+
+    try {
+        /* Ensure that the customer's cart exists */
+        if (!req.session.cart)
+            req.session.cart = [];
+        
+        /* Ensures that a vendor has been selected */
+        if (!req.session.vendorId) {
+            res.status(403).send("Forbidden");
+            return;
+        }
+
+        /* Cast the ObjectIds */
+        var castedItemId: undefined = (req.params.itemId as unknown) as undefined;
+        
+        /* Check the existence of the selected vendor's menu */
+        const menuDetails = await Menu.findOne(
+            {
+                vendorId: req.session.vendorId
+            }
+        );
+        if (!menuDetails) {
+            res.status(403).send("Forbidden");
+            return;
+        }
+
+        /* Check the existence of the item in the database and selected vendor's menu */
+        const existingItem = await Item.findById(castedItemId);
+        if (!existingItem ||
+            !menuDetails.items.some((menuItem: IMenuItem) => menuItem.itemId.equals(castedItemId))) {
+            res.status(404).send("Not Found");
+            return;
+        }
+
+        /* Check if an item order of the given itemId already exists in the cart */
+        var itemOrderIndex = req.session.cart.findIndex((itemOrder: IItemOrder) => itemOrder.itemId.equals(castedItemId));
+        if (itemOrderIndex > -1) {
+            /* Update the existing item order */
+            ((req.session.cart)[itemOrderIndex]).quantity += req.body.quantity;
+            ((req.session.cart)[itemOrderIndex]).subtotal += existingItem.price * req.body.quantity;
+
+            /* Remove the item order if its new quantity is zero or less */
+            if (((req.session.cart)[itemOrderIndex]).quantity <= 0)
+                req.session.cart.splice(itemOrderIndex, 1);
+        }
+        else {
+            /* Create a new item order */
+            var newItemOrder: IItemOrder = new ItemOrder(
+                {
+                    itemId: castedItemId,
+                    quantity: req.body.quantity,
+                    subtotal: existingItem.price * req.body.quantity
+                }
+            );
+            
+            /* Add the new item order to the cart */
+            if (req.body.quantity > 0)
+                req.session.cart.push(newItemOrder);
+        }
+        
+        /* Send a response */
+        res.status(200).send("OK");
     }
     catch (e) {
         res.status(500).send(`Internal Server Error: ${e.message}`);
@@ -844,11 +865,11 @@ async function selectVendor(req: Request & {
 
 /* Export controller functions */
 export {
-    addItemToCart,
     amendProfileDetails,
     cancelOrder,
     cancelOrderAmendment,
     checkoutCart,
+    editCartItem,
     emptyCart,
     finalizeOrderAmendment,
     getActiveOrders,
