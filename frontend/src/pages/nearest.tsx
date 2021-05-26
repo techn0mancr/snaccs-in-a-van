@@ -50,7 +50,7 @@ class ListNearest extends React.Component {
                                             <h3 className="nVan">{vendor.locationDescription}</h3>
                                             <p className="nVan">{getDistance([window.sessionStorage.getItem("lat") as unknown as number, 
                                             window.sessionStorage.getItem("lng") as unknown as number],
-                                             vendor.geolocation)} kms away...</p>
+                                             vendor.geolocation)} km away from you</p>
                                             <i className="fas fa-chevron-right"></i>
                                         </div>
                                     {/* </div> */}
