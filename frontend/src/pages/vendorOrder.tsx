@@ -1,3 +1,4 @@
+/* Import the required libraries and types */
 import React from 'react';
 import './vendorOrder.css';
 import vanIcon from '../img/vanTruck.png';

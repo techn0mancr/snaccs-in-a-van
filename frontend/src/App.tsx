@@ -1,3 +1,4 @@
+/* Import the required libraries and types */
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
@@ -6,7 +7,7 @@ import VueAxios from "vue-axios";
 import Vue from "vue";
 import history from "./history";
 
-// import components
+/* Import components */
 import Nav from "./components/nav";
 import OrderCurrent from "./pages/orderCurrent";
 import OrderPast from "./pages/orderPast";

@@ -1,13 +1,13 @@
+/* Import the required libraries and types */
 import React from 'react';
 import './vendorLogin.css';
 import { vendorLogin, getVendorGeolocation } from '../api';
 import vendor from "../img/vendor.svg";
 
-
 class VendorLogin extends React.Component {
     
     state = {
-        email: "",
+        name: "",
         password: "",
     };
 
@@ -19,12 +19,12 @@ class VendorLogin extends React.Component {
         event.preventDefault();
 
         getVendorGeolocation();
-        const { email, password } = this.state;
-        vendorLogin(email, password);
+        const { name, password } = this.state;
+        vendorLogin(name, password);
     }
 
     render() {
-    const { email, password } = this.state;
+    const { name, password } = this.state;
     return (
         <div>
             <div className="titleLogin">
@@ -35,7 +35,7 @@ class VendorLogin extends React.Component {
 
             <div className="containerProfile">
                 <form id="form" onSubmit={this.handleSubmit}> 
-                    <input type="text" name="email" value={email} placeholder="van name" onChange={this.handleChange} required />
+                    <input type="text" name="name" value={name} placeholder="van name" onChange={this.handleChange} required />
                     <br/><br/>
                     <input  type="password" name="password" placeholder="pin" value={password} onChange={this.handleChange} required/>
                     <br/><br/>

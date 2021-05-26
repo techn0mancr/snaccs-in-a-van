@@ -1,3 +1,4 @@
+/* Import the required libraries and types */
 import React, { useEffect, useState } from "react";
 import "./menu.css";
 import history from "../history";

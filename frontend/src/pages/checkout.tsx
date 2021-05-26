@@ -1,15 +1,14 @@
+/* Import the required libraries and types */
 import React, { useEffect, useState } from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-
 import "./checkout.css";
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
 import { addItemToCart, checkoutCart, getCart, getMenu } from "../api";
 import { getId } from "../App";
-import AddToCart from "../components/addToCart";
 
 class Header extends React.Component {
   render() {

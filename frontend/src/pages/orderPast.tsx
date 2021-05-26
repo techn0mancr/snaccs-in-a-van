@@ -1,3 +1,4 @@
+/* Import the required libraries and types */
 import React from "react";
 import './order.css';
 import leftArrow from "../img/leftArrow.png"
