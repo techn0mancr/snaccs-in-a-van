@@ -146,14 +146,14 @@ class Information extends React.Component {
               <div className="item">
               <p className="desc">Total amount</p>
               </div>
-              <p className="price">${totalAmount}</p>
+              <p className="price">${toTwoDecimalPlaces(totalAmount)}</p>
             </div>
             {showDiscount? 
               <div className="amount">
                 <div className="item">
                 <p className="desc">20% discount</p>
                 </div>
-                <p className="price">-${discount}</p>
+                <p className="price">-${toTwoDecimalPlaces(discount)}</p>
               </div>
               :<div>
                 <br></br>
@@ -166,7 +166,7 @@ class Information extends React.Component {
               <p className="desc">Amount to be paid</p>
               </div>
 
-              <p className="price">${paidAmount}</p>
+              <p className="price">${toTwoDecimalPlaces(paidAmount)}</p>
             </div>
           </div>
         </div>

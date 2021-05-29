@@ -47,6 +47,7 @@ h2.invoice {
     content: "";
     display: table;
     clear: both;
+    padding-top: 20px;
 }
 
 p.time {
@@ -78,15 +79,15 @@ h3 {
 }
 
 img.status {
-    width: 57.6px;
+    width: 35px;
     float: left;
     clear: left;
 }
 
 img.line {
     width: 0.5vw;
-    height: 20vw;
-    margin-left: 26px;
+    height: 65px;
+    margin-left: 16px;
 }
 
 #notReady {
@@ -94,7 +95,7 @@ img.line {
 }
 
 #status {
-    margin-bottom: 25vw;
+    margin-bottom: 60px;
 }
 
 .progressImage {
@@ -103,8 +104,8 @@ img.line {
 }
 
 .progressStatus {
-    margin-top: -2vw;
-    margin-left: 75px;
+    margin-top: -6vw;
+    margin-left: 20px;
 }
 
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
