@@ -59,19 +59,18 @@ class Profile extends React.Component {
         const {password, confirm} = this.state;
 
         return (
-            <div className="titleLogin">
+            <div className="profile">
                 <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1 className="titleLogin">Change Password</h1>
-
-                <h3>Password</h3>
-                <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
+                <h1 className="titleLog">Change Password</h1>
+                <br></br>
+                <h3>New Password</h3>
+                <input id="password" type="password" name="Enter new password" placeholder="password" value={password} onChange={this.handleChange} required/><br/><br/>
                 <p className="menu-p">Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters</p><br/>
-                
-                <h3>Confirm Password</h3>
-                <input id="confirm" type="password" name="confirm" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/><br/><br/>
-                <br />
-                
-                <button className="login" type="submit" onClick={this.handleSubmit}>
+                <h3>Confirm New Password</h3>
+                <input id="confirm" type="password" name="Confirm new password" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/><br/><br/>
+                <br/>
+                <button className="save" type="submit" onClick={this.handleSubmit}>
+
                     <h2 className="click">Change Password</h2>
                 </button>
             </div>
