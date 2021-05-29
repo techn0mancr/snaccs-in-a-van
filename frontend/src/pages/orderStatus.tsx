@@ -31,7 +31,7 @@ class Header extends React.Component {
             <div className="titleOrder">
                 <br></br><br></br>
                 <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1>Order Status</h1>
+                <h1 className="titleLog">Order Status</h1>
             </div>
         )
     }
@@ -193,6 +193,7 @@ class Status extends React.Component {
                         </div>
                     </div>
                     
+<<<<<<< HEAD
                     {fulfilled ?
                         <div className="containerCheckout" id="payment">
                             <h2>Payment</h2>
@@ -224,6 +225,43 @@ class Status extends React.Component {
                 </div>
             )
         }
+=======
+                        <div className="amount">
+                        <div className="item">
+                            <p className="desc">Total amount</p>
+                        </div>
+                            <p className="price">${toTwoDecimalPlaces(totalAmount)}</p>
+                        </div>
+
+                        {showDiscount? 
+                            <div className="amount">
+                             <div className="item">
+                                <p className="desc">20% discount</p>
+                            </div>
+                                <p className="price">-${toTwoDecimalPlaces(discount)}</p>
+                            </div>
+                            :
+                            
+                            <div>
+                                <br></br>
+                                <br></br>
+                            </div>
+                        }
+                        <br></br>
+
+                        <div className="amountPaid">
+                        <div className="item">
+                            <p className="desc">Amount to be paid</p>
+                         </div>
+                            <p className="price">${toTwoDecimalPlaces(paidAmount)}</p>
+                        </div>
+                        
+                    </div>
+                    :null
+                }
+            </div>
+        )
+>>>>>>> main
     }
 }
 

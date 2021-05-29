@@ -55,7 +55,8 @@ async function getOrderDetails(req: Request & {
         res.status(200).json(orderDetails);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Order) getOrderDetails(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 

@@ -119,8 +119,10 @@ img.right {
 }
 
 #dark {
-    filter: brightness(70%) grayscale(50%);
+    filter: brightness(70%) grayscale(50%)
 }
+
+
 
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
     .title {
