@@ -47,7 +47,8 @@ class Information extends React.Component {
     showDiscount: false,
     totalAmount: 0,
     paidAmount: 0,
-    discount: 0
+    discount: 0,
+    isLoaded: false
   }
   orderId = getId() || "";
 
@@ -97,10 +98,20 @@ class Information extends React.Component {
   }
 
   render() {
-    const { showDiscount, error, details, vendorId, items, timeStamps, rating, paidAmount, totalAmount, discount } = this.state;
+    const { showDiscount, error, details, vendorId, items, timeStamps, rating, paidAmount, totalAmount, discount, isLoaded } = this.state;
 
     if (error === true) {
       return <h3 className ="error">fail</h3>;
+    } else if (isLoaded === false) {
+      return (
+        <div>
+          <div className="title">
+            <h2 className="invoice">INVOICE: Loading...</h2>
+            <br />
+            <h2 className="invoice">Loading...</h2>
+          </div>
+        </div>
+      )
     } else {
       return (
         <div>

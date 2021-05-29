@@ -1,9 +1,13 @@
+/* Import the required libraries and types */
 import React from 'react';
+
+/* Import components */
 import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
 import { setVendorLocationDescription, setVendorAvailability, vendorProfile } from '../api';
 
+/* Header component of Vendor Geolocation Page */
 class Header extends React.Component {
     render() {
         return (
@@ -17,6 +21,7 @@ class Header extends React.Component {
     }
 }
 
+/* Geolocation component of Vendor Geolocation Page */
 class Geolocation extends React.Component {
     
     state = {
@@ -25,7 +30,9 @@ class Geolocation extends React.Component {
         isLoaded: false
     }
 
+    /* During on page */
     componentDidMount() {
+        /* Get vendor's profile */
         vendorProfile().then(
             (response) => {
                 var data = response.data;
@@ -71,21 +78,24 @@ class Geolocation extends React.Component {
     }
 }
 
+/* Description component of Vendor Geolocation Page */
 class Description extends React.Component {
 
     state = {
         desc: ""
     }
 
+    /* Set state accordingly to the target */
     handleChange = (event: { target: { name: any; value: String; }; }) => {
         this.setState({ [event.target.name]: event.target.value });
     }
     
+    /* Handle when click on submit button */
     handleSubmit = (event: { preventDefault: () => void; }) => {
-        event.preventDefault();
-
         const { desc } = this.state;
+        event.preventDefault();
         
+        /* Set vendor's location description and set status to open. Then push new entry to history */
         setVendorLocationDescription(desc);
         setVendorAvailability();
         history.push("/vendor/orders");
@@ -110,6 +120,7 @@ class Description extends React.Component {
 
 }
 
+/* Render all components on vendor geolocation page */
 class VendorGeolocation extends React.Component {
     render() {
         return (
