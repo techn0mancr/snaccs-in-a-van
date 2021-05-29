@@ -3,8 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
-import VueAxios from "vue-axios";
-import Vue from "vue";
 import history from "./history";
 
 /* Import components */
@@ -41,8 +39,6 @@ switch (process.env.NODE_ENV) {
         axios.defaults.baseURL = "http://localhost:48080/api";
         break;
 }
-
-Vue.use(VueAxios, axios);
 
 function App() {
   const [open, setOpen] = useState(false);
