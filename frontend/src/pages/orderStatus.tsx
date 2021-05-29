@@ -130,6 +130,7 @@ class Status extends React.Component {
  
     render() {
         const { details, fulfilled, timeStamps, hour, minute, second, showEdit, showDiscount, totalAmount, discount, paidAmount, isLoaded} = this.state;
+
         if (isLoaded === false) {
             return (
                 <div className="orderTime">
@@ -146,14 +147,15 @@ class Status extends React.Component {
                             :null
                         }
                     </div>
-    
+
                     <div className="titleOrder">
-                        <h3 className="nVan">Invoice: {details._id}</h3>
-                        <h3 className="nVan">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</h3>
+                        <p className="item">Invoice: {details._id}</p>
+                        <p className="item">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</p>
                     </div>
-    
+
+                    
+
                     <div className="orderTime">
-    
                         <div className="progressImage">
                             <img className="status" src={order} alt="Order"/>
                             <img className="status line" src={dashLine} alt="Line"/>
@@ -182,99 +184,71 @@ class Status extends React.Component {
                                 <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
                             </div>
                             {fulfilled ?
-                                <div className="status">
-                                    <h2 className='nVan'>Ready for pickup</h2>
-                                    <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
-                                </div>
-                                :<div className="status">
-                                    <h2 className='nVan' id="notReady">Ready for pickup</h2>
-                                </div>
+                            <div className="status">
+                                <h2 className='nVan'>Ready for pickup</h2>
+                                <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
+                            </div>
+                            :
+                            <div className="status">
+                                <h2 className='nVan' id="notReady">Ready for pickup</h2>
+                            </div>
                             }
                         </div>
                     </div>
                     
-<<<<<<< HEAD
                     {fulfilled ?
                         <div className="containerCheckout" id="payment">
                             <h2>Payment</h2>
                         
                             <div className="amount">
-                                <h3 className="payment">Total amount</h3>
-                                <h3 className="value">${toTwoDecimalPlaces(totalAmount)}</h3>
+                            <div className="item">
+                                <p className="desc">Total amount</p>
                             </div>
-    
+                                <p className="price">${toTwoDecimalPlaces(totalAmount)}</p>
+                            </div>
+
                             {showDiscount? 
                                 <div className="amount">
-                                    <h3 className="payment">20% discount</h3>
-                                    <h3 className="value">${toTwoDecimalPlaces(discount)}</h3>
+                                <div className="item">
+                                    <p className="desc">20% discount</p>
                                 </div>
-                                :<div>
+                                    <p className="price">-${toTwoDecimalPlaces(discount)}</p>
+                                </div>
+                                :
+                                
+                                <div>
                                     <br></br>
                                     <br></br>
                                 </div>
                             }
                             <br></br>
-                            
+
                             <div className="amountPaid">
-                                <h3 className="payment">Amount to be paid</h3>
-                                <h3 className="value">${toTwoDecimalPlaces(paidAmount)}</h3>
+                            <div className="item">
+                                <p className="desc">Amount to be paid</p>
                             </div>
+                                <p className="price">${toTwoDecimalPlaces(paidAmount)}</p>
+                            </div>
+                            
                         </div>
                         :null
                     }
                 </div>
             )
         }
-=======
-                        <div className="amount">
-                        <div className="item">
-                            <p className="desc">Total amount</p>
-                        </div>
-                            <p className="price">${toTwoDecimalPlaces(totalAmount)}</p>
-                        </div>
-
-                        {showDiscount? 
-                            <div className="amount">
-                             <div className="item">
-                                <p className="desc">20% discount</p>
-                            </div>
-                                <p className="price">-${toTwoDecimalPlaces(discount)}</p>
-                            </div>
-                            :
-                            
-                            <div>
-                                <br></br>
-                                <br></br>
-                            </div>
-                        }
-                        <br></br>
-
-                        <div className="amountPaid">
-                        <div className="item">
-                            <p className="desc">Amount to be paid</p>
-                         </div>
-                            <p className="price">${toTwoDecimalPlaces(paidAmount)}</p>
-                        </div>
-                        
-                    </div>
-                    :null
-                }
-            </div>
-        )
->>>>>>> main
     }
 }
 
 /* Render all components on Order Status Page */
 class OrderStatus extends React.Component {
-    render() {
-        return (
-            <div>
-                <Header />
-                <Status />
-            </div>
-        )
-    }
+render() {
+    return (
+        <div>
+            <Header />
+            <Status />
+        </div>
+    )
+}
 }
 
 export default OrderStatus;
