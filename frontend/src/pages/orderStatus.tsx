@@ -115,17 +115,19 @@ class Status extends React.Component {
 
         return (
             <div>
-                <div className="titleOrder">
-                    <h2 className="invoice">INVOICE: {details._id}</h2>
-                    <h2 className="invoice">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</h2>
-                </div>
-
                 <div className="orderTime">
-                    <h4 className="time">Time Elapsed: {hour}h {minute}m {second}s</h4>
+                    <h2 className="nVan">Time Elapsed: {hour}h {minute}m {second}s</h2>
                     {showEdit ?
                         <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/order/checkout`)}>Edit or Cancel Order</button>
                     :null}
                 </div>
+
+                <div className="titleOrder">
+                    <h3 className="nVan">Invoice: {details._id}</h3>
+                    <h3 className="nVan">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</h3>
+                </div>
+
+                
 
                 <div className="orderTime">
 
@@ -150,22 +152,22 @@ class Status extends React.Component {
                     
                     <div className="progressStatus">
                         <div className="status">
-                            <h3>Order received</h3>
+                            <h2 className='nVan'>Order received</h2>
                             <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
                         </div>
             
                         <div className="status">
-                            <h3>Preparing order</h3>
+                            <h2 className='nVan'>Preparing order</h2>
                             <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
                         </div>
                         {fulfilled ?
                         <div className="status">
-                            <h3>Ready for pickup</h3>
+                            <h2 className='nVan'>Ready for pickup</h2>
                             <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
                         </div>
                         :
                         <div className="status">
-                            <h3 id="notReady">Ready for pickup</h3>
+                            <h2 className='nVan' id="notReady">Ready for pickup</h2>
                         </div>
                         }
                     </div>
