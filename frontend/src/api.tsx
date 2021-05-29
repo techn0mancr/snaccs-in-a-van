@@ -183,7 +183,7 @@ async function getPlacedOrders() {
 
 /* Get the nearest MAX_NEAREST_VENDORS open vendors to the given geolocation tuple */
 async function getVendors() {
-  await getCustomerGeolocation();
+  getCustomerGeolocation();
   const lat = window.sessionStorage.getItem("customerLat") as any as number;
   const lng = window.sessionStorage.getItem("customerLng") as any as number;
   const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;

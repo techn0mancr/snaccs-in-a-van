@@ -5,7 +5,7 @@ import React from 'react';
 import './nearest.css';
 import history from "../history";
 import rightArrow from "../img/right.svg";
-import { getVendors, selectVendor, getDistance, getCustomerGeolocation } from "../api";
+import { getVendors, selectVendor, getDistance } from "../api";
 
 /* Content component of List Nearest Page */
 class ListNearest extends React.Component {
@@ -18,7 +18,6 @@ class ListNearest extends React.Component {
     /* During on page */
     componentDidMount() {
         /* Get customer geolocation then find vendors near customer */
-        getCustomerGeolocation();
         getVendors().then(
             (response) => {
                 var data = response.data

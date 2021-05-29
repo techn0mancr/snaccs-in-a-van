@@ -27,6 +27,7 @@ import ListNearest from "./pages/nearest";
 import ProfileAmendName from "./pages/profileAmend";
 import ProfileAmendPassword from "./pages/profilePassword";
 
+/* Enable credentials to be shared among pages */
 axios.defaults.withCredentials = true;
 
 /* Change the Axios base URL based on the environment */
@@ -40,6 +41,7 @@ switch (process.env.NODE_ENV) {
         break;
 }
 
+/* Component to create routes */
 function App() {
   const [open, setOpen] = useState(false);
   const [itemId, setItemId] = useState<string>("");
