@@ -174,7 +174,7 @@ class Checkout extends React.Component {
             </h3>
           </button>
         </div>
-      );
+      )
     }
   }
 }

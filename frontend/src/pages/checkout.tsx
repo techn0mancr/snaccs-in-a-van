@@ -193,12 +193,7 @@ const CheckoutButton = () => {
 
   return (
     <div className="fixed-bottom orderCheckout">
-      <button
-        className="orderCheckout"
-        type="submit"
-        value="order"
-        onClick={handleSubmit}
-      >
+      <button className="orderCheckout" type="submit" value="order" onClick={handleSubmit} >
         <h3 className="payment" id="order">
           Place order
         </h3>

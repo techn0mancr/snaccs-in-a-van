@@ -200,7 +200,7 @@ class Status extends React.Component {
                         {showDiscount? 
                             <div className="amount">
                                 <h3 className="payment">20% discount</h3>
-                                <h3 className="value">${discount}</h3>
+                                <h3 className="value">${toTwoDecimalPlaces(discount)}</h3>
                             </div>
                             :<div>
                                 <br></br>
