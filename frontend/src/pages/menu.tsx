@@ -1,15 +1,19 @@
 /* Import the required libraries and types */
 import React, { useEffect, useState } from "react";
+
+/* Import components */
 import "./menu.css";
 import history from "../history";
 import { getMenu, getCart, getDistance, getId } from "../api";
 import leftArrow from "../img/leftArrow.png";
 
+/* Put currency option */
 const currencyOptions = {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
-};
+}
 
+/* Return number into 2 decimal places */
 function toTwoDecimalPlaces(number: number) {
   return number.toLocaleString(undefined, currencyOptions);
 }

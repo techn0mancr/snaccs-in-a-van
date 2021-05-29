@@ -74,8 +74,10 @@ class Content extends React.Component {
                 this.getFulfill();
                 var now = moment(new Date());
                 var end = moment(this.state.timeStamps.placed);
-                var duration = moment.duration(now.diff(end));
-                this.setState({hour: duration.hours(), minute: duration.minutes(), second: duration.seconds()});
+                var difference = moment.duration(now.diff(end), 'milliseconds');
+                var interval = 900000;
+                var remaining = moment.duration(interval - difference.asMilliseconds(), 'milliseconds');
+                this.setState({hour: remaining.hours(), minute: remaining.minutes(), second: remaining.seconds()});
             }, 1000);
             } catch(e) {
                 console.log(e);
@@ -175,7 +177,7 @@ class Content extends React.Component {
                                 ))}
                                 { readyButton ? 
                                     <div>
-                                        <p>Time Elapsed: {hour}h {minute}m {second}s</p>
+                                        <p>Time Remaining: {hour}h {minute}m {second}s</p>
                                         <button type="button" className="btn-vendorOrder" onClick={() => this.handleFulfill(details._id)}>Ready</button>
                                     </div>
                                     :null 

@@ -17,7 +17,7 @@ moment().format();
 const currencyOptions = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-};
+}
 
 /* Return number into 2 decimal places */
 function toTwoDecimalPlaces(number: number) {
@@ -144,8 +144,6 @@ class Status extends React.Component {
                     <h3 className="nVan">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</h3>
                 </div>
 
-                
-
                 <div className="orderTime">
 
                     <div className="progressImage">
@@ -176,14 +174,13 @@ class Status extends React.Component {
                             <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
                         </div>
                         {fulfilled ?
-                        <div className="status">
-                            <h2 className='nVan'>Ready for pickup</h2>
-                            <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
-                        </div>
-                        :
-                        <div className="status">
-                            <h2 className='nVan' id="notReady">Ready for pickup</h2>
-                        </div>
+                            <div className="status">
+                                <h2 className='nVan'>Ready for pickup</h2>
+                                <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
+                            </div>
+                            :<div className="status">
+                                <h2 className='nVan' id="notReady">Ready for pickup</h2>
+                            </div>
                         }
                     </div>
                 </div>

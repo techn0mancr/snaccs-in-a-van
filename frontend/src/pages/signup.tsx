@@ -65,7 +65,7 @@ class CustomerSignup extends React.Component {
                         <br/><br/>
                         <input id="password" type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} required/>
                         <br/><br/>
-                        <p className="menu-p">Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters</p>
+                        <p className="menu-p">Please enter at least 1 alphabetical character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters</p>
                         <br/><br/>
                         <input id="confirm password" type="password" name="confirm" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/>
                         <br/><br/>
