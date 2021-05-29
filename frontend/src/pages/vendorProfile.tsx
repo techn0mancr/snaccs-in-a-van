@@ -3,6 +3,7 @@ import './vendorProfile.css';
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
 import { vendorProfile, vendorLogout, setVendorAvailability } from '../api';
+import VendorGeolocation from './vendorGeolocation';
 
 class Header extends React.Component {
     render() {
@@ -10,7 +11,7 @@ class Header extends React.Component {
             <div className="title">
                 <br/><br/>
                 <input className="vendorProfile" type="image" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1>Vendor Profile</h1>
+                <h1 className="titleLog">Vendor Profile</h1>
                 <br/>
             </div>
         )
@@ -62,19 +63,20 @@ class Description extends React.Component {
     const { details, geolocation } = this.state;
     
     return (
-        <div>
-            <div className="container">
+        <div className ="vendorGeolocation">
+            <div className="geoContainer">
                 <h2>Current location</h2>
-                <p>{geolocation[0]},{geolocation[1]}</p>
-                
-            </div>
+                <p>{geolocation[0]},{geolocation[1]}</p> 
+                </div>
 
-            <div className="container">
+            <div className="geoContainer">
                 <h2>Location Description</h2>
                 <p>{details.locationDescription}</p>
             <br/><br/><br/>
-            <button type="button" className="closeStore" onClick={this.handleClick}>Close Store</button>
+
         </div>
+        <br/>
+        <button type="button" className="closeStore" onClick={this.handleClick}>Close Store</button>
         </div>
 
     )}

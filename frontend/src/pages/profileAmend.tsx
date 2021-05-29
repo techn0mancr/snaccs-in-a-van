@@ -51,9 +51,10 @@ class Profile extends React.Component {
     render() {
         const {_id, email, givenName, familyName} = this.state;
         return (
-            <div className="titleLogin">
+            <div className="profile">
                 <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1 className="titleLog">Change Name</h1>
+                <h1 className="nVan">Change Name</h1>
+                <br></br>
                 <h3>ID</h3>
                 <p className="time">{_id}</p>
                 <h3>Email</h3>
@@ -63,7 +64,7 @@ class Profile extends React.Component {
                 <h3>Family Name</h3>
                 <input id="last" type="text" name="familyName" placeholder={familyName} value={familyName} onChange={this.handleChange} required/><br/><br/>
                 <br />
-                <button className="login" type="submit" onClick={this.handleSubmit}>
+                <button className="save" type="submit" onClick={this.handleSubmit}>
                     <h2 className="click">Save Changes</h2>
                 </button>
             </div>

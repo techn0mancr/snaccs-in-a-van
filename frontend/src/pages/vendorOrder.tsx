@@ -140,7 +140,7 @@ class Content extends React.Component {
                                     </div>
                                 ))}
                             </div>
-                        :<h2>No more orders</h2>}
+                        :<h2>Orders all completed</h2>}
                     </div>
                 </div>
 
@@ -184,12 +184,12 @@ class Content extends React.Component {
                                                 <p className = "p-vendorOrder">{moment(fulfill.timestamps.fulfilled).format('h.mm A')}</p>
                                             </div>
                                             <p className = "p-orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
-                                            <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Completed</button>
+                                            <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Picked Up</button>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                        :<h2>No Orders Fulfilled</h2>}
+                        :<h2>Orders all fulfilled</h2>}
                     </div>
                 </div>
             </div>

@@ -10,6 +10,8 @@ input[type=image].vanIcon {
     float: right;
     height: 60px;
     margin-top: -20px;
+    position: absolute;
+    right: 20px;
 }
 
 h1.vendorOrder{
@@ -20,7 +22,7 @@ h1.vendorOrder{
 }
 
 h2.vendorOrder{
-    font-size: 30px;
+    font-size: 24px;
 }
 
 h3.vendorOrder{
@@ -114,7 +116,7 @@ h3.orderName{
     padding-top: 30px;
     padding-left: 20px;
     padding-right: 20px;
-    margin-left: 20px;  
+    margin-left: auto;  
 }
 
 .orderDetails {

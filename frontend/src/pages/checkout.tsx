@@ -134,9 +134,9 @@ const Information = () => {
           <div key={i}>
             <div className="cart">
               <div className="item">
-                <h3>
+                <p>
                   {item.quantity} x {item.itemId.name}
-                </h3>
+                </p>
               </div>
               <div className="number">
                 <ButtonGroup>

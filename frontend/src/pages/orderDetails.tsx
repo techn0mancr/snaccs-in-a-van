@@ -162,7 +162,6 @@ class Information extends React.Component {
             }
             
             
-            <hr></hr>
             <div className="amountPaid">
             <div className="item">
               <p className="desc">Amount to be paid</p>
