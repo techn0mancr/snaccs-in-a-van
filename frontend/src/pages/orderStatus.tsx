@@ -31,7 +31,7 @@ class Header extends React.Component {
             <div className="titleOrder">
                 <br></br><br></br>
                 <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1>Order Status</h1>
+                <h1 className="titleLog">Order Status</h1>
             </div>
         )
     }
@@ -140,14 +140,13 @@ class Status extends React.Component {
                 </div>
 
                 <div className="titleOrder">
-                    <h3 className="nVan">Invoice: {details._id}</h3>
-                    <h3 className="nVan">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</h3>
+                    <p className="item">Invoice: {details._id}</p>
+                    <p className="item">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</p>
                 </div>
 
                 
 
                 <div className="orderTime">
-
                     <div className="progressImage">
                         <img className="status" src={order} alt="Order"/>
                         <img className="status line" src={dashLine} alt="Line"/>
@@ -193,26 +192,35 @@ class Status extends React.Component {
                         <h2>Payment</h2>
                     
                         <div className="amount">
-                            <h3 className="payment">Total amount</h3>
-                            <h3 className="value">${toTwoDecimalPlaces(totalAmount)}</h3>
+                        <div className="item">
+                            <p className="desc">Total amount</p>
+                        </div>
+                            <p className="price">${toTwoDecimalPlaces(totalAmount)}</p>
                         </div>
 
                         {showDiscount? 
                             <div className="amount">
-                                <h3 className="payment">20% discount</h3>
-                                <h3 className="value">${discount}</h3>
+                             <div className="item">
+                                <p className="desc">20% discount</p>
                             </div>
-                            :<div>
+                                <p className="price">-${toTwoDecimalPlaces(discount)}</p>
+                            </div>
+                            :
+                            
+                            <div>
                                 <br></br>
                                 <br></br>
                             </div>
                         }
                         <br></br>
-                        
+
                         <div className="amountPaid">
-                            <h3 className="payment">Amount to be paid</h3>
-                            <h3 className="value">${toTwoDecimalPlaces(paidAmount)}</h3>
+                        <div className="item">
+                            <p className="desc">Amount to be paid</p>
+                         </div>
+                            <p className="price">${toTwoDecimalPlaces(paidAmount)}</p>
                         </div>
+                        
                     </div>
                     :null
                 }
