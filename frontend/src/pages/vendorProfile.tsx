@@ -73,18 +73,21 @@ class Description extends React.Component {
         const { details, geolocation } = this.state;
 
         return (
-            <div>
-                <div className="container">
+            <div className ="vendorGeolocation">
+                <div className="geoContainer">
                     <h2>Current location</h2>
                     <p>{geolocation[0]},{geolocation[1]}</p>
                 </div>
 
-                <div className="container">
+                <div className="geoContainer">
                     <h2>Location Description</h2>
                     <p>{details.locationDescription}</p>
                     <br/><br/><br/>
-                    <button type="button" className="closeStore" onClick={this.handleClick}>Close Store</button>
                 </div>
+                <br/><br/>
+
+                <button type="button" className="closeStore" onClick={this.handleClick}>Close Store</button>
+
             </div>
         )
     }
