@@ -356,7 +356,7 @@ async function login(req: Request & {
     }
 }
 
-/* Logs a customer out */
+/* Logs a vendor out */
 async function logout(req: Request, res: Response): Promise<void> {
     /* Update the session data */
     req.session.customerId = undefined;

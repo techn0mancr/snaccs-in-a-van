@@ -1,3 +1,4 @@
+/* Import the required libraries and types */
 import { useEffect, useState } from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
@@ -16,7 +17,6 @@ interface AddToCartProps {
 }
 
 export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
-  // const itemID = "607073f83ed89dee65af788d";
 
   const [itemCount, setItemCount] = useState(1);
   const [item, setItem] = useState({

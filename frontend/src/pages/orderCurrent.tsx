@@ -1,10 +1,14 @@
+/* Import the required libraries and types */
 import React from 'react';
+
+/* Import components */
 import './order.css';
 import history from '../history';
 import moment from 'moment';
 import { customerProfile, getActiveOrders } from '../api';
 moment().format();
 
+/* Header component of Current Order Page */
 class Header extends React.Component {
     render() {
         return (
@@ -18,16 +22,19 @@ class Header extends React.Component {
     }
 }
 
+/* Content component of Current Order Page */
 class ListActiveOrder extends React.Component {
+
     state = {
         error: null,
         isLoaded: false,
         orderList: [] as any[]
     }
-
     interval!: NodeJS.Timeout;
 
+    /* During on page, re-render every second */
     async componentDidMount() {
+        /* Get active orders */
         try {
             this.interval = setInterval(async () => { 
                 this.activeOrders();
@@ -37,7 +44,9 @@ class ListActiveOrder extends React.Component {
             }
     }
 
+    /* Before rendering page */
     componentWillMount() {
+        /* Check customer already logged in */
         customerProfile().then(
             (response) => {
               console.log(response);
@@ -47,13 +56,15 @@ class ListActiveOrder extends React.Component {
               history.push("/customer/login");
               console.log(error);
             }
-        );
+        )
     }
 
+    /* Clear time interval when unmount */
     componentWillUnmount() {
         clearInterval(this.interval);
     }
     
+    /* Get active orders from api */
     activeOrders() {
         getActiveOrders().then(
             (response) => {
@@ -64,19 +75,16 @@ class ListActiveOrder extends React.Component {
                 this.setState({isLoaded: true, error});
                 console.log(error);
             }
-        );
+        )
     }
 
     render() {
         const { error, isLoaded, orderList } = this.state;
+
         if (error === true) {
-            return (
-                <h3 className="error">No Order Present</h3>
-            )
+            return (<h3 className="error">No Order Present</h3>)
         } else if (isLoaded === false) {
-            return (
-                <h3 className="error">Loading...</h3>
-            )
+            return (<h3 className="error">Loading...</h3>)
         } else {
             return (
                 <div className="content">
@@ -84,8 +92,8 @@ class ListActiveOrder extends React.Component {
                         <div>
                             { orderList.map((order, i) => (   
                                 <div key={i}>
-                                <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/active/status/?id=${order._id}`)}>
-                                <i className="fas fa-chevron-right"></i>
+                                        <button className="order" type="submit" value="order" onClick={()=> history.push(`/order/active/status/?id=${order._id}`)}>
+                                        <i className="fas fa-chevron-right"></i>
                                         <h2>{order.vendorId.name}</h2>
                                         <p id="ready">{order.status}</p>
                                         <p className="date">{moment(order.timestamps.placed).format('D MMM YYYY h.mm A')}</p>
@@ -93,8 +101,8 @@ class ListActiveOrder extends React.Component {
                                 </div> 
                             ))}
                         </div>
-                    :
-                    <h3 className="error">No current orders</h3>}
+                        :<h3 className="error">No current orders</h3>
+                    }
                 </div>
             )
         }
@@ -102,6 +110,7 @@ class ListActiveOrder extends React.Component {
 
 }
 
+/* Render all components on Order Current Page */
 class OrderCurrent extends React.Component {
     render() {
         return (

@@ -1,60 +1,53 @@
+/* Import the required libraries and types */
 import React, { useEffect, useState } from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
+/* Import components */
 import "./checkout.css";
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { addItemToCart, checkoutCart, getCart, getMenu } from "../api";
-import { getId } from "../App";
-import AddToCart from "../components/addToCart";
+import { addItemToCart, checkoutCart, getCart, getMenu, getId } from "../api";
 
+/* Header component of Checkout Page */
 class Header extends React.Component {
   render() {
     return (
       <div className="title">
         <br></br>
-        <input
-          type="image"
-          alt="back"
-          className="back"
-          src={leftArrow}
-          onClick={() => history.goBack()}
-        />
+        <input type="image" alt="back" className="back" src={leftArrow} onClick={() => history.goBack()} />
         <h1>Checkout</h1>
         <br></br>
       </div>
-    );
+    )
   }
 }
 
+/* Vendor information component of Checkout Page */
 class Vendor extends React.Component {
+
   state = {
     profile: [] as any,
     lat: "",
-    lng: "",
-  };
-
+    lng: ""
+  }
   vendorId = getId() || "";
 
+  /* During on page */
   componentDidMount() {
+    /* Get information of vendor */
     getMenu(this.vendorId).then(
       (response) => {
         var data = response.data;
-        this.setState({
-          profile: data.vendorId,
-          lat: data.vendorId.geolocation[0],
-          lng: data.vendorId.geolocation[1],
-        });
+        this.setState({ profile: data.vendorId, lat: data.vendorId.geolocation[0],lng: data.vendorId.geolocation[1],});
         console.log(response);
-        console.log(data.vendorId.geolocation[0]);
       },
       (error) => {
         console.log(error);
       }
-    );
+    )
   }
 
   render() {
@@ -64,11 +57,9 @@ class Vendor extends React.Component {
       <div className="containerCheckout" id="loc">
         <h2 className="pickup">Pick up location</h2>
         <p className="address">{profile.name}</p>
-        <p className="desc">
-          {profile.locationDescription} ({lat}, {lng})
-        </p>
+        <p className="desc">{profile.locationDescription} ({lat}, {lng})</p>
       </div>
-    );
+    )
   }
 }
 
@@ -134,9 +125,9 @@ const Information = () => {
           <div key={i}>
             <div className="cart">
               <div className="item">
-                <h3>
+                <p>
                   {item.quantity} x {item.itemId.name}
-                </h3>
+                </p>
               </div>
               <div className="number">
                 <ButtonGroup>

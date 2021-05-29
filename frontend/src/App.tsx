@@ -1,3 +1,4 @@
+/* Import the required libraries and types */
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
@@ -6,7 +7,7 @@ import VueAxios from "vue-axios";
 import Vue from "vue";
 import history from "./history";
 
-// import components
+/* Import components */
 import Nav from "./components/nav";
 import OrderCurrent from "./pages/orderCurrent";
 import OrderPast from "./pages/orderPast";
@@ -43,12 +44,6 @@ switch (process.env.NODE_ENV) {
 
 Vue.use(VueAxios, axios);
 
-export function getId() {
-  const query = history.location.search;
-  const id = query.replace("?id=", "");
-  return id;
-}
-
 function App() {
   const [open, setOpen] = useState(false);
   const [itemId, setItemId] = useState<string>("");
@@ -76,24 +71,11 @@ function App() {
             <Route exact path="/order/checkout" component={Checkout} />
             <Route exact path="/order/details" component={OrderDetails} />
             <Route exact path="/menu" component={ListNearest}/>
-            <Route exact path="/menu/vendor"
-              render={() => (
-                <Menu openModalForAddingItemWithId={(id: string) => {
-                    setItemId(id);
-                    setOpen(true);
-                  }}
-                />
-              )}
-            />
+            <Route exact path="/menu/vendor" render={() => (<Menu openModalForAddingItemWithId={(id: string) => {setItemId(id); setOpen(true); }} /> )} />
           </div>
         </Switch>
       </Router>
-      {open && (
-        <AddToCart 
-        id={itemId} 
-        open={open} 
-        handleClose={() => setOpen(false)} />
-      )}
+      {open && ( <AddToCart id={itemId} open={open} handleClose={() => setOpen(false)} />)}
     </div>
   );
 }

@@ -10,26 +10,51 @@
     text-align: center;
     vertical-align: middle;
     box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+    display: absolute;
 }
 
 .vendorGeolocation{
-    width: 420px;
+    /* width: 2px; */
     margin-left: auto;
     margin-right: auto;
-    text-align: right;
+    text-align: center;
+
 }
 
-.container {
+
+.geoContainer{
     background-color: #FFFFFF;
-    width: 420px;
+    width: 380px;
     padding: 15px;
     margin-top: 20px;
     text-align: left;
     border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+
+
 }
 
 
 input[type=text].vendorProfile {
+    background-color: #E0E0E0;
+    border-radius: 10px;
+    border: none;
+    opacity: 1nn;
+    width: 90%;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    padding: 10px 10px;
+    color: #AFB1BA;
+    position: absolute;
+}
+
+input[type=text].vendorDesc {
     background-color: #E0E0E0;
     border-radius: 10px;
     border: none;
@@ -61,7 +86,7 @@ input[type=image].vendorProfile {
     line-height: 20px;
     letter-spacing: 0px;
     text-align: center;
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .h2 {
@@ -96,7 +121,6 @@ input[type=image].vendorProfile {
     box-shadow: 0px 10px 10px #F6F6F6;
     color: white;
     cursor: pointer;
-
 }
 
 .closeStore {
@@ -111,11 +135,8 @@ input[type=image].vendorProfile {
     border: 2px solid #dd7070;
     color: #dd7070;
     cursor: pointer;
-    
 
 }
-
-
 
 button:hover {
     opacity: 0.8;
