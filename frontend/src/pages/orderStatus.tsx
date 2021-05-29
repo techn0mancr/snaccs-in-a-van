@@ -51,7 +51,8 @@ class Status extends React.Component {
         showDiscount: false,
         totalAmount: 0,
         paidAmount: 0,
-        discount: 0
+        discount: 0,
+        isLoaded: false
     }
     orderId = getId() || "";
     interval!: NodeJS.Timeout;
@@ -93,7 +94,7 @@ class Status extends React.Component {
         getOrderDetails(orderId).then(
             (response) => {
                 var data = response.data;
-                this.setState({ details: data, timeStamps: data.timestamps,paidAmount: data.total});
+                this.setState({ details: data, timeStamps: data.timestamps,paidAmount: data.total, isLoaded: true});
                 if (data.status === "Fulfilled") {
                     this.setState({fulfilled: true});
                 } else if (data.status === "Completed") {
@@ -101,6 +102,7 @@ class Status extends React.Component {
                 }
                 console.log(response);
             }, (error) => {
+                this.setState({isLoaded: true});
                 console.log(error);
             }
         )
@@ -127,94 +129,101 @@ class Status extends React.Component {
     }
  
     render() {
-        const { details, fulfilled, timeStamps, hour, minute, second, showEdit, showDiscount, totalAmount, discount, paidAmount} = this.state;
-
-        return (
-            <div>
+        const { details, fulfilled, timeStamps, hour, minute, second, showEdit, showDiscount, totalAmount, discount, paidAmount, isLoaded} = this.state;
+        if (isLoaded === false) {
+            return (
                 <div className="orderTime">
-                    <h2 className="nVan">Time Elapsed: {hour}h {minute}m {second}s</h2>
-                    {showEdit ?
-                        <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/order/checkout`)}>Edit or Cancel Order</button>
+                    <h2 className="nVan">Loading...</h2>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <div className="orderTime">
+                        <h2 className="nVan">Time Elapsed: {hour}h {minute}m {second}s</h2>
+                        {showEdit ?
+                            <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/order/checkout`)}>Edit or Cancel Order</button>
+                            :null
+                        }
+                    </div>
+    
+                    <div className="titleOrder">
+                        <h3 className="nVan">Invoice: {details._id}</h3>
+                        <h3 className="nVan">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</h3>
+                    </div>
+    
+                    <div className="orderTime">
+    
+                        <div className="progressImage">
+                            <img className="status" src={order} alt="Order"/>
+                            <img className="status line" src={dashLine} alt="Line"/>
+                            <img className="status" src={prepare} alt="Prepare"/>
+                            { fulfilled ?
+                                <div>
+                                    <img className="status line" src={dashLine} alt="Line"/>
+                                    <img className="status" src={ready} alt="Ready"/>
+                                </div>
+                                :<div>
+                                    <img className="status line" id="notReady" src={dashLine} alt="Line"/>
+                                    <img className="status" id="notReady" src={ready} alt="Ready"/>
+                                </div>
+                            }
+                        </div>
+                        <br />
+                        
+                        <div className="progressStatus">
+                            <div className="status">
+                                <h2 className='nVan'>Order received</h2>
+                                <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
+                            </div>
+                
+                            <div className="status">
+                                <h2 className='nVan'>Preparing order</h2>
+                                <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
+                            </div>
+                            {fulfilled ?
+                                <div className="status">
+                                    <h2 className='nVan'>Ready for pickup</h2>
+                                    <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
+                                </div>
+                                :<div className="status">
+                                    <h2 className='nVan' id="notReady">Ready for pickup</h2>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    {fulfilled ?
+                        <div className="containerCheckout" id="payment">
+                            <h2>Payment</h2>
+                        
+                            <div className="amount">
+                                <h3 className="payment">Total amount</h3>
+                                <h3 className="value">${toTwoDecimalPlaces(totalAmount)}</h3>
+                            </div>
+    
+                            {showDiscount? 
+                                <div className="amount">
+                                    <h3 className="payment">20% discount</h3>
+                                    <h3 className="value">${toTwoDecimalPlaces(discount)}</h3>
+                                </div>
+                                :<div>
+                                    <br></br>
+                                    <br></br>
+                                </div>
+                            }
+                            <br></br>
+                            
+                            <div className="amountPaid">
+                                <h3 className="payment">Amount to be paid</h3>
+                                <h3 className="value">${toTwoDecimalPlaces(paidAmount)}</h3>
+                            </div>
+                        </div>
                         :null
                     }
                 </div>
-
-                <div className="titleOrder">
-                    <h3 className="nVan">Invoice: {details._id}</h3>
-                    <h3 className="nVan">{moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}</h3>
-                </div>
-
-                <div className="orderTime">
-
-                    <div className="progressImage">
-                        <img className="status" src={order} alt="Order"/>
-                        <img className="status line" src={dashLine} alt="Line"/>
-                        <img className="status" src={prepare} alt="Prepare"/>
-                        { fulfilled ?
-                            <div>
-                                <img className="status line" src={dashLine} alt="Line"/>
-                                <img className="status" src={ready} alt="Ready"/>
-                            </div>
-                            :<div>
-                                <img className="status line" id="notReady" src={dashLine} alt="Line"/>
-                                <img className="status" id="notReady" src={ready} alt="Ready"/>
-                            </div>
-                        }
-                    </div>
-                    <br />
-                    
-                    <div className="progressStatus">
-                        <div className="status">
-                            <h2 className='nVan'>Order received</h2>
-                            <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
-                        </div>
-            
-                        <div className="status">
-                            <h2 className='nVan'>Preparing order</h2>
-                            <p className="time" id="status">{moment(timeStamps.placed).format("D MMM YYYY h.mm A")}</p>
-                        </div>
-                        {fulfilled ?
-                            <div className="status">
-                                <h2 className='nVan'>Ready for pickup</h2>
-                                <p className="time" id="status">{moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}</p>
-                            </div>
-                            :<div className="status">
-                                <h2 className='nVan' id="notReady">Ready for pickup</h2>
-                            </div>
-                        }
-                    </div>
-                </div>
-                
-                {fulfilled ?
-                    <div className="containerCheckout" id="payment">
-                        <h2>Payment</h2>
-                    
-                        <div className="amount">
-                            <h3 className="payment">Total amount</h3>
-                            <h3 className="value">${toTwoDecimalPlaces(totalAmount)}</h3>
-                        </div>
-
-                        {showDiscount? 
-                            <div className="amount">
-                                <h3 className="payment">20% discount</h3>
-                                <h3 className="value">${toTwoDecimalPlaces(discount)}</h3>
-                            </div>
-                            :<div>
-                                <br></br>
-                                <br></br>
-                            </div>
-                        }
-                        <br></br>
-                        
-                        <div className="amountPaid">
-                            <h3 className="payment">Amount to be paid</h3>
-                            <h3 className="value">${toTwoDecimalPlaces(paidAmount)}</h3>
-                        </div>
-                    </div>
-                    :null
-                }
-            </div>
-        )
+            )
+        }
     }
 }
 
