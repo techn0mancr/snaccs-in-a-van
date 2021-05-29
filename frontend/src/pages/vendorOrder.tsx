@@ -70,14 +70,12 @@ class Content extends React.Component {
         /* Get placed and fulfilled order */
         try {
             this.interval = setInterval(async () => { 
+                /* Caculate time remaining from 15 minutes */
+                this.calculateTimeRemain();
+
+                /* Call get placed and get fultill */
                 this.getPlaced();
                 this.getFulfill();
-                var now = moment(new Date());
-                var end = moment(this.state.timeStamps.placed);
-                var difference = moment.duration(now.diff(end), 'milliseconds');
-                var interval = 900000;
-                var remaining = moment.duration(interval - difference.asMilliseconds(), 'milliseconds');
-                this.setState({hour: remaining.hours(), minute: remaining.minutes(), second: remaining.seconds()});
             }, 1000);
             } catch(e) {
                 console.log(e);
@@ -104,7 +102,20 @@ class Content extends React.Component {
             }, (error) => {
                 console.log(error);
             }
-        )  
+        )
+        
+        /* Caculate time remaining from 15 minutes */
+        this.calculateTimeRemain();
+    }
+
+    /* Caculate time remaining from 15 minutes */
+    calculateTimeRemain() {
+        var now = moment(new Date());
+        var end = moment(this.state.timeStamps.placed);
+        var difference = moment.duration(now.diff(end), 'milliseconds');
+        var interval = 900000;
+        var remaining = moment.duration(interval - difference.asMilliseconds(), 'milliseconds');
+        this.setState({hour: remaining.hours(), minute: remaining.minutes(), second: remaining.seconds()});  
     }
 
     /* Handle when order is fulfilled by marking status as fulfilled */
@@ -147,7 +158,7 @@ class Content extends React.Component {
                                     <div key={i}>
                                         <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
                                             <div className ="leftBox">
-                                                <p className = "p-vendorOrder">{order._id}</p>
+                                                <p className = "p-vendorOrder">{(order._id).substring(11,24)}</p>
                                                 <p className = "p-vendorOrder">{moment(order.timestamps.placed).format('h.mm A')}</p>
                                             </div>
                                             <p className = "p-orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
@@ -195,7 +206,7 @@ class Content extends React.Component {
                                     <div key={i}>
                                         <div className="perOrder" onClick={() => this.handleDisplay(fulfill._id, false)}>
                                             <div className="leftBox">
-                                                <p className = "p-vendorOrder">{fulfill._id}</p>
+                                                <p className = "p-vendorOrder">{(fulfill._id).substring(11,24)}</p>
                                                 <p className = "p-vendorOrder">{moment(fulfill.timestamps.fulfilled).format('h.mm A')}</p>
                                             </div>
                                             <p className = "p-orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
