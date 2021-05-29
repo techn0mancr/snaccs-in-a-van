@@ -122,8 +122,8 @@ async function getCustomerGeolocation() {
       const lng = position.coords.longitude
       
       if (NewgeoLocation) {
-        await window.sessionStorage.setItem("lat",lat as any as string);
-        await window.sessionStorage.setItem("lng",lng as any as string);
+        await window.sessionStorage.setItem("customerLat",lat as any as string);
+        await window.sessionStorage.setItem("customerLng",lng as any as string);
 
         // window.sessionStorage.setItem("CustomerLocation",result_location);
         }
@@ -184,8 +184,8 @@ async function getPlacedOrders() {
 /* Get the nearest MAX_NEAREST_VENDORS open vendors to the given geolocation tuple */
 async function getVendors() {
   await getCustomerGeolocation();
-  const lat = window.sessionStorage.getItem("lat") as any as number;
-  const lng = window.sessionStorage.getItem("lng") as any as number;
+  const lat = window.sessionStorage.getItem("customerLat") as any as number;
+  const lng = window.sessionStorage.getItem("customerLng") as any as number;
   const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;
   return await axios.get(endpoint);
 }
