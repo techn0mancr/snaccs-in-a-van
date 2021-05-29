@@ -179,3 +179,21 @@ Project is created with the following technologies:
 - Username: `nputro@student.unimelb.edu.au`
 - Password: `123456`
 
+### Vendor Login Details
+- Username: 'Tasty Trailer'
+- Password: 'abcd1234'
+
+- Username: 'Snaccy Van'
+- Password: 'abcd1234'
+
+- Username: 'Snax McTest'
+- Password: '4321dcba'
+
+- Username: 'Hungry FoodTruck'
+- Password: 'abcd1234'
+
+- Username: 'BIG CAKES ONLY'
+- Password: 'abcd1234'
+
+- Username: 'Caffeine School'
+- Password: 'abcd1234'
