@@ -3,8 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
-import VueAxios from "vue-axios";
-import Vue from "vue";
 import history from "./history";
 
 /* Import components */
@@ -29,6 +27,7 @@ import ListNearest from "./pages/nearest";
 import ProfileAmendName from "./pages/profileAmend";
 import ProfileAmendPassword from "./pages/profilePassword";
 
+/* Enable credentials to be shared among pages */
 axios.defaults.withCredentials = true;
 
 /* Change the Axios base URL based on the environment */
@@ -42,8 +41,7 @@ switch (process.env.NODE_ENV) {
         break;
 }
 
-Vue.use(VueAxios, axios);
-
+/* Component to create routes */
 function App() {
   const [open, setOpen] = useState(false);
   const [itemId, setItemId] = useState<string>("");
