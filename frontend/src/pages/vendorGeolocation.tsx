@@ -13,8 +13,8 @@ class Header extends React.Component {
         return (
             <div className="title">
                 <br/><br/>
-                <input className="vendorProfile" type="image" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
-                <h1>Vendor Geolocation</h1>
+                <input className="back" type="image" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
+                <h1 className="titleLog">Vendor Geolocation</h1>
                 <br/>
             </div>
         )
@@ -61,13 +61,18 @@ class Description extends React.Component {
     }
 
     render() {
-        const { desc } = this.state;
-
-        return (
-            <div className ="vendorGeolocation">
-                <div className="container">
-                    <h2>Current location</h2>
-                    <p>{window.sessionStorage.getItem("vendorLat") as any as number},{window.sessionStorage.getItem("vendorLng") as any as number}</p>
+    const { desc } = this.state;
+    return (
+        <div className ="vendorGeolocation">
+            <div className="geoContainer">
+                <h2>Current location</h2>
+                <p>{window.sessionStorage.getItem("vendorLat") as any as number},{window.sessionStorage.getItem("vendorLng") as any as number}</p>
+            </div>
+        
+            <form onSubmit={this.handleSubmit}>
+                <div className="geoContainer">
+                    <label id="location"><h2>Location Description</h2></label>
+                    <input className="vendorProfile" type="text" placeholder="Enter text..." name="desc" value={desc} onChange={this.handleChange} required />
                 </div>
 
                 <form onSubmit={this.handleSubmit}>

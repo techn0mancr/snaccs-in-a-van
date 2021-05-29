@@ -4,7 +4,7 @@ import React from 'react';
 /* Import components */
 import './profile.css';
 import history from '../history';
-import pencilEdit from '../img/penEdit.png';
+import penEdit from '../img/penEdit.svg';
 import { customerProfile, customerLogout } from '../api';
 
 /* Component for Customer Profile Page */
@@ -65,17 +65,22 @@ class Profile extends React.Component {
                 <p className="time">{details.email}</p>
 
                 <h3>Name</h3>
+                <span className="Change">
                 <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/customer/profile/amend/name`)}>
-                    <input type="image" className="edit" alt="Edit" src={pencilEdit}/>
-                    Edit Name
+                <input type="image" className="edit" alt="Edit" src={penEdit}/>
+                Change Name
                 </button>
+                </span>
                 <p className="time">{details.givenName} {details.familyName}</p>
                 
                 <h3>Password</h3>
+                <span className="Change">
                 <button className="cancel" type="submit" value="edit" onClick={() => history.push(`/customer/profile/amend/password`)}>
-                    <input type="image" className="edit" alt="Edit" src={pencilEdit}/>
+                    <input type="image" className="edit" alt="Edit" src={penEdit}/>
                     Change Password
                 </button>
+                </span>
+
                 <p className="time">********</p>
                 <br />
                 <button className="login" type="submit" onClick={this.handleSubmit}>

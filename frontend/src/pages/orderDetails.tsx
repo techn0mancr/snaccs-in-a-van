@@ -160,7 +160,6 @@ class Information extends React.Component {
                 <br></br>
               </div>
             }
-            <hr></hr>
 
             <div className="amountPaid">
             <div className="item">
