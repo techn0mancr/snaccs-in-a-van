@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 /* Import components */
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart, getDistance, getId } from "../api";
+import { getMenu, getCart, getDistance, getId, selectVendor } from "../api";
 import leftArrow from "../img/leftArrow.png";
 
 /* Put currency option */
@@ -34,6 +34,7 @@ const VanInfo = () => {
   const vendorId = getId() || "";
 
   useEffect(() => {
+    selectVendor(vendorId);
     getMenu(vendorId)
       .then(
         (response) => {

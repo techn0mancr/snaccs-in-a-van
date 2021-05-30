@@ -122,7 +122,7 @@ class Content extends React.Component<MainProps, any> {
                 var i = 0 ;
                 while (i < 5) {
                     L.marker([data[i].geolocation[0], data[i].geolocation[1]], {icon: greenIcon})
-                    .bindPopup(data[i].name +  ", " + data[i].locationDescription)
+                    .bindPopup(data[i].name +  ", " + data[i].locationDescription + "<br/>" + "<a href=" + "/menu/vendor/?id=" + data[i]._id + ">" + "Order" + "</a>" )
                     .addTo(map)
                     console.log(data[i].geolocation);
                     i++;
