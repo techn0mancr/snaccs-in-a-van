@@ -2,6 +2,7 @@
 import React from 'react';
 import * as L from 'leaflet';
 import 'mapbox-gl-leaflet';
+import mapboxgl from 'mapbox-gl';
 
 /* Import components */
 import 'leaflet/dist/leaflet.css';
@@ -12,6 +13,8 @@ import vanPoint from '../img/vanPoint.svg';
 import pinPoint from '../img/pinPoint.svg';
 import history from "../history";
 import {getVendors} from '../api';
+
+mapboxgl.accessToken = 'pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ';
 
 /* Header component of Map Page */
 class Header extends React.Component {
@@ -92,7 +95,7 @@ class Content extends React.Component<MainProps, any> {
         
         /* Style the map using mapbox */
         L.mapboxGL({
-            accessToken: 'pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ',
+            accessToken: mapboxgl.accessToken,
             style: 'mapbox://styles/livyanatasha/ckpa4turt3glb18qtp0d6qz4r'
         }).addTo(map);
     }
