@@ -6,6 +6,7 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import Vue from "vue";
 import history from "./history";
+import './index.css'
 
 /* Import components */
 import Nav from "./components/nav";
