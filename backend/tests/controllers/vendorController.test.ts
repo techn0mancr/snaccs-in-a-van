@@ -3,39 +3,50 @@ import { agent } from "supertest";
 import app from "../../src/server";
 
 /* Import the Vendor model */
-import { Vendor } from "../../src/models/index";
+import {
+    IOrder, Order, OrderStatus,
+    Vendor
+} from "../../src/models/index";
 
 /* Import the vendor controller */
 import * as controller from "../../src/controllers/vendorController";
 
-describe("Open Snax McTest's van using toggleVendorAvailability()", () => {
+const TEST_VENDOR_ID = "60ac0dd6cc0ab2dbb4036917";
+const TEST_VENDOR_NAME = "Snax McTest";
+const TEST_VENDOR_PASSWORD = "4321dcba";
+const TEST_CUSTOMER_EMAIL = "pherson@test.com";
+const TEST_CUSTOMER_PASSWORD = "4321dcba";
+const TEST_ITEM_ID = "607073f83ed89dee65af788d";
+const TEST_ITEM_QUANTITY = 1;
+
+describe(`Open ${TEST_VENDOR_NAME}'s van using toggleVendorAvailability()`, () => {
     beforeAll(async () => {
-        /* Set Snax McTest's open status to false */
+        /* Set ${TEST_VENDOR_NAME}'s open status to false */
         await Vendor.updateOne(
             {
-                "email": "snaxmctest@snaccsinavan.com"
+                name: TEST_VENDOR_NAME
             },
             {
-                "isOpen": false
+                isOpen: false
             }
         );        
     });
 
-    test("Vendor \"Snax McTest\" is currently closed", async () => {
+    test(`Vendor ${TEST_VENDOR_NAME} is currently closed`, async () => {
         const vendorDetails = await Vendor.findOne(
             {
-                "email": "snaxmctest@snaccsinavan.com"
+                name: TEST_VENDOR_NAME
             }
         );
         if (vendorDetails)
             expect(vendorDetails.isOpen).toBe(false);
     });
     
-    test("Toggle \"Snax McTest\"'s availability", async () => {
+    test(`Toggle ${TEST_VENDOR_NAME}'s availability`, async () => {
         const req: any = {
             session: {
                 customerId: undefined,
-                vendorId: "60ac0dd6cc0ab2dbb4036917",
+                vendorId: TEST_VENDOR_ID,
                 cart: undefined
             }
         }
@@ -50,10 +61,10 @@ describe("Open Snax McTest's van using toggleVendorAvailability()", () => {
         }
     });
     
-    test("Vendor \"Snax McTest\" is now open", async () => {
+    test(`Vendor ${TEST_VENDOR_NAME} is now open`, async () => {
         const vendorDetails = await Vendor.findOne(
             {
-                "email": "snaxmctest@snaccsinavan.com"
+                name: TEST_VENDOR_NAME
             }
         );
         if (vendorDetails)
@@ -61,30 +72,30 @@ describe("Open Snax McTest's van using toggleVendorAvailability()", () => {
     });
 
     afterAll(async () => {
-        /* Set Snax McTest's open status to false */
+        /* Set ${TEST_VENDOR_NAME}'s open status to false */
         await Vendor.updateOne(
             {
-                "email": "snaxmctest@snaccsinavan.com"
+                name: TEST_VENDOR_NAME
             },
             {
-                "isOpen": false
+                isOpen: false
             }
         );        
     });
 });
 
-describe("Integration testing of opening and closing Snax McTest's van", () => {
+describe(`Integration testing of opening and closing ${TEST_VENDOR_NAME}'s van`, () => {
     var customerAgent = agent(app);
     var vendorAgent = agent(app);
 
     beforeAll(async () => {
-        /* Set Snax McTest's open status to false */
+        /* Set ${TEST_VENDOR_NAME}'s open status to false */
         await Vendor.updateOne(
             {
-                "email": "snaxmctest@snaccsinavan.com"
+                name: TEST_VENDOR_NAME
             },
             {
-                "isOpen": false
+                isOpen: false
             }
         );        
         
@@ -94,8 +105,8 @@ describe("Integration testing of opening and closing Snax McTest's van", () => {
               .set("Content-Type", "application/json")
               .send(
                   {
-                      "name": "Snax McTest",
-                      "password": "4321dcba"
+                      name: TEST_VENDOR_NAME,
+                      password: TEST_VENDOR_PASSWORD
                   }
               );
 
@@ -105,92 +116,116 @@ describe("Integration testing of opening and closing Snax McTest's van", () => {
               .set("Content-Type", "application/json")
               .send(
                   {
-                      "email": "pherson@test.com",
-                      "password": "4321dcba"
+                      email: TEST_CUSTOMER_EMAIL, 
+                      password: TEST_CUSTOMER_PASSWORD
                   }
               )
               
     });
 
-    test("Vendor \"Snax McTest\" sets its status to open", async () => {
+    test(`Vendor ${TEST_VENDOR_NAME} sets its status to open`, async () => {
+        /* Toggle the vendor's status */
         await vendorAgent
               .patch(`/api/vendor/status/toggle`)
               .then((res) => {
                   expect(res.statusCode).toBe(200);
               });
+
+        /* Check that the toggle succeeded */
         await vendorAgent
               .get(`/api/vendor/profile`)
               .then((res) => {
                   expect(res.body.isOpen).toBe(true);
               });
     });
+    test(`Customer submits an order to vendor ${TEST_VENDOR_NAME}`, async() => {
+        /* Customer selects vendor */
+        await customerAgent
+              .patch(`/api/customer/vendor/${TEST_VENDOR_ID}/select`)
+              .then((res) => {
+                  expect(res.statusCode).toBe(200);
+              });
 
-    test("Customer submits an order to Snax McTest", async() => {
-        // customer selects Snax McTest
+        /* Customer adds a single cappuccino to their cart */
         await customerAgent
-        .patch(`/api/customer/vendor/60ac0dd6cc0ab2dbb4036917/select`)
-        .then((res) => {
-            expect(res.statusCode).toBe(200);
-        })
-        // console.log(res.body.vendorId);
+              .patch(`/api/customer/cart/edit/${TEST_ITEM_ID}`)
+              .send(
+                  {
+                      quantity: TEST_ITEM_QUANTITY
+                  }
+              ).then((res) => {
+                  expect(res.statusCode).toBe(200);
+              });
 
-        //customer adds an order of cappucino to cart
+        /* Customer checks their cart out */
         await customerAgent
-        .patch(`/api/customer/cart/edit/60716605bc9727fefc95ea41`)
-        .send(
-            {
-                "quantity" : 2
-            }
-        )
-        .then((res) => {
-            expect(res.statusCode).toBe(200);
-        })
-        //customer checkout cart
-        await customerAgent
-        .patch("/api/customer/cart/checkout")
-        .then((res) => {
-            expect(res.statusCode).toBe(200);
-        })
+              .post("/api/customer/cart/checkout")
+              .then((res) => {
+                  expect(res.statusCode).toBe(201);
+              });
     });
 
-    test("check if Vendor Snax McTest can close shop if order placed exists", async () => {
+    test(`Verify that vendor ${TEST_VENDOR_NAME} cannot close their van with an outstanding order`, async () => {
         await vendorAgent
               .patch(`/api/vendor/status/toggle`)
               .then((res) => {
                   expect(res.statusCode).toBe(403);
               });
-    });
-
-    test("vendor completes order", async () => {
-        await vendorAgent
-              .patch(`/api/vendor/order/${orderId}/complete`)
-              .then((res) => {
-                  expect(res.statusCode).toBe(200);
-              });
-        await vendorAgent
+        
+              await vendorAgent
               .get(`/api/vendor/profile`)
               .then((res) => {
                   expect(res.body.isOpen).toBe(true);
               });
     });
 
-    test("check if Vendor Snax McTest can close shop without existing placed orders", async () => {
+    var generatedOrders: Array<IOrder> = [];
+
+    test(`Vendor ${TEST_VENDOR_NAME} marks all their outstanding orders as completed`, async () => {
+        await vendorAgent
+              .get("/api/vendor/orders/placed")
+              .then((res) => {
+                  generatedOrders = res.body;
+              });
+        
+        generatedOrders.forEach(async (order: IOrder) => {
+            /* Mark the order as completed */
+            await vendorAgent
+                  .patch(`/api/vendor/order/${order._id}/complete`)
+                  .then((res) => {
+                      expect(res.statusCode).toBe(200);
+                  });
+
+            /* Check if the order has been completed successfully */
+            await customerAgent
+                  .get(`/api/order/${order._id}`)
+                  .then((res) => {
+                      expect(res.body.status).toBe(OrderStatus.Completed);
+                  });
+        });
+
+    });
+
+    test(`Verify that vendor ${TEST_VENDOR_NAME} can close their van after all outstanding orders are completed`, async () => {
+        /* Attempt to close the van */
         await vendorAgent
               .patch(`/api/vendor/status/toggle`)
               .then((res) => {
                   expect(res.statusCode).toBe(200);
               });
+        
+        /* Verify that the van has been closed */
+        await vendorAgent
+              .get(`/api/vendor/profile`)
+              .then((res) => {
+                  expect(res.body.isOpen).toBe(false);
+              });
+    });
+
+    afterAll(async () => {
+        /* Clean up generated orders for this test */
+        generatedOrders.forEach(async (order: IOrder) => {
+            await Order.findByIdAndDelete(order._id);
+        });
     });
 });
-
-/*
-Customer deets:
-email: pherson@test.com
-pass: 4321dcba
-session ID: Buy6abmYJ5HU07_mSOALsOgNq2p9no7Z
-
-Vendor deets:
-email: snaxmctest@snaccsinavan.com
-pass: 4321dcba
-session ID: Buy6abmYJ5HU07_mSOALsOgNq2p9no7Z 
-*/
