@@ -3,9 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
-import history from "./history";
 
 /* Import components */
+import history from "./history";
 import Nav from "./components/nav";
 import OrderCurrent from "./pages/orderCurrent";
 import OrderPast from "./pages/orderPast";
@@ -26,6 +26,7 @@ import Rate from "./pages/customerRate";
 import ListNearest from "./pages/nearest";
 import ProfileAmendName from "./pages/profileAmend";
 import ProfileAmendPassword from "./pages/profilePassword";
+import Map from "./pages/map";
 
 /* Enable credentials to be shared among pages */
 axios.defaults.withCredentials = true;
@@ -57,6 +58,7 @@ function App() {
           <Route exact path="/vendor/orders" component={VendorOrder} />
           <div>
             <Nav />
+            <Route exact path="/map" component={Map} />
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
