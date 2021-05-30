@@ -3,15 +3,11 @@ import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import * as L from 'leaflet';
 import 'mapbox-gl-leaflet';
-import mapbox from 'mapbox';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import Link from 'react-router-dom';
 
 /* Import components */
 import 'leaflet/dist/leaflet.css';
 import "./map.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import history from "../history";
 import {getVendors} from '../api';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ';
@@ -43,55 +39,6 @@ class Content extends React.Component<MainProps, any> {
         }
     }
 
-//     componentDidMount() {
-//         const { lng, lat, zoom, maps } = this.state;
-//         // const map = new mapboxgl.Map({ container: this.state.mapContainer.current,
-//         // style: 'mapbox://styles/livyanatasha/ckpa4turt3glb18qtp0d6qz4r',
-//         // center: [lng, lat],
-//         // zoom: zoom
-//         // });
-
-//         // var marker = new mapboxgl.Marker()
-//         //             .setLngLat([lng, lat])
-//         //             .addTo(map);
-//         var token = "pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ";
-        
-//         var map = L.map('map').setView([lng,lat], zoom);
-//         L.marker([38.912753, -77.032194])
-//         .bindPopup("Hello <b>Leaflet GL</b>!<br>Whoa, it works!")
-//         .addTo(map)
-//         .openPopup();
-
-//     var gl = L.mapboxGL({
-//         accessToken: 'no-token',
-//         // get your own MapTiler token at https://cloud.maptiler.com/ or use MapBox style
-//         style: 'https://api.maptiler.com/maps/topo/style.json?key=gbetYLSD5vR8MdtZ88AQ'
-//     }).addTo(map);
-//     this.setState({maps: map})
-// //         var mapLeaflet = L.mapboxgl.map('map-leaflet')
-// //   .setView([37.8, -96], 4)
-// //   .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-//         }
-
-//     render() {
-//         const {lng, lat, zoom, maps} = this.state;
-
-//         return (
-//             <div>
-//                 <div ref={this.state.maps} className="map-container" />
-//             </div>
-            
-//             // <div>
-//             //     <div className="sidebar">
-//             //         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-//             //     </div>
-//             //     <div ref={this.state.mapContainer} className="map-container" />
-//             // </div>
-            
-//         )
-//     }
-// }
-
     componentDidMount() {
         const { lat, lng, zoom, vendors } = this.state;
 
@@ -110,11 +57,6 @@ class Content extends React.Component<MainProps, any> {
         .addTo(map)
         .openPopup();
 
-        // L.marker([6.1330, 106.8267], {icon: greenIcon})
-        // .bindPopup("Hello <b>Leaflet GL</b>!<br>Whoa, it works!")
-        // .addTo(map)
-        // .openPopup();
-
         getVendors().then(
             (response) => {
                 var data = response.data
@@ -122,9 +64,8 @@ class Content extends React.Component<MainProps, any> {
                 var i = 0 ;
                 while (i < 5) {
                     L.marker([data[i].geolocation[0], data[i].geolocation[1]], {icon: greenIcon})
-                    .bindPopup(data[i].name +  ", " + data[i].locationDescription + "<br/>" + "<a href=" + "/menu/vendor/?id=" + data[i]._id + ">" + "Order" + "</a>" )
+                    .bindPopup(data[i].name +  "<br/>" + data[i].locationDescription + "<br/>" + "<a href=" + "/menu/vendor/?id=" + data[i]._id + ">" + "Order" + "</a>" )
                     .addTo(map)
-                    console.log(data[i].geolocation);
                     i++;
                 }
                 console.log(response);
@@ -138,7 +79,6 @@ class Content extends React.Component<MainProps, any> {
             style: 'mapbox://styles/livyanatasha/ckpa4turt3glb18qtp0d6qz4r'
         }).addTo(map);
 
-        
     }
 
     render() {
