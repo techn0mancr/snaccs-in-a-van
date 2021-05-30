@@ -80,7 +80,10 @@ class ListNearest extends React.Component {
                                 </div>
                             ))}
                         </div>
-                        :<h3 className ="error">Oh no, we can't find a van near you</h3>
+                        :<div>
+                            <h3 className ="error">Looking for your nearest van, please enable location!</h3>
+                            <meta http-equiv="refresh" content="3"/>
+                        </div>
                     }
                 </div>
             )

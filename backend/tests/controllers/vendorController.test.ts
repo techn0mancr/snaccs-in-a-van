@@ -109,6 +109,7 @@ describe("Integration testing of opening and closing Snax McTest's van", () => {
                       "password": "4321dcba"
                   }
               )
+              
     });
 
     test("Vendor \"Snax McTest\" sets its status to open", async () => {
@@ -124,17 +125,62 @@ describe("Integration testing of opening and closing Snax McTest's van", () => {
               });
     });
 
-    /* Make customer submit an order to Snax McTest (use customerAgent) */
+    test("Customer submits an order to Snax McTest", async() => {
+        // customer selects Snax McTest
+        await customerAgent
+        .patch(`/api/customer/vendor/60ac0dd6cc0ab2dbb4036917/select`)
+        .then((res) => {
+            expect(res.statusCode).toBe(200);
+        })
+        // console.log(res.body.vendorId);
 
-    /* Try close Snax McTest while the customer's order is still 'Placed'
-       Make sure that Snax McTest cannot close (check the status code of the toggle route)
-    */
+        //customer adds an order of cappucino to cart
+        await customerAgent
+        .patch(`/api/customer/cart/edit/60716605bc9727fefc95ea41`)
+        .send(
+            {
+                "quantity" : 2
+            }
+        )
+        .then((res) => {
+            expect(res.statusCode).toBe(200);
+        })
+        //customer checkout cart
+        await customerAgent
+        .patch("/api/customer/cart/checkout")
+        .then((res) => {
+            expect(res.statusCode).toBe(200);
+        })
+    });
 
-   /* Mark the customer's order as complete via Snax McTest (use the vendorAgent)
-      */
+    test("check if Vendor Snax McTest can close shop if order placed exists", async () => {
+        await vendorAgent
+              .patch(`/api/vendor/status/toggle`)
+              .then((res) => {
+                  expect(res.statusCode).toBe(403);
+              });
+    });
 
-    /* Close Snax McTest again and make sure it closes properly (once again, check the status code) */
+    test("vendor completes order", async () => {
+        await vendorAgent
+              .patch(`/api/vendor/order/${orderId}/complete`)
+              .then((res) => {
+                  expect(res.statusCode).toBe(200);
+              });
+        await vendorAgent
+              .get(`/api/vendor/profile`)
+              .then((res) => {
+                  expect(res.body.isOpen).toBe(true);
+              });
+    });
 
+    test("check if Vendor Snax McTest can close shop without existing placed orders", async () => {
+        await vendorAgent
+              .patch(`/api/vendor/status/toggle`)
+              .then((res) => {
+                  expect(res.statusCode).toBe(200);
+              });
+    });
 });
 
 /*
