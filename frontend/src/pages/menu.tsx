@@ -105,11 +105,9 @@ const Items = ({
       (response) => {
         var data = response.data.items;
         setState({ ...state, isLoaded: true, menuList: data });
-        console.log(response);
       },
       (error) => {
         setState({ ...state, isLoaded: true, error });
-        console.log(error);
       }
     );
   }, []);
@@ -170,7 +168,6 @@ class Checkout extends React.Component {
       (response) => {
         var data = response.data;
         this.setState({ isLoaded: true, cart: data });
-        console.log(response);
       },
       (error) => {
         this.setState({ isLoaded: true, error });

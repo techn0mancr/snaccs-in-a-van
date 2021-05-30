@@ -21,6 +21,14 @@
 
 }
 
+.pastOrder {
+    border-radius: 9px;
+    background-color: #FFFF;
+    height: 60px;
+    width: 50%;
+    margin-top: 20px;
+}
+
 
 .geoContainer{
     background-color: #FFFFFF;

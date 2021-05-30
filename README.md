@@ -3,7 +3,7 @@
 
 # Group Project Repository
 
-Check out our website:
+URL to our live Heroku website:
 https://snaccs-in-a-van.herokuapp.com/
 
 Commit ID for Submission: #############
@@ -19,11 +19,11 @@ Commit ID for Submission: #############
 
 | Name | Task | State |
 | :--- | :---: | :---: |
-| Nathanael Putro | Back End | Idling (for now) |
-| Callista Li Yin Low | Front End | Preparing |
-| Livya Natasha Riany | Front End | Preparing |
-| Joseph Leonardi | Front End | Preparing |
-| Jeffrey Kolenchery | Back End | Idling (for now) |
+| Nathanael Putro | Back End | Idling |
+| Callista Li Yin Low | Front End | Idling |
+| Livya Natasha Riany | Front End | Idling |
+| Joseph Leonardi | Front End | Preparing (Extension)|
+| Jeffrey Kolenchery | Back End | Idling  |
 
 ## General info
 Your team has been contracted to design and build web apps for Snacks in a Van, a new startup company operating in Melbourne. Snacks in a Van runs a fleet of food trucks that work as popup cafes. You need to make two web apps: one for customers and one for vendors
@@ -44,16 +44,20 @@ Project is created with the following technologies:
 - Express
 - Mongoose
 - Node.JS
+- Timestring
 - TypeScript
+- Password-validator
 
 ### Frontend
 - Axios
 - Bootstrap
 - Create React App
+- MapBox
 - Moment
 - TypeScript
-- Vue
 - @material-UI
+- Password-validator
+
 
 **Now Get ready to complete all the tasks:**
 
@@ -67,7 +71,51 @@ Project is created with the following technologies:
 ## Workflow: 
 1. `git clone https://github.com/INFO30005-2021-SM1/project-t05-snaccoverflow.git`
 2. `cd project-t05-snaccoverflow`
-3. `npm install && npm start`
+3. `npm run start-dev'
+
+### MongoDB Compass Access
+- Connection string: `mongodb+srv://<username>:<password>@snaccs-in-a-van.4ciyf.mongodb.net/test`
+- Username: `pbhattacharj`
+- Password: `wPOIjfztrqvCKOMe`
+
+### Dummy Customer Login Details
+- Username: `nputro@student.unimelb.edu.au`
+- Password: `1234abcd`
+
+- Username: `lriany@student.unimelb.edu.au`
+- Password: `abcd1234`
+
+- Username: `callistaliyi@student.unimelb.edu.au`
+- Password: `1234abcd`
+
+### Vendor Login Details
+- Username: 'Tasty Trailer'
+- Password: 'abcd1234'
+
+- Username: 'Snaccy Van'
+- Password: 'abcd1234'
+
+- Username: 'Snax McTest'
+- Password: '4321dcba'
+
+- Username: 'Hungry FoodTruck'
+- Password: 'abcd1234'
+
+- Username: 'BIG CAKES ONLY'
+- Password: 'abcd1234'
+
+- Username: 'Caffeine School'
+- Password: 'abcd1234'
+
+#### Bonus Marks Pages
+1. Rating
+- Cart Icon -> Past Orders -> Click on a recently completed order
+
+2. Map
+- Home Icon -> View Map
+
+3. Live updates
+- Test live updates by opening the customer app and vendor app on separate browsers
 
 ## Postman-Requests:  
 
@@ -172,37 +220,3 @@ Project is created with the following technologies:
     - Fault conditions:
         - Send a valid but non-existent `itemId`, then a 404 Not Found will be returned.
         - Send an invalid `itemId`, then a 500 Internal Server Error will be returned.
-
-### MongoDB Compass Access
-- Connection string: `mongodb+srv://<username>:<password>@snaccs-in-a-van.4ciyf.mongodb.net/test`
-- Username: `pbhattacharj`
-- Password: `wPOIjfztrqvCKOMe`
-
-### Dummy Customer Login Details
-- Username: `nputro@student.unimelb.edu.au`
-- Password: `1234abcd`
-
-- Username: `lriany@student.unimelb.edu.au`
-- Password: `abcd1234`
-
-- Username: `callistaliyi@student.unimelb.edu.au`
-- Password: `1234abcd`
-
-### Vendor Login Details
-- Username: 'Tasty Trailer'
-- Password: 'abcd1234'
-
-- Username: 'Snaccy Van'
-- Password: 'abcd1234'
-
-- Username: 'Snax McTest'
-- Password: '4321dcba'
-
-- Username: 'Hungry FoodTruck'
-- Password: 'abcd1234'
-
-- Username: 'BIG CAKES ONLY'
-- Password: 'abcd1234'
-
-- Username: 'Caffeine School'
-- Password: 'abcd1234'

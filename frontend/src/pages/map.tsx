@@ -83,7 +83,7 @@ class Content extends React.Component<MainProps, any> {
 
                     /* Pin point marker for vendor's location and link to corresponding menu page */
                     L.marker([data[i].geolocation[0], data[i].geolocation[1]], {icon: vanIcon})
-                    .bindPopup(data[i].name +  "<br/>" + data[i].locationDescription + "<br/><a href=/menu/vendor/?id=" + data[i]._id + ">Order</a>" )
+                    .bindPopup(data[i].name +  "<br/>" + data[i].locationDescription + "<br/><a href=/menu/vendor/?id=" + data[i]._id + ">View menu</a>" )
                     .addTo(map)
                     i++;
                 }

@@ -56,7 +56,6 @@ class ListPastOrder extends React.Component {
             (response) => {
                 var data = response.data
                 this.setState({isLoaded: true, orderList: data});
-                console.log(response);
             }, (error) => {
                 this.setState({isLoaded: true, error});
                 console.log(error);

@@ -28,8 +28,7 @@ import ListNearest from "./pages/nearest";
 import ProfileAmendName from "./pages/profileAmend";
 import ProfileAmendPassword from "./pages/profilePassword";
 import Map from "./pages/map";
-import Vue from "vue";
-import VueAxios from "vue-axios";
+import VendorComplete from "./pages/vendorComplete";
 
 /* Enable credentials to be shared among pages */
 axios.defaults.withCredentials = true;
@@ -44,8 +43,6 @@ switch (process.env.NODE_ENV) {
     axios.defaults.baseURL = "http://localhost:48080/api";
     break;
 }
-
-Vue.use(VueAxios, axios);
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -65,6 +62,7 @@ function App() {
           />
           <Route exact path="/vendor/profile" component={VendorProfile} />
           <Route exact path="/vendor/orders" component={VendorOrder} />
+          <Route exact path="/vendor/complete" component={VendorComplete} />
           <div>
             <Nav />
             <Route exact path="/map" component={Map} />

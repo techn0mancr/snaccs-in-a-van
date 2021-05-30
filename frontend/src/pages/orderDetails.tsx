@@ -6,7 +6,7 @@ import moment from "moment";
 import "./order.css";
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { getOrderDetails, getId } from "../api";
+import { getOrderDetails, getId, customerProfile } from "../api";
 moment().format();
 
 /* Put currency option */
@@ -48,13 +48,26 @@ class Information extends React.Component {
     totalAmount: 0,
     paidAmount: 0,
     discount: 0,
-    isLoaded: false
+    isLoaded: false,
+    customer: false
   }
   orderId = getId() || "";
 
   /* Before rendering page */
   componentWillMount() {
+    /* Request order details */
     this.orderDetails(this.orderId);
+
+    /* Check customer already logged in */
+    customerProfile().then(
+      (response) => {
+          this.setState({customer: true});
+          console.log(response);
+        },
+      (error) => {
+          console.log(error);
+      }
+    )
   }
 
   /* During on page */
@@ -68,8 +81,7 @@ class Information extends React.Component {
       (response) => {
         var data = response.data;
         this.setState({isLoaded: true, details: data, timeStamps: data.timestamps,vendorId: data.vendorId, items: data.items, rating: data.rating,paidAmount: data.total})
-        this.checkDiscount();;
-        console.log(response);
+        this.checkDiscount();
       }, (error) => {
         this.setState({ isLoaded: true, error });
         console.log(error);
@@ -92,13 +104,10 @@ class Information extends React.Component {
     } else {
       this.setState({totalAmount: paidAmount});
     }
-
-    console.log(timeStamps.fulfilled);
-    console.log(timeStamps.placed);
   }
 
   render() {
-    const { showDiscount, error, details, vendorId, items, timeStamps, rating, paidAmount, totalAmount, discount, isLoaded } = this.state;
+    const { showDiscount, error, details, vendorId, items, timeStamps, rating, paidAmount, totalAmount, discount, isLoaded, customer } = this.state;
 
     if (error === true) {
       return <h3 className ="error">fail</h3>;
@@ -122,10 +131,16 @@ class Information extends React.Component {
               {moment(timeStamps.completed).format("D MMM YYYY h.mm A")}
             </h2>
             <br/>
-            {rating == null ?
-              <button className="signup" type="submit" value="signup" onClick={() => history.push(`/order/rate/?id=${this.orderId}`)}><h2>Rate Order</h2></button>
-              :null
+            { customer? 
+              <div>
+                {rating == null ?
+                  <button className="signup" type="submit" value="signup" onClick={() => history.push(`/order/rate/?id=${this.orderId}`)}><h2>Rate Order</h2></button>
+                  :null
+                }
+              </div>
+            :null
             }
+            
           </div>
 
           <div className="containerCheckout" id="loc">

@@ -47,7 +47,6 @@ class Content extends React.Component {
             (response) => {
                 var data = response.data;
                 this.setState({placedOrders: data, isLoadedPlaced: true});
-                console.log(response);
             }, (error) => {
                 console.log(error);
             }
@@ -60,7 +59,6 @@ class Content extends React.Component {
             (response) => {
                 var data = response.data;
                 this.setState({fulfillOrders: data, isLoadedFulfill: true});
-                console.log(response);
             }, (error) => {
                 console.log(error);
             }
@@ -100,7 +98,6 @@ class Content extends React.Component {
                 } else {
                     this.setState({readyButton: false});
                 }
-                console.log(response);
             }, (error) => {
                 console.log(error);
             }
@@ -126,7 +123,6 @@ class Content extends React.Component {
             (response) => {
                 this.setState({showDetail: false});
                 this.getPlaced();
-                console.log(response);
             }, (error) => {
                 console.log(error);
             }
@@ -139,7 +135,6 @@ class Content extends React.Component {
             (response) => {
                 this.setState({showDetail: false});
                 this.getFulfill();
-                console.log(response);
             }, (error) => {
                 console.log(error);
             }
@@ -162,10 +157,10 @@ class Content extends React.Component {
                                             <div key={i}>
                                                 <div className ="perOrder" onClick={() => this.handleDisplay(order._id, true)}>
                                                     <div className ="leftBox">
-                                                        <p className = "p-vendorOrder">{(order._id).substring(11,24)}</p>
+                                                        <p className = "p-vendorOrder">{(order._id).substring(16,24)}</p>
                                                         <p className = "p-vendorOrder">{moment(order.timestamps.placed).format('h.mm A')}</p>
                                                     </div>
-                                                    <p className = "p-orderName">{order.customerId.givenName} {order.customerId.familyName}</p>
+                                                    <p className = "p-orderName">{order.customerId.givenName}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -189,7 +184,7 @@ class Content extends React.Component {
                                     <p className = "p-orderTime">Placed: {moment(details.timestamps.placed).format('h.mm A')}</p>
                                     :<p className = "p-orderTime">Placed: {moment(details.timestamps.placed).format('h.mm A')}, Fulfilled: {moment(details.timestamps.fulfilled).format('h.mm A')}</p>
                                 }
-                                <p className="p-detailsName">{details.customerId.givenName} {details.customerId.familyName}</p>
+                                <p className="p-detailsName">{details.customerId.givenName}</p>
                                 { items.map((item, i) => (
                                     <div key={i}>
                                         <p className = "p-orderCard">{item.quantity}x {item.itemId.name}</p>
@@ -217,10 +212,10 @@ class Content extends React.Component {
                                             <div key={i}>
                                                 <div className="perOrder" onClick={() => this.handleDisplay(fulfill._id, false)}>
                                                     <div className="leftBox">
-                                                        <p className = "p-vendorOrder">{(fulfill._id).substring(11,24)}</p>
+                                                        <p className = "p-vendorOrder">{(fulfill._id).substring(16,24)}</p>
                                                         <p className = "p-vendorOrder">{moment(fulfill.timestamps.fulfilled).format('h.mm A')}</p>
                                                     </div>
-                                                    <p className = "p-orderName">{fulfill.customerId.givenName} {fulfill.customerId.familyName}</p>
+                                                    <p className = "p-orderName">{fulfill.customerId.givenName}</p>
                                                     <button type="button" className="btn-vendorOrder" onClick={() => this.handleComplete(fulfill._id)}>Picked Up</button>
                                                 </div>
                                             </div>

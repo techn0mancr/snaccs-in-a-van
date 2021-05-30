@@ -116,12 +116,10 @@ const Information = () => {
         const data = response.data;
         setCart(data);
         setIsLoaded(true);
-        console.log(response);
       },
       (error) => {
         setError(error);
         setIsLoaded(true);
-        console.log(error);
       }
     );
   }, []);

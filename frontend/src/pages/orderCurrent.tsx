@@ -33,17 +33,35 @@ class ListActiveOrder extends React.Component {
 
   interval!: NodeJS.Timeout;
 
+  /* Get active orders from api */
+  activeOrders = () => {
+    getActiveOrders().then(
+      (response) => {
+        var data = response.data;
+        this.setState({ isLoaded: true, orderList: data });
+      },
+      (error) => {
+        this.setState({ isLoaded: true, error });
+        console.log(error);
+      }
+    );
+  };
+
+  /* During on page, re-render every second */
   async componentDidMount() {
+    /* Get active orders */
     try {
       this.interval = setInterval(async () => {
         this.activeOrders();
-      }, 1000);
+      }, 5000);
     } catch (e) {
       console.log(e);
     }
   }
 
+  /* Before rendering page */
   componentWillMount() {
+    /* Check customer already logged in */
     customerProfile().then(
       (response) => {
         console.log(response);
@@ -56,22 +74,9 @@ class ListActiveOrder extends React.Component {
     );
   }
 
+  /* Clear time interval when unmount */
   componentWillUnmount() {
     clearInterval(this.interval);
-  }
-
-  activeOrders() {
-    getActiveOrders().then(
-      (response) => {
-        var data = response.data;
-        this.setState({ isLoaded: true, orderList: data });
-        console.log(response);
-      },
-      (error) => {
-        this.setState({ isLoaded: true, error });
-        console.log(error);
-      }
-    );
   }
 
   render() {

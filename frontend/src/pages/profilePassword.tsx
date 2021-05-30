@@ -22,7 +22,7 @@ class Profile extends React.Component {
         customerProfile().then(
             (response) => {
                 console.log(response);
-            },
+              },
             (error) => {
                 alert("Please login");
                 history.push("/customer/login");
@@ -70,7 +70,6 @@ class Profile extends React.Component {
                 <input id="confirm" type="password" name="Confirm new password" placeholder="confirm password" value={confirm} onChange={this.handleChange} required/><br/><br/>
                 <br/>
                 <button className="save" type="submit" onClick={this.handleSubmit}>
-
                     <h2 className="click">Change Password</h2>
                 </button>
             </div>

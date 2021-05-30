@@ -15,6 +15,7 @@ class Header extends React.Component {
                 <br/><br/>
                 <input className="vendorProfile" type="image" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1>Vendor Profile</h1>
+                <button className="past" type="submit" value="past" onClick={()=> history.push(`/vendor/complete`)}>View Completed Orders</button>
                 <br/>
             </div>
         )
@@ -37,7 +38,6 @@ class Description extends React.Component {
             (response) => {
                 var data = response.data;
                 this.setState({details: data, geolocation: data.geolocation, isLoaded: true});
-                console.log(response);
             }, (error) => {
                 console.log(error);
             }
@@ -58,7 +58,6 @@ class Description extends React.Component {
                     history.push("/vendor/login");
                     vendorLogout();
                 } 
-                console.log(response);
             })
             .catch(error=>{ 
                 if (error.response) {

@@ -148,6 +148,12 @@ async function getCustomerGeolocation() {
   }
 }
 
+/* Get the given vendor's completed orders */
+function getCompletedOrders() {
+  const endpoint = `${BASE_URL}/vendor/orders/completed`;
+  return axios.get(endpoint);
+}
+
 /* Get the given vendor's fulfilled orders */
 async function getFulfilledOrders() {
   const endpoint = `${BASE_URL}/vendor/orders/fulfilled`;
@@ -348,12 +354,6 @@ async function cancelOrder(orderId: String) {
   return await axios.get(endpoint);
 }
 
-/* Get the given vendor's completed orders */
-// function getCompletedOrders() {
-//   const endpoint = `${BASE_URL}/orders/completed`;
-//   return axios.get(endpoint);
-// }
-
 /* Export api functions */
 export {
   addItemToCart,
@@ -370,6 +370,7 @@ export {
   getActiveOrders,
   getCart,
   getCustomerGeolocation,
+  getCompletedOrders,
   getDistance,
   getFulfilledOrders,
   getId,
