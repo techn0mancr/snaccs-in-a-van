@@ -723,11 +723,10 @@ async function rateOrder(req: Request & {
     await param("orderId")
           .isMongoId()
           .run(req);
-    if (req.body.rating)
-        await body("rating")
-            .isInt({ min: 0, max: 5 })
-            .toInt()
-            .run(req);
+    await body("rating")
+        .isInt({ min: 0, max: 5 })
+        .toInt()
+        .run(req);
     if (req.body.comments)
         await body("comments")
             .isAscii()
