@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
+import './index.css'
+
 
 /* Import components */
 import history from "./history";
