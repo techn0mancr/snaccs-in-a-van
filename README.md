@@ -185,6 +185,9 @@ Project is created with the following technologies:
 - Username: `lriany@student.unimelb.edu.au`
 - Password: `abcd1234`
 
+- Username: `callistaliyi@student.unimelb.edu.au`
+- Password: `1234abcd`
+
 ### Vendor Login Details
 - Username: 'Tasty Trailer'
 - Password: 'abcd1234'
