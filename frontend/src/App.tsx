@@ -29,6 +29,7 @@ import ListNearest from "./pages/nearest";
 import ProfileAmendName from "./pages/profileAmend";
 import ProfileAmendPassword from "./pages/profilePassword";
 import Map from "./pages/map";
+import VendorComplete from "./pages/vendorComplete";
 
 /* Enable credentials to be shared among pages */
 axios.defaults.withCredentials = true;
@@ -58,6 +59,7 @@ function App() {
           <Route exact path="/vendor/geolocation" component={VendorGeolocation}/>
           <Route exact path="/vendor/profile" component={VendorProfile} />
           <Route exact path="/vendor/orders" component={VendorOrder} />
+          <Route exact path="/vendor/complete" component={VendorComplete} />
           <div>
             <Nav />
             <Route exact path="/map" component={Map} />

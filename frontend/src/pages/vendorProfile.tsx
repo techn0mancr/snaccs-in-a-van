@@ -15,6 +15,7 @@ class Header extends React.Component {
                 <br/><br/>
                 <input className="vendorProfile" type="image" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
                 <h1>Vendor Profile</h1>
+                <button className="past" type="submit" value="past" onClick={()=> history.push(`/vendor/complete`)}>View Completed Orders</button>
                 <br/>
             </div>
         )
