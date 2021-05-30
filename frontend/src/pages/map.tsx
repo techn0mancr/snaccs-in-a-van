@@ -8,9 +8,11 @@ import 'mapbox-gl-leaflet';
 import 'leaflet/dist/leaflet.css';
 import "./map.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
+import leftArrow from '../img/leftArrow.png';
+import vanPoint from '../img/vanPoint.svg';
+import pinPoint from '../img/pinPoint.svg';
+import history from "../history";
 import {getVendors} from '../api';
-
-mapboxgl.accessToken = 'pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ';
 
 /* Header component of Map Page */
 class Header extends React.Component {
@@ -18,6 +20,7 @@ class Header extends React.Component {
         return (
             <div className="title">
                 <h1 className="nVan">Nearest Vans</h1>
+                <input type="image" className="back" alt="back" src={leftArrow} onClick={() => history.goBack()}/>
             </div>
         )
     }
@@ -40,19 +43,23 @@ class Content extends React.Component<MainProps, any> {
     }
 
     componentDidMount() {
-        const { lat, lng, zoom, vendors } = this.state;
+        const { lat, lng, zoom } = this.state;
 
         var map = L.map(this.state.mapContainer.current).setView([lat, lng], zoom);
-        var greenIcon = new L.Icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            iconSize: [25, 41],
+        var vanIcon = new L.Icon({
+            iconUrl: vanPoint,
+            iconSize: [40, 41],
             iconAnchor: [12, 41],
             popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          });
+        });
+        var pinIcon = new L.Icon({
+            iconUrl: pinPoint,
+            iconSize: [40, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+        });
         
-        L.marker([lat, lng], {icon: greenIcon})
+        L.marker([lat, lng], {icon: pinIcon})
         .bindPopup("You are here!")
         .addTo(map)
         .openPopup();
@@ -63,8 +70,8 @@ class Content extends React.Component<MainProps, any> {
                 this.setState({vendors: data})
                 var i = 0 ;
                 while (i < 5) {
-                    L.marker([data[i].geolocation[0], data[i].geolocation[1]], {icon: greenIcon})
-                    .bindPopup(data[i].name +  "<br/>" + data[i].locationDescription + "<br/>" + "<a href=" + "/menu/vendor/?id=" + data[i]._id + ">" + "Order" + "</a>" )
+                    L.marker([data[i].geolocation[0], data[i].geolocation[1]], {icon: vanIcon})
+                    .bindPopup(data[i].name +  "<br/>" + data[i].locationDescription + "<br/><a href=/menu/vendor/?id=" + data[i]._id + ">Order</a>" )
                     .addTo(map)
                     i++;
                 }
@@ -78,12 +85,13 @@ class Content extends React.Component<MainProps, any> {
             accessToken: 'pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ',
             style: 'mapbox://styles/livyanatasha/ckpa4turt3glb18qtp0d6qz4r'
         }).addTo(map);
-
     }
 
     render() {
         return (
-            <div ref={this.state.mapContainer} className="map-container" />
+            <div className ="map">
+                <div ref={this.state.mapContainer} className="map-container" />
+            </div>
         )
     }
     

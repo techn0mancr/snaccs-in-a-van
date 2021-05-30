@@ -13,6 +13,7 @@ class Header extends React.Component {
         return (
             <div className="title">
                 <h1 className="nVan">Nearest Vans</h1>
+                <button className="past" type="submit" value="past" onClick={()=> history.push(`/map`)}>View Map</button>
             </div>
         )
     }
