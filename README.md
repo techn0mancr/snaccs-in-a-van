@@ -73,10 +73,6 @@ Project is created with the following technologies:
 2. `cd project-t05-snaccoverflow`
 3. `npm run start-dev'
 
-### Testing Heroku App with Live Updates
-1. Open the customer app and vendor app on separate browsers
-
-
 ### MongoDB Compass Access
 - Connection string: `mongodb+srv://<username>:<password>@snaccs-in-a-van.4ciyf.mongodb.net/test`
 - Username: `pbhattacharj`
@@ -117,6 +113,9 @@ Project is created with the following technologies:
 
 2. Map
 - Home Icon -> View Map
+
+3. Live updates
+- Test live updates by opening the customer app and vendor app on separate browsers
 
 ## Postman-Requests:  
 
