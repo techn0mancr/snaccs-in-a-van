@@ -5,11 +5,14 @@ import * as L from 'leaflet';
 import 'mapbox-gl-leaflet';
 import mapbox from 'mapbox';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import Link from 'react-router-dom';
 
 /* Import components */
 import 'leaflet/dist/leaflet.css';
 import "./map.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
+import history from "../history";
+import {getVendors} from '../api';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ';
 
@@ -34,8 +37,9 @@ class Content extends React.Component<MainProps, any> {
         this.state = {
             lat: window.sessionStorage.getItem("customerLat") as any as number,
             lng: window.sessionStorage.getItem("customerLng") as any as number,
-            zoom: 2,
-            mapContainer: React.createRef()
+            zoom: 15,
+            mapContainer: React.createRef(),
+            vendors: [] as any[]
         }
     }
 
@@ -89,17 +93,52 @@ class Content extends React.Component<MainProps, any> {
 // }
 
     componentDidMount() {
-        const { lat, lng } = this.state;
-        var map = L.map(this.state.mapContainer.current).setView([38.912753, -77.032194], 15);
-        L.marker([lat, lng])
-        .bindPopup("Hello <b>Leaflet GL</b>!<br>Whoa, it works!")
+        const { lat, lng, zoom, vendors } = this.state;
+
+        var map = L.map(this.state.mapContainer.current).setView([lat, lng], zoom);
+        var greenIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          });
+        
+        L.marker([lat, lng], {icon: greenIcon})
+        .bindPopup("You are here!")
         .addTo(map)
         .openPopup();
 
-        var gl = L.mapboxGL({
+        // L.marker([6.1330, 106.8267], {icon: greenIcon})
+        // .bindPopup("Hello <b>Leaflet GL</b>!<br>Whoa, it works!")
+        // .addTo(map)
+        // .openPopup();
+
+        getVendors().then(
+            (response) => {
+                var data = response.data
+                this.setState({vendors: data})
+                var i = 0 ;
+                while (i < 5) {
+                    L.marker([data[i].geolocation[0], data[i].geolocation[1]], {icon: greenIcon})
+                    .bindPopup(data[i].name +  ", " + data[i].locationDescription)
+                    .addTo(map)
+                    console.log(data[i].geolocation);
+                    i++;
+                }
+                console.log(response);
+            }, (error) => {
+                console.log(error);
+            }
+        )
+
+        L.mapboxGL({
             accessToken: 'pk.eyJ1IjoibGl2eWFuYXRhc2hhIiwiYSI6ImNrcGE0b2ttajBrY3kycGxsdnRxNXB5dmgifQ.ZU7MvBafKMb1fX91QcItiQ',
             style: 'mapbox://styles/livyanatasha/ckpa4turt3glb18qtp0d6qz4r'
         }).addTo(map);
+
+        
     }
 
     render() {
