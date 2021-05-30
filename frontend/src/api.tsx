@@ -183,7 +183,7 @@ async function getPlacedOrders() {
 
 /* Get the nearest MAX_NEAREST_VENDORS open vendors to the given geolocation tuple */
 async function getVendors() {
-  await getCustomerGeolocation();
+  getCustomerGeolocation();
   const lat = window.sessionStorage.getItem("customerLat") as any as number;
   const lng = window.sessionStorage.getItem("customerLng") as any as number;
   const endpoint = `${BASE_URL}/vendor/nearest/${lat},${lng}`;
@@ -224,10 +224,16 @@ function getDistance(geolocation1 : number[], geolocation2: number[]) {
   return (Math.pow(Math.pow(geolocation2[0]-geolocation1[0], 2) + Math.pow(geolocation2[1]-geolocation1[1], 2), 0.5)).toFixed(2);
 }
 
-/* Submits a rating for a completed order */
+/* Submits a rating and comment for a completed order */
 async function rateOrder(orderId: String, rating: number, comment: string) {
   const endpoint = `${BASE_URL}/customer/order/${orderId}/rate`;
   return await axios.patch(endpoint, { orderId, rating: rating, comments: comment });
+}
+
+/* Submits a rating for a completed order */
+async function rateOrderStar(orderId: String, rating: number) {
+  const endpoint = `${BASE_URL}/customer/order/${orderId}/rate`;
+  return await axios.patch(endpoint, { orderId, rating: rating });
 }
 
 /* Selects the given vendor */
@@ -345,6 +351,7 @@ export {
   getVendors,
   getVendorGeolocation,
   rateOrder,
+  rateOrderStar,
   selectVendor,
   setVendorAvailability,
   setVendorGeolocation,

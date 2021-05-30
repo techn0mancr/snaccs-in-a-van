@@ -724,13 +724,14 @@ async function rateOrder(req: Request & {
           .isMongoId()
           .run(req);
     await body("rating")
-          .isInt({ min: 1, max: 5 })
-          .toInt()
-          .run(req);
-    await body("comments")
-          .isAscii()
-          .trim()
-          .run(req);
+        .isInt({ min: 0, max: 5 })
+        .toInt()
+        .run(req);
+    if (req.body.comments)
+        await body("comments")
+            .isAscii()
+            .trim()
+            .run(req);
 
     /* Check for any validation errors */
     if (!validationResult(req).isEmpty()) {

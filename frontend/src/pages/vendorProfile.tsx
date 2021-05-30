@@ -26,7 +26,8 @@ class Description extends React.Component {
     
     state = {
         details: [] as any,
-        geolocation: [] as any
+        geolocation: [] as any,
+        isLoaded: false
     }
 
     /* During on page */
@@ -35,7 +36,7 @@ class Description extends React.Component {
         vendorProfile().then(
             (response) => {
                 var data = response.data;
-                this.setState({details: data, geolocation: data.geolocation});
+                this.setState({details: data, geolocation: data.geolocation, isLoaded: true});
                 console.log(response);
             }, (error) => {
                 console.log(error);
@@ -70,19 +71,25 @@ class Description extends React.Component {
     }
 
     render() {
-        const { details, geolocation } = this.state;
+        const { details, geolocation, isLoaded } = this.state;
 
         return (
             <div className ="vendorGeolocation">
                 <div className="geoContainer">
                     <h2>Current location</h2>
-                    <p>{geolocation[0]},{geolocation[1]}</p>
+                    {isLoaded?
+                        <p>({geolocation[0]}, {geolocation[1]})</p>
+                        :<p>Loading...</p>
+                    }
+                    
                 </div>
 
                 <div className="geoContainer">
                     <h2>Location Description</h2>
-                    <p>{details.locationDescription}</p>
-                    <br/><br/><br/>
+                    {isLoaded? 
+                        <p>{details.locationDescription}</p>
+                        :<p>Loading...</p>
+                    }
                 </div>
                 <br/><br/>
 

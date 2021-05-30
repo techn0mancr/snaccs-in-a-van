@@ -48,7 +48,7 @@ class Profile extends React.Component {
                 alert("Password successfuly changed!");
                 history.push('/customer/profile');
             } else {
-                alert("Please enter at least 1 alphabet character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters")
+                alert("Please enter at least 1 alphabetical character (upper or lower case A-Z), at least one numerical digit (0-9), length of at least 8 characters")
             }
         } else {
             alert("Please enter the same password");

@@ -39,7 +39,7 @@ class ListPastOrder extends React.Component {
         try {
             this.interval = setInterval(async () => { 
                 this.pastOrders();
-            }, 1000);
+            }, 5000);
             } catch(e) {
                 console.log(e);
             }

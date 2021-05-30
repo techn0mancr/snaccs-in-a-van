@@ -3,7 +3,10 @@
 
 # Group Project Repository
 
-Welcome!
+Check out our website:
+https://snaccs-in-a-van.herokuapp.com/
+
+Commit ID for Submission: #############
 
 ## Table of contents
 * [Team Members](#team-members)
@@ -57,9 +60,9 @@ Project is created with the following technologies:
 - [x] Read the Project handouts carefully
 - [x] User Interface (UI)mockup
 - [x] App server mockup
-- [ ] Front-end + back-end (one feature)
-- [ ] Complete system + source code
-- [ ] Report on your work(+ test1 feature)
+- [x] Front-end + back-end (one feature)
+- [x] Complete system + source code
+- [x] Report on your work(+ test1 feature)
 
 ## Workflow: 
 1. `git clone https://github.com/INFO30005-2021-SM1/project-t05-snaccoverflow.git`
@@ -177,5 +180,29 @@ Project is created with the following technologies:
 
 ### Dummy Customer Login Details
 - Username: `nputro@student.unimelb.edu.au`
-- Password: `123456`
+- Password: `1234abcd`
 
+- Username: `lriany@student.unimelb.edu.au`
+- Password: `abcd1234`
+
+- Username: `callistaliyi@student.unimelb.edu.au`
+- Password: `1234abcd`
+
+### Vendor Login Details
+- Username: 'Tasty Trailer'
+- Password: 'abcd1234'
+
+- Username: 'Snaccy Van'
+- Password: 'abcd1234'
+
+- Username: 'Snax McTest'
+- Password: '4321dcba'
+
+- Username: 'Hungry FoodTruck'
+- Password: 'abcd1234'
+
+- Username: 'BIG CAKES ONLY'
+- Password: 'abcd1234'
+
+- Username: 'Caffeine School'
+- Password: 'abcd1234'
