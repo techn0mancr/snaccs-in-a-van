@@ -32,21 +32,23 @@ axios.defaults.withCredentials = true;
 
 /* Change the Axios base URL based on the environment */
 switch (process.env.NODE_ENV) {
-    case "production":
-        axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
-        break;
-    case "development":
-    default:
-        axios.defaults.baseURL = "http://localhost:48080/api";
-        break;
+  case "production":
+    axios.defaults.baseURL = "https://snaccs-in-a-van.herokuapp.com";
+    break;
+  case "development":
+  default:
+    axios.defaults.baseURL = "http://localhost:48080/api";
+    break;
 }
 
 Vue.use(VueAxios, axios);
 
-export function getId() {
-  const query = history.location.search;
-  const id = query.replace("?id=", "");
-  return id;
+export function getId(otherParamsToo?: boolean) {
+  const params: any = new URLSearchParams(window.location.search);
+  if (otherParamsToo) {
+    return params;
+  }
+  return params.id;
 }
 
 function App() {
@@ -59,7 +61,11 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/vendor/login" component={VendorLogin} />
-          <Route exact path="/vendor/geolocation" component={VendorGeolocation}/>
+          <Route
+            exact
+            path="/vendor/geolocation"
+            component={VendorGeolocation}
+          />
           <Route exact path="/vendor/profile" component={VendorProfile} />
           <Route exact path="/vendor/orders" component={VendorOrder} />
           <div>
@@ -67,18 +73,29 @@ function App() {
             <Route exact path="/customer/login" component={CustomerLogin} />
             <Route exact path="/customer/register" component={Signup} />
             <Route exact path="/customer/profile" component={Profile} />
-            <Route exact path="/customer/profile/amend/name" component={ProfileAmendName} />
-            <Route exact path="/customer/profile/amend/password" component={ProfileAmendPassword} />
+            <Route
+              exact
+              path="/customer/profile/amend/name"
+              component={ProfileAmendName}
+            />
+            <Route
+              exact
+              path="/customer/profile/amend/password"
+              component={ProfileAmendPassword}
+            />
             <Route exact path="/order/active/status" component={OrderStatus} />
             <Route exact path="/cart/order/active" component={OrderCurrent} />
             <Route exact path="/cart/order/past" component={OrderPast} />
-            <Route exact path="/order/rate" component={Rate}/>
+            <Route exact path="/order/rate" component={Rate} />
             <Route exact path="/order/checkout" component={Checkout} />
             <Route exact path="/order/details" component={OrderDetails} />
-            <Route exact path="/menu" component={ListNearest}/>
-            <Route exact path="/menu/vendor"
+            <Route exact path="/menu" component={ListNearest} />
+            <Route
+              exact
+              path="/menu/vendor"
               render={() => (
-                <Menu openModalForAddingItemWithId={(id: string) => {
+                <Menu
+                  openModalForAddingItemWithId={(id: string) => {
                     setItemId(id);
                     setOpen(true);
                   }}
@@ -89,10 +106,7 @@ function App() {
         </Switch>
       </Router>
       {open && (
-        <AddToCart 
-        id={itemId} 
-        open={open} 
-        handleClose={() => setOpen(false)} />
+        <AddToCart id={itemId} open={open} handleClose={() => setOpen(false)} />
       )}
     </div>
   );

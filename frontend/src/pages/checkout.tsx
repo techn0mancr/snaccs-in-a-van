@@ -133,11 +133,7 @@ const Information = () => {
         {cart.map((item: CartItem, i: number) => (
           <div key={i}>
             <div className="cart">
-              <div className="item">
-                <h3>
-                  {item.quantity} x {item.itemId.name}
-                </h3>
-              </div>
+              <h3 className="item-title">{item.itemId.name}</h3>
               <div className="number">
                 <ButtonGroup>
                   <Button
@@ -166,7 +162,6 @@ const Information = () => {
                     {" "}
                     <AddIcon fontSize="small" />
                   </Button>
-                  {/* <Badge color="secondary" badgeContent={itemCount}></Badge> */}
                 </ButtonGroup>
               </div>
               <p className="price">${item.subtotal}</p>
@@ -194,6 +189,9 @@ const Information = () => {
 };
 
 const CheckoutButton = () => {
+  // const params = getId(true);
+  // debugger;
+
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     checkoutCart();
