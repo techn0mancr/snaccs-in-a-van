@@ -1,15 +1,26 @@
+/* Import the required libraries and types */
 import React, { useEffect, useState } from "react";
+
+/* Import components */
 import "./menu.css";
 import history from "../history";
-import { getMenu, getCart, getDistance } from "../api";
+import {
+  getMenu,
+  getCart,
+  getDistance,
+  getId,
+  selectVendor,
+  customerProfile,
+} from "../api";
 import leftArrow from "../img/leftArrow.png";
-import { getId } from "../App";
 
+/* Put currency option */
 const currencyOptions = {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 };
 
+/* Return number into 2 decimal places */
 function toTwoDecimalPlaces(number: number) {
   return number.toLocaleString(undefined, currencyOptions);
 }
@@ -24,12 +35,13 @@ const VanInfo = () => {
   const [profile, setProfile] = useState<Profile>({
     name: "",
     locationDescription: "",
-    geolocation: [0,0]
+    geolocation: [0, 0],
   });
 
   const vendorId = getId() || "";
 
   useEffect(() => {
+    selectVendor(vendorId);
     getMenu(vendorId)
       .then(
         (response) => {
@@ -56,12 +68,16 @@ const VanInfo = () => {
         <h1 className="menu-h1">{profile?.name}</h1>
         <h2 className="menu-h2">{profile?.locationDescription}</h2>
         <br />
-        <h3 className="menu-h3">
-          {profile?.geolocation[0]}, {profile?.geolocation[1]}
-        </h3>
-        <p className="menu-p">{getDistance([window.sessionStorage.getItem("lat") as unknown as number, 
-                                            window.sessionStorage.getItem("lng") as unknown as number],
-                                             profile.geolocation)} km away from you</p>
+        <p className="menu-p">
+          {getDistance(
+            [
+              window.sessionStorage.getItem("lat") as unknown as number,
+              window.sessionStorage.getItem("lng") as unknown as number,
+            ],
+            profile.geolocation
+          )}{" "}
+          km away from you
+        </p>
       </div>
     </div>
   );
@@ -69,9 +85,13 @@ const VanInfo = () => {
 
 interface ItemsProps {
   openModalForAddingItemWithId: (id: string) => void;
+  isUserLoggedIn: boolean;
 }
 
-const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
+const Items = ({
+  openModalForAddingItemWithId,
+  isUserLoggedIn,
+}: ItemsProps) => {
   const vendorId = getId() || "";
   const [state, setState] = useState({
     vendorId,
@@ -92,12 +112,12 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
         console.log(error);
       }
     );
-  });
+  }, []);
 
   return state.error ? (
-    <h2>No menu at the moment</h2>
+    <h3 className="error">No menu at the moment</h3>
   ) : !state.isLoaded ? (
-    <h2>Loading...</h2>
+    <h3 className="error">Loading...</h3>
   ) : (
     <div className="menu">
       {state.menuList.map((menu, i) => (
@@ -109,13 +129,17 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
               alt={menu.itemId.name}
             />
             <div className="menu-container">
-              <button
-                type="button"
-                className="menu-button"
-                onClick={() => openModalForAddingItemWithId(menu.itemId._id)}
-              >
-                Add{" "}
-              </button>
+              {isUserLoggedIn && (
+                <button
+                  type="button"
+                  className="menu-button"
+                  onClick={() => {
+                    openModalForAddingItemWithId(menu.itemId._id);
+                  }}
+                >
+                  Add{" "}
+                </button>
+              )}
               <h2 className="menu-h2">{menu.itemId.name}</h2>
               <br />
               <h3 className="menu-h3">
@@ -125,6 +149,8 @@ const Items = ({ openModalForAddingItemWithId }: ItemsProps) => {
           </div>
         </div>
       ))}
+      <br></br>
+      <br></br>
     </div>
   );
 };
@@ -183,14 +209,33 @@ class Checkout extends React.Component {
 
 interface MenuProps {
   openModalForAddingItemWithId: (id: string) => void;
+  cartEmpty: boolean;
 }
 
-const Menu = ({ openModalForAddingItemWithId }: MenuProps) => (
-  <div>
-    <VanInfo />
-    <Items openModalForAddingItemWithId={openModalForAddingItemWithId} />
-    <Checkout />
-  </div>
-);
+const Menu = ({ openModalForAddingItemWithId, cartEmpty }: MenuProps) => {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    customerProfile().then(
+      (response) => {
+        setIsUserLoggedIn(true);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
+
+  return (
+    <div>
+      <VanInfo />
+      <Items
+        isUserLoggedIn={isUserLoggedIn}
+        openModalForAddingItemWithId={openModalForAddingItemWithId}
+      />
+      {isUserLoggedIn && !cartEmpty && <Checkout />}
+    </div>
+  );
+};
 
 export default Menu;

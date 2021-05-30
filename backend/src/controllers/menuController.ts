@@ -33,7 +33,8 @@ async function getItemDetails(req: Request & {
         res.status(200).json(itemDetails);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Menu) getItemDetails(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -83,7 +84,8 @@ async function getMenu(req: Request & {
         res.status(200).json(menuItems);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Menu) getMenu(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 

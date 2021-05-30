@@ -5,12 +5,19 @@ body {
 }
 
 .titleLogin {
-    /* width: 70vw; */
     margin-left: 10vw;
     margin-right: 10vw;
-    /* padding-left: 10vw; */
-    margin-top: 15vh;
+    margin-top: 100px;
+    text-align: center;
   
+}
+
+.profile{
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 50px;
+    text-align: left;
+
 }
 
 
@@ -23,7 +30,7 @@ body {
 }
 
 h1.titleLog {
-    font-size: 28px;
+    font-size: 24px;
     font-style: bold;
     font-weight: 500;
     line-height: 26px;
@@ -86,6 +93,44 @@ button.login {
     cursor: pointer;
 }
 
+button.save {
+    background-color: #dd7070;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 150px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 10px 10px #F6F6F6;
+    color: white;
+    cursor: pointer;
+}
+span {
+    margin-left: 10px;
+}
 button:hover {
     opacity: 0.8;
 }
+
+@media screen and (min-width: 768px) { /* for tablet-sized screens */
+    .titleLogin {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile {
+        width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .containerProfile{
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+} 

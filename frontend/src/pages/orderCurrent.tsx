@@ -23,6 +23,7 @@ const Header = () => (
   </div>
 );
 
+/* Content component of Current Order Page */
 class ListActiveOrder extends React.Component {
   state = {
     error: null,

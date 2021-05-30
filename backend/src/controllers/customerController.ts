@@ -102,7 +102,8 @@ async function amendProfileDetails(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) amendProfileDetails(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -154,7 +155,8 @@ async function cancelOrder(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) cancelOrder(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -203,7 +205,8 @@ async function cancelOrderAmendment(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) cancelOrderAmendment(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -239,7 +242,8 @@ async function checkoutCart(req: Request, res: Response): Promise<void> {
         res.status(201).send("Created");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) checkoutCart(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -326,7 +330,8 @@ async function editCartItem(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) editCartItem(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -407,7 +412,8 @@ async function finalizeOrderAmendment(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) finalizeOrderAmendment(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -445,7 +451,8 @@ async function getActiveOrders(req: Request, res: Response): Promise<void> {
         res.status(200).json(activeOrders);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) getActiveOrders(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -517,7 +524,8 @@ async function getPastOrders(req: Request, res: Response): Promise<void> {
         res.status(200).json(pastOrders);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) getPastOrders(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -535,7 +543,8 @@ async function getProfile(req: Request, res: Response) {
         res.status(200).json(customerDetails);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) getProfile(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -614,7 +623,8 @@ async function initializeOrderAmendment(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) initializeOrderAmendment(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -663,7 +673,8 @@ async function login(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) login(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -698,7 +709,8 @@ async function logout(req: Request, res: Response): Promise<void> {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) logout(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -712,13 +724,14 @@ async function rateOrder(req: Request & {
           .isMongoId()
           .run(req);
     await body("rating")
-          .isInt({ min: 1, max: 5 })
-          .toInt()
-          .run(req);
-    await body("comments")
-          .isAscii()
-          .trim()
-          .run(req);
+        .isInt({ min: 0, max: 5 })
+        .toInt()
+        .run(req);
+    if (req.body.comments)
+        await body("comments")
+            .isAscii()
+            .trim()
+            .run(req);
 
     /* Check for any validation errors */
     if (!validationResult(req).isEmpty()) {
@@ -751,7 +764,8 @@ async function rateOrder(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) rateOrder(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -822,7 +836,8 @@ async function register(req: Request & {
         res.status(201).send("Created");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) register(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -859,7 +874,8 @@ async function selectVendor(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Customer) selectVendor(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 

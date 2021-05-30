@@ -10,33 +10,64 @@
     text-align: center;
     vertical-align: middle;
     box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+    display: absolute;
 }
 
-.container {
-    background-color: #FFFFFF;
-    width: 420px;
-    padding: 15px;
-    margin-right: auto;
+.vendorGeolocation{
+    /* width: 2px; */
     margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+}
+
+
+.geoContainer{
+    background-color: #FFFFFF;
+    width: 380px;
+    padding: 15px;
     margin-top: 20px;
     text-align: left;
     border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+
+
 }
 
 
 input[type=text].vendorProfile {
-    background-color: #C4C4C4;
+    background-color: #E0E0E0;
     border-radius: 10px;
     border: none;
-    opacity: 52%;
+    opacity: 1nn;
     width: 90%;
-    font-size: 18px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
     letter-spacing: 0px;
     text-align: left;
-    padding: 15px 10px;
+    padding: 10px 10px;
+    color: #AFB1BA;
+    position: absolute;
+}
+
+input[type=text].vendorDesc {
+    background-color: #E0E0E0;
+    border-radius: 10px;
+    border: none;
+    opacity: 1nn;
+    width: 90%;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    padding: 10px 10px;
+    color: #AFB1BA;
 }
 
 input[type=image].vendorProfile {
@@ -55,7 +86,7 @@ input[type=image].vendorProfile {
     line-height: 20px;
     letter-spacing: 0px;
     text-align: center;
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .h2 {
@@ -79,13 +110,13 @@ input[type=image].vendorProfile {
 
 .open {
     background-color: #dd7070;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 151px;
-    font-style: regular;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100px;
+    font-style: normal;
     font-weight: 400;
-    font-size: 24px;
-    border-radius: 24px;
+    font-size: 14px;
+    border-radius: 20px;
     border: none;
     box-shadow: 0px 10px 10px #F6F6F6;
     color: white;
@@ -94,19 +125,18 @@ input[type=image].vendorProfile {
 
 .closeStore {
     background-color: #F6F6F6;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 151px;
-    font-style: regular;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100px;
+    font-style: normal;
     font-weight: 400;
-    font-size: 24px;
-    border-radius: 24px;
+    font-size: 14px;
+    border-radius: 20px;
     border: 2px solid #dd7070;
     color: #dd7070;
     cursor: pointer;
+
 }
-
-
 
 button:hover {
     opacity: 0.8;

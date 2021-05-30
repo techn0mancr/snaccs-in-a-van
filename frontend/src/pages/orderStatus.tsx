@@ -1,21 +1,25 @@
+/* Import the required libraries and types */
 import React from "react";
+import moment from "moment";
+
+/* Import components */
 import "./orderStatus.css";
 import leftArrow from "../img/leftArrow.png";
 import order from "../img/orderStatus/order.png";
 import prepare from "../img/orderStatus/prepare.png";
 import ready from "../img/orderStatus/ready.png";
 import dashLine from "../img/orderStatus/dashLine.png";
-import moment from "moment";
-import { getId } from "../App";
-import { getOrderDetails } from "../api";
+import { getOrderDetails, getId, cancelOrder } from "../api";
 import history from "../history";
 moment().format();
 
+/* Put currency option */
 const currencyOptions = {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 };
 
+/* Return number into 2 decimal places */
 function toTwoDecimalPlaces(number: number) {
   return number.toLocaleString(undefined, currencyOptions);
 }
@@ -35,6 +39,7 @@ const Header = () => (
   </div>
 );
 
+/* Content component of Order Status Page */
 class Status extends React.Component {
   state = {
     details: [] as any,
@@ -81,7 +86,7 @@ class Status extends React.Component {
 
   checkTimeLimit() {
     const { hour, minute } = this.state;
-    if (minute < 10 && hour < 0) {
+    if (minute < 10 && hour <= 0) {
       this.setState({ showEdit: true });
     }
   }
@@ -146,19 +151,6 @@ class Status extends React.Component {
 
     return (
       <div>
-        {vendorId && (
-          <button
-            onClick={() => {
-              debugger;
-              history.push(
-                `/order/checkout/?id=${vendorId._id}&orderId=${this.orderId}`
-              );
-            }}
-          >
-            Edit Order
-          </button>
-        )}
-
         <div className="titleOrder">
           <h2 className="invoice">INVOICE: {details._id}</h2>
           <h2 className="invoice">
@@ -170,15 +162,35 @@ class Status extends React.Component {
           <h4 className="time">
             Time Elapsed: {hour}h {minute}m {second}s
           </h4>
-          {showEdit ? (
-            <button
-              className="cancel"
-              type="submit"
-              value="edit"
-              onClick={() => history.push(`/order/checkout`)}
-            >
-              Edit or Cancel Order
-            </button>
+          {showEdit && vendorId ? (
+            <>
+              <button
+                className="cancel"
+                type="submit"
+                value="edit"
+                onClick={() =>
+                  history.push(
+                    `/order/checkout/?id=${vendorId._id}&orderId=${this.orderId}`
+                  )
+                }
+              >
+                Edit Order
+              </button>
+
+              <button
+                className="cancel"
+                type="submit"
+                value="edit"
+                onClick={() =>
+                  cancelOrder(this.orderId).then((res) => {
+                    alert("Order was canccelled!");
+                    history.push("/cart/order/active");
+                  })
+                }
+              >
+                Cancel Order
+              </button>
+            </>
           ) : null}
         </div>
 

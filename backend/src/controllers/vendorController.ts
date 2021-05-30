@@ -57,7 +57,8 @@ async function completeOrder(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) completeOrder(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -110,7 +111,8 @@ async function fulfillOrder(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) fulfillOrder(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -149,7 +151,8 @@ async function getCompletedOrders(req: Request, res: Response): Promise<void> {
         res.status(200).json(completedOrders);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) getCompletedOrders(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -187,7 +190,8 @@ async function getFulfilledOrders(req: Request, res: Response): Promise<void> {
         res.status(200).json(fulfilledOrders);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) getFulfilledOrders(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -242,9 +246,9 @@ async function getNearestOpenVendors(req: Request & {
         res.status(200).json(nearestVendors);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) getNearestOpenVendors(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
-    return;
 }
 
 /* Get the given vendor's placed orders */
@@ -281,7 +285,8 @@ async function getPlacedOrders(req: Request, res: Response): Promise<void> {
         res.status(200).json(placedOrders);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) getPlacedOrders(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -299,17 +304,18 @@ async function getProfile(req: Request, res: Response) {
         res.status(200).json(vendorDetails);
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) getProfile(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
 /* Logs a vendor in */
 async function login(req: Request & {
-    body: { email: String, password: String }
+    body: { name: string, password: string }
 }, res: Response): Promise<void> {
     /* Validate and sanitize the inputs */
-    await body("email")
-          .isEmail()
+    await body("name")
+          .isAscii()
           .trim().escape()
           .run(req);
     await body("password")
@@ -326,7 +332,7 @@ async function login(req: Request & {
         /* Check if a vendor with the given email exists */
         const vendor = await Vendor.findOne(
             {
-                email: req.body.email.toLowerCase()
+                name: req.body.name
             }
         );
 
@@ -345,11 +351,12 @@ async function login(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) login(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
-/* Logs a customer out */
+/* Logs a vendor out */
 async function logout(req: Request, res: Response): Promise<void> {
     /* Update the session data */
     req.session.customerId = undefined;
@@ -396,7 +403,8 @@ async function setVendorGeolocation(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) setVendorGeolocation(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -432,7 +440,8 @@ async function setVendorLocationDescription(req: Request & {
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) setVendorLocationDescription(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -471,7 +480,8 @@ async function toggleVendorAvailability(req: Request, res: Response): Promise<vo
         res.status(200).send("OK");
     }
     catch (e) {
-        res.status(500).send(`Internal Server Error: ${e.message}`);
+        console.log(`(Vendor) toggleVendorAvailability(): ${e.message}`);
+        res.status(500).send("Internal Server Error");
     }
 }
 

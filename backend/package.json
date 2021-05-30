@@ -64,7 +64,7 @@
     "clean": "rm --force --recursive dist/",
     "start": "node dist/server.js",
     "start-dev": "nodemon",
-    "test": "jest --config jestconfig.json --detectOpenHandles"
+    "test": "jest --config jestconfig.json --forceExit"
   },
   "nodemonConfig": {
     "watch": [

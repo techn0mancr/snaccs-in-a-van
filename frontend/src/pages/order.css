@@ -4,12 +4,23 @@ body {
     color: #3E4462;
 }
 
+i.fa-chevron-right{
+    color: #DD7070;
+    float: right;
+    margin-top: -45px;
+    padding-right: 20px;
+}
+
 .title {
     width: 90vw;
     margin-top: 5vw;
     margin-left: 5vw;
     margin-left: 5vw;
     text-align: center;
+}
+
+#payment {
+    height: 115px;
 }
 
 input[type=image].back {
@@ -23,7 +34,7 @@ input[type=image].back:hover {
 }
 
 h1 {
-    font-size: 28px;
+    font-size: 24px;
     font-style: bold;
     font-weight: 500;
     line-height: 26px;
@@ -62,12 +73,14 @@ button:hover {
     background-color: #FFFFFF;
     border-radius: 8px;
     width: 90vw;
-    margin-top: 5vw;
+    margin-top: 15px;
     padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 5px;
     border: none;
     text-align: left;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+
 }
 
 h2 {
@@ -83,7 +96,8 @@ p {
     font-style: normal;
     font-weight: 400;
     line-height: 10px;
-    margin-left: 3px;
+    margin-bottom: 8px;
+    /* margin-left: 3px; */
 }
 
 #ready {
@@ -105,12 +119,14 @@ img.right {
     margin-right: 30px;
     padding-top: 20px;
     box-shadow: none;
-    background-color: #F8F5F2;
+    background-color: transparent;
 }
 
 #dark {
-    filter: brightness(70%) grayscale(50%);
+    filter: brightness(70%) grayscale(50%)
 }
+
+
 
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
     .title {
@@ -124,13 +140,14 @@ img.right {
         width: 720px;
         margin-left: auto;
         margin-right: auto;
-    }
+        text-align: center;    
+}
 
     .order {
-        width: 700px;
-        margin-top: 30px;
-        margin-left: 10px;
-        margin-right: 10px;
+        width: 500px;
+        margin-top: 15px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     button.past {

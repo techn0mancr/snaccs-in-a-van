@@ -1,3 +1,4 @@
+/* Import the required libraries and types */
 import { useEffect, useState } from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
@@ -13,11 +14,15 @@ interface AddToCartProps {
   open: boolean;
   id: string;
   handleClose: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
+  setCartEmpty: (isEmpty: boolean) => void;
 }
 
-export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
-  // const itemID = "607073f83ed89dee65af788d";
-
+export default function AddToCart({
+  id,
+  open,
+  handleClose,
+  setCartEmpty,
+}: AddToCartProps) {
   const [itemCount, setItemCount] = useState(1);
   const [item, setItem] = useState({
     data: "",
@@ -42,7 +47,7 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
         console.log(response);
       },
       (error) => {
-        alert("Please login");
+        // alert("Please login");
         history.push("/customer/login");
         console.log(error);
       }
@@ -66,6 +71,7 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
         console.log("success", response);
         alert(`Added ${quantity}x ${item.name}`);
         handleClose({}, "backdropClick");
+        setCartEmpty(false);
       },
       (error) => {
         console.log("error", error);
@@ -91,13 +97,6 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
             />
 
             <div className="add-container">
-              <button
-                type="button"
-                className="cart-button"
-                onClick={() => add(id, itemCount)}
-              >
-                Add to Cart
-              </button>
               <h2 className="cart-h2">{item.name}</h2>
               <br></br>
               <h3 className="cart-h3">
@@ -129,6 +128,13 @@ export default function AddToCart({ id, open, handleClose }: AddToCartProps) {
                   </Button>
                   {/* <Badge color="secondary" badgeContent={itemCount}></Badge> */}
                 </ButtonGroup>
+                <button
+                  type="button"
+                  className="cart-button"
+                  onClick={() => add(id, itemCount)}
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           </div>

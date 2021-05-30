@@ -1,16 +1,24 @@
+/* Import the required libraries and types */
 import React, { useEffect, useState } from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
+/* Import components */
 import "./checkout.css";
 import leftArrow from "../img/leftArrow.png";
 import history from "../history";
-import { addItemToCart, checkoutCart, getCart, getMenu } from "../api";
-import { getId } from "../App";
-import AddToCart from "../components/addToCart";
+import {
+  addItemToCart,
+  checkoutCart,
+  getCart,
+  getMenu,
+  getId,
+  amendInitialize,
+} from "../api";
 
+/* Header component of Checkout Page */
 class Header extends React.Component {
   render() {
     return (
@@ -30,6 +38,7 @@ class Header extends React.Component {
   }
 }
 
+/* Vendor information component of Checkout Page */
 class Vendor extends React.Component {
   state = {
     profile: [] as any,
@@ -37,10 +46,11 @@ class Vendor extends React.Component {
     lng: "",
   };
 
-  vendorId = getId() || "";
-
+  /* During on page */
   componentDidMount() {
-    getMenu(this.vendorId).then(
+    const { id: vendorId, orderId } = getId(true) || {};
+    /* Get information of vendor */
+    getMenu(vendorId).then(
       (response) => {
         var data = response.data;
         this.setState({
@@ -49,12 +59,22 @@ class Vendor extends React.Component {
           lng: data.vendorId.geolocation[1],
         });
         console.log(response);
-        console.log(data.vendorId.geolocation[0]);
       },
       (error) => {
         console.log(error);
       }
     );
+
+    if (orderId) {
+      amendInitialize(orderId)
+        .then((res) => {
+          debugger;
+          console.log(res);
+        })
+        .catch((error) =>
+          console.log("Got an error in amend initialize ", error)
+        );
+    }
   }
 
   render() {

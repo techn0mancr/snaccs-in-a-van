@@ -1,9 +1,9 @@
 input[type=image].back {
-    width: 50px;
+    width: 35px;
     float: left;
-    clear: both;
-    margin-top: 5%;
-    margin-left: 5%;
+    top: 50px;
+    position: absolute;
+    left: 30px;
 }
 
 input[type=image].back:hover {
@@ -28,28 +28,26 @@ input[type=image].back:hover {
 }
 
 .van-image {
-    height: 40%;
-    background-image: url("../img/van-background.jpg");
-    padding-top: 150px;
-    top: 0px;
-
-    /* margin-left: auto;
-    margin-right: auto; */
+    height: 170px;
+    background-image: url("../img/coffee.jpg");
+    background-size: cover;
+    margin-top: -30px;
 }
 
 
 .van-container {
-    height: 140px;
+    height: 120px;
     width: 300px;
     border-radius: 20px;
     background: #FFFFFF;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 23px;
+    padding-top: 15px;
     padding-bottom: 2%;
-    margin-top: -100px;
-    margin-bottom: 20px;
+    margin-top: -40px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
   }
 
 img.card  {
@@ -72,7 +70,8 @@ img.card  {
     background: #FFFFFF;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 35px;
+    margin-top: 20px;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
 }
 
 .menu-container {
@@ -106,6 +105,7 @@ img.card  {
 .menu-h1 {
     font-size: 18px;
     letter-spacing: -0.24px;
+    margin-bottom: 2px;
 }
 
 .menu-h2 {
@@ -149,4 +149,14 @@ img.card  {
     button.menu {
         width: 700px;
     }
+
+
+    input[type=image].back {
+        width: 35px;
+        float: left;
+        top: 50px;
+        position: absolute;
+        left: 100px
+    }
+    
 } 
