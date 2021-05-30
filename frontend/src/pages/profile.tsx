@@ -20,7 +20,7 @@ class Profile extends React.Component {
         customerProfile().then(
             (response) => {
                 console.log(response);
-            },
+              },
             (error) => {
                 alert("Please login");
                 history.push("/customer/login");
@@ -36,7 +36,6 @@ class Profile extends React.Component {
             (response) => {
                 var data = response.data;
                 this.setState({ details: data });
-                console.log(response);
             }
         )
     }

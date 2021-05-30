@@ -42,7 +42,6 @@ class Vendor extends React.Component {
       (response) => {
         var data = response.data;
         this.setState({ profile: data.vendorId, lat: data.vendorId.geolocation[0],lng: data.vendorId.geolocation[1],});
-        console.log(response);
       },
       (error) => {
         console.log(error);
@@ -87,12 +86,10 @@ const Information = () => {
         const data = response.data;
         setCart(data);
         setIsLoaded(true);
-        console.log(response);
       },
       (error) => {
         setError(error);
         setIsLoaded(true);
-        console.log(error);
       }
     );
   }, []);

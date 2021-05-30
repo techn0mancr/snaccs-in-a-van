@@ -69,7 +69,6 @@ class Status extends React.Component {
                 this.setState({hour: duration.hours(), minute: duration.minutes(), second: duration.seconds()});
                 this.checkTimeLimit();
                 this.checkDiscount();
-                console.log(duration);
             }, 1000);
             } catch(e) {
                 console.log(e);
@@ -100,7 +99,6 @@ class Status extends React.Component {
                 } else if (data.status === "Completed") {
                     history.push(`/order/details/?id=${this.orderId}`)
                 }
-                console.log(response);
             }, (error) => {
                 this.setState({isLoaded: true});
                 console.log(error);
@@ -123,9 +121,6 @@ class Status extends React.Component {
         } else {
             this.setState({totalAmount: paidAmount});
         }
-
-        console.log(timeStamps.fulfilled);
-        console.log(timeStamps.placed);
     }
  
     render() {

@@ -36,7 +36,6 @@ class ListNearest extends React.Component {
             (response) => {
                 var data = response.data
                 this.setState({vendors: data, isLoaded: true})
-                console.log(response);
             }, (error) => {
                 this.setState({isLoaded: true, error});
                 console.log(error);

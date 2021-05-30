@@ -68,8 +68,7 @@ class Information extends React.Component {
       (response) => {
         var data = response.data;
         this.setState({isLoaded: true, details: data, timeStamps: data.timestamps,vendorId: data.vendorId, items: data.items, rating: data.rating,paidAmount: data.total})
-        this.checkDiscount();;
-        console.log(response);
+        this.checkDiscount();
       }, (error) => {
         this.setState({ isLoaded: true, error });
         console.log(error);
@@ -92,9 +91,6 @@ class Information extends React.Component {
     } else {
       this.setState({totalAmount: paidAmount});
     }
-
-    console.log(timeStamps.fulfilled);
-    console.log(timeStamps.placed);
   }
 
   render() {

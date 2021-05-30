@@ -38,7 +38,7 @@ class ListActiveOrder extends React.Component {
         try {
             this.interval = setInterval(async () => { 
                 this.activeOrders();
-            }, 1000);
+            }, 5000);
             } catch(e) {
                 console.log(e);
             }
@@ -49,8 +49,8 @@ class ListActiveOrder extends React.Component {
         /* Check customer already logged in */
         customerProfile().then(
             (response) => {
-              console.log(response);
-            },
+                console.log(response);
+              },
             (error) => {
               alert("Please login");
               history.push("/customer/login");
@@ -70,7 +70,6 @@ class ListActiveOrder extends React.Component {
             (response) => {
                 var data = response.data
                 this.setState({isLoaded: true, orderList: data});
-                console.log(response);  
             }, (error) => {
                 this.setState({isLoaded: true, error});
                 console.log(error);

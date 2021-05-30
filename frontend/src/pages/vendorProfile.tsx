@@ -37,7 +37,6 @@ class Description extends React.Component {
             (response) => {
                 var data = response.data;
                 this.setState({details: data, geolocation: data.geolocation, isLoaded: true});
-                console.log(response);
             }, (error) => {
                 console.log(error);
             }
@@ -58,7 +57,6 @@ class Description extends React.Component {
                     history.push("/vendor/login");
                     vendorLogout();
                 } 
-                console.log(response);
             })
             .catch(error=>{ 
                 if (error.response) {
