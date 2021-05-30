@@ -6,7 +6,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import "./customerRate.css";
 import leftArrow from '../img/leftArrow.png';
 import history from "../history";
-import { rateOrder, getId } from "../api";
+import { rateOrder, getId, rateOrderStar } from "../api";
 
 /* Header component of Rating Page */
 class Header extends React.Component {
@@ -47,8 +47,13 @@ class Content extends React.Component {
         event.preventDefault();
 
         /* Submit rating to api. Then push new entry to history */
-        rateOrder(this.orderId, rating, comment);
-        history.goBack();
+        if (comment === "") {
+            rateOrderStar(this.orderId, rating);
+        } else {
+            rateOrder(this.orderId, rating, comment);
+        }
+        
+        history.push(`/cart/order/past`);
     }
 
     render() {

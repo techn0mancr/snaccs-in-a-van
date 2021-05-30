@@ -19,6 +19,10 @@ i.fa-chevron-right{
     text-align: center;
 }
 
+#payment {
+    height: 115px;
+}
+
 input[type=image].back {
     width: 50px;
     float: left;
@@ -119,8 +123,10 @@ img.right {
 }
 
 #dark {
-    filter: brightness(70%) grayscale(50%);
+    filter: brightness(70%) grayscale(50%)
 }
+
+
 
 @media screen and (min-width: 768px) { /* for tablet-sized screens */
     .title {
