@@ -338,20 +338,20 @@ async function vendorProfile() {
   return await axios.get(endpoint);
 }
 
-// async function amendFinalize(orderId: String) {
-//     const endpoint = `${BASE_URL}/customer/order/${orderId}/amend/finalize`;
-//     return await axios.get(endpoint);
-// }
+async function amendFinalize(orderId: String) {
+  const endpoint = `${BASE_URL}/customer/order/${orderId}/amend/finalize`;
+  return await axios.patch(endpoint);
+}
 
 async function amendInitialize(orderId: String) {
   const endpoint = `${BASE_URL}/customer/order/${orderId}/amend/initialize`;
-  return await axios.get(endpoint);
+  return await axios.patch(endpoint);
 }
 
 /* Cancels the customer's given order */
 async function cancelOrder(orderId: String) {
   const endpoint = `${BASE_URL}/customer/order/${orderId}/cancel`;
-  return await axios.get(endpoint);
+  return await axios.patch(endpoint);
 }
 
 /* Export api functions */
