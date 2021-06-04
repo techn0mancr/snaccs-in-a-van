@@ -390,6 +390,7 @@ export {
   vendorLogin,
   vendorLogout,
   vendorProfile,
+  amendFinalize,
   amendInitialize,
   cancelOrder,
 };
