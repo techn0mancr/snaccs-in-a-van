@@ -16,6 +16,7 @@ import {
   getMenu,
   getId,
   amendInitialize,
+  amendFinalize,
 } from "../api";
 
 /* Header component of Checkout Page */
@@ -38,8 +39,13 @@ class Header extends React.Component {
   }
 }
 
+interface VendorProps {
+  vendorId: string;
+  orderId: string;
+}
+
 /* Vendor information component of Checkout Page */
-class Vendor extends React.Component {
+class Vendor extends React.Component<VendorProps> {
   state = {
     profile: [] as any,
     lat: "",
@@ -48,7 +54,7 @@ class Vendor extends React.Component {
 
   /* During on page */
   componentDidMount() {
-    const { id: vendorId, orderId } = getId(true) || {};
+    const { vendorId, orderId } = this.props;
     /* Get information of vendor */
     getMenu(vendorId).then(
       (response) => {
@@ -68,7 +74,6 @@ class Vendor extends React.Component {
     if (orderId) {
       amendInitialize(orderId)
         .then((res) => {
-          debugger;
           console.log(res);
         })
         .catch((error) =>
@@ -111,17 +116,21 @@ const Information = () => {
   const [error, setError] = useState();
 
   useEffect(() => {
-    getCart().then(
-      (response) => {
-        const data = response.data;
-        setCart(data);
-        setIsLoaded(true);
-      },
-      (error) => {
-        setError(error);
-        setIsLoaded(true);
-      }
-    );
+    const timeoutId = setTimeout(() => {
+      getCart().then(
+        (response) => {
+          const data = response.data;
+          setCart(data);
+          setIsLoaded(true);
+        },
+        (error) => {
+          setError(error);
+          setIsLoaded(true);
+        }
+      );
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const updateItemInCart = (
@@ -206,14 +215,25 @@ const Information = () => {
   );
 };
 
-const CheckoutButton = () => {
+interface CheckoutButtonProps {
+  vendorId: string;
+  orderId: string;
+}
+const CheckoutButton = ({ vendorId, orderId }: CheckoutButtonProps) => {
   // const params = getId(true);
   // debugger;
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    checkoutCart();
-    history.push(`/cart/order/active`);
+    // orderId ? amendFinalize(orderId) :
+    const promiseToWaitOn = orderId ? amendFinalize(orderId) : checkoutCart();
+    promiseToWaitOn.then(
+      (res) => {
+        console.log("Response: ", res);
+        history.push(`/cart/order/active`);
+      },
+      (err) => console.log("Got an error: ", err)
+    );
   };
 
   return (
@@ -225,20 +245,24 @@ const CheckoutButton = () => {
         onClick={handleSubmit}
       >
         <h3 className="payment" id="order">
-          Place order
+          {orderId ? "Upate Order" : "Place order"}
         </h3>
       </button>
     </div>
   );
 };
 
-const Checkout = () => (
-  <div>
-    <Header />
-    <Vendor />
-    <Information />
-    <CheckoutButton />
-  </div>
-);
+const Checkout = () => {
+  const { id: vendorId, orderId } = getId(true) || {};
+
+  return (
+    <div>
+      <Header />
+      <Vendor vendorId={vendorId} orderId={orderId} />
+      <Information />
+      <CheckoutButton vendorId={vendorId} orderId={orderId} />
+    </div>
+  );
+};
 
 export default Checkout;
