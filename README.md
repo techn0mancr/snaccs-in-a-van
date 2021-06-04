@@ -6,7 +6,7 @@
 URL to our live Heroku website:
 https://snaccs-in-a-van.herokuapp.com/
 
-Commit ID for Submission: #############
+Commit ID for Submission: 51388e2
 
 ## Table of contents
 * [Team Members](#team-members)
@@ -69,9 +69,15 @@ Project is created with the following technologies:
 - [x] Report on your work(+ test1 feature)
 
 ## Workflow: 
+- For Running Website
 1. `git clone https://github.com/INFO30005-2021-SM1/project-t05-snaccoverflow.git`
 2. `cd project-t05-snaccoverflow`
 3. `npm run start-dev'
+
+- for running test
+1. `git clone https://github.com/INFO30005-2021-SM1/project-t05-snaccoverflow.git`
+2. `cd project-t05-snaccoverflow`
+3. `npm run test`
 
 ### MongoDB Compass Access
 - Connection string: `mongodb+srv://<username>:<password>@snaccs-in-a-van.4ciyf.mongodb.net/test`
