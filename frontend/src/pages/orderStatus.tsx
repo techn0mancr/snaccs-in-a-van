@@ -24,6 +24,7 @@ function toTwoDecimalPlaces(number: number) {
   return number.toLocaleString(undefined, currencyOptions);
 }
 
+/* Header component of Order Status Page */
 const Header = () => (
   <div className="titleOrder">
     <br></br>
@@ -35,7 +36,7 @@ const Header = () => (
       src={leftArrow}
       onClick={() => history.goBack()}
     />
-    <h1>Order Status</h1>
+    <h1 className="titleLog">Order Status</h1>
   </div>
 );
 
@@ -53,13 +54,15 @@ class Status extends React.Component {
     totalAmount: 0,
     paidAmount: 0,
     discount: 0,
+    isLoaded: false,
     vendorId: {} as any,
   };
-
   orderId = getId() || "";
   interval!: NodeJS.Timeout;
 
+  /* During on page, re-render every second */
   async componentDidMount() {
+    /* Get order information, and count time */
     try {
       this.interval = setInterval(async () => {
         this.orderDetails(this.orderId);
@@ -73,17 +76,18 @@ class Status extends React.Component {
         });
         this.checkTimeLimit();
         this.checkDiscount();
-        console.log(duration);
       }, 1000);
     } catch (e) {
       console.log(e);
     }
   }
 
+  /* Clear time interval when unmount */
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
+  /* Check if time is within 10 minutes */
   checkTimeLimit() {
     const { hour, minute } = this.state;
     if (minute < 10 && hour <= 0) {
@@ -91,6 +95,7 @@ class Status extends React.Component {
     }
   }
 
+  /* Get order details from api */
   orderDetails(orderId: String) {
     getOrderDetails(orderId).then(
       (response) => {
@@ -99,7 +104,7 @@ class Status extends React.Component {
           details: data,
           timeStamps: data.timestamps,
           paidAmount: data.total,
-          totalAmount: data.total,
+          isLoaded: true,
           vendorId: data.vendorId,
         });
         if (data.status === "Fulfilled") {
@@ -107,21 +112,22 @@ class Status extends React.Component {
         } else if (data.status === "Completed") {
           history.push(`/order/details/?id=${this.orderId}`);
         }
-        console.log(response);
       },
       (error) => {
+        this.setState({ isLoaded: true });
         console.log(error);
       }
     );
   }
 
+  /* Check if there is discount if more than 15 minutes */
   checkDiscount() {
     const { timeStamps, paidAmount } = this.state;
     var fulfilled = moment(timeStamps.fulfilled);
-    console.log(timeStamps.fulfilled);
-    console.log(timeStamps.placed);
     var placed = moment(timeStamps.placed);
     var duration = moment.duration(fulfilled.diff(placed));
+
+    /* Count the values if more than 15 minutes */
     if (duration.minutes() > 15 || duration.hours() > 0) {
       var totalAmount = paidAmount * 1.25;
       var discount = totalAmount - paidAmount;
@@ -130,6 +136,8 @@ class Status extends React.Component {
         totalAmount: totalAmount,
         discount: discount,
       });
+    } else {
+      this.setState({ totalAmount: paidAmount });
     }
   }
 
@@ -146,141 +154,162 @@ class Status extends React.Component {
       totalAmount,
       discount,
       paidAmount,
+      isLoaded,
       vendorId,
     } = this.state;
 
-    return (
-      <div>
-        <div className="titleOrder">
-          <h2 className="invoice">INVOICE: {details._id}</h2>
-          <h2 className="invoice">
-            {moment(timeStamps.placed).format("D MMM YYYY h.mm A")}
-          </h2>
-        </div>
-
+    if (isLoaded === false) {
+      return (
         <div className="orderTime">
-          <h4 className="time">
-            Time Elapsed: {hour}h {minute}m {second}s
-          </h4>
-          {showEdit && vendorId ? (
-            <>
-              <button
-                className="cancel"
-                type="submit"
-                value="edit"
-                onClick={() =>
-                  history.push(
-                    `/order/checkout/?id=${vendorId._id}&orderId=${this.orderId}`
-                  )
-                }
-              >
-                Edit Order
-              </button>
-
-              <button
-                className="cancel"
-                type="submit"
-                value="edit"
-                onClick={() =>
-                  cancelOrder(this.orderId).then((res) => {
-                    alert("Order was canccelled!");
-                    history.push("/cart/order/active");
-                  })
-                }
-              >
-                Cancel Order
-              </button>
-            </>
-          ) : null}
+          <h2 className="nVan">Loading...</h2>
         </div>
-
-        <div className="orderTime">
-          <div className="progressImage">
-            <img className="status" src={order} alt="Order" />
-            <img className="status line" src={dashLine} alt="Line" />
-            <img className="status" src={prepare} alt="Prepare" />
-            {fulfilled ? (
-              <div>
-                <img className="status line" src={dashLine} alt="Line" />
-                <img className="status" src={ready} alt="Ready" />
-              </div>
-            ) : (
-              <div>
-                <img
-                  className="status line"
-                  id="notReady"
-                  src={dashLine}
-                  alt="Line"
-                />
-                <img className="status" id="notReady" src={ready} alt="Ready" />
-              </div>
-            )}
+      );
+    } else {
+      return (
+        <div>
+          <div className="orderTime">
+            <h2 className="nVan">
+              Time Elapsed: {hour}h {minute}m {second}s
+            </h2>
+            {showEdit && vendorId ? (
+              <>
+                <button
+                  className="cancel"
+                  type="submit"
+                  value="edit"
+                  onClick={() =>
+                    history.push(
+                      `/order/checkout/?id=${vendorId._id}&orderId=${this.orderId}`
+                    )
+                  }
+                >
+                  Edit Order
+                </button>
+                <button
+                  className="cancel"
+                  type="submit"
+                  value="edit"
+                  onClick={() =>
+                    cancelOrder(this.orderId).then((res) => {
+                      alert("Order was canccelled!");
+                      history.push("/cart/order/active");
+                    })
+                  }
+                >
+                  Cancel Order
+                </button>
+              </>
+            ) : null}
           </div>
 
-          <br />
+          <div className="titleOrder">
+            <p className="item">Invoice: {details._id}</p>
+            <p className="item">
+              {moment(timeStamps.placed).format("DD MMM YYYY h.mm A")}
+            </p>
+          </div>
 
-          <div className="progressStatus">
-            <div className="status">
-              <h3>Order received</h3>
-              <p className="time" id="status">
-                {moment(timeStamps.placed).format("D MMM YYYY h.mm A")}
-              </p>
+          <div className="orderTime">
+            <div className="progressImage">
+              <img className="status" src={order} alt="Order" />
+              <img className="status line" src={dashLine} alt="Line" />
+              <img className="status" src={prepare} alt="Prepare" />
+              {fulfilled ? (
+                <div>
+                  <img className="status line" src={dashLine} alt="Line" />
+                  <img className="status" src={ready} alt="Ready" />
+                </div>
+              ) : (
+                <div>
+                  <img
+                    className="status line"
+                    id="notReady"
+                    src={dashLine}
+                    alt="Line"
+                  />
+                  <img
+                    className="status"
+                    id="notReady"
+                    src={ready}
+                    alt="Ready"
+                  />
+                </div>
+              )}
             </div>
+            <br />
 
-            <div className="status">
-              <h3>Preparing order</h3>
-              <p className="time" id="status">
-                {moment(timeStamps.placed).format("D MMM YYYY h.mm A")}
-              </p>
-            </div>
-            {fulfilled ? (
+            <div className="progressStatus">
               <div className="status">
-                <h3>Ready for pickup</h3>
+                <h2 className="nVan">Order received</h2>
                 <p className="time" id="status">
-                  {moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}
+                  {moment(timeStamps.placed).format("D MMM YYYY h.mm A")}
                 </p>
               </div>
-            ) : (
+
               <div className="status">
-                <h3 id="notReady">Ready for pickup</h3>
+                <h2 className="nVan">Preparing order</h2>
+                <p className="time" id="status">
+                  {moment(timeStamps.placed).format("D MMM YYYY h.mm A")}
+                </p>
               </div>
-            )}
-          </div>
-        </div>
-
-        {fulfilled ? (
-          <div className="containerCheckout" id="payment">
-            <h2>Payment</h2>
-
-            <div className="amount">
-              <h3 className="payment">Total amount</h3>
-              <h3 className="value">${toTwoDecimalPlaces(totalAmount)}</h3>
+              {fulfilled ? (
+                <div className="status">
+                  <h2 className="nVan">Ready for pickup</h2>
+                  <p className="time" id="status">
+                    {moment(timeStamps.fulfilled).format("D MMM YYYY h.mm A")}
+                  </p>
+                </div>
+              ) : (
+                <div className="status">
+                  <h2 className="nVan" id="notReady">
+                    Ready for pickup
+                  </h2>
+                </div>
+              )}
             </div>
-            {showDiscount ? (
+          </div>
+
+          {fulfilled ? (
+            <div className="containerCheckout" id="payment">
+              <h2>Payment</h2>
+
               <div className="amount">
-                <h3 className="payment">20% discount</h3>
-                <h3 className="value">${discount}</h3>
+                <div className="item">
+                  <p className="desc">Total amount</p>
+                </div>
+                <p className="price">${toTwoDecimalPlaces(totalAmount)}</p>
               </div>
-            ) : (
-              <div>
-                <br></br>
-                <br></br>
+
+              {showDiscount ? (
+                <div className="amount">
+                  <div className="item">
+                    <p className="desc">20% discount</p>
+                  </div>
+                  <p className="price">-${toTwoDecimalPlaces(discount)}</p>
+                </div>
+              ) : (
+                <div>
+                  <br></br>
+                  <br></br>
+                </div>
+              )}
+              <br></br>
+
+              <div className="amountPaid">
+                <div className="item">
+                  <p className="desc">Amount to be paid</p>
+                </div>
+                <p className="price">${toTwoDecimalPlaces(paidAmount)}</p>
               </div>
-            )}
-
-            <br></br>
-
-            <div className="amountPaid">
-              <h3 className="payment">Amount to be paid</h3>
-              <h3 className="value">${toTwoDecimalPlaces(paidAmount)}</h3>
             </div>
-          </div>
-        ) : null}
-      </div>
-    );
+          ) : null}
+        </div>
+      );
+    }
   }
 }
 
+/* Render all components on Order Status Page */
 const OrderStatus = () => (
   <div>
     <Header />
