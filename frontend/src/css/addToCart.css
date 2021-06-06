@@ -1,4 +1,3 @@
-
 .add-container {
   padding-top: 5%;
   height: 273px;
@@ -34,9 +33,8 @@ h1.cart-h1 {
   font-weight: normal;
   font-size: 24px;
   line-height: 26px;
-  color: #3E4462;
+  color: #3e4462;
   /* text-align: left; */
-
 }
 
 h2.cart-h2 {
@@ -76,4 +74,12 @@ input.quantity-input__screen {
   display: inline-block;
   vertical-align: middle;
   margin-bottom: 0px;
+}
+
+ButtonGroup.MuiButtonGroup-grouped {
+  min-width: 30px;
+}
+
+Button.MuiButton-outlinedSizeSmall {
+  padding: 0;
 }
