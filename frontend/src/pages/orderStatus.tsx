@@ -172,7 +172,7 @@ class Status extends React.Component {
               Time Elapsed: {hour}h {minute}m {second}s
             </h2>
             {showEdit && vendorId ? (
-              <>
+              <div className="edit">
                 <button
                   className="cancel"
                   type="submit"
@@ -191,14 +191,14 @@ class Status extends React.Component {
                   value="edit"
                   onClick={() =>
                     cancelOrder(this.orderId).then((res) => {
-                      alert("Order was canccelled!");
+                      alert("Order was cancelled!");
                       history.push("/cart/order/active");
                     })
                   }
                 >
                   Cancel Order
                 </button>
-              </>
+              </div>
             ) : null}
           </div>
 
