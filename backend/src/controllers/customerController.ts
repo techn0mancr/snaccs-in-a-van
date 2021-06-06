@@ -389,9 +389,12 @@ async function finalizeOrderAmendment(
     orderToAmend.isChanged = true;
     await orderToAmend.save();
 
-    /* Replace the session cart contents with the customer's saved cart */
-    const currentCustomer = await Customer.findById(req.session.customerId);
-    if (currentCustomer) req.session.cart = currentCustomer.cart;
+    // /* Replace the session cart contents with the customer's saved cart */
+    // const currentCustomer = await Customer.findById(req.session.customerId);
+    // if (currentCustomer) req.session.cart = currentCustomer.cart;
+
+    /* Empty the cart */
+    req.session.cart = [];
 
     /* Send a response */
     res.status(200).send("OK");
