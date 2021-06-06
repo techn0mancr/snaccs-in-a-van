@@ -32,6 +32,8 @@ input[type="image"].back:hover {
   padding-left: 15px;
   padding-right: 15px;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 #loc {
@@ -50,6 +52,7 @@ input[type="image"].edit:hover {
 .item {
   float: left;
   clear: both;
+  width: 40%;
 }
 
 h1 {
@@ -106,6 +109,7 @@ p {
   font-style: normal;
   font-weight: 400;
   color: #7e7e7e;
+  line-height: 1.5;
 }
 
 p.address {
@@ -182,4 +186,13 @@ button:hover {
     margin-right: auto;
     margin-bottom: 63px;
   }
+}
+
+Button.MuiButton-outlinedSizeSmall {
+  padding: 0;
+  min-width: 30px;
+}
+
+Button > span.MuiButton-label {
+  margin: 0;
 }

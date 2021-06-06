@@ -19,6 +19,17 @@ import {
   amendFinalize,
 } from "../api";
 
+/* Put currency option */
+const currencyOptions = {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+};
+
+/* Return number into 2 decimal places */
+function toTwoDecimalPlaces(number: number) {
+  return number.toLocaleString(undefined, currencyOptions);
+}
+
 /* Header component of Checkout Page */
 class Header extends React.Component {
   render() {
@@ -51,6 +62,7 @@ class Vendor extends React.Component<VendorProps> {
     lat: "",
     lng: "",
   };
+  // vendorId = getId() || "";
 
   /* During on page */
   componentDidMount() {
@@ -71,6 +83,7 @@ class Vendor extends React.Component<VendorProps> {
       }
     );
 
+    /* If page has been redirected with orderID in the address, initialise order amendment */
     if (orderId) {
       amendInitialize(orderId)
         .then((res) => {
@@ -133,6 +146,7 @@ const Information = () => {
     return () => clearTimeout(timeoutId);
   }, []);
 
+  /* Allows the customer to change item quantities in their cart */
   const updateItemInCart = (
     itemId: string,
     countToSet: number,
@@ -160,10 +174,15 @@ const Information = () => {
         {cart.map((item: CartItem, i: number) => (
           <div key={i}>
             <div className="cart">
-              <h3 className="item-title">{item.itemId.name}</h3>
+              <div className="item">
+                <p>
+                  {item.quantity} x {item.itemId.name}
+                </p>
+              </div>
               <div className="number">
-                <ButtonGroup>
+                <ButtonGroup size="small">
                   <Button
+                    size="small"
                     onClick={() => {
                       updateItemInCart(
                         item._id,
@@ -182,6 +201,7 @@ const Information = () => {
                     readOnly
                   />
                   <Button
+                    size="small"
                     onClick={() => {
                       updateItemInCart(item._id, item.quantity + 1);
                     }}
@@ -191,26 +211,11 @@ const Information = () => {
                   </Button>
                 </ButtonGroup>
               </div>
-              <p className="price">${item.subtotal}</p>
+              <p className="price">${toTwoDecimalPlaces(item.subtotal)}</p>
             </div>
           </div>
         ))}
       </div>
-
-      {/* <div className="containerCheckout" id="payment">
-            <h2>Payment</h2>
-    
-            <div className="amount">
-                <h3 className="payment">Total amount</h3>
-                <h3 className="value">${cart.subtotal}</h3>
-            </div>
-            <br></br><br></br><br></br>
-            
-            <div className="amountPaid">
-                <h3 className="payment">Amount to be paid</h3>
-                <h3 className="value">${cart.subtotal}</h3>
-            </div>
-        </div> */}
     </div>
   );
 };
@@ -219,13 +224,13 @@ interface CheckoutButtonProps {
   vendorId: string;
   orderId: string;
 }
+
+/* If there is orderId in address, replace checkout button with update order button */
 const CheckoutButton = ({ vendorId, orderId }: CheckoutButtonProps) => {
-  // const params = getId(true);
-  // debugger;
+
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    // orderId ? amendFinalize(orderId) :
     const promiseToWaitOn = orderId ? amendFinalize(orderId) : checkoutCart();
     promiseToWaitOn.then(
       (res) => {
@@ -245,7 +250,7 @@ const CheckoutButton = ({ vendorId, orderId }: CheckoutButtonProps) => {
         onClick={handleSubmit}
       >
         <h3 className="payment" id="order">
-          {orderId ? "Upate Order" : "Place order"}
+          {orderId ? "Update Order" : "Place order"}
         </h3>
       </button>
     </div>
