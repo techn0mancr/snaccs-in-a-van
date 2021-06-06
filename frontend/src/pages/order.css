@@ -1,158 +1,150 @@
 body {
-    background-color: #F8F5F2;
-    font-family: 'Poppins', sans-serif;
-    color: #3E4462;
+  background-color: #f8f5f2;
+  font-family: "Poppins", sans-serif;
+  color: #3e4462;
 }
 
-i.fa-chevron-right{
-    color: #DD7070;
-    float: right;
-    margin-top: -45px;
-    padding-right: 20px;
+i.fa-chevron-right {
+  color: #dd7070;
+  float: right;
+  margin-top: -45px;
+  padding-right: 20px;
 }
 
 .title {
-    width: 90vw;
-    margin-top: 5vw;
-    margin-left: 5vw;
-    margin-left: 5vw;
-    text-align: center;
+  width: 90vw;
+  margin-top: 5vw;
+  margin-left: 5vw;
+  margin-left: 5vw;
+  text-align: center;
 }
 
-#payment {
-    height: 115px;
+input[type="image"].back {
+  width: 50px;
+  float: left;
+  clear: both;
 }
 
-input[type=image].back {
-    width: 50px;
-    float: left;
-    clear: both;
-}
-
-input[type=image].back:hover {
-    opacity: 0.8;
+input[type="image"].back:hover {
+  opacity: 0.8;
 }
 
 h1 {
-    font-size: 24px;
-    font-style: bold;
-    font-weight: 500;
-    line-height: 26px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: 24px;
+  font-style: bold;
+  font-weight: 500;
+  line-height: 26px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 h2 {
-    color: #3E4462;
+  color: #3e4462;
 }
 
 button.past {
-    text-decoration: underline;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 12px;
-    color: #DD7070;
-    border: none;
-    background-color: #F8F5F2;
+  text-decoration: underline;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
+  color: #dd7070;
+  border: none;
+  background-color: #f8f5f2;
 }
 
 button:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .content {
-    width: 90vw;
-    margin-left: 5vw;
-    margin-right: 5vw;
+  width: 90vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 .order {
-    background-color: #FFFFFF;
-    border-radius: 8px;
-    width: 90vw;
-    margin-top: 15px;
-    padding-left: 20px;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    border: none;
-    text-align: left;
-    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
-
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 90vw;
+  margin-top: 15px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  border: none;
+  text-align: left;
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
 }
 
 h2 {
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 26px;
-    display: inline;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26px;
+  display: inline;
 }
 
 p {
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 10px;
-    margin-bottom: 8px;
-    /* margin-left: 3px; */
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 10px;
+  margin-bottom: 8px;
+  /* margin-left: 3px; */
 }
 
 #ready {
-    color: #DD7070;
+  color: #dd7070;
 }
 
 #done {
-    background-color: #DFDFDF;
+  background-color: #dfdfdf;
 }
 
 p.date {
-    color: #A0A0A0;
+  color: #a0a0a0;
 }
 
 img.right {
-    width: 10px;
-    float: right;
-    clear: right;
-    margin-right: 30px;
-    padding-top: 20px;
-    box-shadow: none;
-    background-color: transparent;
+  width: 10px;
+  float: right;
+  clear: right;
+  margin-right: 30px;
+  padding-top: 30px;
+  box-shadow: none;
+  background-color: transparent;
 }
 
 #dark {
-    filter: brightness(70%) grayscale(50%)
+  filter: brightness(70%) grayscale(50%);
 }
 
+@media screen and (min-width: 768px) {
+  /* for tablet-sized screens */
+  .title {
+    width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+  }
 
+  .content {
+    width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
 
-@media screen and (min-width: 768px) { /* for tablet-sized screens */
-    .title {
-        width: 720px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 25px;
-    }
+  .order {
+    width: 500px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    .content {
-        width: 720px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;    
+  button.past {
+    width: 720px;
+  }
 }
-
-    .order {
-        width: 500px;
-        margin-top: 15px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    button.past {
-        width: 720px;
-    }
-
-}
-
