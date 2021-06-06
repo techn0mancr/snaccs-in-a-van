@@ -22,7 +22,7 @@ Commit ID for Submission: bc198ef
 | Nathanael Putro | Back End | Idling |
 | Callista Li Yin Low | Front End | Idling |
 | Livya Natasha Riany | Front End | Idling |
-| Joseph Leonardi | Front End | Preparing (Extension)|
+| Joseph Leonardi | Front End | Idling (Extension)|
 | Jeffrey Kolenchery | Back End | Idling  |
 
 ## General info
