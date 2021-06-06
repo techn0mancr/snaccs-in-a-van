@@ -10,6 +10,7 @@ import "../css/addToCart.css";
 import history from "../history";
 import { customerProfile } from "../api";
 
+/* States and variables to handle popover/modal for addToCart item */
 interface AddToCartProps {
   open: boolean;
   id: string;
@@ -31,11 +32,13 @@ export default function AddToCart({
     mimetype: "",
   });
 
+  /* Put currency option */
   const currencyOptions = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   };
 
+  /* Return number into 2 decimal places */
   function toTwoDecimalPlaces(number: number) {
     return number.toLocaleString(undefined, currencyOptions);
   }
@@ -47,7 +50,6 @@ export default function AddToCart({
         console.log(response);
       },
       (error) => {
-        // alert("Please login");
         history.push("/customer/login");
         console.log(error);
       }
@@ -103,8 +105,9 @@ export default function AddToCart({
                 ${toTwoDecimalPlaces(item.price * itemCount)}
               </h3>
               <div className="number">
-                <ButtonGroup>
+                <ButtonGroup size="small">
                   <Button
+                    size="small"
                     onClick={() => {
                       setItemCount(Math.max(itemCount - 1, 0));
                     }}
@@ -119,6 +122,7 @@ export default function AddToCart({
                     readOnly
                   />
                   <Button
+                    size="small"
                     onClick={() => {
                       setItemCount(itemCount + 1);
                     }}
@@ -126,7 +130,6 @@ export default function AddToCart({
                     {" "}
                     <AddIcon fontSize="small" />
                   </Button>
-                  {/* <Badge color="secondary" badgeContent={itemCount}></Badge> */}
                 </ButtonGroup>
                 <button
                   type="button"
