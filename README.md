@@ -79,11 +79,6 @@ Project is created with the following technologies:
 2. `cd project-t05-snaccoverflow`
 3. `npm run test`
 
-### MongoDB Compass Access
-- Connection string: `mongodb+srv://<username>:<password>@snaccs-in-a-van.4ciyf.mongodb.net/test`
-- Username: `pbhattacharj`
-- Password: `wPOIjfztrqvCKOMe`
-
 ### Dummy Customer Login Details
 - Username: `nputro@student.unimelb.edu.au`
 - Password: `1234abcd`
